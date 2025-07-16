@@ -2,8 +2,7 @@ import { Link } from "react-router";
 import { useState } from "react";
 
 export default function NavBar() {
-
-    const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <nav className="bg-gray-900 text-white shadow-lg">
@@ -11,7 +10,10 @@ export default function NavBar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo/Brand */}
           <div className="flex-shrink-0">
-            <Link to="/" className="text-xl font-bold text-yellow-400 hover:text-yellow-300 transition-colors">
+            <Link
+              to="/"
+              className="text-xl font-bold text-yellow-400 hover:text-yellow-300 transition-colors"
+            >
               Will be replaced with the logo
             </Link>
           </div>
@@ -84,7 +86,14 @@ export default function NavBar() {
       </div>
 
       {/* Mobile menu */}
-      <div className={`md:hidden ${isExpanded ? "block" : "hidden"}`} id="mobile-menu">
+      <div
+        className={`md:hidden transform transition-all duration-300 ease-out origin-top ${
+          isExpanded
+            ? "opacity-100 scale-y-100 max-h-[1000px]"
+            : "opacity-0 scale-y-0 max-h-0 overflow-hidden"
+        }`}
+        id="mobile-menu"
+      >
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-800">
           <Link
             to="/"
