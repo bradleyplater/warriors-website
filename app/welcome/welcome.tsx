@@ -1,19 +1,36 @@
 import SpotlightCard from "~/components/spotlight-card/spotlight-card";
-import logoDark from "./logo-dark.svg";
-import logoLight from "./logo-light.svg";
 
 export function Welcome() {
   return (
-    <main className="flex items-center justify-center pt-16 pb-4">
-      <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
-        <header className="flex flex-col items-center gap-9">
-          Warriors logo here
+    <main className="flex items-center justify-center pb-4">
+      <div className="flex-1 flex flex-col items-center min-h-0">
+        <header className="flex flex-col items-center">
+          <img
+            src="images/warriors-logo-black.png"
+            alt="Logo"
+            className="max-h-full md:max-w-1/9 max-w-1/2"
+          ></img>
         </header>
-        <div className="px-4 w-full grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-fr">
-            <SpotlightCard/>
-            <SpotlightCard/>
-            <SpotlightCard/>
-            <SpotlightCard/>
+        <div className="px-4 w-full grid grid-cols-1 md:grid-cols-3 gap-8 auto-rows-fr place-items-center">
+          <SpotlightCard cardHeader="Goals">
+            This will contain goals cards
+          </SpotlightCard>
+          <SpotlightCard cardHeader="Assists">
+            This will contain assists cards
+          </SpotlightCard>
+          <SpotlightCard cardHeader="Points">
+            This will contain points cards
+          </SpotlightCard>
+
+          <SpotlightCard cardHeader="Next Game">
+            This will contain next game
+          </SpotlightCard>
+          <SpotlightCard cardHeader="Last Result">
+            This will contain last result
+          </SpotlightCard>
+          <SpotlightCard cardHeader="Team Stats">
+            This will contain Team Stats
+          </SpotlightCard>
         </div>
       </div>
     </main>
