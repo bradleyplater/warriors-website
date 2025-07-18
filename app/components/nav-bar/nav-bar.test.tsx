@@ -38,15 +38,15 @@ describe('NavBar', () => {
     const mobileMenu = screen.getByRole('navigation').querySelector('#mobile-menu')
     
     // Initially hidden
-    expect(mobileMenu).toHaveClass('hidden')
+    expect(mobileMenu).toHaveClass('md:hidden')
     
     // Click to show
     fireEvent.click(hamburgerButton)
-    expect(mobileMenu).toHaveClass('block')
+    expect(mobileMenu).toHaveClass('opacity-100')
     
     // Click again to hide
     fireEvent.click(hamburgerButton)
-    expect(mobileMenu).toHaveClass('hidden')
+    expect(mobileMenu).toHaveClass('opacity-0')
   })
 
   it('has correct navigation link hrefs', () => {

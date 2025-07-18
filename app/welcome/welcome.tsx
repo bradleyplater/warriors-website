@@ -1,45 +1,36 @@
-import logoDark from "./logo-dark.svg";
-import logoLight from "./logo-light.svg";
+import SpotlightCard from "~/components/spotlight-card/spotlight-card";
 
 export function Welcome() {
   return (
-    <main className="flex items-center justify-center pt-16 pb-4">
-      <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
-        <header className="flex flex-col items-center gap-9">
-          <div className="w-[500px] max-w-[100vw] p-4">
-            <img
-              src={logoLight}
-              alt="React Router"
-              className="block w-full dark:hidden"
-            />
-            <img
-              src={logoDark}
-              alt="React Router"
-              className="hidden w-full dark:block"
-            />
-          </div>
+    <main className="flex items-center justify-center pb-4">
+      <div className="flex-1 flex flex-col items-center min-h-0">
+        <header className="flex flex-col items-center">
+          <img
+            src="images/warriors-logo-black.png"
+            alt="Logo"
+            className="max-h-full md:max-w-1/9 max-w-1/2"
+          ></img>
         </header>
-        <div className="max-w-[300px] w-full space-y-6 px-4">
-          <nav className="rounded-3xl border border-gray-200 p-6 dark:border-gray-700 space-y-4">
-            <p className="leading-6 text-gray-700 dark:text-gray-200 text-center">
-              What&apos;s next? This is deployed from github actionss
-            </p>
-            <ul>
-              {resources.map(({ href, text, icon }) => (
-                <li key={href}>
-                  <a
-                    className="group flex items-center gap-3 self-stretch p-3 leading-normal text-blue-700 hover:underline dark:text-blue-500"
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {icon}
-                    {text}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+        <div className="px-4 w-full grid grid-cols-1 md:grid-cols-3 gap-8 auto-rows-fr place-items-center">
+          <SpotlightCard cardHeader="Goals">
+            This will contain goals cards
+          </SpotlightCard>
+          <SpotlightCard cardHeader="Assists">
+            This will contain assists cards
+          </SpotlightCard>
+          <SpotlightCard cardHeader="Points">
+            This will contain points cards
+          </SpotlightCard>
+
+          <SpotlightCard cardHeader="Next Game">
+            This will contain next game
+          </SpotlightCard>
+          <SpotlightCard cardHeader="Last Result">
+            This will contain last result
+          </SpotlightCard>
+          <SpotlightCard cardHeader="Team Stats">
+            This will contain Team Stats
+          </SpotlightCard>
         </div>
       </div>
     </main>
