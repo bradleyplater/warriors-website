@@ -1,6 +1,5 @@
 import { Link } from "react-router";
 import { useState } from "react";
-import warriorsLogo from "../../../public/images/warriors-logo-white.png";
 
 export default function NavBar() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -16,7 +15,7 @@ export default function NavBar() {
               className="text-xl font-bold text-yellow-400 hover:text-yellow-300 transition-colors"
             >
               <img
-                src={warriorsLogo}
+                src="/images/warriors-logo-white.png"
                 alt="Logo"
                 className="max-h-full max-w-25"
               ></img>
