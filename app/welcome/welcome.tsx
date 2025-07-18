@@ -1,5 +1,6 @@
 import LatestResultSpotlight from "~/components/last-result-spotlight/last-result-spotlight";
 import SpotlightCard from "~/components/spotlight-card/spotlight-card";
+import TeamStatsSpotlight from "~/components/team-stats-spotlight/team-stats-spotlight";
 import UpcomingGameSpotlight from "~/components/upcoming-game-spotlight/upcoming-game-spotlight";
 
 export function Welcome() {
@@ -21,7 +22,7 @@ export function Welcome() {
             <LatestResultSpotlight/>
           </SpotlightCard>
           <SpotlightCard cardHeader="Team Stats">
-            Coming soon...
+            <TeamStatsSpotlight/>
           </SpotlightCard>
 
           <SpotlightCard cardHeader="Goals">
