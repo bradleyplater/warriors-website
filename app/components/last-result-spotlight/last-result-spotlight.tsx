@@ -59,21 +59,43 @@ interface LatestResultSpotlightProps {
         
         {/* Game Details - Aligned with teams */}
         <div className="w-full flex flex-row justify-around items-center">
-          {/* Home Team Score */}
-          <div className="flex flex-col items-center flex-1 space-y-6">
+          {/* Home Team Final Score */}
+          <div className="flex flex-col items-center flex-1">
             <span className="text-base md:text-sm lg:text-base font-semibold text-gray-800">4</span>
+          </div>
+          
+          {/* Final Score Separator */}
+          <div className="flex-shrink-0 px-2 md:px-4 text-center">
+            <span className="text-base md:text-sm lg:text-base font-semibold text-gray-800">-</span>
+          </div>
+          
+          {/* Away Team Final Score */}
+          <div className="flex flex-col items-center flex-1">
+            <span className="text-base md:text-sm lg:text-base font-semibold text-gray-800">4</span>
+          </div>
+        </div>
+
+        {/* Period Separator */}
+        <div className="w-full flex items-center my-2">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="px-3 text-xs text-gray-500 font-medium">PERIOD SCORE</span>
+          <div className="flex-grow border-t border-gray-300"></div>
+        </div>
+
+        {/* Period Scores */}
+        <div className="w-full flex flex-row justify-around items-center">
+          {/* Home Team Period Score */}
+          <div className="flex flex-col items-center flex-1">
             <span className="text-xs md:text-sm lg:text-base font-medium text-gray-700">1 - 1</span>
           </div>
           
-          {/* Separator */}
-          <div className="flex-shrink-0 px-2 md:px-4 text-center flex flex-col space-y-6">
-            <span className="text-base md:text-sm lg:text-base font-semibold text-gray-800">-</span>
+          {/* Period Score Separator */}
+          <div className="flex-shrink-0 px-2 md:px-4 text-center">
             <div className="text-xs md:text-sm lg:text-base font-medium text-gray-700">2 - 2</div>
           </div>
           
-          {/* Away Team Score */}
-          <div className="flex flex-col items-center flex-1 space-y-6">
-            <span className="text-base md:text-sm lg:text-base font-semibold text-gray-800">4</span>
+          {/* Away Team Period Score */}
+          <div className="flex flex-col items-center flex-1">
             <span className="text-xs md:text-sm lg:text-base font-medium text-gray-700">1 - 1</span>
           </div>
         </div>
