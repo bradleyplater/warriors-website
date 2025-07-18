@@ -14,6 +14,8 @@ interface LatestResultSpotlightProps {
       ? results.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0]
       : null;
 
+    
+
     if (!latestResult) {
         return (
           <div className="bg-gray-100 rounded-2xl h-full w-full shadow-inner py-3 md:py-5 flex flex-col justify-center items-center overflow-hidden">
@@ -24,8 +26,15 @@ interface LatestResultSpotlightProps {
         );
       }
 
+      const calculatedResult = latestResult.score.warriorsScore - latestResult.score.opponentScore;
+
+      const warriorsWon = latestResult.score.warriorsScore > latestResult.score.opponentScore;
+      const opponentWon = latestResult.score.opponentScore > latestResult.score.warriorsScore;
+      const isTie = latestResult.score.warriorsScore === latestResult.score.opponentScore;
+      const baseBackgroundColor = isTie ? 'bg-gray-100' : warriorsWon ? 'bg-green-100' : 'bg-red-100';
+
     return (
-      <div className="bg-gray-100 rounded-2xl h-full w-full shadow-inner py-2 md:py-3 flex flex-col justify-center items-center overflow-hidden">
+      <div className={`${baseBackgroundColor} rounded-2xl h-full w-full shadow-inner py-2 md:py-3 flex flex-col justify-center items-center overflow-hidden`}>
         {/* Teams Section */}
         <div className="w-full flex flex-row justify-around items-center">
           {/* Home Team */}
