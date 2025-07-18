@@ -2,7 +2,7 @@
     {
         "opponentTeam": "Leeds Warriors",
         "logoImage": "leeds-warriors.jpg",
-        "date": "2025-07-19",
+        "date": "2024-07-19",
         "score": {
             "warriorsScore": 4,
             "opponentScore": 4,
@@ -18,6 +18,29 @@
                 "three": {
                     "warriorsScore": 1,
                     "opponentScore": 1
+                }
+            }
+        }
+    },
+    {
+        "opponentTeam": "Test team 2",
+        "logoImage": "leeds-warriors.jpg",
+        "date": "2025-05-19",
+        "score": {
+            "warriorsScore": 4,
+            "opponentScore": 6,
+            "period": {
+                "one": {
+                    "warriorsScore": 1,
+                    "opponentScore": 2
+                },
+                "two": {
+                    "warriorsScore": 3,
+                    "opponentScore": 1
+                },
+                "three": {
+                    "warriorsScore": 0,
+                    "opponentScore": 3
                 }
             }
         }
