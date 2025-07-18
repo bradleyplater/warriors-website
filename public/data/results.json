@@ -1,0 +1,25 @@
+[
+    {
+        "opponentTeam": "Leeds Warriors",
+        "logoImage": "leeds-warriors.jpg",
+        "date": "2025-07-19",
+        "score": {
+            "warriorsScore": 4,
+            "opponentScore": 4,
+            "period": {
+                "one": {
+                    "warriorsScore": 1,
+                    "opponentScore": 1
+                },
+                "two": {
+                    "warriorsScore": 1,
+                    "opponentScore": 1
+                },
+                "three": {
+                    "warriorsScore": 1,
+                    "opponentScore": 1
+                }
+            }
+        }
+    }
+]
