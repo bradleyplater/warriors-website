@@ -6,19 +6,23 @@ interface LatestResultSpotlightProps {
   }
   
   export default function LatestResultSpotlight() {
-    // const { data }: DataContextType = useData();
+    const { data }: DataContextType = useData();
 
-    // const latestResults = data.latestResults;
+    const results = data.results;
 
-    // if (!latestResults || latestResults.length === 0) {
-    //     return (
-    //       <div className="bg-gray-100 rounded-2xl h-full w-full shadow-inner py-3 md:py-5 flex flex-col justify-center items-center overflow-hidden">
-    //         <div className="text-xs md:text-sm lg:text-base font-semibold text-gray-800 text-center">
-    //           No upcoming games
-    //         </div>
-    //       </div>
-    //     );
-    //   }
+    const latestResult = results.length > 0 
+      ? results.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0]
+      : null;
+
+    if (!latestResult) {
+        return (
+          <div className="bg-gray-100 rounded-2xl h-full w-full shadow-inner py-3 md:py-5 flex flex-col justify-center items-center overflow-hidden">
+            <div className="text-xs md:text-sm lg:text-base font-semibold text-gray-800 text-center">
+              No results
+            </div>
+          </div>
+        );
+      }
 
     return (
       <div className="bg-gray-100 rounded-2xl h-full w-full shadow-inner py-2 md:py-3 flex flex-col justify-center items-center overflow-hidden">
@@ -42,11 +46,11 @@ interface LatestResultSpotlightProps {
           {/* Away Team */}
           <div className="flex flex-col items-center flex-1">
             <img 
-              src="/images/team-logos/leeds-warriors.jpg" 
+              src={`/images/team-logos/${latestResult.logoImage}`} 
               alt="Leeds Warriors Logo" 
               className="hidden md:hidden lg:block h-10 w-10 lg:h-20 lg:w-20 object-contain mb-1"
             />
-            <span className="text-xs md:text-sm font-medium text-gray-700 text-center">Leeds Warriors</span>
+            <span className="text-xs md:text-sm font-medium text-gray-700 text-center">{latestResult.opponentTeam}</span>
           </div>
         </div>
         
@@ -61,7 +65,7 @@ interface LatestResultSpotlightProps {
         <div className="w-full flex flex-row justify-around items-center">
           {/* Home Team Final Score */}
           <div className="flex flex-col items-center flex-1">
-            <span className="text-base md:text-sm lg:text-base font-semibold text-gray-800">4</span>
+            <span className="text-base md:text-sm lg:text-base font-semibold text-gray-800">{latestResult.score.warriorsScore}</span>
           </div>
           
           {/* Final Score Separator */}
@@ -71,7 +75,7 @@ interface LatestResultSpotlightProps {
           
           {/* Away Team Final Score */}
           <div className="flex flex-col items-center flex-1">
-            <span className="text-base md:text-sm lg:text-base font-semibold text-gray-800">4</span>
+            <span className="text-base md:text-sm lg:text-base font-semibold text-gray-800">{latestResult.score.opponentScore}</span>
           </div>
         </div>
 
@@ -86,17 +90,17 @@ interface LatestResultSpotlightProps {
         <div className="w-full flex flex-row justify-around items-center">
           {/* Home Team Period Score */}
           <div className="flex flex-col items-center flex-1">
-            <span className="text-xs md:text-sm lg:text-base font-medium text-gray-700">1 - 1</span>
+            <span className="text-xs md:text-sm lg:text-base font-medium text-gray-700">{latestResult.score.period.one.warriorsScore} - {latestResult.score.period.one.opponentScore}</span>
           </div>
           
           {/* Period Score Separator */}
           <div className="flex-shrink-0 px-2 md:px-4 text-center">
-            <div className="text-xs md:text-sm lg:text-base font-medium text-gray-700">2 - 2</div>
+            <div className="text-xs md:text-sm lg:text-base font-medium text-gray-700">{latestResult.score.period.two.warriorsScore} - {latestResult.score.period.two.opponentScore}</div>
           </div>
           
           {/* Away Team Period Score */}
           <div className="flex flex-col items-center flex-1">
-            <span className="text-xs md:text-sm lg:text-base font-medium text-gray-700">1 - 1</span>
+            <span className="text-xs md:text-sm lg:text-base font-medium text-gray-700">{latestResult.score.period.three.warriorsScore} - {latestResult.score.period.three.opponentScore}</span>
           </div>
         </div>
       </div>
