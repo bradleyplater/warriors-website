@@ -31,30 +31,6 @@ export default function NavBar() {
               >
                 Home
               </Link>
-              <Link
-                to="/roster"
-                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
-              >
-                Roster
-              </Link>
-              <Link
-                to="/schedule"
-                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
-              >
-                Schedule
-              </Link>
-              <Link
-                to="/news"
-                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
-              >
-                News
-              </Link>
-              <Link
-                to="/tickets"
-                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700"
-              >
-                Tickets
-              </Link>
             </div>
           </div>
 
@@ -105,30 +81,7 @@ export default function NavBar() {
           >
             Home
           </Link>
-          <Link
-            to="/roster"
-            className="block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Roster
-          </Link>
-          <Link
-            to="/schedule"
-            className="block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Schedule
-          </Link>
-          <Link
-            to="/news"
-            className="block px-3 py-2 rounded-md text-base font-medium"
-          >
-            News
-          </Link>
-          <Link
-            to="/tickets"
-            className="block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Tickets
-          </Link>
+         
         </div>
       </div>
     </nav>

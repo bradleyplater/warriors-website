@@ -21,17 +21,17 @@ export function Welcome() {
             <LatestResultSpotlight/>
           </SpotlightCard>
           <SpotlightCard cardHeader="Team Stats">
-            This will contain Team Stats
+            Coming soon...
           </SpotlightCard>
 
           <SpotlightCard cardHeader="Goals">
-            This will contain goals cards
+            Coming soon...
           </SpotlightCard>
           <SpotlightCard cardHeader="Assists">
-            This will contain assists cards
+            Coming soon...
           </SpotlightCard>
           <SpotlightCard cardHeader="Points">
-            This will contain points cards
+            Coming soon...
           </SpotlightCard>
         </div>
       </div>
