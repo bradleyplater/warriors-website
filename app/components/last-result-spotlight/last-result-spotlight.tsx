@@ -1,4 +1,5 @@
 import { useData, type DataContextType } from "../../contexts/DataContext";
+import TeamPanelSection from "../team-section/team-panel-section";
 
 interface LatestResultSpotlightProps {
     cardHeader: string;
@@ -26,42 +27,18 @@ interface LatestResultSpotlightProps {
         );
       }
 
-      const calculatedResult = latestResult.score.warriorsScore - latestResult.score.opponentScore;
 
       const warriorsWon = latestResult.score.warriorsScore > latestResult.score.opponentScore;
-      const opponentWon = latestResult.score.opponentScore > latestResult.score.warriorsScore;
       const isTie = latestResult.score.warriorsScore === latestResult.score.opponentScore;
       const baseBackgroundColor = isTie ? 'bg-gray-100' : warriorsWon ? 'bg-green-100' : 'bg-red-100';
 
     return (
       <div className={`${baseBackgroundColor} rounded-2xl h-full w-full shadow-inner py-2 md:py-3 flex flex-col justify-center items-center overflow-hidden`}>
         {/* Teams Section */}
-        <div className="w-full flex flex-row justify-around items-center">
-          {/* Home Team */}
-          <div className="flex flex-col items-center flex-1">
-            <img 
-              src="/images/warriors-logo-black.png" 
-              alt="Warriors Logo" 
-              className="hidden md:hidden lg:block h-10 w-10 lg:h-20 lg:w-20 object-contain mb-1"
-            />
-            <span className="text-xs md:text-sm font-medium text-gray-700 text-center">Warriors</span>
-          </div>
-          
-          {/* VS */}
-          <div className="flex-shrink-0 px-2 md:px-4">
-            <span className="text-xs md:text-sm lg:text-base font-bold text-gray-600">VS</span>
-          </div>
-          
-          {/* Away Team */}
-          <div className="flex flex-col items-center flex-1">
-            <img 
-              src={`/images/team-logos/${latestResult.logoImage}`} 
-              alt="Leeds Warriors Logo" 
-              className="hidden md:hidden lg:block h-10 w-10 lg:h-20 lg:w-20 object-contain mb-1"
-            />
-            <span className="text-xs md:text-sm font-medium text-gray-700 text-center">{latestResult.opponentTeam}</span>
-          </div>
-        </div>
+        <TeamPanelSection 
+          opponentTeam={latestResult.opponentTeam}
+          opponentLogoImage={latestResult.logoImage}
+        />
         
         {/* Separator Line */}
         <div className="w-full flex items-center my-3">
