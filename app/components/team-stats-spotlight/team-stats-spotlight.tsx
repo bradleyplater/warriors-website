@@ -69,15 +69,15 @@ import TeamPanelSection from "../team-section/team-panel-section";
 
     return (
       <div className="bg-gray-100 rounded-2xl h-full w-full shadow-inner py-3 md:py-4 flex flex-col justify-center items-center">
-        <div className="grid grid-cols-3 gap-2 md:gap-3 w-full max-w-sm md:max-w-md lg:max-w-lg px-3 md:px-4">
+        <div className="grid grid-cols-3 gap-2 md:gap-6 w-full max-w-sm md:max-w-md lg:max-w-lg px-3 md:px-4">
           {statsData.map((stat, index) => {
             const cardColors = getCardColors(stat.category);
             const textColors = getTextColors(stat.category);
             
             return (
               <div key={index} className={`${cardColors} border rounded-lg md:rounded-xl p-2 md:p-3 lg:p-4 shadow-md flex flex-col justify-center items-center min-h-[60px] md:min-h-[80px] lg:min-h-[90px] transition-all duration-200 hover:shadow-lg hover:scale-105`}>
-                <span className={`text-lg md:text-xl lg:text-2xl font-bold ${textColors.value} text-center leading-tight`}>{stat.value}</span>
-                <span className={`text-xs md:text-sm font-medium ${textColors.title} text-center mt-1`}>{stat.title}</span>
+                <span className={`text-lg sm:text-base md:text-xl lg:text-2xl font-bold ${textColors.value} text-center leading-tight`}>{stat.value}</span>
+                <span className={`text-xs sm:text-[11px] md:text-sm font-medium ${textColors.title} text-center mt-1`}>{stat.title}</span>
               </div>
             );
           })}
