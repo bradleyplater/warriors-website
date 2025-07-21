@@ -1,6 +1,6 @@
 import LeaderboardCard from "../leaderboard-card/leaderboard-card";
 
-export default function GoalSpotlight() {
+export default function PointsSpotlight() {
     // Sample data - replace with actual data from context
     const topScorers = [
         { number: "99", name: "John Doe", position: "F", statToTrack: 12 },
