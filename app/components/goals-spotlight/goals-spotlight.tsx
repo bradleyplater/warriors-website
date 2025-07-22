@@ -1,5 +1,5 @@
 import LeaderboardCard from "../leaderboard-card/leaderboard-card";
-import { useData, type Player } from "~/contexts/DataContext";
+import { useData, type Player } from "../../contexts/DataContext";
 
 interface IStatSpotlightData {
     number: string;
