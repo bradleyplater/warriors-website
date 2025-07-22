@@ -1,0 +1,17 @@
+[
+    {
+        "name": "John Smith",
+        "number": 10,
+        "position": "Forward",
+        "stats": [
+            {
+                "season": "24/25",
+                "games": 10,
+                "goals": 5,
+                "assists": 3,
+                "pims": 3,
+                "points": 13
+            }
+        ]
+    }
+]
