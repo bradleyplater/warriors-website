@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
-import UpcomingGameSpotlight from './last-result-spotlight'
 import { TestWrapper } from '../../../src/test/test-helper'
 import LastResultSpotlight from './last-result-spotlight'
 
@@ -55,7 +54,8 @@ const mockGameData = {
           }
         }
       }
-    ]
+    ],
+    players: []
   },
   loading: false,
   error: null
@@ -70,6 +70,7 @@ describe('LastResultSpotlight', () => {
       ...mockGameData,
       data: {
         upcomingGames: [],
+        players: [],
         results: [
           {
             opponentTeam: "Older Team",
@@ -139,6 +140,7 @@ describe('LastResultSpotlight', () => {
       ...mockGameData,
       data: {
         upcomingGames: [],
+        players: [],
         results: [
           {
             opponentTeam: "Test Team",
@@ -172,6 +174,7 @@ describe('LastResultSpotlight', () => {
       ...mockGameData,
       data: {
         upcomingGames: [],
+        players: [],
         results: [
           {
             opponentTeam: "Test Team",
@@ -205,6 +208,7 @@ describe('LastResultSpotlight', () => {
       ...mockGameData,
       data: {
         upcomingGames: [],
+        players: [],
         results: [
           {
             opponentTeam: "Test Team",
@@ -236,7 +240,7 @@ describe('LastResultSpotlight', () => {
   it('shows no results message when results array is empty', () => {
     const emptyData = { 
       ...mockGameData, 
-      data: { upcomingGames: [], results: [] } 
+      data: { upcomingGames: [], results: [], players: [] } 
     }
     
     render(<LastResultSpotlight />, { 
@@ -251,6 +255,7 @@ describe('LastResultSpotlight', () => {
       ...mockGameData,
       data: {
         upcomingGames: [],
+        players: [],
         results: [
           {
             opponentTeam: "Test Team",

@@ -1,5 +1,21 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 
+interface PlayerStat {
+  season: string;
+  games: number;
+  goals: number;
+  assists: number;
+  pims: number;
+  points: number;
+}
+
+export interface Player {
+  name: string;
+  number: number;
+  position: string;
+  stats: PlayerStat[];
+}
+
 interface PeriodScore {
   warriorsScore: number;
   opponentScore: number;
@@ -34,6 +50,7 @@ interface UpcomingGame {
 interface Data {
   upcomingGames: UpcomingGame[];
   results: Result[];
+  players: Player[];
 }
 
 export interface DataContextType {
@@ -45,7 +62,7 @@ export interface DataContextType {
 export const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export function DataProvider({ children }: { children: ReactNode }) {
-  const [data, setData] = useState<Data>({ upcomingGames: [], results: [] });
+  const [data, setData] = useState<Data>({ upcomingGames: [], results: [], players: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -54,15 +71,17 @@ export function DataProvider({ children }: { children: ReactNode }) {
       try {
         const upcomingGamesResponse = await fetch('/data/upcoming-games.json');
         const resultsResponse = await fetch('/data/results.json');
+        const playerResponse = await fetch('/data/players.json')
 
-        if (!upcomingGamesResponse.ok || !resultsResponse.ok) {
+        if (!upcomingGamesResponse.ok || !resultsResponse.ok || !playerResponse.ok) {
           throw new Error(`Failed to fetch data: ${upcomingGamesResponse.status} ${upcomingGamesResponse.statusText}`);
         }
         
         const upcomingGames = await upcomingGamesResponse.json();
         const results = await resultsResponse.json();
+        const players = await playerResponse.json();
         
-        setData({ upcomingGames, results });
+        setData({ upcomingGames, results, players });
       } catch (error) {
         console.error('Error loading JSON:', error);
         setError('Failed to load data');

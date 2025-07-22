@@ -1,4 +1,7 @@
+import AssistSpotlight from "~/components/assist-spotlight/assist-spotlight";
+import GoalSpotlight from "~/components/goals-spotlight/goals-spotlight";
 import LatestResultSpotlight from "~/components/last-result-spotlight/last-result-spotlight";
+import PointsSpotlight from "~/components/points-spotlight/points-spotlight";
 import SpotlightCard from "~/components/spotlight-card/spotlight-card";
 import TeamStatsSpotlight from "~/components/team-stats-spotlight/team-stats-spotlight";
 import UpcomingGameSpotlight from "~/components/upcoming-game-spotlight/upcoming-game-spotlight";
@@ -26,13 +29,13 @@ export function Welcome() {
           </SpotlightCard>
 
           <SpotlightCard cardHeader="Goals">
-            Coming soon...
+            <GoalSpotlight />
           </SpotlightCard>
           <SpotlightCard cardHeader="Assists">
-            Coming soon...
+            <AssistSpotlight />
           </SpotlightCard>
           <SpotlightCard cardHeader="Points">
-            Coming soon...
+            <PointsSpotlight />
           </SpotlightCard>
         </div>
       </div>

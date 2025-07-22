@@ -1,0 +1,92 @@
+[
+    {
+        "name": "John Smith",
+        "number": 10,
+        "position": "Forward",
+        "stats": [
+            {
+                "season": "24/25",
+                "games": 10,
+                "goals": 5,
+                "assists": 3,
+                "pims": 3,
+                "points": 32
+            }
+        ]
+    },
+    {
+        "name": "Derek Jones",
+        "number": 22,
+        "position": "Forward",
+        "stats": [
+            {
+                "season": "24/25",
+                "games": 10,
+                "goals": 6,
+                "assists": 3,
+                "pims": 3,
+                "points": 42
+            }
+        ]
+    },
+    {
+        "name": "Paul",
+        "number": 88,
+        "position": "Forward",
+        "stats": [
+            {
+                "season": "24/25",
+                "games": 10,
+                "goals": 22,
+                "assists": 3,
+                "pims": 3,
+                "points": 12
+            }
+        ]
+    },
+    {
+        "name": "Jonny Adams",
+        "number": 2,
+        "position": "Forward",
+        "stats": [
+            {
+                "season": "24/25",
+                "games": 10,
+                "goals": 16,
+                "assists": 3,
+                "pims": 3,
+                "points": 13
+            }
+        ]
+    },
+    {
+        "name": "Ben Smitty",
+        "number": 53,
+        "position": "Forward",
+        "stats": [
+            {
+                "season": "24/25",
+                "games": 10,
+                "goals": 2,
+                "assists": 3,
+                "pims": 3,
+                "points": 53
+            }
+        ]
+    },
+    {
+        "name": "Maddie Tyrell",
+        "number": 32,
+        "position": "Forward",
+        "stats": [
+            {
+                "season": "24/25",
+                "games": 10,
+                "goals": 3,
+                "assists": 3,
+                "pims": 3,
+                "points": 22
+            }
+        ]
+    }
+]

@@ -1,284 +1,224 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
-import UpcomingGameSpotlight from './team-stats-spotlight'
-import { TestWrapper } from '../../../src/test/test-helper'
-import LastResultSpotlight from './team-stats-spotlight'
+import TeamStatsSpotlight from './team-stats-spotlight'
 
-// Mock data
-const mockGameData = {
-  data: {
-    upcomingGames: [],
-    results: [
-      {
-        opponentTeam: "Leeds Warriors",
-        logoImage: "leeds-warriors.jpg",
-        date: "2025-07-19",
-        score: {
-          warriorsScore: 5,
-          opponentScore: 4,
-          period: {
-            one: {
-              warriorsScore: 1,
-              opponentScore: 1
-            },
-            two: {
-              warriorsScore: 1,
-              opponentScore: 1
-            },
-            three: {
-              warriorsScore: 1,
-              opponentScore: 1
-            }
-          }
-        }
-      },
-      {
-        opponentTeam: "Leeds Warriors",
-        logoImage: "leeds-warriors.jpg",
-        date: "2025-07-19",
-        score: {
-          warriorsScore: 5,
-          opponentScore: 4,
-          period: {
-            one: {
-              warriorsScore: 1,
-              opponentScore: 1
-            },
-            two: {
-              warriorsScore: 1,
-              opponentScore: 1
-            },
-            three: {
-              warriorsScore: 1,
-              opponentScore: 1
-            }
-          }
-        }
-      }
-    ]
-  },
-  loading: false,
-  error: null
-}
-
-// Mock Provider component
-
-
-describe('LastResultSpotlight', () => {
-  it('renders the latest result by date', () => {
-    const mockDataWithMultipleResults = {
-      ...mockGameData,
-      data: {
-        upcomingGames: [],
-        results: [
-          {
-            opponentTeam: "Older Team",
-            logoImage: "older-team.jpg",
-            date: "2025-01-15", // Older date
-            score: {
-              warriorsScore: 2,
-              opponentScore: 3,
-              period: {
-                one: { warriorsScore: 1, opponentScore: 1 },
-                two: { warriorsScore: 1, opponentScore: 1 },
-                three: { warriorsScore: 0, opponentScore: 1 }
-              }
-            }
-          },
-          {
-            opponentTeam: "Latest Team",
-            logoImage: "latest-team.jpg",
-            date: "2025-07-18", // Most recent date
-            score: {
-              warriorsScore: 5,
-              opponentScore: 4,
-              period: {
-                one: { warriorsScore: 2, opponentScore: 1 },
-                two: { warriorsScore: 2, opponentScore: 2 },
-                three: { warriorsScore: 1, opponentScore: 1 }
-              }
-            }
-          }
-        ]
-      }
-    }
-
-    render(<LastResultSpotlight />, { 
-      wrapper: ({ children }) => <TestWrapper mockData={mockDataWithMultipleResults}>{children}</TestWrapper> 
-    })
+describe('TeamStatsSpotlight', () => {
+  it('renders all team statistics', () => {
+    render(<TeamStatsSpotlight />)
     
-    // Should show the latest team, not the older one
-    expect(screen.getByText('Latest Team')).toBeInTheDocument()
-    expect(screen.queryByText('Older Team')).not.toBeInTheDocument()
+    // Check that all expected stats are rendered
+    expect(screen.getByText('Games Played')).toBeInTheDocument()
+    expect(screen.getByText('Goals For')).toBeInTheDocument()
+    expect(screen.getByText('Goals Against')).toBeInTheDocument()
+    expect(screen.getByText('Wins')).toBeInTheDocument()
+    expect(screen.getByText('Draws')).toBeInTheDocument()
+    expect(screen.getByText('Losses')).toBeInTheDocument()
+    expect(screen.getByText('Form')).toBeInTheDocument()
+    expect(screen.getByText('Win %')).toBeInTheDocument()
+    expect(screen.getByText('Last 5')).toBeInTheDocument()
   })
 
-  it('displays correct game data', () => {
-    render(<LastResultSpotlight />, { 
-      wrapper: ({ children }) => <TestWrapper mockData={mockGameData}>{children}</TestWrapper> 
-    })
+  it('renders all stat values correctly', () => {
+    render(<TeamStatsSpotlight />)
     
-    // Check team name
-    expect(screen.getByText('Leeds Warriors')).toBeInTheDocument()
-    expect(screen.getByText('Warriors')).toBeInTheDocument()
-    
-    // Check final scores
-    expect(screen.getByText('5')).toBeInTheDocument() // Warriors score
-    expect(screen.getByText('4')).toBeInTheDocument() // Opponent score
-    
-    // Check period scores (there are multiple, so use getAllByText)
-    const periodScores = screen.getAllByText('1 - 1')
-    expect(periodScores.length).toBeGreaterThan(0)
-    
-    // Check separators
-    expect(screen.getByText('FINAL')).toBeInTheDocument()
-    expect(screen.getByText('PERIOD SCORE')).toBeInTheDocument()
+    // Check that all expected values are rendered
+    expect(screen.getByText('45')).toBeInTheDocument() // Games Played
+    expect(screen.getByText('32')).toBeInTheDocument() // Goals For
+    expect(screen.getByText('77')).toBeInTheDocument() // Goals Against
+    expect(screen.getByText('18')).toBeInTheDocument() // Wins
+    expect(screen.getByText('7')).toBeInTheDocument()  // Draws
+    expect(screen.getByText('3')).toBeInTheDocument()  // Losses
+    expect(screen.getByText('W2')).toBeInTheDocument() // Form
+    expect(screen.getByText('40%')).toBeInTheDocument() // Win %
+    expect(screen.getByText('1-2-4')).toBeInTheDocument() // Last 5
   })
 
-  it('shows green background when Warriors win', () => {
-    const mockWinData = {
-      ...mockGameData,
-      data: {
-        upcomingGames: [],
-        results: [
-          {
-            opponentTeam: "Test Team",
-            logoImage: "test-team.jpg",
-            date: "2025-07-18",
-            score: {
-              warriorsScore: 6,
-              opponentScore: 3,
-              period: {
-                one: { warriorsScore: 2, opponentScore: 1 },
-                two: { warriorsScore: 2, opponentScore: 1 },
-                three: { warriorsScore: 2, opponentScore: 1 }
-              }
-            }
-          }
-        ]
-      }
-    }
-
-    render(<LastResultSpotlight />, { 
-      wrapper: ({ children }) => <TestWrapper mockData={mockWinData}>{children}</TestWrapper> 
-    })
+  it('applies correct layout structure', () => {
+    const { container } = render(<TeamStatsSpotlight />)
     
-    // Find the main container div with the background color class
-    const container = screen.getByText('Test Team').closest('[class*="bg-"]')
-    expect(container).toHaveClass('bg-green-100')
+    // Check main container
+    const mainContainer = container.firstChild as HTMLElement
+    expect(mainContainer).toHaveClass('bg-gray-100')
+    expect(mainContainer).toHaveClass('rounded-2xl')
+    expect(mainContainer).toHaveClass('h-full')
+    expect(mainContainer).toHaveClass('w-full')
+    expect(mainContainer).toHaveClass('shadow-inner')
+    
+    // Check grid container
+    const gridContainer = mainContainer.querySelector('.grid')
+    expect(gridContainer).toHaveClass('grid-cols-3')
+    expect(gridContainer).toHaveClass('gap-2')
+    expect(gridContainer).toHaveClass('md:gap-6')
   })
 
-  it('shows red background when Warriors lose', () => {
-    const mockLossData = {
-      ...mockGameData,
-      data: {
-        upcomingGames: [],
-        results: [
-          {
-            opponentTeam: "Test Team",
-            logoImage: "test-team.jpg",
-            date: "2025-07-18",
-            score: {
-              warriorsScore: 2,
-              opponentScore: 5,
-              period: {
-                one: { warriorsScore: 1, opponentScore: 2 },
-                two: { warriorsScore: 1, opponentScore: 2 },
-                three: { warriorsScore: 0, opponentScore: 1 }
-              }
-            }
-          }
-        ]
-      }
-    }
-
-    render(<LastResultSpotlight />, { 
-      wrapper: ({ children }) => <TestWrapper mockData={mockLossData}>{children}</TestWrapper> 
-    })
+  it('renders exactly 9 stat cards', () => {
+    const { container } = render(<TeamStatsSpotlight />)
     
-    // Find the main container div with the background color class
-    const container = screen.getByText('Test Team').closest('[class*="bg-"]')
-    expect(container).toHaveClass('bg-red-100')
+    // Count the number of stat cards
+    const statCards = container.querySelectorAll('.grid > div')
+    expect(statCards).toHaveLength(9)
   })
 
-  it('shows gray background when game is tied', () => {
-    const mockTieData = {
-      ...mockGameData,
-      data: {
-        upcomingGames: [],
-        results: [
-          {
-            opponentTeam: "Test Team",
-            logoImage: "test-team.jpg",
-            date: "2025-07-18",
-            score: {
-              warriorsScore: 4,
-              opponentScore: 4,
-              period: {
-                one: { warriorsScore: 1, opponentScore: 1 },
-                two: { warriorsScore: 2, opponentScore: 2 },
-                three: { warriorsScore: 1, opponentScore: 1 }
-              }
-            }
-          }
-        ]
-      }
-    }
-
-    render(<LastResultSpotlight />, { 
-      wrapper: ({ children }) => <TestWrapper mockData={mockTieData}>{children}</TestWrapper> 
-    })
+  it('applies positive category colors correctly', () => {
+    render(<TeamStatsSpotlight />)
     
-    // Find the main container div with the background color class
-    const container = screen.getByText('Test Team').closest('[class*="bg-"]')
-    expect(container).toHaveClass('bg-gray-100')
+    // Goals For should have positive (green) styling
+    const goalsForCard = screen.getByText('Goals For').closest('div')
+    expect(goalsForCard).toHaveClass('bg-gradient-to-br')
+    expect(goalsForCard).toHaveClass('from-green-50')
+    expect(goalsForCard).toHaveClass('to-green-100')
+    expect(goalsForCard).toHaveClass('border-green-200')
+    
+    // Wins should have positive (green) styling
+    const winsCard = screen.getByText('Wins').closest('div')
+    expect(winsCard).toHaveClass('from-green-50')
+    expect(winsCard).toHaveClass('to-green-100')
+    expect(winsCard).toHaveClass('border-green-200')
   })
 
-  it('shows no results message when results array is empty', () => {
-    const emptyData = { 
-      ...mockGameData, 
-      data: { upcomingGames: [], results: [] } 
-    }
+  it('applies negative category colors correctly', () => {
+    render(<TeamStatsSpotlight />)
     
-    render(<LastResultSpotlight />, { 
-      wrapper: ({ children }) => <TestWrapper mockData={emptyData}>{children}</TestWrapper> 
-    })
+    // Goals Against should have negative (red) styling
+    const goalsAgainstCard = screen.getByText('Goals Against').closest('div')
+    expect(goalsAgainstCard).toHaveClass('bg-gradient-to-br')
+    expect(goalsAgainstCard).toHaveClass('from-red-50')
+    expect(goalsAgainstCard).toHaveClass('to-red-100')
+    expect(goalsAgainstCard).toHaveClass('border-red-200')
     
-    expect(screen.getByText('No results')).toBeInTheDocument()
+    // Losses should have negative (red) styling
+    const lossesCard = screen.getByText('Losses').closest('div')
+    expect(lossesCard).toHaveClass('from-red-50')
+    expect(lossesCard).toHaveClass('to-red-100')
+    expect(lossesCard).toHaveClass('border-red-200')
   })
 
-  it('displays period scores correctly', () => {
-    const mockDetailedData = {
-      ...mockGameData,
-      data: {
-        upcomingGames: [],
-        results: [
-          {
-            opponentTeam: "Test Team",
-            logoImage: "test-team.jpg",
-            date: "2025-07-18",
-            score: {
-              warriorsScore: 7,
-              opponentScore: 5,
-              period: {
-                one: { warriorsScore: 3, opponentScore: 1 },
-                two: { warriorsScore: 2, opponentScore: 3 },
-                three: { warriorsScore: 2, opponentScore: 1 }
-              }
-            }
-          }
-        ]
-      }
-    }
-
-    render(<LastResultSpotlight />, { 
-      wrapper: ({ children }) => <TestWrapper mockData={mockDetailedData}>{children}</TestWrapper> 
-    })
+  it('applies neutral category colors correctly', () => {
+    render(<TeamStatsSpotlight />)
     
-    // Check period 1 scores
-    expect(screen.getByText('3 - 1')).toBeInTheDocument()
-    // Check period 2 scores
-    expect(screen.getByText('2 - 3')).toBeInTheDocument()
-    // Check period 3 scores
-    expect(screen.getByText('2 - 1')).toBeInTheDocument()
+    // Draws should have neutral (blue) styling
+    const drawsCard = screen.getByText('Draws').closest('div')
+    expect(drawsCard).toHaveClass('bg-gradient-to-br')
+    expect(drawsCard).toHaveClass('from-blue-50')
+    expect(drawsCard).toHaveClass('to-blue-100')
+    expect(drawsCard).toHaveClass('border-blue-200')
+    
+    // Win % should have neutral (blue) styling
+    const winPercentCard = screen.getByText('Win %').closest('div')
+    expect(winPercentCard).toHaveClass('from-blue-50')
+    expect(winPercentCard).toHaveClass('to-blue-100')
+    expect(winPercentCard).toHaveClass('border-blue-200')
+  })
+
+  it('applies general category colors correctly', () => {
+    render(<TeamStatsSpotlight />)
+    
+    // Games Played should have general (gray) styling
+    const gamesPlayedCard = screen.getByText('Games Played').closest('div')
+    expect(gamesPlayedCard).toHaveClass('bg-gradient-to-br')
+    expect(gamesPlayedCard).toHaveClass('from-gray-50')
+    expect(gamesPlayedCard).toHaveClass('to-gray-100')
+    expect(gamesPlayedCard).toHaveClass('border-gray-200')
+    
+    // Last 5 should have general (gray) styling
+    const lastFiveCard = screen.getByText('Last 5').closest('div')
+    expect(lastFiveCard).toHaveClass('from-gray-50')
+    expect(lastFiveCard).toHaveClass('to-gray-100')
+    expect(lastFiveCard).toHaveClass('border-gray-200')
+  })
+
+  it('applies correct text colors for positive stats', () => {
+    render(<TeamStatsSpotlight />)
+    
+    // Check Goals For value text color
+    const goalsForValue = screen.getByText('32')
+    expect(goalsForValue).toHaveClass('text-green-700')
+    
+    // Check Goals For title text color
+    const goalsForTitle = screen.getByText('Goals For')
+    expect(goalsForTitle).toHaveClass('text-green-600')
+  })
+
+  it('applies correct text colors for negative stats', () => {
+    render(<TeamStatsSpotlight />)
+    
+    // Check Goals Against value text color
+    const goalsAgainstValue = screen.getByText('77')
+    expect(goalsAgainstValue).toHaveClass('text-red-700')
+    
+    // Check Goals Against title text color
+    const goalsAgainstTitle = screen.getByText('Goals Against')
+    expect(goalsAgainstTitle).toHaveClass('text-red-600')
+  })
+
+  it('applies correct text colors for neutral stats', () => {
+    render(<TeamStatsSpotlight />)
+    
+    // Check Draws value text color
+    const drawsValue = screen.getByText('7')
+    expect(drawsValue).toHaveClass('text-blue-700')
+    
+    // Check Draws title text color
+    const drawsTitle = screen.getByText('Draws')
+    expect(drawsTitle).toHaveClass('text-blue-600')
+  })
+
+  it('applies correct text colors for general stats', () => {
+    render(<TeamStatsSpotlight />)
+    
+    // Check Games Played value text color
+    const gamesPlayedValue = screen.getByText('45')
+    expect(gamesPlayedValue).toHaveClass('text-gray-700')
+    
+    // Check Games Played title text color
+    const gamesPlayedTitle = screen.getByText('Games Played')
+    expect(gamesPlayedTitle).toHaveClass('text-gray-600')
+  })
+
+  it('applies hover effects to stat cards', () => {
+    const { container } = render(<TeamStatsSpotlight />)
+    
+    // Check that all stat cards have hover effects
+    const statCards = container.querySelectorAll('.grid > div')
+    statCards.forEach(card => {
+      expect(card).toHaveClass('transition-all')
+      expect(card).toHaveClass('duration-200')
+      expect(card).toHaveClass('hover:shadow-lg')
+      expect(card).toHaveClass('hover:scale-105')
+    })
+  })
+
+  it('applies responsive classes correctly', () => {
+    const { container } = render(<TeamStatsSpotlight />)
+    
+    // Check responsive padding on main container
+    const mainContainer = container.firstChild as HTMLElement
+    expect(mainContainer).toHaveClass('py-3')
+    expect(mainContainer).toHaveClass('md:py-4')
+    
+    // Check responsive gap on grid
+    const gridContainer = mainContainer.querySelector('.grid')
+    expect(gridContainer).toHaveClass('gap-2')
+    expect(gridContainer).toHaveClass('md:gap-6')
+    
+    // Check responsive padding on stat cards
+    const statCards = container.querySelectorAll('.grid > div')
+    statCards.forEach(card => {
+      expect(card).toHaveClass('p-2')
+      expect(card).toHaveClass('md:p-3')
+      expect(card).toHaveClass('lg:p-4')
+    })
+  })
+
+  it('applies correct minimum heights to stat cards', () => {
+    const { container } = render(<TeamStatsSpotlight />)
+    
+    // Check that all stat cards have responsive minimum heights
+    const statCards = container.querySelectorAll('.grid > div')
+    statCards.forEach(card => {
+      expect(card).toHaveClass('min-h-[60px]')
+      expect(card).toHaveClass('md:min-h-[80px]')
+      expect(card).toHaveClass('lg:min-h-[90px]')
+    })
   })
 })
