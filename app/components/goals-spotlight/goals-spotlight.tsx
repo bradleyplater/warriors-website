@@ -1,14 +1,28 @@
 import LeaderboardCard from "../leaderboard-card/leaderboard-card";
+import { useData, type Player } from "~/contexts/DataContext";
+
+interface IStatSpotlightData {
+    number: string;
+    name: string;
+    position: string;
+    statToTrack: number;
+}
+
+//Map all players into this format and return the top 5
+// TODO: Have functionality to handle multiple seasons for each player
+function getTop5Scorers(players: Player[]): IStatSpotlightData[] {
+    return players.map(player => ({
+        number: player.number.toString(),
+        name: player.name,
+        position: player.position.slice(0,1),
+        statToTrack: player.stats[0].goals
+    })).sort((a,b) => b.statToTrack - a.statToTrack).slice(0,5)
+}
 
 export default function GoalSpotlight() {
-    // Sample data - replace with actual data from context
-    const topScorers = [
-        { number: "99", name: "John Doe", position: "F", statToTrack: 12 },
-        { number: "10", name: "Jane Smith", position: "D", statToTrack: 8 },
-        { number: "7", name: "Mike Johnson", position: "F", statToTrack: 7 },
-        { number: "23", name: "Sarah Wilson", position: "D", statToTrack: 6 },
-        { number: "15", name: "Tom Brown", position: "D", statToTrack: 4 }
-    ];
+    const { data } = useData();
+
+    const topScorers = getTop5Scorers(data.players);
 
     return (
         <div className="bg-gray-100 rounded-2xl h-full w-full shadow-inner py-2 sm:py-3 md:py-4 flex flex-col justify-center items-center overflow-hidden">

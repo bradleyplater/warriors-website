@@ -9,7 +9,7 @@ interface PlayerStat {
   points: number;
 }
 
-interface Player {
+export interface Player {
   name: string;
   number: number;
   position: string;
