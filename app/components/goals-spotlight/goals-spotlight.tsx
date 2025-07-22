@@ -1,7 +1,7 @@
 import LeaderboardCard from "../leaderboard-card/leaderboard-card";
 import { useData, type Player } from "../../contexts/DataContext";
 
-interface IStatSpotlightData {
+export interface IStatSpotlightData {
     number: string;
     name: string;
     position: string;
