@@ -1,5 +1,5 @@
 import AssistSpotlight from "~/components/assist-spotlight/assist-spotlight";
-import GoalSpotlight from "~/components/goals-spotlight/games-spotlight";
+import GoalSpotlight from "~/components/goals-spotlight/goals-spotlight";
 import LatestResultSpotlight from "~/components/last-result-spotlight/last-result-spotlight";
 import PointsSpotlight from "~/components/points-spotlight/points-spotlight";
 import SpotlightCard from "~/components/spotlight-card/spotlight-card";
