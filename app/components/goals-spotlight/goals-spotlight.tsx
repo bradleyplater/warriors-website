@@ -9,7 +9,7 @@ export interface IStatSpotlightData {
     statToTrack: number;
 }
 
-interface IStatSpotlightProps {
+export interface IStatSpotlightProps {
     selectedSeason: Season;
 }
 

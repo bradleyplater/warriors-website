@@ -1,5 +1,5 @@
 import { useData, type Player } from "../../contexts/DataContext";
-import type { IStatSpotlightData } from "../goals-spotlight/goals-spotlight";
+import type { IStatSpotlightData, IStatSpotlightProps } from "../goals-spotlight/goals-spotlight";
 import LeaderboardCard from "../leaderboard-card/leaderboard-card";
 
 function getTop5Scorers(players: Player[]): IStatSpotlightData[] {
@@ -11,7 +11,7 @@ function getTop5Scorers(players: Player[]): IStatSpotlightData[] {
     })).sort((a,b) => b.statToTrack - a.statToTrack).slice(0,5)
 }
 
-export default function PointsSpotlight() {
+export default function PointsSpotlight({selectedSeason}: IStatSpotlightProps) {
     const { data } = useData();
 
     const topScorers = getTop5Scorers(data.players);

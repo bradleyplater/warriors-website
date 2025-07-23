@@ -46,10 +46,10 @@ export function Welcome() {
             <GoalSpotlight selectedSeason={selectedSeason} />
           </SpotlightCard>
           <SpotlightCard cardHeader="Assists">
-            <AssistSpotlight />
+            <AssistSpotlight selectedSeason={selectedSeason} />
           </SpotlightCard>
           <SpotlightCard cardHeader="Points">
-            <PointsSpotlight />
+            <PointsSpotlight selectedSeason={selectedSeason} />
           </SpotlightCard>
         </div>
       </div>
