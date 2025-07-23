@@ -31,7 +31,7 @@ function getTop5Scorers(players: Player[], selectedSeason: Season): IStatSpotlig
                 number: player.number.toString(),
                 name: player.name,
                 position: player.position.slice(0,1),
-                statToTrack: statsToTrack[0].goals
+                statToTrack: selectedSeason === 'overall' ? statsToTrack.reduce((total, stat) => total + stat.goals, 0) : statsToTrack[0].goals
             };
         })
         .filter(player => player !== null) // Filter out null values before sorting
