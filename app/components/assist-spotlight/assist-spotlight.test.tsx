@@ -245,7 +245,7 @@ describe('GoalSpotlight', () => {
     expect(leaderboardCards).toHaveLength(3);
   });
 
-  it('uses first season stats when player has multiple seasons', () => {
+  it('Correctly filters based on given season', () => {
     const playerWithMultipleSeasons: Player[] = [{
       name: 'Multi Season Player',
       number: 99,
