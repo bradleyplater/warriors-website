@@ -39,7 +39,7 @@ export function Welcome() {
             <LatestResultSpotlight/>
           </SpotlightCard>
           <SpotlightCard cardHeader="Team Stats">
-            <TeamStatsSpotlight/>
+            <TeamStatsSpotlight selectedSeason={selectedSeason} />
           </SpotlightCard>
 
           <SpotlightCard cardHeader="Goals">
