@@ -42,10 +42,11 @@ interface Period {
   three: PeriodScore;
 }
 
-interface Result {
+export interface Result {
   opponentTeam: string;
   logoImage: string;
   date: string;
+  season: Season;
   score: {
     warriorsScore: number;
     opponentScore: number;
