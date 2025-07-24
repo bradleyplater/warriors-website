@@ -33,7 +33,7 @@ describe('SeasonFilter', () => {
     );
     
     const selectedButton = screen.getByText('24/25');
-    expect(selectedButton).toHaveClass('bg-gray-600', 'text-white');
+    expect(selectedButton).toHaveClass('bg-gray-900', 'text-white');
   });
 
   it('calls onSeasonChange when a season is clicked', () => {
