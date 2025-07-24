@@ -11,6 +11,14 @@
                 "assists": 3,
                 "pims": 3,
                 "points": 32
+            },
+            {
+                "season": "23/24",
+                "games": 18,
+                "goals": 8,
+                "assists": 12,
+                "pims": 6,
+                "points": 20
             }
         ]
     },
@@ -26,6 +34,14 @@
                 "assists": 3,
                 "pims": 3,
                 "points": 42
+            },
+            {
+                "season": "23/24",
+                "games": 22,
+                "goals": 14,
+                "assists": 9,
+                "pims": 8,
+                "points": 23
             }
         ]
     },
@@ -41,6 +57,14 @@
                 "assists": 3,
                 "pims": 3,
                 "points": 12
+            },
+            {
+                "season": "23/24",
+                "games": 25,
+                "goals": 18,
+                "assists": 15,
+                "pims": 12,
+                "points": 33
             }
         ]
     },
@@ -56,6 +80,14 @@
                 "assists": 3,
                 "pims": 3,
                 "points": 13
+            },
+            {
+                "season": "23/24",
+                "games": 20,
+                "goals": 11,
+                "assists": 7,
+                "pims": 4,
+                "points": 18
             }
         ]
     },
@@ -71,6 +103,14 @@
                 "assists": 3,
                 "pims": 3,
                 "points": 53
+            },
+            {
+                "season": "23/24",
+                "games": 16,
+                "goals": 5,
+                "assists": 11,
+                "pims": 2,
+                "points": 16
             }
         ]
     },
@@ -86,6 +126,14 @@
                 "assists": 3,
                 "pims": 3,
                 "points": 22
+            },
+            {
+                "season": "23/24",
+                "games": 19,
+                "goals": 7,
+                "assists": 13,
+                "pims": 5,
+                "points": 20
             }
         ]
     }

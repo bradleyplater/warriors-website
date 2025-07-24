@@ -1,44 +1,122 @@
-import { useData, type DataContextType } from "../../contexts/DataContext";
-import TeamPanelSection from "../team-section/team-panel-section";
+import { useData, type DataContextType, type Result, type TeamStat } from "../../contexts/DataContext";
+import type { IStatSpotlightProps } from "../goals-spotlight/goals-spotlight";
+import type { Season } from "../season-filter/season-filter";
   
-  export default function TeamStatsSpotlight() {
-    // const { data }: DataContextType = useData();
+interface TeamStatsData {
+  title: string;
+  value: number | string;
+  category: "general" | "positive" | "negative" | "neutral";
+}
 
-    // const results = data.results;
+function getLast5(results: Result[], selectedSeason: Season) {
+  const isOverall = selectedSeason === 'overall'
 
-    // const latestResult = results.length > 0 
-    //   ? results.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0]
-    //   : null;
+  const filteredResults = results.filter((result) => result.season === selectedSeason || isOverall)
+    .sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 5)
 
-    
+  const wins = filteredResults.filter((result) => result.score.warriorsScore > result.score.opponentScore).length
+  const losses = filteredResults.filter((result) => result.score.warriorsScore < result.score.opponentScore).length
+  const draws = filteredResults.filter((result) => result.score.warriorsScore === result.score.opponentScore).length
 
-    // if (!latestResult) {
-    //     return (
-    //       <div className="bg-gray-100 rounded-2xl h-full w-full shadow-inner py-3 md:py-5 flex flex-col justify-center items-center overflow-hidden">
-    //         <div className="text-xs md:text-sm lg:text-base font-semibold text-gray-800 text-center">
-    //           No results
-    //         </div>
-    //       </div>
-    //     );
-    //   }
+  return `${wins}-${losses}-${draws}`
+}
+
+function getResultType(result: Result): 'W' | 'D' | 'L' {
+  const { warriorsScore, opponentScore } = result.score
+  
+  if (warriorsScore > opponentScore) return 'W'
+  if (warriorsScore === opponentScore) return 'D'
+  return 'L'
+}
+
+function getForm(results: Result[], selectedSeason: Season): string {
+  const isOverall = selectedSeason === 'overall'
+
+  const filteredResults = results
+    .filter((result) => result.season === selectedSeason || isOverall)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  
+  if (filteredResults.length === 0) return 'N/A'
+  
+  const latestResultType = getResultType(filteredResults[0])
+  
+  // Count consecutive results of the same type
+  let streak = 1
+  for (let i = 1; i < filteredResults.length; i++) {
+    if (getResultType(filteredResults[i]) === latestResultType) {
+      streak++
+    } else {
+      break
+    }
+  }
+  
+  return `${latestResultType}${streak}`
+} 
+
+function getTeamStats(teamStats: TeamStat[], results: Result[], selectedSeason: Season): TeamStatsData[] {
+  const isOverall = selectedSeason === 'overall'
+
+  const filteredStats = teamStats.filter((stats) => stats.season === selectedSeason || isOverall)
+
+  if(filteredStats.length === 0) {
+    return [
+      { title: "Games Played", value: "N/A", category: "general" },
+      { title: "Goals For", value: "N/A", category: "general" },
+      { title: "Goals Against", value: "N/A", category: "general" },
+      { title: "Wins", value: "N/A", category: "general" },
+      { title: "Draws", value: "N/A", category: "general" },
+      { title: "Losses", value: "N/A", category: "general" },
+      { title: "Form", value: "N/A", category: "general" },
+      { title: "Win %", value: "N/A", category: "general" },
+      { title: "Last 5", value: "N/A", category: "general" }]
+  }
+
+  const gamePlayed = isOverall ? filteredStats.reduce((total, stats) => total + stats.games, 0) : filteredStats[0].games ?? 0
+  const goalsFor = isOverall ? filteredStats.reduce((total, stats) => total + stats.goalsFor, 0) : filteredStats[0].goalsFor ?? 0
+  const goalsAgainst = isOverall ? filteredStats.reduce((total, stats) => total + stats.goalsAgainst, 0) : filteredStats[0].goalsAgainst ?? 0
+  const wins = isOverall ? filteredStats.reduce((total, stats) => total + stats.wins, 0) : filteredStats[0].wins ?? 0
+  const draws = isOverall ? filteredStats.reduce((total, stats) => total + stats.draws, 0) : filteredStats[0].draws ?? 0
+  const losses = isOverall ? filteredStats.reduce((total, stats) => total + stats.losses, 0) : filteredStats[0].losses ?? 0
+  const winPercentage = isOverall ? (wins / gamePlayed) * 100 : (filteredStats[0].wins / filteredStats[0].games) * 100
+
+  const last5 = getLast5(results, selectedSeason)
+
+  const form = getForm(results, selectedSeason)
+
+  return [
+    { title: "Games Played", value: gamePlayed, category: "general" },
+    { title: "Goals For", value: goalsFor, category: "positive" },
+    { title: "Goals Against", value: goalsAgainst, category: "negative" },
+    { title: "Wins", value: wins, category: "positive" },
+    { title: "Draws", value: draws, category: "neutral" },
+    { title: "Losses", value: losses, category: "negative" },
+    { title: "Form", value: form, category: form.includes('W') ? 'positive' : form.includes('L') ? 'negative' : 'neutral' },
+    { title: "Win %", value: `${winPercentage.toFixed(1)}%`, category: winPercentage >= 50 ? 'positive' : 'negative' },
+    { title: "Last 5", value: last5, category: "general" }
+  ]
+}
+
+export default function TeamStatsSpotlight({selectedSeason}: IStatSpotlightProps) {
+    const { data }: DataContextType = useData();
+
+    const teamStats = data.team.stats;
+    const results = data.results;
+
+    if (!teamStats || teamStats.length === 0) {
+      return (
+        <div className="bg-gray-100 rounded-2xl h-full w-full shadow-inner py-3 md:py-5 flex flex-col justify-center items-center overflow-hidden">
+          <div className="text-xs md:text-sm lg:text-base font-semibold text-gray-800 text-center">
+            No team stats
+          </div>
+        </div>
+      );
+    }
 
 
-      // const warriorsWon = latestResult.score.warriorsScore > latestResult.score.opponentScore;
-      // const isTie = latestResult.score.warriorsScore === latestResult.score.opponentScore;
-      // const baseBackgroundColor = isTie ? 'bg-gray-100' : warriorsWon ? 'bg-green-100' : 'bg-red-100';
 
     // Sample data with color categories - replace with actual data from context
-    const statsData = [
-      { title: "Games Played", value: 45, category: "general" },
-      { title: "Goals For", value: 32, category: "positive" },
-      { title: "Goals Against", value: 77, category: "negative" },
-      { title: "Wins", value: 18, category: "positive" },
-      { title: "Draws", value: 7, category: "neutral" },
-      { title: "Losses", value: 3, category: "negative" },
-      { title: "Form", value: "W2", category: "positive" },
-      { title: "Win %", value: "40%", category: "neutral" },
-      { title: "Last 5", value: "1-2-4", category: "general" }
-    ];
+    const statsData = getTeamStats(teamStats, results, selectedSeason);
 
     // Color scheme based on category
     const getCardColors = (category: string) => {

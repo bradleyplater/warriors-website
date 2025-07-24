@@ -100,6 +100,7 @@ const mockPlayers: Player[] = [
 ];
 
 describe('GoalSpotlight', () => {
+  const season = '24/25';
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -117,7 +118,7 @@ describe('GoalSpotlight', () => {
 
     render(
       <TestWrapper mockData={mockData}>
-        <AssistSpotlight />
+        <AssistSpotlight selectedSeason={season} />
       </TestWrapper>
     );
     
@@ -146,7 +147,7 @@ describe('GoalSpotlight', () => {
 
     render(
       <TestWrapper mockData={mockData}>
-        <AssistSpotlight />
+        <AssistSpotlight selectedSeason={season} />
       </TestWrapper>
     );
     
@@ -170,7 +171,7 @@ describe('GoalSpotlight', () => {
 
     render(
       <TestWrapper mockData={mockData}>
-        <AssistSpotlight />
+        <AssistSpotlight selectedSeason={season} />
       </TestWrapper>
     );
     
@@ -192,7 +193,7 @@ describe('GoalSpotlight', () => {
 
     render(
       <TestWrapper mockData={mockData}>
-        <AssistSpotlight />
+        <AssistSpotlight selectedSeason={season} />
       </TestWrapper>
     );
     
@@ -214,7 +215,7 @@ describe('GoalSpotlight', () => {
 
     render(
       <TestWrapper mockData={mockData}>
-        <AssistSpotlight />
+        <AssistSpotlight selectedSeason={season} />
       </TestWrapper>
     );
     
@@ -236,7 +237,7 @@ describe('GoalSpotlight', () => {
 
     render(
       <TestWrapper mockData={mockData}>
-        <AssistSpotlight />
+        <AssistSpotlight selectedSeason={season} />
       </TestWrapper>
     );
     
@@ -244,7 +245,7 @@ describe('GoalSpotlight', () => {
     expect(leaderboardCards).toHaveLength(3);
   });
 
-  it('uses first season stats when player has multiple seasons', () => {
+  it('Correctly filters based on given season', () => {
     const playerWithMultipleSeasons: Player[] = [{
       name: 'Multi Season Player',
       number: 99,
@@ -281,12 +282,12 @@ describe('GoalSpotlight', () => {
 
     render(
       <TestWrapper mockData={mockData}>
-        <AssistSpotlight />
+        <AssistSpotlight selectedSeason='23/24' />
       </TestWrapper>
     );
     
     // Should use first season (24/25) goals: 15, not second season goals: 25
-    expect(screen.getByText('5')).toBeInTheDocument();
-    expect(screen.queryByText('10')).not.toBeInTheDocument();
+    expect(screen.getByText('10')).toBeInTheDocument();
+    expect(screen.queryByText('5')).not.toBeInTheDocument();
   });
 });

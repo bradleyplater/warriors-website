@@ -1,0 +1,22 @@
+{
+    "stats": [
+        {
+            "season": "24/25",
+            "games": 7,
+            "goalsFor": 15,
+            "goalsAgainst": 5,
+            "wins": 5,
+            "losses": 2,
+            "draws": 0
+        },
+        {
+            "season": "23/24",
+            "games": 10,
+            "goalsFor": 12,
+            "goalsAgainst": 3,
+            "wins": 5,
+            "losses": 2,
+            "draws": 3
+        }
+    ]
+}
