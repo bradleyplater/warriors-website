@@ -13,9 +13,13 @@ describe('NavBar', () => {
     render(<NavBar />, { wrapper: RouterWrapper })
     
     const homeButton = screen.getAllByText('Home');
+    const playerStatsButton = screen.getAllByText('Player Stats');
 
-    expect(homeButton).toHaveLength(2)
+    expect(homeButton).toHaveLength(2) // Desktop + Mobile
+    expect(playerStatsButton).toHaveLength(2) // Desktop + Mobile
+    
     homeButton.forEach(button => expect(button).toBeInTheDocument())
+    playerStatsButton.forEach(button => expect(button).toBeInTheDocument())
   })
 
   it('shows mobile menu when hamburger button is clicked', () => {
@@ -41,9 +45,13 @@ describe('NavBar', () => {
     
     // Get all Home links (desktop + mobile)
     const homeLinks = screen.getAllByRole('link', { name: 'Home' })
+    const playerStatsLinks = screen.getAllByRole('link', { name: 'Player Stats' })
 
     expect(homeLinks).toHaveLength(2)
+    expect(playerStatsLinks).toHaveLength(2)
 
     homeLinks.forEach(link => expect(link).toHaveAttribute('href', '/'))
+    playerStatsLinks.forEach(link => expect(link).toHaveAttribute('href', '/player-stats'))
   })
+
 })

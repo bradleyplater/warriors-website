@@ -110,7 +110,10 @@ describe('GoalSpotlight', () => {
       data: { 
         players: mockPlayers,
         upcomingGames: [],
-        results: []
+        results: [],
+        team: {
+          stats: []
+        }
       },
       loading: false,
       error: null
@@ -139,7 +142,10 @@ describe('GoalSpotlight', () => {
       data: { 
         players: mockPlayers,
         upcomingGames: [],
-        results: []
+        results: [],
+        team: {
+          stats: []
+        }
       },
       loading: false,
       error: null
@@ -163,7 +169,10 @@ describe('GoalSpotlight', () => {
       data: { 
         players: mockPlayers,
         upcomingGames: [],
-        results: []
+        results: [],
+        team: {
+          stats: []
+        }
       },
       loading: false,
       error: null
@@ -185,7 +194,10 @@ describe('GoalSpotlight', () => {
       data: { 
         players: mockPlayers,
         upcomingGames: [],
-        results: []
+        results: [],
+        team: {
+          stats: []
+        }
       },
       loading: false,
       error: null
@@ -207,7 +219,10 @@ describe('GoalSpotlight', () => {
       data: { 
         players: [],
         upcomingGames: [],
-        results: []
+        results: [],
+        team: {
+          stats: []
+        }
       },
       loading: false,
       error: null
@@ -229,7 +244,10 @@ describe('GoalSpotlight', () => {
       data: { 
         players: fewPlayers,
         upcomingGames: [],
-        results: []
+        results: [],
+        team: {
+          stats: []
+        }
       },
       loading: false,
       error: null
@@ -274,7 +292,10 @@ describe('GoalSpotlight', () => {
       data: { 
         players: playerWithMultipleSeasons,
         upcomingGames: [],
-        results: []
+        results: [],
+        team: {
+          stats: []
+        }
       },
       loading: false,
       error: null

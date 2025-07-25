@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 import { TestWrapper } from '../../../src/test/test-helper'
 import LastResultSpotlight from './last-result-spotlight'
+import type { Season } from '../season-filter/season-filter'
 
 // Mock data
 const mockGameData = {
@@ -12,6 +13,7 @@ const mockGameData = {
         opponentTeam: "Leeds Warriors",
         logoImage: "leeds-warriors.jpg",
         date: "2025-07-19",
+        season: "24/25" as Season,
         score: {
           warriorsScore: 5,
           opponentScore: 4,
@@ -35,6 +37,7 @@ const mockGameData = {
         opponentTeam: "Leeds Warriors",
         logoImage: "leeds-warriors.jpg",
         date: "2025-07-19",
+        season: "24/25" as Season,
         score: {
           warriorsScore: 5,
           opponentScore: 4,
@@ -55,7 +58,10 @@ const mockGameData = {
         }
       }
     ],
-    players: []
+    players: [],
+    team: {
+      stats: []
+    }
   },
   loading: false,
   error: null
@@ -76,6 +82,7 @@ describe('LastResultSpotlight', () => {
             opponentTeam: "Older Team",
             logoImage: "older-team.jpg",
             date: "2025-01-15", // Older date
+            season: "24/25" as Season,
             score: {
               warriorsScore: 2,
               opponentScore: 3,
@@ -90,6 +97,7 @@ describe('LastResultSpotlight', () => {
             opponentTeam: "Latest Team",
             logoImage: "latest-team.jpg",
             date: "2025-07-18", // Most recent date
+            season: "24/25" as Season,
             score: {
               warriorsScore: 5,
               opponentScore: 4,
@@ -100,7 +108,10 @@ describe('LastResultSpotlight', () => {
               }
             }
           }
-        ]
+        ],
+        team: {
+          stats: []
+        }
       }
     }
 
@@ -146,6 +157,7 @@ describe('LastResultSpotlight', () => {
             opponentTeam: "Test Team",
             logoImage: "test-team.jpg",
             date: "2025-07-18",
+            season: "24/25" as Season,
             score: {
               warriorsScore: 6,
               opponentScore: 3,
@@ -156,7 +168,10 @@ describe('LastResultSpotlight', () => {
               }
             }
           }
-        ]
+        ],
+        team: {
+          stats: []
+        }
       }
     }
 
@@ -180,6 +195,7 @@ describe('LastResultSpotlight', () => {
             opponentTeam: "Test Team",
             logoImage: "test-team.jpg",
             date: "2025-07-18",
+            season: "24/25" as Season,
             score: {
               warriorsScore: 2,
               opponentScore: 5,
@@ -190,7 +206,10 @@ describe('LastResultSpotlight', () => {
               }
             }
           }
-        ]
+        ],
+        team: {
+          stats: []
+        }
       }
     }
 
@@ -214,6 +233,7 @@ describe('LastResultSpotlight', () => {
             opponentTeam: "Test Team",
             logoImage: "test-team.jpg",
             date: "2025-07-18",
+            season: "24/25" as Season,
             score: {
               warriorsScore: 4,
               opponentScore: 4,
@@ -224,7 +244,10 @@ describe('LastResultSpotlight', () => {
               }
             }
           }
-        ]
+        ],
+        team: {
+          stats: []
+        }
       }
     }
 
@@ -240,7 +263,7 @@ describe('LastResultSpotlight', () => {
   it('shows no results message when results array is empty', () => {
     const emptyData = { 
       ...mockGameData, 
-      data: { upcomingGames: [], results: [], players: [] } 
+      data: { upcomingGames: [], results: [], players: [], team: { stats: [] } } 
     }
     
     render(<LastResultSpotlight />, { 
@@ -261,6 +284,7 @@ describe('LastResultSpotlight', () => {
             opponentTeam: "Test Team",
             logoImage: "test-team.jpg",
             date: "2025-07-18",
+            season: "24/25" as Season,
             score: {
               warriorsScore: 7,
               opponentScore: 5,
@@ -271,7 +295,10 @@ describe('LastResultSpotlight', () => {
               }
             }
           }
-        ]
+        ],
+        team: {
+          stats: []
+        }
       }
     }
 

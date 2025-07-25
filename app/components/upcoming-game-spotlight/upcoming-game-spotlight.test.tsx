@@ -23,7 +23,12 @@ const mockGameData = {
         time: "9:30 PM",
         location: "Planet Ice Leeds 2"
       }
-    ]
+    ],
+    players: [],
+    results: [],
+    team: {
+      stats: []
+    }
   },
   loading: false,
   error: null
@@ -54,7 +59,7 @@ describe('UpcomingGameSpotlight', () => {
   })
 
   it('shows no games message when array is empty', () => {
-    const emptyData = { ...mockGameData, data: { upcomingGames: [] } }
+    const emptyData = { ...mockGameData, data: { upcomingGames: [], players: [], results: [], team: { stats: [] } } }
     render(<UpcomingGameSpotlight />, { 
       wrapper: ({ children }) => <TestWrapper mockData={emptyData}>{children}</TestWrapper> 
     })
