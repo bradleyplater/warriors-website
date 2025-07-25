@@ -1,279 +1,91 @@
 import type { Season } from '../season-filter/season-filter';
+import type { Position, SortBy } from '../../routes/player-stats';
 import PlayerStatsRow from '../player-stats-row/player-stats-row';
+import { useData, type Player } from '../../contexts/DataContext';
 
 interface PlayerStatsTableProps {
   selectedSeason: Season;
+  selectedPosition: Position;
+  sortBy: SortBy;
 }
 
-// Mock data - replace with real data later
-const mockPlayers = [
-  {
-    id: 1,
-    name: 'Connor McDavid',
-    number: '97',
-    position: 'Forward',
-    games: 82,
-    goals: 64,
-    assists: 89,
-    points: 153,
-    pointsPerGame: 1.87
-  },
-  {
-    id: 2,
-    name: 'Leon Draisaitl',
-    number: '29',
-    position: 'Defence',
-    games: 80,
-    goals: 52,
-    assists: 76,
-    points: 128,
-    pointsPerGame: 1.60
-  },
-  {
-    id: 3,
-    name: 'David Pastrnak',
-    number: '88',
-    position: 'RW',
-    games: 82,
-    goals: 61,
-    assists: 52,
-    points: 113,
-    pointsPerGame: 1.38
-  },
-  {
-    id: 4,
-    name: 'Erik Karlsson',
-    number: '65',
-    position: 'D',
-    games: 82,
-    goals: 25,
-    assists: 76,
-    points: 101,
-    pointsPerGame: 1.23
-  },
-  {
-    id: 5,
-    name: 'Mikko Rantanen',
-    number: '96',
-    position: 'RW',
-    games: 80,
-    goals: 55,
-    assists: 50,
-    points: 105,
-    pointsPerGame: 1.31
-  },
-  {
-    id: 6,
-    name: 'Nathan MacKinnon',
-    number: '29',
-    position: 'C',
-    games: 71,
-    goals: 42,
-    assists: 69,
-    points: 111,
-    pointsPerGame: 1.56
-  },
-  {
-    id: 7,
-    name: 'Artemi Panarin',
-    number: '10',
-    position: 'LW',
-    games: 79,
-    goals: 49,
-    assists: 71,
-    points: 120,
-    pointsPerGame: 1.52
-  },
-  {
-    id: 8,
-    name: 'Johnny Gaudreau',
-    number: '13',
-    position: 'LW',
-    games: 81,
-    goals: 40,
-    assists: 75,
-    points: 115,
-    pointsPerGame: 1.42
-  },
-  {
-    id: 1,
-    name: 'Connor McDavid',
-    number: '97',
-    position: 'Forward',
-    games: 82,
-    goals: 64,
-    assists: 89,
-    points: 153,
-    pointsPerGame: 1.87
-  },
-  {
-    id: 2,
-    name: 'Leon Draisaitl',
-    number: '29',
-    position: 'Defence',
-    games: 80,
-    goals: 52,
-    assists: 76,
-    points: 128,
-    pointsPerGame: 1.60
-  },
-  {
-    id: 3,
-    name: 'David Pastrnak',
-    number: '88',
-    position: 'RW',
-    games: 82,
-    goals: 61,
-    assists: 52,
-    points: 113,
-    pointsPerGame: 1.38
-  },
-  {
-    id: 4,
-    name: 'Erik Karlsson',
-    number: '65',
-    position: 'D',
-    games: 82,
-    goals: 25,
-    assists: 76,
-    points: 101,
-    pointsPerGame: 1.23
-  },
-  {
-    id: 5,
-    name: 'Mikko Rantanen',
-    number: '96',
-    position: 'RW',
-    games: 80,
-    goals: 55,
-    assists: 50,
-    points: 105,
-    pointsPerGame: 1.31
-  },
-  {
-    id: 6,
-    name: 'Nathan MacKinnon',
-    number: '29',
-    position: 'C',
-    games: 71,
-    goals: 42,
-    assists: 69,
-    points: 111,
-    pointsPerGame: 1.56
-  },
-  {
-    id: 7,
-    name: 'Artemi Panarin',
-    number: '10',
-    position: 'LW',
-    games: 79,
-    goals: 49,
-    assists: 71,
-    points: 120,
-    pointsPerGame: 1.52
-  },
-  {
-    id: 8,
-    name: 'Johnny Gaudreau',
-    number: '13',
-    position: 'LW',
-    games: 81,
-    goals: 40,
-    assists: 75,
-    points: 115,
-    pointsPerGame: 1.42
-  },
-  {
-    id: 1,
-    name: 'Connor McDavid',
-    number: '97',
-    position: 'Forward',
-    games: 82,
-    goals: 64,
-    assists: 89,
-    points: 153,
-    pointsPerGame: 1.87
-  },
-  {
-    id: 2,
-    name: 'Leon Draisaitl',
-    number: '29',
-    position: 'Defence',
-    games: 80,
-    goals: 52,
-    assists: 76,
-    points: 128,
-    pointsPerGame: 1.60
-  },
-  {
-    id: 3,
-    name: 'David Pastrnak',
-    number: '88',
-    position: 'RW',
-    games: 82,
-    goals: 61,
-    assists: 52,
-    points: 113,
-    pointsPerGame: 1.38
-  },
-  {
-    id: 4,
-    name: 'Erik Karlsson',
-    number: '65',
-    position: 'D',
-    games: 82,
-    goals: 25,
-    assists: 76,
-    points: 101,
-    pointsPerGame: 1.23
-  },
-  {
-    id: 5,
-    name: 'Mikko Rantanen',
-    number: '96',
-    position: 'RW',
-    games: 80,
-    goals: 55,
-    assists: 50,
-    points: 105,
-    pointsPerGame: 1.31
-  },
-  {
-    id: 6,
-    name: 'Nathan MacKinnon',
-    number: '29',
-    position: 'C',
-    games: 71,
-    goals: 42,
-    assists: 69,
-    points: 111,
-    pointsPerGame: 1.56
-  },
-  {
-    id: 7,
-    name: 'Artemi Panarin',
-    number: '10',
-    position: 'LW',
-    games: 79,
-    goals: 49,
-    assists: 71,
-    points: 120,
-    pointsPerGame: 1.52
-  },
-  {
-    id: 8,
-    name: 'Johnny Gaudreau',
-    number: '13',
-    position: 'LW',
-    games: 81,
-    goals: 40,
-    assists: 75,
-    points: 115,
-    pointsPerGame: 1.42
-  }
-];
+function getPlayerStats(players: Player[], selectedSeason: Season, selectedPosition: Position, sortBy: SortBy) {
+    const playerWithStatsInSeason = players.filter(player => 
+        player.stats.find(stat => stat.season === selectedSeason || selectedSeason === 'overall')
+    );
 
-export default function PlayerStatsTable({ selectedSeason }: PlayerStatsTableProps) {
+    return playerWithStatsInSeason
+        .map(player => {
+            const statsToTrack = player.stats.filter(stat => 
+                stat.season === selectedSeason || selectedSeason === 'overall'
+            );
+    
+            if (!statsToTrack.length) {
+                return null;
+            }
+
+            const games = statsToTrack.reduce((total, stat) => total + stat.games, 0);
+            const goals = statsToTrack.reduce((total, stat) => total + stat.goals, 0);
+            const assists = statsToTrack.reduce((total, stat) => total + stat.assists, 0);
+            const points = statsToTrack.reduce((total, stat) => total + stat.points, 0);
+            const pointsPerGame = games > 0 ? points / games : 0;
+    
+            return {
+                number: player.number.toString(),
+                name: player.name,
+                position: player.position,
+                games,
+                goals,
+                assists,
+                points,
+                pointsPerGame
+            };
+        })
+        .filter(player => player !== null)
+        // Filter by position
+        .filter(player => {
+            if (selectedPosition === 'all') return true;
+            
+            const playerPosition = player.position.toLowerCase();
+            if (selectedPosition === 'forward') {
+                return playerPosition.includes('forward')
+            }
+            if (selectedPosition === 'defense') {
+                return playerPosition.includes('defense')
+            }
+            if (selectedPosition === 'goalie') {
+                return playerPosition.includes('goalie')
+            }
+            return false;
+        })
+        // Sort by selected criteria
+        .sort((a, b) => {
+            switch (sortBy) {
+                case 'points':
+                    return b.points - a.points;
+                case 'goals':
+                    return b.goals - a.goals;
+                case 'assists':
+                    return b.assists - a.assists;
+                case 'games':
+                    return b.games - a.games;
+                case 'pointsPerGame':
+                    return b.pointsPerGame - a.pointsPerGame;
+                default:
+                    return b.points - a.points;
+            }
+        });
+}
+
+
+export default function PlayerStatsTable({ selectedSeason, selectedPosition, sortBy }: PlayerStatsTableProps) {
+    const { data } = useData();    
+
+    const players = data.players;
+
+    const mappedPlayers = getPlayerStats(players, selectedSeason, selectedPosition, sortBy);
+
+
   return (
     <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
       {/* Mobile: Horizontal scroll */}
@@ -301,9 +113,9 @@ export default function PlayerStatsTable({ selectedSeason }: PlayerStatsTablePro
         </div>
         {/* Player Rows */}
         <div className="divide-y divide-gray-100">
-          {mockPlayers.map((player, index) => (
+          {mappedPlayers.map((player, index) => (
             <div
-              key={player.id}
+              key={player.name}
               className={`
                 flex gap-2 px-3 py-3 min-w-[500px] transition-all duration-200 hover:bg-blue-50
                 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}
@@ -367,9 +179,9 @@ export default function PlayerStatsTable({ selectedSeason }: PlayerStatsTablePro
         </div>
         {/* Player Rows */}
         <div className="divide-y divide-gray-100">
-          {mockPlayers.map((player, index) => (
+          {mappedPlayers.map((player, index) => (
             <div
-              key={player.id}
+              key={player.name}
               className={`
                 grid grid-cols-8 gap-2 px-4 py-4 transition-all duration-200 hover:bg-blue-50 hover:shadow-sm
                 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}
