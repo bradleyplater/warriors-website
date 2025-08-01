@@ -32,7 +32,7 @@ export default function PlayerHeader({ playerId }: PlayerHeaderProps) {
     number: player.number,
     position: player.position,
     seasonsWithWarriors: player.stats.length,
-    imageUrl: `/images/players/${player.id}.png`,
+    imageUrl: `/images/players/${player.id}.jpg`,
   };
 
   return (

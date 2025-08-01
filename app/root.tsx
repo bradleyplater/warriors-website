@@ -40,6 +40,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <ScrollRestoration />
         <Scripts />
       </body>
+      <base href="/" />
     </html>
   );
 }
