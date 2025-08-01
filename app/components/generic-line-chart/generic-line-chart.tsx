@@ -11,6 +11,16 @@ interface DataPoint {
   y: number;
 }
 
+interface LineSeries {
+  data: DataPoint[];
+  color: string;
+  label: string;
+  showPoints?: boolean;
+  showLabels?: boolean;
+  strokeWidth?: number;
+  strokeDasharray?: string;
+}
+
 interface GenericLineChartProps {
   data: DataPoint[];
   xLabel?: string;
@@ -20,6 +30,9 @@ interface GenericLineChartProps {
   showGrid?: boolean;
   showPoints?: boolean;
   showPointLabels?: boolean;
+  showAverage?: boolean;
+  averageColor?: string;
+  additionalLines?: LineSeries[];
 }
 
 // Responsive chart dimensions
@@ -39,7 +52,10 @@ export default function GenericLineChart({
   pointColor = '#8b5cf6',
   showGrid = true,
   showPoints = true,
-  showPointLabels = true
+  showPointLabels = true,
+  showAverage = false,
+  averageColor = '#ef4444',
+  additionalLines = []
 }: GenericLineChartProps) {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -64,6 +80,21 @@ export default function GenericLineChart({
     index: index
   }));
 
+  // Calculate average line data if needed
+  const averageValue = showAverage ? data.reduce((sum, point) => sum + point.y, 0) / data.length : 0;
+  const averageData = showAverage ? data.map(point => ({
+    x: point.x,
+    y: averageValue,
+    index: 0
+  })) : [];
+
+  // Combine all data for scale calculation
+  const allDataPoints = [
+    ...chartData,
+    ...averageData,
+    ...additionalLines.flatMap(line => line.data)
+  ];
+
   // Create scales
   const xScale = scalePoint<string>({
     range: [0, xMax],
@@ -73,7 +104,7 @@ export default function GenericLineChart({
 
   const yScale = scaleLinear<number>({
     range: [yMax, 0],
-    domain: [0, Math.max(...chartData.map(d => d.y)) * 1.1],
+    domain: [0, Math.max(...allDataPoints.map(d => d.y)) * 1.1],
     nice: true
   });
 
@@ -105,7 +136,7 @@ export default function GenericLineChart({
             </>
           )}
           
-          {/* Line */}
+          {/* Main Line */}
           <LinePath<typeof chartData[0]>
             data={chartData}
             x={getX}
@@ -114,6 +145,32 @@ export default function GenericLineChart({
             strokeWidth={3}
             curve={curveMonotoneX}
           />
+          
+          {/* Average Line */}
+          {showAverage && (
+            <LinePath<typeof averageData[0]>
+              data={averageData}
+              x={getX}
+              y={getY}
+              stroke={averageColor}
+              strokeWidth={2}
+              strokeDasharray="5,5"
+            />
+          )}
+          
+          {/* Additional Lines */}
+          {additionalLines.map((line, index) => (
+            <LinePath<DataPoint>
+              key={index}
+              data={line.data}
+              x={(d) => xScale(String(d.x)) ?? 0}
+              y={(d) => yScale(d.y) ?? 0}
+              stroke={line.color}
+              strokeWidth={line.strokeWidth || 2}
+              strokeDasharray={line.strokeDasharray}
+              curve={curveMonotoneX}
+            />
+          ))}
           
           {/* Data points */}
           {showPoints && chartData.map((d, i) => (
