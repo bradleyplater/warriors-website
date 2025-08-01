@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export interface FilterOption<T = string> {
   value: T;
@@ -23,8 +23,21 @@ export default function GenericFilter<T = string>({
   className = ""
 }: GenericFilterProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const selectedOption = options.find(option => option.value === selectedValue);
   const selectedLabel = selectedOption?.label || placeholder;
+
+  useEffect(() => {
+    if (isOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom + window.scrollY + 4, // 4px gap
+        left: rect.left + window.scrollX,
+        width: rect.width
+      });
+    }
+  }, [isOpen]);
 
   return (
     <div className={`w-full px-4 mb-6 ${className}`}>
@@ -34,6 +47,7 @@ export default function GenericFilter<T = string>({
             {label}
           </label>
           <button
+            ref={buttonRef}
             onClick={() => setIsOpen(!isOpen)}
             aria-expanded={isOpen}
             className="
@@ -62,11 +76,17 @@ export default function GenericFilter<T = string>({
           </button>
 
           {isOpen && (
-            <div className="
-              absolute top-full left-0 mt-1 w-full
-              bg-white border border-gray-300 rounded-lg shadow-lg
-              z-10
-            ">
+            <div 
+              className="
+                fixed bg-white border border-gray-300 rounded-lg shadow-lg
+                z-50
+              "
+              style={{
+                top: `${dropdownPosition.top}px`,
+                left: `${dropdownPosition.left}px`,
+                width: `${dropdownPosition.width}px`
+              }}
+            >
               {options.map((option) => (
                 <button
                   key={String(option.value)}
@@ -96,7 +116,7 @@ export default function GenericFilter<T = string>({
       {/* Overlay to close dropdown when clicking outside */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-0"
+          className="fixed inset-0 z-40"
           onClick={() => setIsOpen(false)}
         />
       )}
