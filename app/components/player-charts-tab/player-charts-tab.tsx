@@ -47,6 +47,9 @@ export default function PlayerChartsTab({ seasonStats, playerId }: PlayerChartsT
             lineColor="#8b5cf6" 
             showAverage={true}
             averageColor="#ef4444"
+            mainLineLabel="Season Points"
+            averageLineLabel="Career Average"
+            showLegend={true}
           />
         </div>
       </div>

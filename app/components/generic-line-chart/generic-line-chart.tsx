@@ -33,6 +33,9 @@ interface GenericLineChartProps {
   showAverage?: boolean;
   averageColor?: string;
   additionalLines?: LineSeries[];
+  mainLineLabel?: string;
+  averageLineLabel?: string;
+  showLegend?: boolean;
 }
 
 // Responsive chart dimensions
@@ -55,7 +58,10 @@ export default function GenericLineChart({
   showPointLabels = true,
   showAverage = false,
   averageColor = '#ef4444',
-  additionalLines = []
+  additionalLines = [],
+  mainLineLabel = 'Actual',
+  averageLineLabel = 'Average',
+  showLegend = true
 }: GenericLineChartProps) {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -113,8 +119,9 @@ export default function GenericLineChart({
   const getY = (d: typeof chartData[0]) => yScale(d.y) ?? 0;
 
   return (
-    <div className="w-full overflow-x-auto">
-      <svg width={width} height={height} className="mx-auto">
+    <div className="w-full">
+      <div className="overflow-x-auto">
+        <svg width={width} height={height} className="mx-auto">
         <Group left={margin.left} top={margin.top}>
           {/* Grid */}
           {showGrid && (
@@ -239,7 +246,36 @@ export default function GenericLineChart({
             }}
           />
         </Group>
-      </svg>
+        </svg>
+      </div>
+      
+      {/* Legend */}
+      {showLegend && (
+        <div className="flex flex-wrap justify-center gap-4 mt-4">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-0.5" style={{ backgroundColor: lineColor }}></div>
+            <span className="text-sm text-gray-700">{mainLineLabel}</span>
+          </div>
+          {showAverage && (
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-0.5 border-dashed border-t-2" style={{ borderColor: averageColor }}></div>
+              <span className="text-sm text-gray-700">{averageLineLabel}</span>
+            </div>
+          )}
+          {additionalLines.map((line, index) => (
+            <div key={index} className="flex items-center gap-2">
+              <div 
+                className="w-4 h-0.5" 
+                style={{ 
+                  backgroundColor: line.color,
+                  borderTop: line.strokeDasharray ? `2px dashed ${line.color}` : 'none'
+                }}
+              ></div>
+              <span className="text-sm text-gray-700">{line.label}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
