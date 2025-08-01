@@ -1,4 +1,5 @@
 import GenericLineChart from '../generic-line-chart/generic-line-chart';
+import ComingSoon from '../coming-soon/coming-soon';
 
 interface SeasonStats {
   season: string;
@@ -27,6 +28,17 @@ export default function PlayerChartsTab({ seasonStats, playerId }: PlayerChartsT
   // Find max values for other charts
   const maxGoals = Math.max(...seasonStats.map(s => s.goals));
   const maxAssists = Math.max(...seasonStats.map(s => s.assists));
+
+  if(true) {
+    return (
+      <ComingSoon 
+        title="Charts & Analytics"
+        message="Charts & Analytics will be available soon!"
+        showCountdown={true}
+        estimatedDate="2025-09-13"
+      />
+    )
+  }
 
   return (
     <div className="space-y-6 md:space-y-8">

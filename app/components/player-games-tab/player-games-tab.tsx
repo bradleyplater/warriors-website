@@ -1,3 +1,5 @@
+import ComingSoon from "../coming-soon/coming-soon";
+
 interface RecentGame {
   date: string;
   opponent: string;
@@ -46,6 +48,17 @@ export default function PlayerGamesTab({ recentGames }: PlayerGamesTabProps) {
     if (result.startsWith('L')) return 'text-red-700 bg-red-100';
     return 'text-yellow-700 bg-yellow-100';
   };
+
+  if(true) {
+      return (
+        <ComingSoon 
+          title="Games"
+          message="Games will be available soon!"
+          showCountdown={true}
+          estimatedDate="2025-09-13"
+        />
+      )
+    }
 
   return (
     <div className="space-y-6">
