@@ -1,5 +1,6 @@
 import { useData } from "~/contexts/DataContext";
-import { getPlayer } from "~/helpers/data-helpers";
+import { getNumberOfPPGoalsForPlayer, getPlayer, getNumberOfSHGoalsForPlayer, getNumberOfGWGoalsForPlayer } from "~/helpers/data-helpers";
+import type { Season } from "../season-filter/season-filter";
 
 interface SeasonStats {
   season: string;
@@ -34,9 +35,9 @@ export default function PlayerStatsTab({ playerId }: PlayerStatsTabProps) {
     assists: totals.assists + stat.assists,
     points: totals.points + stat.points,
     pim: totals.pim + stat.pims,
-    powerPlayGoals: totals.powerPlayGoals + 1, // Need to go through games and figure out what is a power play goal
-    shortHandedGoals: totals.shortHandedGoals + 1, // Need to go through games and figure out what is a short handed goal
-    gameWinningGoals: totals.gameWinningGoals + 1, // Need to go through games and figure out what is a game winning goal
+    powerPlayGoals: totals.powerPlayGoals + 0, // Is set further down
+    shortHandedGoals: totals.shortHandedGoals + 0, // Is set further down
+    gameWinningGoals: totals.gameWinningGoals + 0, // Is set further down
   }), {
     gamesPlayed: 0,
     goals: 0,
@@ -48,6 +49,10 @@ export default function PlayerStatsTab({ playerId }: PlayerStatsTabProps) {
     gameWinningGoals: 0,
   });
 
+  careerTotals.powerPlayGoals = getNumberOfPPGoalsForPlayer(playerId, data.data.results);
+  careerTotals.shortHandedGoals = getNumberOfSHGoalsForPlayer(playerId, data.data.results);
+  careerTotals.gameWinningGoals = getNumberOfGWGoalsForPlayer(playerId, data.data.results);
+
   const playerStats = player.stats.map((stats) => {
     return {
       season: stats.season,
@@ -56,13 +61,11 @@ export default function PlayerStatsTab({ playerId }: PlayerStatsTabProps) {
       assists: stats.assists,
       points: stats.points,
       pim: stats.pims,
-      powerPlayGoals: 1,
-      shortHandedGoals: 1,
-      gameWinningGoals: 1,
+      powerPlayGoals: getNumberOfPPGoalsForPlayer(playerId, data.data.results, stats.season as Season),
+      shortHandedGoals: getNumberOfSHGoalsForPlayer(playerId, data.data.results, stats.season as Season),
+      gameWinningGoals: getNumberOfGWGoalsForPlayer(playerId, data.data.results, stats.season as Season),
     }
   })
-
-  // Removed plus/minus calculation as it's not trackable
 
   return (
     <div className="space-y-6">

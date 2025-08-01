@@ -13,20 +13,6 @@ export function meta({ params }: Route.MetaArgs) {
   ];
 }
 
-// Mock player data
-const mockPlayerData = {
-  id: '1',
-  name: 'Connor McDavid',
-  number: 97,
-  position: 'Center',
-  seasonsWithWarriors: 3,
-  age: 27,
-  height: '6\'1"',
-  weight: '193 lbs',
-  birthplace: 'Richmond Hill, ON',
-  imageUrl: null, // Will show placeholder
-};
-
 // Mock season stats
 const mockSeasonStats = [
   {

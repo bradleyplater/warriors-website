@@ -32,9 +32,18 @@ export interface Player {
   stats: PlayerStat[];
 }
 
+interface Goal {
+    playerId: string;
+    minute: number;
+    second: number;
+    type: 'EVEN' | 'PP' | 'SH';
+}
+
 interface PeriodScore {
   warriorsScore: number;
   opponentScore: number;
+  goals: Goal[];
+  opponentGoals: Goal[];
 }
 
 interface Period {
@@ -47,7 +56,7 @@ export interface Result {
   opponentTeam: string;
   logoImage: string;
   date: string;
-  season: Season;
+  seasonId: Season;
   score: {
     warriorsScore: number;
     opponentScore: number;

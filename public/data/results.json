@@ -4,21 +4,70 @@
         "opponentTeam": "Manchester Thunder",
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-09-15",
+        "seasonId": "24/25",
         "score": {
             "warriorsScore": 7,
             "opponentScore": 3,
             "period": {
                 "one": {
                     "warriorsScore": 2,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 1,
+                            "second": 2,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "1",
+                            "minute": 1,
+                            "second": 2,
+                            "type": "SH"
+                        }
+                    ]
                 },
                 "two": {
                     "warriorsScore": 3,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 1,
+                            "second": 2,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "1",
+                            "minute": 1,
+                            "second": 2,
+                            "type": "PP"
+                        }
+                    ]
                 },
                 "three": {
                     "warriorsScore": 2,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 1,
+                            "second": 2,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "1",
+                            "minute": 1,
+                            "second": 2,
+                            "type": "SH"
+                        }
+                    ]
                 }
             }
         }
@@ -28,21 +77,112 @@
         "opponentTeam": "Birmingham Bulls",
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-10-02",
+        "seasonId": "24/25",
         "score": {
             "warriorsScore": 10,
             "opponentScore": 8,
             "period": {
                 "one": {
                     "warriorsScore": 2,
-                    "opponentScore": 3
+                    "opponentScore": 3,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 8,
+                            "second": 15,
+                            "type": "SH"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 14,
+                            "second": 32,
+                            "type": "PP"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "minute": 3,
+                            "second": 22,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "opp2",
+                            "minute": 11,
+                            "second": 45,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "opp1",
+                            "minute": 18,
+                            "second": 12,
+                            "type": "EVEN"
+                        }
+                    ]
                 },
                 "two": {
                     "warriorsScore": 2,
-                    "opponentScore": 2
+                    "opponentScore": 2,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 6,
+                            "second": 28,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 15,
+                            "second": 55,
+                            "type": "SH"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp3",
+                            "minute": 4,
+                            "second": 18,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "opp2",
+                            "minute": 12,
+                            "second": 33,
+                            "type": "EVEN"
+                        }
+                    ]
                 },
                 "three": {
                     "warriorsScore": 1,
-                    "opponentScore": 3
+                    "opponentScore": 3,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 19,
+                            "second": 45,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "minute": 2,
+                            "second": 15,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "opp4",
+                            "minute": 8,
+                            "second": 42,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "opp3",
+                            "minute": 16,
+                            "second": 28,
+                            "type": "EVEN"
+                        }
+                    ]
                 }
             }
         }
@@ -52,21 +192,94 @@
         "opponentTeam": "Sheffield Steelers",
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-10-20",
+        "seasonId": "24/25",
         "score": {
             "warriorsScore": 11,
             "opponentScore": 4,
             "period": {
                 "one": {
                     "warriorsScore": 1,
-                    "opponentScore": 2
+                    "opponentScore": 2,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 12,
+                            "second": 18,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "minute": 5,
+                            "second": 33,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "opp2",
+                            "minute": 16,
+                            "second": 45,
+                            "type": "EVEN"
+                        }
+                    ]
                 },
                 "two": {
                     "warriorsScore": 3,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 3,
+                            "second": 22,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 9,
+                            "second": 15,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 17,
+                            "second": 42,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp3",
+                            "minute": 14,
+                            "second": 28,
+                            "type": "EVEN"
+                        }
+                    ]
                 },
                 "three": {
                     "warriorsScore": 2,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 7,
+                            "second": 35,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 18,
+                            "second": 55,
+                            "type": "PP"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "minute": 11,
+                            "second": 12,
+                            "type": "SH"
+                        }
+                    ]
                 }
             }
         }
@@ -76,21 +289,99 @@
         "opponentTeam": "Liverpool Lions",
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-11-10",
+        "seasonId": "24/25",
         "score": {
             "warriorsScore": 9,
             "opponentScore": 2,
             "period": {
                 "one": {
                     "warriorsScore": 3,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 4,
+                            "second": 12,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 11,
+                            "second": 35,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 18,
+                            "second": 22,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "minute": 15,
+                            "second": 48,
+                            "type": "EVEN"
+                        }
+                    ]
                 },
                 "two": {
                     "warriorsScore": 4,
-                    "opponentScore": 0
+                    "opponentScore": 0,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 2,
+                            "second": 15,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 8,
+                            "second": 33,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 13,
+                            "second": 45,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 19,
+                            "second": 12,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": []
                 },
                 "three": {
                     "warriorsScore": 2,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 6,
+                            "second": 28,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 14,
+                            "second": 55,
+                            "type": "PP"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp2",
+                            "minute": 17,
+                            "second": 33,
+                            "type": "EVEN"
+                        }
+                    ]
                 }
             }
         }
@@ -100,21 +391,82 @@
         "opponentTeam": "Newcastle Knights",
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-12-01",
+        "seasonId": "24/25",
         "score": {
             "warriorsScore": 6,
             "opponentScore": 5,
             "period": {
                 "one": {
                     "warriorsScore": 1,
-                    "opponentScore": 2
+                    "opponentScore": 2,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 16,
+                            "second": 42,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "minute": 8,
+                            "second": 15,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "opp2",
+                            "minute": 19,
+                            "second": 33,
+                            "type": "EVEN"
+                        }
+                    ]
                 },
                 "two": {
                     "warriorsScore": 1,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 12,
+                            "second": 28,
+                            "type": "PP"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp3",
+                            "minute": 5,
+                            "second": 55,
+                            "type": "EVEN"
+                        }
+                    ]
                 },
                 "three": {
                     "warriorsScore": 1,
-                    "opponentScore": 2
+                    "opponentScore": 2,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 3,
+                            "second": 18,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "minute": 9,
+                            "second": 45,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "opp4",
+                            "minute": 18,
+                            "second": 12,
+                            "type": "SH"
+                        }
+                    ]
                 }
             }
         }
@@ -124,21 +476,118 @@
         "opponentTeam": "Bristol Bears",
         "logoImage": "leeds-warriors.jpg",
         "date": "2025-01-15",
+        "seasonId": "24/25",
         "score": {
             "warriorsScore": 8,
             "opponentScore": 6,
             "period": {
                 "one": {
                     "warriorsScore": 2,
-                    "opponentScore": 2
+                    "opponentScore": 2,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 7,
+                            "second": 22,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 15,
+                            "second": 48,
+                            "type": "PP"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "minute": 4,
+                            "second": 12,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "opp2",
+                            "minute": 18,
+                            "second": 35,
+                            "type": "EVEN"
+                        }
+                    ]
                 },
                 "two": {
                     "warriorsScore": 3,
-                    "opponentScore": 2
+                    "opponentScore": 2,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 9,
+                            "second": 15,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 13,
+                            "second": 42,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 19,
+                            "second": 28,
+                            "type": "SH"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp3",
+                            "minute": 6,
+                            "second": 33,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "opp1",
+                            "minute": 16,
+                            "second": 55,
+                            "type": "EVEN"
+                        }
+                    ]
                 },
                 "three": {
                     "warriorsScore": 3,
-                    "opponentScore": 2
+                    "opponentScore": 2,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 2,
+                            "second": 18,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 11,
+                            "second": 45,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 17,
+                            "second": 12,
+                            "type": "PP"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp4",
+                            "minute": 8,
+                            "second": 22,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "opp2",
+                            "minute": 14,
+                            "second": 38,
+                            "type": "EVEN"
+                        }
+                    ]
                 }
             }
         }
@@ -148,21 +597,100 @@
         "opponentTeam": "Coventry City FC",
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-09-10",
+        "seasonId": "23/24",
         "score": {
             "warriorsScore": 9,
             "opponentScore": 7,
             "period": {
                 "one": {
                     "warriorsScore": 1,
-                    "opponentScore": 3
+                    "opponentScore": 3,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 14,
+                            "second": 25,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "minute": 3,
+                            "second": 18,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "opp2",
+                            "minute": 8,
+                            "second": 42,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "opp1",
+                            "minute": 17,
+                            "second": 55,
+                            "type": "EVEN"
+                        }
+                    ]
                 },
                 "two": {
                     "warriorsScore": 2,
-                    "opponentScore": 2
+                    "opponentScore": 2,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 5,
+                            "second": 12,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 16,
+                            "second": 33,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp3",
+                            "minute": 9,
+                            "second": 28,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "opp2",
+                            "minute": 19,
+                            "second": 15,
+                            "type": "PP"
+                        }
+                    ]
                 },
                 "three": {
                     "warriorsScore": 1,
-                    "opponentScore": 2
+                    "opponentScore": 2,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 12,
+                            "second": 48,
+                            "type": "SH"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp4",
+                            "minute": 6,
+                            "second": 22,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "opp1",
+                            "minute": 18,
+                            "second": 35,
+                            "type": "EVEN"
+                        }
+                    ]
                 }
             }
         }
@@ -172,21 +700,88 @@
         "opponentTeam": "Nottingham Forest",
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-09-28",
+        "seasonId": "23/24",
         "score": {
             "warriorsScore": 6,
             "opponentScore": 3,
             "period": {
                 "one": {
                     "warriorsScore": 2,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 6,
+                            "second": 15,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 18,
+                            "second": 42,
+                            "type": "PP"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "minute": 12,
+                            "second": 28,
+                            "type": "EVEN"
+                        }
+                    ]
                 },
                 "two": {
                     "warriorsScore": 2,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 4,
+                            "second": 33,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 15,
+                            "second": 55,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp2",
+                            "minute": 9,
+                            "second": 18,
+                            "type": "PP"
+                        }
+                    ]
                 },
                 "three": {
                     "warriorsScore": 2,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 7,
+                            "second": 22,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 16,
+                            "second": 45,
+                            "type": "SH"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "minute": 19,
+                            "second": 12,
+                            "type": "EVEN"
+                        }
+                    ]
                 }
             }
         }
@@ -196,21 +791,56 @@
         "opponentTeam": "Derby County",
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-10-15",
+        "seasonId": "23/24",
         "score": {
             "warriorsScore": 2,
             "opponentScore": 2,
             "period": {
                 "one": {
                     "warriorsScore": 1,
-                    "opponentScore": 0
+                    "opponentScore": 0,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 11,
+                            "second": 35,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": []
                 },
                 "two": {
                     "warriorsScore": 0,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "minute": 13,
+                            "second": 22,
+                            "type": "PP"
+                        }
+                    ]
                 },
                 "three": {
                     "warriorsScore": 1,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 8,
+                            "second": 48,
+                            "type": "PP"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp2",
+                            "minute": 16,
+                            "second": 15,
+                            "type": "EVEN"
+                        }
+                    ]
                 }
             }
         }
@@ -220,21 +850,68 @@
         "opponentTeam": "Hull City Tigers",
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-11-05",
+        "seasonId": "23/24",
         "score": {
             "warriorsScore": 5,
             "opponentScore": 1,
             "period": {
                 "one": {
                     "warriorsScore": 2,
-                    "opponentScore": 0
+                    "opponentScore": 0,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 5,
+                            "second": 22,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 17,
+                            "second": 45,
+                            "type": "PP"
+                        }
+                    ],
+                    "opponentGoals": []
                 },
                 "two": {
                     "warriorsScore": 2,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 3,
+                            "second": 18,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 14,
+                            "second": 33,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "minute": 19,
+                            "second": 12,
+                            "type": "PP"
+                        }
+                    ]
                 },
                 "three": {
                     "warriorsScore": 1,
-                    "opponentScore": 0
+                    "opponentScore": 0,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 9,
+                            "second": 55,
+                            "type": "SH"
+                        }
+                    ],
+                    "opponentGoals": []
                 }
             }
         }
@@ -244,21 +921,76 @@
         "opponentTeam": "Preston North End",
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-11-22",
+        "seasonId": "23/24",
         "score": {
             "warriorsScore": 3,
             "opponentScore": 4,
             "period": {
                 "one": {
                     "warriorsScore": 1,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 12,
+                            "second": 28,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "minute": 7,
+                            "second": 15,
+                            "type": "PP"
+                        }
+                    ]
                 },
                 "two": {
                     "warriorsScore": 1,
-                    "opponentScore": 2
+                    "opponentScore": 2,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 16,
+                            "second": 42,
+                            "type": "PP"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp2",
+                            "minute": 4,
+                            "second": 33,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "opp1",
+                            "minute": 18,
+                            "second": 55,
+                            "type": "EVEN"
+                        }
+                    ]
                 },
                 "three": {
                     "warriorsScore": 1,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 9,
+                            "second": 18,
+                            "type": "SH"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp3",
+                            "minute": 14,
+                            "second": 22,
+                            "type": "EVEN"
+                        }
+                    ]
                 }
             }
         }
@@ -268,21 +1000,106 @@
         "opponentTeam": "Blackpool FC",
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-12-10",
+        "seasonId": "23/24",
         "score": {
             "warriorsScore": 7,
             "opponentScore": 5,
             "period": {
                 "one": {
                     "warriorsScore": 3,
-                    "opponentScore": 2
+                    "opponentScore": 2,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 4,
+                            "second": 15,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 11,
+                            "second": 33,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 18,
+                            "second": 48,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "minute": 8,
+                            "second": 22,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "opp2",
+                            "minute": 15,
+                            "second": 55,
+                            "type": "PP"
+                        }
+                    ]
                 },
                 "two": {
                     "warriorsScore": 2,
-                    "opponentScore": 2
+                    "opponentScore": 2,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 6,
+                            "second": 28,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 16,
+                            "second": 42,
+                            "type": "SH"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp3",
+                            "minute": 3,
+                            "second": 12,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "opp1",
+                            "minute": 19,
+                            "second": 18,
+                            "type": "EVEN"
+                        }
+                    ]
                 },
                 "three": {
                     "warriorsScore": 2,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 9,
+                            "second": 35,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 17,
+                            "second": 22,
+                            "type": "PP"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp2",
+                            "minute": 13,
+                            "second": 45,
+                            "type": "EVEN"
+                        }
+                    ]
                 }
             }
         }
@@ -292,21 +1109,75 @@
         "opponentTeam": "York City FC",
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-01-20",
+        "seasonId": "23/24",
         "score": {
             "warriorsScore": 4,
             "opponentScore": 3,
             "period": {
                 "one": {
                     "warriorsScore": 1,
-                    "opponentScore": 2
+                    "opponentScore": 2,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 15,
+                            "second": 42,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "minute": 6,
+                            "second": 18,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "opp2",
+                            "minute": 19,
+                            "second": 33,
+                            "type": "EVEN"
+                        }
+                    ]
                 },
                 "two": {
                     "warriorsScore": 2,
-                    "opponentScore": 0
+                    "opponentScore": 0,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 8,
+                            "second": 25,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "minute": 16,
+                            "second": 55,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": []
                 },
                 "three": {
                     "warriorsScore": 1,
-                    "opponentScore": 1
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "minute": 12,
+                            "second": 28,
+                            "type": "SH"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp3",
+                            "minute": 18,
+                            "second": 15,
+                            "type": "EVEN"
+                        }
+                    ]
                 }
             }
         }
