@@ -4,10 +4,8 @@ interface SeasonStats {
   goals: number;
   assists: number;
   points: number;
-  plusMinus: number;
   pim: number;
   powerPlayGoals: number;
-  powerPlayAssists: number;
   shortHandedGoals: number;
   gameWinningGoals: number;
 }
@@ -25,7 +23,6 @@ export default function PlayerStatsTab({ seasonStats }: PlayerStatsTabProps) {
     points: totals.points + season.points,
     pim: totals.pim + season.pim,
     powerPlayGoals: totals.powerPlayGoals + season.powerPlayGoals,
-    powerPlayAssists: totals.powerPlayAssists + season.powerPlayAssists,
     shortHandedGoals: totals.shortHandedGoals + season.shortHandedGoals,
     gameWinningGoals: totals.gameWinningGoals + season.gameWinningGoals,
   }), {
@@ -35,14 +32,11 @@ export default function PlayerStatsTab({ seasonStats }: PlayerStatsTabProps) {
     points: 0,
     pim: 0,
     powerPlayGoals: 0,
-    powerPlayAssists: 0,
     shortHandedGoals: 0,
     gameWinningGoals: 0,
   });
 
-  const averagePlusMinus = seasonStats.length > 0 
-    ? (seasonStats.reduce((sum, season) => sum + season.plusMinus, 0) / seasonStats.length).toFixed(1)
-    : '0.0';
+  // Removed plus/minus calculation as it's not trackable
 
   return (
     <div className="space-y-6">
@@ -85,9 +79,9 @@ export default function PlayerStatsTab({ seasonStats }: PlayerStatsTabProps) {
         
         <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 p-4 rounded-lg text-center">
           <div className="text-2xl md:text-3xl font-bold text-indigo-700">
-            {averagePlusMinus}
+            {careerTotals.pim}
           </div>
-          <div className="text-sm text-indigo-600 font-medium">Avg +/-</div>
+          <div className="text-sm text-indigo-600 font-medium">Total PIM</div>
         </div>
       </div>
 
@@ -117,16 +111,13 @@ export default function PlayerStatsTab({ seasonStats }: PlayerStatsTabProps) {
                   PTS
                 </th>
                 <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  +/-
+                  PPG
                 </th>
                 <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                   PIM
                 </th>
                 <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  PPG
-                </th>
-                <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  PPA
+                  PP Goals
                 </th>
                 <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                   SHG
@@ -155,10 +146,8 @@ export default function PlayerStatsTab({ seasonStats }: PlayerStatsTabProps) {
                     <span className="text-purple-700 font-bold">{season.points}</span>
                   </td>
                   <td className="px-4 py-3 text-sm text-center">
-                    <span className={`font-medium ${
-                      season.plusMinus >= 0 ? 'text-green-600' : 'text-red-600'
-                    }`}>
-                      {season.plusMinus >= 0 ? '+' : ''}{season.plusMinus}
+                    <span className="text-blue-700 font-medium">
+                      {season.gamesPlayed > 0 ? (season.points / season.gamesPlayed).toFixed(2) : '0.00'}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-sm text-gray-700 text-center">
@@ -166,9 +155,6 @@ export default function PlayerStatsTab({ seasonStats }: PlayerStatsTabProps) {
                   </td>
                   <td className="px-4 py-3 text-sm text-center">
                     <span className="text-red-700 font-medium">{season.powerPlayGoals}</span>
-                  </td>
-                  <td className="px-4 py-3 text-sm text-center">
-                    <span className="text-red-600">{season.powerPlayAssists}</span>
                   </td>
                   <td className="px-4 py-3 text-sm text-center">
                     <span className="text-orange-700 font-medium">{season.shortHandedGoals}</span>
@@ -197,16 +183,15 @@ export default function PlayerStatsTab({ seasonStats }: PlayerStatsTabProps) {
                   <span className="text-purple-700 font-bold text-lg">{careerTotals.points}</span>
                 </td>
                 <td className="px-4 py-3 text-sm text-center">
-                  <span className="text-indigo-700 font-bold">{averagePlusMinus}</span>
+                  <span className="text-blue-700 font-bold">
+                    {careerTotals.gamesPlayed > 0 ? (careerTotals.points / careerTotals.gamesPlayed).toFixed(2) : '0.00'}
+                  </span>
                 </td>
                 <td className="px-4 py-3 text-sm font-bold text-blue-900 text-center">
                   {careerTotals.pim}
                 </td>
                 <td className="px-4 py-3 text-sm text-center">
                   <span className="text-red-700 font-bold">{careerTotals.powerPlayGoals}</span>
-                </td>
-                <td className="px-4 py-3 text-sm text-center">
-                  <span className="text-red-600 font-bold">{careerTotals.powerPlayAssists}</span>
                 </td>
                 <td className="px-4 py-3 text-sm text-center">
                   <span className="text-orange-700 font-bold">{careerTotals.shortHandedGoals}</span>

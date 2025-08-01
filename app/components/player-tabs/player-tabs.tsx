@@ -8,10 +8,8 @@ interface SeasonStats {
   goals: number;
   assists: number;
   points: number;
-  plusMinus: number;
   pim: number;
   powerPlayGoals: number;
-  powerPlayAssists: number;
   shortHandedGoals: number;
   gameWinningGoals: number;
 }
@@ -23,9 +21,9 @@ interface RecentGame {
   goals: number;
   assists: number;
   points: number;
-  plusMinus: number;
-  shots: number;
-  timeOnIce: string;
+  pointsPerGame: number;
+  teamPlusMinus: number;
+  penaltyMinutes: number;
 }
 
 interface PlayerTabsProps {

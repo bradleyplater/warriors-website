@@ -15,7 +15,7 @@ interface PlayerHeaderProps {
 
 export default function PlayerHeader({ player }: PlayerHeaderProps) {
   return (
-    <div className="bg-gradient-to-r from-blue-900 to-blue-700 text-white">
+    <div className="bg-gradient-to-r from-gray-900 to-gray-800 text-white">
       <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8">
           {/* Player Image */}
@@ -46,10 +46,10 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
                 {player.name}
               </h1>
               <div className="flex items-center justify-center md:justify-start gap-3">
-                <span className="bg-white text-blue-900 px-3 py-1 rounded-full text-lg md:text-xl font-bold">
+                <span className="bg-white text-gray-900 px-3 py-1 rounded-full text-lg md:text-xl font-bold">
                   #{player.number}
                 </span>
-                <span className="bg-blue-800 px-3 py-1 rounded-full text-sm md:text-base font-medium">
+                <span className="bg-indigo-600 px-3 py-1 rounded-full text-sm md:text-base font-medium">
                   {player.position}
                 </span>
               </div>
@@ -58,37 +58,37 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
             {/* Player Details Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               <div className="text-center md:text-left">
-                <div className="text-2xl md:text-3xl font-bold text-blue-200">
+                <div className="text-2xl md:text-3xl font-bold text-gray-200">
                   {player.seasonsWithWarriors}
                 </div>
-                <div className="text-sm md:text-base text-blue-100">
+                <div className="text-sm md:text-base text-gray-300">
                   Seasons with Warriors
                 </div>
               </div>
               
               <div className="text-center md:text-left">
-                <div className="text-2xl md:text-3xl font-bold text-blue-200">
+                <div className="text-2xl md:text-3xl font-bold text-gray-200">
                   {player.age}
                 </div>
-                <div className="text-sm md:text-base text-blue-100">
+                <div className="text-sm md:text-base text-gray-300">
                   Years Old
                 </div>
               </div>
               
               <div className="text-center md:text-left">
-                <div className="text-lg md:text-xl font-bold text-blue-200">
+                <div className="text-lg md:text-xl font-bold text-gray-200">
                   {player.height}
                 </div>
-                <div className="text-sm md:text-base text-blue-100">
+                <div className="text-sm md:text-base text-gray-300">
                   Height
                 </div>
               </div>
               
               <div className="text-center md:text-left">
-                <div className="text-lg md:text-xl font-bold text-blue-200">
+                <div className="text-lg md:text-xl font-bold text-gray-200">
                   {player.weight}
                 </div>
-                <div className="text-sm md:text-base text-blue-100">
+                <div className="text-sm md:text-base text-gray-300">
                   Weight
                 </div>
               </div>
@@ -96,7 +96,7 @@ export default function PlayerHeader({ player }: PlayerHeaderProps) {
 
             {/* Birthplace */}
             <div className="mt-4 text-center md:text-left">
-              <span className="text-blue-100 text-sm md:text-base">
+              <span className="text-gray-300 text-sm md:text-base">
                 Born in {player.birthplace}
               </span>
             </div>

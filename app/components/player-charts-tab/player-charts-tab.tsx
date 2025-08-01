@@ -4,10 +4,8 @@ interface SeasonStats {
   goals: number;
   assists: number;
   points: number;
-  plusMinus: number;
   pim: number;
   powerPlayGoals: number;
-  powerPlayAssists: number;
   shortHandedGoals: number;
   gameWinningGoals: number;
 }
@@ -112,9 +110,9 @@ export default function PlayerChartsTab({ seasonStats, playerId }: PlayerChartsT
 
       {/* Performance Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Plus/Minus Trend */}
+        {/* Penalty Minutes Trend */}
         <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Plus/Minus by Season</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Penalty Minutes by Season</h3>
           <div className="space-y-3">
             {seasonStats.map((season) => (
               <div key={season.season} className="flex items-center justify-between">
@@ -122,12 +120,8 @@ export default function PlayerChartsTab({ seasonStats, playerId }: PlayerChartsT
                   {season.season}
                 </span>
                 <div className="flex items-center gap-2">
-                  <div className={`w-16 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                    season.plusMinus >= 0 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-red-100 text-red-800'
-                  }`}>
-                    {season.plusMinus >= 0 ? '+' : ''}{season.plusMinus}
+                  <div className="w-16 h-6 rounded-full flex items-center justify-center text-xs font-bold bg-orange-100 text-orange-800">
+                    {season.pim}
                   </div>
                 </div>
               </div>
@@ -146,13 +140,7 @@ export default function PlayerChartsTab({ seasonStats, playerId }: PlayerChartsT
                 </span>
                 <div className="flex items-center gap-2">
                   <div className="bg-red-100 text-red-800 px-2 py-1 rounded text-xs font-medium">
-                    {season.powerPlayGoals}G
-                  </div>
-                  <div className="bg-red-50 text-red-700 px-2 py-1 rounded text-xs font-medium">
-                    {season.powerPlayAssists}A
-                  </div>
-                  <div className="bg-red-200 text-red-900 px-2 py-1 rounded text-xs font-bold">
-                    {season.powerPlayGoals + season.powerPlayAssists}P
+                    {season.powerPlayGoals} PP Goals
                   </div>
                 </div>
               </div>

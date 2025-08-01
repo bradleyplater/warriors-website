@@ -5,9 +5,9 @@ interface RecentGame {
   goals: number;
   assists: number;
   points: number;
-  plusMinus: number;
-  shots: number;
-  timeOnIce: string;
+  pointsPerGame: number;
+  teamPlusMinus: number;
+  penaltyMinutes: number;
 }
 
 interface PlayerGamesTabProps {
@@ -20,14 +20,14 @@ export default function PlayerGamesTab({ recentGames }: PlayerGamesTabProps) {
     totalGoals: stats.totalGoals + game.goals,
     totalAssists: stats.totalAssists + game.assists,
     totalPoints: stats.totalPoints + game.points,
-    totalShots: stats.totalShots + game.shots,
+    totalPointsPerGame: stats.totalPointsPerGame + game.pointsPerGame,
     wins: stats.wins + (game.result.startsWith('W') ? 1 : 0),
     losses: stats.losses + (game.result.startsWith('L') ? 1 : 0),
   }), {
     totalGoals: 0,
     totalAssists: 0,
     totalPoints: 0,
-    totalShots: 0,
+    totalPointsPerGame: 0,
     wins: 0,
     losses: 0,
   });
@@ -77,9 +77,9 @@ export default function PlayerGamesTab({ recentGames }: PlayerGamesTabProps) {
         
         <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg text-center">
           <div className="text-2xl md:text-3xl font-bold text-orange-700">
-            {recentStats.totalShots}
+            {(recentStats.totalPointsPerGame / recentGames.length).toFixed(2)}
           </div>
-          <div className="text-sm text-orange-600 font-medium">Shots</div>
+          <div className="text-sm text-orange-600 font-medium">Avg PPG</div>
           <div className="text-xs text-orange-500">Last {recentGames.length} games</div>
         </div>
         
@@ -129,13 +129,13 @@ export default function PlayerGamesTab({ recentGames }: PlayerGamesTabProps) {
                   PTS
                 </th>
                 <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  +/-
+                  PPG
                 </th>
                 <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  SOG
+                  Team +/-
                 </th>
                 <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  TOI
+                  PIM
                 </th>
               </tr>
             </thead>
@@ -172,21 +172,25 @@ export default function PlayerGamesTab({ recentGames }: PlayerGamesTabProps) {
                     </span>
                   </td>
                   <td className="px-4 py-3 text-sm text-center">
+                    <span className="text-blue-700 font-medium">
+                      {game.pointsPerGame.toFixed(2)}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-sm text-center">
                     <span className={`font-medium ${
-                      game.plusMinus > 0 
+                      game.teamPlusMinus > 0 
                         ? 'text-green-600' 
-                        : game.plusMinus < 0 
+                        : game.teamPlusMinus < 0 
                         ? 'text-red-600' 
                         : 'text-gray-600'
                     }`}>
-                      {game.plusMinus > 0 ? '+' : ''}{game.plusMinus}
+                      {game.teamPlusMinus > 0 ? '+' : ''}{game.teamPlusMinus}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-700 text-center">
-                    {game.shots}
-                  </td>
-                  <td className="px-4 py-3 text-sm text-gray-700 text-center font-mono">
-                    {game.timeOnIce}
+                  <td className="px-4 py-3 text-sm text-center">
+                    <span className={`${game.penaltyMinutes > 0 ? 'text-orange-600 font-medium' : 'text-gray-600'}`}>
+                      {game.penaltyMinutes}
+                    </span>
                   </td>
                 </tr>
               ))}
@@ -195,64 +199,7 @@ export default function PlayerGamesTab({ recentGames }: PlayerGamesTabProps) {
         </div>
       </div>
 
-      {/* Performance Insights */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Shooting Efficiency</h3>
-          <div className="space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Total Shots:</span>
-              <span className="font-semibold text-gray-900">{recentStats.totalShots}</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Total Goals:</span>
-              <span className="font-semibold text-green-700">{recentStats.totalGoals}</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Shooting %:</span>
-              <span className="font-bold text-blue-700">
-                {recentStats.totalShots > 0 
-                  ? ((recentStats.totalGoals / recentStats.totalShots) * 100).toFixed(1)
-                  : '0.0'
-                }%
-              </span>
-            </div>
-          </div>
-        </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Form</h3>
-          <div className="space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Points per Game:</span>
-              <span className="font-bold text-purple-700">
-                {recentGames.length > 0 
-                  ? (recentStats.totalPoints / recentGames.length).toFixed(2)
-                  : '0.00'
-                }
-              </span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Goals per Game:</span>
-              <span className="font-semibold text-green-700">
-                {recentGames.length > 0 
-                  ? (recentStats.totalGoals / recentGames.length).toFixed(2)
-                  : '0.00'
-                }
-              </span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Assists per Game:</span>
-              <span className="font-semibold text-blue-700">
-                {recentGames.length > 0 
-                  ? (recentStats.totalAssists / recentGames.length).toFixed(2)
-                  : '0.00'
-                }
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
