@@ -77,7 +77,7 @@ export default function PlayerTabs({
       {/* Tab Content */}
       <div className="p-4 md:p-6">
         {activeTab === 'stats' && (
-          <PlayerStatsTab seasonStats={seasonStats} />
+          <PlayerStatsTab playerId={playerId} />
         )}
         
         {activeTab === 'charts' && (

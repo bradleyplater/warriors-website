@@ -5,10 +5,8 @@ import PlayerHeader from '../components/player-header/player-header';
 import PlayerTabs from '../components/player-tabs/player-tabs';
 
 export function meta({ params }: Route.MetaArgs) {
-  // In a real app, you'd fetch the player data here
-  const playerId = params.playerId;
   return [
-    { title: `Player ${playerId} - Warriors` },
+    { title: `Player Profile` },
   ];
 }
 

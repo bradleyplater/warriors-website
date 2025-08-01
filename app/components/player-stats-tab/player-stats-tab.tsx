@@ -1,3 +1,6 @@
+import { useData } from "~/contexts/DataContext";
+import { getPlayer } from "~/helpers/data-helpers";
+
 interface SeasonStats {
   season: string;
   gamesPlayed: number;
@@ -11,20 +14,29 @@ interface SeasonStats {
 }
 
 interface PlayerStatsTabProps {
-  seasonStats: SeasonStats[];
+  playerId: string;
 }
 
-export default function PlayerStatsTab({ seasonStats }: PlayerStatsTabProps) {
+export default function PlayerStatsTab({ playerId }: PlayerStatsTabProps) {
+
+  const data = useData();
+
+  const player = getPlayer(data.data.players, playerId);
+
+  if (!player) {
+    return <div>Player not found</div>;
+  }
+
   // Calculate career totals
-  const careerTotals = seasonStats.reduce((totals, season) => ({
-    gamesPlayed: totals.gamesPlayed + season.gamesPlayed,
-    goals: totals.goals + season.goals,
-    assists: totals.assists + season.assists,
-    points: totals.points + season.points,
-    pim: totals.pim + season.pim,
-    powerPlayGoals: totals.powerPlayGoals + season.powerPlayGoals,
-    shortHandedGoals: totals.shortHandedGoals + season.shortHandedGoals,
-    gameWinningGoals: totals.gameWinningGoals + season.gameWinningGoals,
+  const careerTotals = player.stats.reduce((totals, stat) => ({
+    gamesPlayed: totals.gamesPlayed + stat.games,
+    goals: totals.goals + stat.goals,
+    assists: totals.assists + stat.assists,
+    points: totals.points + stat.points,
+    pim: totals.pim + stat.pims,
+    powerPlayGoals: totals.powerPlayGoals + 1, // Need to go through games and figure out what is a power play goal
+    shortHandedGoals: totals.shortHandedGoals + 1, // Need to go through games and figure out what is a short handed goal
+    gameWinningGoals: totals.gameWinningGoals + 1, // Need to go through games and figure out what is a game winning goal
   }), {
     gamesPlayed: 0,
     goals: 0,
@@ -35,6 +47,20 @@ export default function PlayerStatsTab({ seasonStats }: PlayerStatsTabProps) {
     shortHandedGoals: 0,
     gameWinningGoals: 0,
   });
+
+  const playerStats = player.stats.map((stats) => {
+    return {
+      season: stats.season,
+      gamesPlayed: stats.games,
+      goals: stats.goals,
+      assists: stats.assists,
+      points: stats.points,
+      pim: stats.pims,
+      powerPlayGoals: 1,
+      shortHandedGoals: 1,
+      gameWinningGoals: 1,
+    }
+  })
 
   // Removed plus/minus calculation as it's not trackable
 
@@ -128,39 +154,39 @@ export default function PlayerStatsTab({ seasonStats }: PlayerStatsTabProps) {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {seasonStats.map((season, index) => (
-                <tr key={season.season} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+              {playerStats.map((stat, index) => (
+                <tr key={stat.season} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                   <td className="px-4 py-3 text-sm font-medium text-gray-900">
-                    {season.season}
+                    {stat.season}
                   </td>
                   <td className="px-4 py-3 text-sm text-gray-700 text-center">
-                    {season.gamesPlayed}
+                    {stat.gamesPlayed}
                   </td>
                   <td className="px-4 py-3 text-sm text-center">
-                    <span className="text-green-700 font-medium">{season.goals}</span>
+                    <span className="text-green-700 font-medium">{stat.goals}</span>
                   </td>
                   <td className="px-4 py-3 text-sm text-center">
-                    <span className="text-blue-700 font-medium">{season.assists}</span>
+                    <span className="text-blue-700 font-medium">{stat.assists}</span>
                   </td>
                   <td className="px-4 py-3 text-sm text-center">
-                    <span className="text-purple-700 font-bold">{season.points}</span>
+                    <span className="text-purple-700 font-bold">{stat.points}</span>
                   </td>
                   <td className="px-4 py-3 text-sm text-center">
                     <span className="text-blue-700 font-medium">
-                      {season.gamesPlayed > 0 ? (season.points / season.gamesPlayed).toFixed(2) : '0.00'}
+                      {stat.gamesPlayed > 0 ? (stat.points / stat.gamesPlayed).toFixed(2) : '0.00'}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-sm text-gray-700 text-center">
-                    {season.pim}
+                    {stat.pim}
                   </td>
                   <td className="px-4 py-3 text-sm text-center">
-                    <span className="text-red-700 font-medium">{season.powerPlayGoals}</span>
+                    <span className="text-red-700 font-medium">{stat.powerPlayGoals}</span>
                   </td>
                   <td className="px-4 py-3 text-sm text-center">
-                    <span className="text-orange-700 font-medium">{season.shortHandedGoals}</span>
+                    <span className="text-orange-700 font-medium">{stat.shortHandedGoals}</span>
                   </td>
                   <td className="px-4 py-3 text-sm text-center">
-                    <span className="text-indigo-700 font-medium">{season.gameWinningGoals}</span>
+                    <span className="text-indigo-700 font-medium">{stat.gameWinningGoals}</span>
                   </td>
                 </tr>
               ))}
