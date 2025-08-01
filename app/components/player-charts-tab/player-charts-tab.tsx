@@ -1,3 +1,5 @@
+import GenericLineChart from '../generic-line-chart/generic-line-chart';
+
 interface SeasonStats {
   season: string;
   gamesPlayed: number;
@@ -16,47 +18,34 @@ interface PlayerChartsTabProps {
 }
 
 export default function PlayerChartsTab({ seasonStats, playerId }: PlayerChartsTabProps) {
-  // Calculate points per game for each season
-  const pointsPerGame = seasonStats.map(season => ({
-    season: season.season,
-    ppg: season.gamesPlayed > 0 ? (season.points / season.gamesPlayed).toFixed(2) : '0.00'
+  // Prepare data for the line chart
+  const chartData = seasonStats.map(season => ({
+    x: season.season,
+    y: season.points
   }));
 
-  // Find max values for scaling the visual bars
-  const maxPoints = Math.max(...seasonStats.map(s => s.points));
+  // Find max values for other charts
   const maxGoals = Math.max(...seasonStats.map(s => s.goals));
   const maxAssists = Math.max(...seasonStats.map(s => s.assists));
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 md:space-y-8">
       {/* Points Progression Chart */}
-      <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <h3 className="text-xl font-semibold text-gray-900 mb-6">Points by Season</h3>
-        <div className="space-y-4">
-          {seasonStats.map((season) => (
-            <div key={season.season} className="flex items-center gap-4">
-              <div className="w-16 text-sm font-medium text-gray-700">
-                {season.season}
-              </div>
-              <div className="flex-1 relative">
-                <div className="bg-gray-200 rounded-full h-8 relative overflow-hidden">
-                  <div 
-                    className="bg-gradient-to-r from-purple-500 to-purple-600 h-full rounded-full flex items-center justify-end pr-3 transition-all duration-1000 ease-out"
-                    style={{ width: `${(season.points / maxPoints) * 100}%` }}
-                  >
-                    <span className="text-white text-sm font-bold">
-                      {season.points}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="w-20 text-right">
-                <div className="text-sm text-gray-600">
-                  {pointsPerGame.find(p => p.season === season.season)?.ppg} PPG
-                </div>
-              </div>
-            </div>
-          ))}
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+        <div className="px-4 py-4 md:px-6 md:py-5 border-b border-gray-100">
+          <div className="flex items-center gap-3">
+            <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+            <h3 className="text-lg md:text-xl font-semibold text-gray-900">Points Progression</h3>
+          </div>
+          <p className="text-sm text-gray-600 mt-1">Season-by-season point totals</p>
+        </div>
+        <div className="p-4 md:p-6">
+          <GenericLineChart 
+            data={chartData} 
+            xLabel="Season" 
+            yLabel="Points" 
+            lineColor="#8b5cf6" 
+          />
         </div>
       </div>
 
