@@ -5,75 +5,145 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-09-15",
         "seasonId": "24/25",
-        "roster": ["1"],
-        "pims": 3,
+        "roster": [
+            "1"
+        ],
+        "pims": 6,
         "score": {
-            "warriorsScore": 3,
+            "warriorsScore": 7,
             "opponentScore": 5,
             "period": {
                 "one": {
-                    "warriorsScore": 2,
-                    "opponentScore": 1,
-                    "goals": [
+                    "warriorsScore": 0,
+                    "opponentScore": 0,
+                    "goals": [],
+                    "opponentGoals": [],
+                    "penalties": [
                         {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 1,
-                            "second": 2,
-                            "type": "EVEN"
+                            "type": "UNSP",
+                            "minute": 9,
+                            "second": 15,
+                            "minutesGiven": 2,
+                            "playerId": "1"
                         }
                     ],
-                    "opponentGoals": [
+                    "opponentPenalties": [
                         {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 1,
-                            "second": 2,
-                            "type": "SH"
+                            "type": "BOARD",
+                            "minute": 4,
+                            "second": 43,
+                            "minutesGiven": 10
                         }
                     ]
                 },
                 "two": {
-                    "warriorsScore": 3,
-                    "opponentScore": 1,
+                    "warriorsScore": 4,
+                    "opponentScore": 0,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
+                            "assists": [
+                                "2"
+                            ],
                             "minute": 1,
-                            "second": 2,
-                            "type": "EVEN"
-                        }
-                    ],
-                    "opponentGoals": [
+                            "second": 5,
+                            "type": "SH"
+                        },
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 1,
-                            "second": 2,
-                            "type": "PP"
+                            "assists": [],
+                            "minute": 17,
+                            "second": 38,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "2",
+                                "3"
+                            ],
+                            "minute": 8,
+                            "second": 28,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "2"
+                            ],
+                            "minute": 6,
+                            "second": 44,
+                            "type": "SH"
+                        }
+                    ],
+                    "opponentGoals": [],
+                    "penalties": [
+                        {
+                            "type": "GOALINTRF",
+                            "minute": 11,
+                            "second": 17,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "CHARG",
+                            "minute": 11,
+                            "second": 6,
+                            "minutesGiven": 2
                         }
                     ]
                 },
                 "three": {
-                    "warriorsScore": 2,
-                    "opponentScore": 1,
+                    "warriorsScore": 3,
+                    "opponentScore": 0,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 1,
-                            "second": 2,
-                            "type": "EVEN"
-                        }
-                    ],
-                    "opponentGoals": [
+                            "assists": [
+                                "4"
+                            ],
+                            "minute": 9,
+                            "second": 51,
+                            "type": "PP"
+                        },
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 1,
-                            "second": 2,
+                            "assists": [
+                                "3",
+                                "2"
+                            ],
+                            "minute": 13,
+                            "second": 5,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "4"
+                            ],
+                            "minute": 12,
+                            "second": 36,
                             "type": "SH"
+                        }
+                    ],
+                    "opponentGoals": [],
+                    "penalties": [
+                        {
+                            "type": "CHARG",
+                            "minute": 3,
+                            "second": 2,
+                            "minutesGiven": 10,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "ELBOW",
+                            "minute": 10,
+                            "second": 5,
+                            "minutesGiven": 2
                         }
                     ]
                 }
@@ -86,26 +156,124 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-10-02",
         "seasonId": "24/25",
-        "roster": ["1"],
+        "roster": [
+            "1"
+        ],
+        "pims": 4,
         "score": {
-            "warriorsScore": 10,
-            "opponentScore": 8,
+            "warriorsScore": 5,
+            "opponentScore": 4,
             "period": {
                 "one": {
-                    "warriorsScore": 2,
+                    "warriorsScore": 0,
                     "opponentScore": 3,
+                    "goals": [],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp3",
+                            "assists": [
+                                "opp3"
+                            ],
+                            "minute": 6,
+                            "second": 23,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "opp3",
+                            "assists": [],
+                            "minute": 3,
+                            "second": 38,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "opp2",
+                            "assists": [],
+                            "minute": 6,
+                            "second": 29,
+                            "type": "SH"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "FIGHT",
+                            "minute": 9,
+                            "second": 59,
+                            "minutesGiven": 10,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "TOOM",
+                            "minute": 18,
+                            "second": 14,
+                            "minutesGiven": 10
+                        }
+                    ]
+                },
+                "two": {
+                    "warriorsScore": 2,
+                    "opponentScore": 0,
                     "goals": [
                         {
-                            "playerId": "2",
-                            "assists": ["1", "3"],
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 11,
+                            "second": 25,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 7,
+                            "second": 58,
+                            "type": "PP"
+                        }
+                    ],
+                    "opponentGoals": [],
+                    "penalties": [
+                        {
+                            "type": "MISC",
+                            "minute": 11,
+                            "second": 13,
+                            "minutesGiven": 10,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "KICK",
+                            "minute": 13,
+                            "second": 56,
+                            "minutesGiven": 10
+                        }
+                    ]
+                },
+                "three": {
+                    "warriorsScore": 3,
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "assists": [],
                             "minute": 8,
-                            "second": 15,
+                            "second": 47,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "3",
+                                "4"
+                            ],
+                            "minute": 19,
+                            "second": 25,
                             "type": "SH"
                         },
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 14,
+                            "assists": [],
+                            "minute": 5,
                             "second": 32,
                             "type": "PP"
                         }
@@ -113,96 +281,27 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 3,
-                            "second": 22,
-                            "type": "EVEN"
-                        },
-                        {
-                            "playerId": "opp2",
-                            "assists": ["2", "3"],
-                            "minute": 11,
-                            "second": 45,
-                            "type": "PP"
-                        },
-                        {
-                            "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 18,
-                            "second": 12,
-                            "type": "EVEN"
-                        }
-                    ]
-                },
-                "two": {
-                    "warriorsScore": 2,
-                    "opponentScore": 2,
-                    "goals": [
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 6,
-                            "second": 28,
-                            "type": "EVEN"
-                        },
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 15,
-                            "second": 55,
-                            "type": "SH"
-                        }
-                    ],
-                    "opponentGoals": [
-                        {
-                            "playerId": "opp3",
-                            "assists": ["2", "3"],
+                            "assists": [],
                             "minute": 4,
-                            "second": 18,
-                            "type": "EVEN"
-                        },
-                        {
-                            "playerId": "opp2",
-                            "assists": ["2", "3"],
-                            "minute": 12,
-                            "second": 33,
-                            "type": "EVEN"
-                        }
-                    ]
-                },
-                "three": {
-                    "warriorsScore": 1,
-                    "opponentScore": 3,
-                    "goals": [
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 19,
-                            "second": 45,
-                            "type": "EVEN"
+                            "second": 9,
+                            "type": "PP"
                         }
                     ],
-                    "opponentGoals": [
+                    "penalties": [
                         {
-                            "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 2,
-                            "second": 15,
-                            "type": "PP"
-                        },
+                            "type": "SPEAR",
+                            "minute": 6,
+                            "second": 50,
+                            "minutesGiven": 10,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
                         {
-                            "playerId": "opp4",
-                            "assists": ["2", "3"],
-                            "minute": 8,
-                            "second": 42,
-                            "type": "EVEN"
-                        },
-                        {
-                            "playerId": "opp3",
-                            "assists": ["2", "3"],
-                            "minute": 16,
-                            "second": 28,
-                            "type": "EVEN"
+                            "type": "GOALINTRF",
+                            "minute": 3,
+                            "second": 24,
+                            "minutesGiven": 2
                         }
                     ]
                 }
@@ -215,102 +314,185 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-10-20",
         "seasonId": "24/25",
-        "roster": ["1"],
+        "roster": [
+            "1"
+        ],
+        "pims": 6,
         "score": {
-            "warriorsScore": 11,
+            "warriorsScore": 7,
             "opponentScore": 4,
             "period": {
                 "one": {
-                    "warriorsScore": 1,
+                    "warriorsScore": 3,
                     "opponentScore": 2,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 12,
-                            "second": 18,
-                            "type": "EVEN"
+                            "assists": [],
+                            "minute": 4,
+                            "second": 43,
+                            "type": "SH"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "4"
+                            ],
+                            "minute": 11,
+                            "second": 7,
+                            "type": "SH"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "2"
+                            ],
+                            "minute": 15,
+                            "second": 0,
+                            "type": "PP"
                         }
                     ],
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 5,
-                            "second": 33,
-                            "type": "PP"
+                            "assists": [
+                                "opp2",
+                                "opp1"
+                            ],
+                            "minute": 10,
+                            "second": 53,
+                            "type": "SH"
                         },
                         {
                             "playerId": "opp2",
-                            "assists": ["2", "3"],
-                            "minute": 16,
-                            "second": 45,
-                            "type": "EVEN"
+                            "assists": [
+                                "opp3",
+                                "opp1"
+                            ],
+                            "minute": 12,
+                            "second": 48,
+                            "type": "SH"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "HOLD",
+                            "minute": 18,
+                            "second": 49,
+                            "minutesGiven": 5,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "HOST",
+                            "minute": 1,
+                            "second": 38,
+                            "minutesGiven": 2
                         }
                     ]
                 },
                 "two": {
                     "warriorsScore": 3,
-                    "opponentScore": 1,
+                    "opponentScore": 0,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 3,
-                            "second": 22,
-                            "type": "PP"
-                        },
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 9,
-                            "second": 15,
+                            "assists": [
+                                "3"
+                            ],
+                            "minute": 8,
+                            "second": 3,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 17,
-                            "second": 42,
+                            "assists": [
+                                "2",
+                                "4"
+                            ],
+                            "minute": 16,
+                            "second": 52,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "2",
+                                "4"
+                            ],
+                            "minute": 16,
+                            "second": 35,
                             "type": "EVEN"
                         }
                     ],
-                    "opponentGoals": [
+                    "opponentGoals": [],
+                    "penalties": [
                         {
-                            "playerId": "opp3",
-                            "assists": ["2", "3"],
-                            "minute": 14,
-                            "second": 28,
-                            "type": "EVEN"
+                            "type": "HOLD",
+                            "minute": 9,
+                            "second": 33,
+                            "minutesGiven": 5,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "GOALINTRF",
+                            "minute": 7,
+                            "second": 59,
+                            "minutesGiven": 5
                         }
                     ]
                 },
                 "three": {
-                    "warriorsScore": 2,
-                    "opponentScore": 1,
+                    "warriorsScore": 1,
+                    "opponentScore": 2,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 7,
-                            "second": 35,
-                            "type": "EVEN"
-                        },
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 18,
-                            "second": 55,
+                            "assists": [
+                                "4",
+                                "3"
+                            ],
+                            "minute": 15,
+                            "second": 57,
                             "type": "PP"
                         }
                     ],
                     "opponentGoals": [
                         {
-                            "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 11,
-                            "second": 12,
+                            "playerId": "opp2",
+                            "assists": [
+                                "opp1"
+                            ],
+                            "minute": 8,
+                            "second": 4,
                             "type": "SH"
+                        },
+                        {
+                            "playerId": "opp2",
+                            "assists": [],
+                            "minute": 19,
+                            "second": 14,
+                            "type": "PP"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "SLASH",
+                            "minute": 3,
+                            "second": 45,
+                            "minutesGiven": 10,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "TRIP",
+                            "minute": 8,
+                            "second": 4,
+                            "minutesGiven": 2
                         }
                     ]
                 }
@@ -323,108 +505,121 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-11-10",
         "seasonId": "24/25",
-        "roster": ["1"],
+        "roster": [
+            "1"
+        ],
+        "pims": 5,
         "score": {
-            "warriorsScore": 9,
-            "opponentScore": 2,
+            "warriorsScore": 5,
+            "opponentScore": 0,
             "period": {
                 "one": {
-                    "warriorsScore": 3,
-                    "opponentScore": 1,
-                    "goals": [
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 4,
-                            "second": 12,
-                            "type": "EVEN"
-                        },
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 11,
-                            "second": 35,
-                            "type": "PP"
-                        },
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 18,
-                            "second": 22,
-                            "type": "EVEN"
-                        }
-                    ],
-                    "opponentGoals": [
-                        {
-                            "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 15,
-                            "second": 48,
-                            "type": "EVEN"
-                        }
-                    ]
-                },
-                "two": {
-                    "warriorsScore": 4,
+                    "warriorsScore": 2,
                     "opponentScore": 0,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 2,
-                            "second": 15,
-                            "type": "EVEN"
+                            "assists": [],
+                            "minute": 9,
+                            "second": 42,
+                            "type": "SH"
                         },
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 8,
-                            "second": 33,
+                            "assists": [],
+                            "minute": 18,
+                            "second": 8,
                             "type": "PP"
-                        },
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 13,
-                            "second": 45,
-                            "type": "EVEN"
-                        },
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 19,
-                            "second": 12,
-                            "type": "EVEN"
                         }
                     ],
-                    "opponentGoals": []
+                    "opponentGoals": [],
+                    "penalties": [
+                        {
+                            "type": "UNSP",
+                            "minute": 19,
+                            "second": 36,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "ELBOW",
+                            "minute": 16,
+                            "second": 51,
+                            "minutesGiven": 2
+                        }
+                    ]
                 },
-                "three": {
-                    "warriorsScore": 2,
-                    "opponentScore": 1,
+                "two": {
+                    "warriorsScore": 1,
+                    "opponentScore": 0,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 6,
-                            "second": 28,
+                            "assists": [
+                                "3",
+                                "4"
+                            ],
+                            "minute": 14,
+                            "second": 26,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "opponentGoals": [],
+                    "penalties": [
+                        {
+                            "type": "ILLEQUIP",
+                            "minute": 2,
+                            "second": 43,
+                            "minutesGiven": 10,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "SPEAR",
+                            "minute": 4,
+                            "second": 3,
+                            "minutesGiven": 2
+                        }
+                    ]
+                },
+                "three": {
+                    "warriorsScore": 2,
+                    "opponentScore": 0,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 7,
+                            "second": 34,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
+                            "assists": [],
                             "minute": 14,
-                            "second": 55,
+                            "second": 11,
                             "type": "PP"
                         }
                     ],
-                    "opponentGoals": [
+                    "opponentGoals": [],
+                    "penalties": [
                         {
-                            "playerId": "opp2",
-                            "assists": ["2", "3"],
-                            "minute": 17,
-                            "second": 33,
-                            "type": "EVEN"
+                            "type": "ROUGH",
+                            "minute": 15,
+                            "second": 15,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "ILLEQUIP",
+                            "minute": 18,
+                            "second": 6,
+                            "minutesGiven": 2
                         }
                     ]
                 }
@@ -437,88 +632,161 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-12-01",
         "seasonId": "24/25",
-        "roster": ["1"],
+        "roster": [
+            "1"
+        ],
+        "pims": 2,
         "score": {
-            "warriorsScore": 6,
-            "opponentScore": 5,
+            "warriorsScore": 9,
+            "opponentScore": 0,
             "period": {
                 "one": {
-                    "warriorsScore": 1,
-                    "opponentScore": 2,
+                    "warriorsScore": 4,
+                    "opponentScore": 0,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 16,
-                            "second": 42,
+                            "assists": [],
+                            "minute": 6,
+                            "second": 26,
                             "type": "EVEN"
-                        }
-                    ],
-                    "opponentGoals": [
+                        },
                         {
-                            "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 8,
-                            "second": 15,
+                            "playerId": "1",
+                            "assists": [
+                                "2"
+                            ],
+                            "minute": 13,
+                            "second": 57,
                             "type": "PP"
                         },
                         {
-                            "playerId": "opp2",
-                            "assists": ["2", "3"],
-                            "minute": 19,
-                            "second": 33,
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 13,
+                            "second": 0,
                             "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "3"
+                            ],
+                            "minute": 10,
+                            "second": 27,
+                            "type": "PP"
+                        }
+                    ],
+                    "opponentGoals": [],
+                    "penalties": [
+                        {
+                            "type": "TOOM",
+                            "minute": 18,
+                            "second": 42,
+                            "minutesGiven": 10,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "KICK",
+                            "minute": 5,
+                            "second": 12,
+                            "minutesGiven": 2
                         }
                     ]
                 },
                 "two": {
                     "warriorsScore": 1,
-                    "opponentScore": 1,
+                    "opponentScore": 0,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 12,
-                            "second": 28,
-                            "type": "PP"
+                            "assists": [
+                                "4",
+                                "2"
+                            ],
+                            "minute": 11,
+                            "second": 3,
+                            "type": "SH"
                         }
                     ],
-                    "opponentGoals": [
+                    "opponentGoals": [],
+                    "penalties": [
                         {
-                            "playerId": "opp3",
-                            "assists": ["2", "3"],
-                            "minute": 5,
-                            "second": 55,
-                            "type": "EVEN"
+                            "type": "TRIP",
+                            "minute": 19,
+                            "second": 30,
+                            "minutesGiven": 5,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "HOST",
+                            "minute": 17,
+                            "second": 10,
+                            "minutesGiven": 2
                         }
                     ]
                 },
                 "three": {
-                    "warriorsScore": 1,
-                    "opponentScore": 2,
+                    "warriorsScore": 4,
+                    "opponentScore": 0,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
+                            "assists": [],
                             "minute": 3,
-                            "second": 18,
-                            "type": "EVEN"
-                        }
-                    ],
-                    "opponentGoals": [
-                        {
-                            "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 9,
-                            "second": 45,
+                            "second": 43,
                             "type": "EVEN"
                         },
                         {
-                            "playerId": "opp4",
-                            "assists": ["2", "3"],
-                            "minute": 18,
-                            "second": 12,
+                            "playerId": "1",
+                            "assists": [
+                                "2"
+                            ],
+                            "minute": 19,
+                            "second": 15,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "2",
+                                "4"
+                            ],
+                            "minute": 14,
+                            "second": 42,
                             "type": "SH"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "4",
+                                "3"
+                            ],
+                            "minute": 9,
+                            "second": 13,
+                            "type": "SH"
+                        }
+                    ],
+                    "opponentGoals": [],
+                    "penalties": [
+                        {
+                            "type": "THROWSTICK",
+                            "minute": 11,
+                            "second": 15,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "FIGHT",
+                            "minute": 5,
+                            "second": 42,
+                            "minutesGiven": 10
                         }
                     ]
                 }
@@ -531,130 +799,192 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2025-01-15",
         "seasonId": "24/25",
-        "roster": ["1"],
+        "roster": [
+            "1"
+        ],
+        "pims": 6,
         "score": {
-            "warriorsScore": 8,
-            "opponentScore": 6,
+            "warriorsScore": 9,
+            "opponentScore": 4,
             "period": {
                 "one": {
-                    "warriorsScore": 2,
-                    "opponentScore": 2,
-                    "goals": [
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 7,
-                            "second": 22,
-                            "type": "EVEN"
-                        },
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 15,
-                            "second": 48,
-                            "type": "PP"
-                        }
-                    ],
-                    "opponentGoals": [
-                        {
-                            "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 4,
-                            "second": 12,
-                            "type": "EVEN"
-                        },
-                        {
-                            "playerId": "opp2",
-                            "assists": ["2", "3"],
-                            "minute": 18,
-                            "second": 35,
-                            "type": "EVEN"
-                        }
-                    ]
-                },
-                "two": {
                     "warriorsScore": 3,
                     "opponentScore": 2,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 9,
-                            "second": 15,
+                            "assists": [],
+                            "minute": 15,
+                            "second": 39,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 13,
-                            "second": 42,
-                            "type": "EVEN"
-                        },
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 19,
-                            "second": 28,
+                            "assists": [],
+                            "minute": 3,
+                            "second": 34,
                             "type": "SH"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "3",
+                                "2"
+                            ],
+                            "minute": 12,
+                            "second": 56,
+                            "type": "EVEN"
                         }
                     ],
                     "opponentGoals": [
                         {
                             "playerId": "opp3",
-                            "assists": ["2", "3"],
-                            "minute": 6,
-                            "second": 33,
-                            "type": "PP"
+                            "assists": [],
+                            "minute": 10,
+                            "second": 10,
+                            "type": "EVEN"
                         },
                         {
                             "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 16,
-                            "second": 55,
-                            "type": "EVEN"
+                            "assists": [
+                                "opp3",
+                                "opp2"
+                            ],
+                            "minute": 18,
+                            "second": 19,
+                            "type": "PP"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "HOST",
+                            "minute": 4,
+                            "second": 56,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "ROUGH",
+                            "minute": 4,
+                            "second": 56,
+                            "minutesGiven": 2
                         }
                     ]
                 },
-                "three": {
-                    "warriorsScore": 3,
-                    "opponentScore": 2,
+                "two": {
+                    "warriorsScore": 4,
+                    "opponentScore": 1,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 2,
-                            "second": 18,
-                            "type": "EVEN"
-                        },
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 11,
+                            "assists": [
+                                "4"
+                            ],
+                            "minute": 7,
                             "second": 45,
-                            "type": "EVEN"
+                            "type": "PP"
                         },
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 17,
-                            "second": 12,
+                            "assists": [],
+                            "minute": 9,
+                            "second": 32,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "2"
+                            ],
+                            "minute": 3,
+                            "second": 40,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "2"
+                            ],
+                            "minute": 1,
+                            "second": 21,
                             "type": "PP"
                         }
                     ],
                     "opponentGoals": [
                         {
                             "playerId": "opp4",
-                            "assists": ["2", "3"],
-                            "minute": 8,
-                            "second": 22,
+                            "assists": [
+                                "opp2",
+                                "opp1"
+                            ],
+                            "minute": 18,
+                            "second": 45,
                             "type": "EVEN"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "GOALINTRF",
+                            "minute": 18,
+                            "second": 0,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "HOOK",
+                            "minute": 5,
+                            "second": 34,
+                            "minutesGiven": 2
+                        }
+                    ]
+                },
+                "three": {
+                    "warriorsScore": 2,
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 2,
+                            "second": 19,
+                            "type": "PP"
                         },
                         {
-                            "playerId": "opp2",
-                            "assists": ["2", "3"],
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 12,
+                            "second": 13,
+                            "type": "PP"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "assists": [],
+                            "minute": 12,
+                            "second": 49,
+                            "type": "SH"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "MATCH",
                             "minute": 14,
-                            "second": 38,
-                            "type": "EVEN"
+                            "second": 39,
+                            "minutesGiven": 10,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "BOARD",
+                            "minute": 8,
+                            "second": 55,
+                            "minutesGiven": 2
                         }
                     ]
                 }
@@ -667,10 +997,13 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-09-10",
         "seasonId": "23/24",
-        "roster": ["1"],
+        "roster": [
+            "1"
+        ],
+        "pims": 1,
         "score": {
-            "warriorsScore": 9,
-            "opponentScore": 7,
+            "warriorsScore": 5,
+            "opponentScore": 5,
             "period": {
                 "one": {
                     "warriorsScore": 1,
@@ -678,98 +1011,157 @@
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 14,
-                            "second": 25,
-                            "type": "EVEN"
-                        }
-                    ],
-                    "opponentGoals": [
-                        {
-                            "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 3,
-                            "second": 18,
-                            "type": "PP"
-                        },
-                        {
-                            "playerId": "opp2",
-                            "assists": ["2", "3"],
-                            "minute": 8,
-                            "second": 42,
-                            "type": "EVEN"
-                        },
-                        {
-                            "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 17,
-                            "second": 55,
-                            "type": "EVEN"
-                        }
-                    ]
-                },
-                "two": {
-                    "warriorsScore": 2,
-                    "opponentScore": 2,
-                    "goals": [
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 5,
-                            "second": 12,
-                            "type": "PP"
-                        },
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 16,
-                            "second": 33,
+                            "assists": [],
+                            "minute": 11,
+                            "second": 50,
                             "type": "EVEN"
                         }
                     ],
                     "opponentGoals": [
                         {
                             "playerId": "opp3",
-                            "assists": ["2", "3"],
-                            "minute": 9,
-                            "second": 28,
-                            "type": "EVEN"
+                            "assists": [
+                                "opp3",
+                                "opp1"
+                            ],
+                            "minute": 6,
+                            "second": 50,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "opp4",
+                            "assists": [],
+                            "minute": 2,
+                            "second": 54,
+                            "type": "SH"
                         },
                         {
                             "playerId": "opp2",
-                            "assists": ["2", "3"],
-                            "minute": 19,
-                            "second": 15,
+                            "assists": [],
+                            "minute": 15,
+                            "second": 22,
                             "type": "PP"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "HIST",
+                            "minute": 8,
+                            "second": 14,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "THROWSTICK",
+                            "minute": 7,
+                            "second": 25,
+                            "minutesGiven": 2
+                        }
+                    ]
+                },
+                "two": {
+                    "warriorsScore": 2,
+                    "opponentScore": 0,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "4"
+                            ],
+                            "minute": 17,
+                            "second": 25,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "3",
+                                "2"
+                            ],
+                            "minute": 4,
+                            "second": 56,
+                            "type": "SH"
+                        }
+                    ],
+                    "opponentGoals": [],
+                    "penalties": [
+                        {
+                            "type": "ROUGH",
+                            "minute": 6,
+                            "second": 37,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "TRIP",
+                            "minute": 4,
+                            "second": 38,
+                            "minutesGiven": 2
                         }
                     ]
                 },
                 "three": {
-                    "warriorsScore": 1,
+                    "warriorsScore": 2,
                     "opponentScore": 2,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 12,
-                            "second": 48,
+                            "assists": [
+                                "4",
+                                "2"
+                            ],
+                            "minute": 13,
+                            "second": 57,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 9,
+                            "second": 2,
                             "type": "SH"
                         }
                     ],
                     "opponentGoals": [
                         {
-                            "playerId": "opp4",
-                            "assists": ["2", "3"],
-                            "minute": 6,
-                            "second": 22,
-                            "type": "EVEN"
+                            "playerId": "opp2",
+                            "assists": [
+                                "opp1"
+                            ],
+                            "minute": 12,
+                            "second": 27,
+                            "type": "SH"
                         },
                         {
                             "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 18,
-                            "second": 35,
+                            "assists": [
+                                "opp2",
+                                "opp3"
+                            ],
+                            "minute": 10,
+                            "second": 32,
                             "type": "EVEN"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "HIST",
+                            "minute": 14,
+                            "second": 20,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "TOOM",
+                            "minute": 10,
+                            "second": 35,
+                            "minutesGiven": 2
                         }
                     ]
                 }
@@ -782,95 +1174,223 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-09-28",
         "seasonId": "23/24",
-        "roster": ["1"],
+        "roster": [
+            "1"
+        ],
+        "pims": 3,
         "score": {
-            "warriorsScore": 6,
-            "opponentScore": 3,
+            "warriorsScore": 10,
+            "opponentScore": 5,
             "period": {
                 "one": {
-                    "warriorsScore": 2,
-                    "opponentScore": 1,
+                    "warriorsScore": 3,
+                    "opponentScore": 3,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 6,
-                            "second": 15,
-                            "type": "EVEN"
+                            "assists": [
+                                "2",
+                                "3"
+                            ],
+                            "minute": 13,
+                            "second": 35,
+                            "type": "SH"
                         },
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 18,
-                            "second": 42,
-                            "type": "PP"
-                        }
-                    ],
-                    "opponentGoals": [
-                        {
-                            "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 12,
-                            "second": 28,
-                            "type": "EVEN"
-                        }
-                    ]
-                },
-                "two": {
-                    "warriorsScore": 2,
-                    "opponentScore": 1,
-                    "goals": [
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 4,
-                            "second": 33,
-                            "type": "EVEN"
-                        },
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 15,
-                            "second": 55,
-                            "type": "EVEN"
-                        }
-                    ],
-                    "opponentGoals": [
-                        {
-                            "playerId": "opp2",
-                            "assists": ["2", "3"],
-                            "minute": 9,
-                            "second": 18,
-                            "type": "PP"
-                        }
-                    ]
-                },
-                "three": {
-                    "warriorsScore": 2,
-                    "opponentScore": 1,
-                    "goals": [
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
+                            "assists": [
+                                "3"
+                            ],
                             "minute": 7,
-                            "second": 22,
+                            "second": 27,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 16,
-                            "second": 45,
+                            "assists": [
+                                "4",
+                                "3"
+                            ],
+                            "minute": 15,
+                            "second": 28,
                             "type": "SH"
                         }
                     ],
                     "opponentGoals": [
                         {
+                            "playerId": "opp2",
+                            "assists": [
+                                "opp1",
+                                "opp2"
+                            ],
+                            "minute": 3,
+                            "second": 18,
+                            "type": "PP"
+                        },
+                        {
                             "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 19,
-                            "second": 12,
+                            "assists": [
+                                "opp3",
+                                "opp2"
+                            ],
+                            "minute": 8,
+                            "second": 43,
+                            "type": "SH"
+                        },
+                        {
+                            "playerId": "opp2",
+                            "assists": [],
+                            "minute": 5,
+                            "second": 1,
+                            "type": "PP"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "TRIP",
+                            "minute": 8,
+                            "second": 30,
+                            "minutesGiven": 5,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "CHECK",
+                            "minute": 3,
+                            "second": 29,
+                            "minutesGiven": 2
+                        }
+                    ]
+                },
+                "two": {
+                    "warriorsScore": 4,
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "3",
+                                "4"
+                            ],
+                            "minute": 13,
+                            "second": 15,
+                            "type": "SH"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "4",
+                                "2"
+                            ],
+                            "minute": 4,
+                            "second": 49,
                             "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 6,
+                            "second": 51,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "3",
+                                "2"
+                            ],
+                            "minute": 18,
+                            "second": 15,
+                            "type": "SH"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp4",
+                            "assists": [
+                                "opp1"
+                            ],
+                            "minute": 17,
+                            "second": 35,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "RETAL",
+                            "minute": 11,
+                            "second": 48,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "RETAL",
+                            "minute": 17,
+                            "second": 27,
+                            "minutesGiven": 5
+                        }
+                    ]
+                },
+                "three": {
+                    "warriorsScore": 3,
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "3"
+                            ],
+                            "minute": 9,
+                            "second": 48,
+                            "type": "SH"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "3",
+                                "4"
+                            ],
+                            "minute": 8,
+                            "second": 17,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 10,
+                            "second": 15,
+                            "type": "PP"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "assists": [
+                                "opp2"
+                            ],
+                            "minute": 5,
+                            "second": 9,
+                            "type": "PP"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "ELBOW",
+                            "minute": 13,
+                            "second": 44,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "TOOM",
+                            "minute": 7,
+                            "second": 4,
+                            "minutesGiven": 2
                         }
                     ]
                 }
@@ -883,58 +1403,182 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-10-15",
         "seasonId": "23/24",
-        "roster": ["1"],
+        "roster": [
+            "1"
+        ],
+        "pims": 1,
         "score": {
-            "warriorsScore": 2,
-            "opponentScore": 2,
+            "warriorsScore": 6,
+            "opponentScore": 5,
             "period": {
                 "one": {
-                    "warriorsScore": 1,
+                    "warriorsScore": 2,
+                    "opponentScore": 3,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 7,
+                            "second": 53,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "4"
+                            ],
+                            "minute": 1,
+                            "second": 54,
+                            "type": "PP"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp1",
+                            "assists": [
+                                "opp2"
+                            ],
+                            "minute": 12,
+                            "second": 19,
+                            "type": "SH"
+                        },
+                        {
+                            "playerId": "opp2",
+                            "assists": [
+                                "opp3"
+                            ],
+                            "minute": 16,
+                            "second": 14,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "opp1",
+                            "assists": [
+                                "opp2"
+                            ],
+                            "minute": 13,
+                            "second": 21,
+                            "type": "PP"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "THROWSTICK",
+                            "minute": 13,
+                            "second": 46,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "BDYCH",
+                            "minute": 15,
+                            "second": 58,
+                            "minutesGiven": 2
+                        }
+                    ]
+                },
+                "two": {
+                    "warriorsScore": 4,
                     "opponentScore": 0,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
+                            "assists": [
+                                "4",
+                                "2"
+                            ],
+                            "minute": 3,
+                            "second": 41,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 15,
+                            "second": 11,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "3"
+                            ],
                             "minute": 11,
-                            "second": 35,
+                            "second": 13,
                             "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "3"
+                            ],
+                            "minute": 13,
+                            "second": 17,
+                            "type": "PP"
                         }
                     ],
-                    "opponentGoals": []
-                },
-                "two": {
-                    "warriorsScore": 0,
-                    "opponentScore": 1,
-                    "goals": [],
-                    "opponentGoals": [
+                    "opponentGoals": [],
+                    "penalties": [
                         {
-                            "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 13,
-                            "second": 22,
-                            "type": "PP"
+                            "type": "ABUSE",
+                            "minute": 14,
+                            "second": 16,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "KICK",
+                            "minute": 1,
+                            "second": 47,
+                            "minutesGiven": 5
                         }
                     ]
                 },
                 "three": {
-                    "warriorsScore": 1,
-                    "opponentScore": 1,
-                    "goals": [
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 8,
-                            "second": 48,
-                            "type": "PP"
-                        }
-                    ],
+                    "warriorsScore": 0,
+                    "opponentScore": 2,
+                    "goals": [],
                     "opponentGoals": [
                         {
-                            "playerId": "opp2",
-                            "assists": ["2", "3"],
-                            "minute": 16,
-                            "second": 15,
+                            "playerId": "opp1",
+                            "assists": [
+                                "opp1",
+                                "opp3"
+                            ],
+                            "minute": 8,
+                            "second": 12,
                             "type": "EVEN"
+                        },
+                        {
+                            "playerId": "opp2",
+                            "assists": [
+                                "opp1",
+                                "opp3"
+                            ],
+                            "minute": 16,
+                            "second": 42,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "INTRF",
+                            "minute": 19,
+                            "second": 13,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "TOOM",
+                            "minute": 9,
+                            "second": 49,
+                            "minutesGiven": 2
                         }
                     ]
                 }
@@ -947,74 +1591,194 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-11-05",
         "seasonId": "23/24",
-        "roster": ["1"],
+        "roster": [
+            "1"
+        ],
+        "pims": 6,
         "score": {
-            "warriorsScore": 5,
-            "opponentScore": 1,
+            "warriorsScore": 8,
+            "opponentScore": 4,
             "period": {
                 "one": {
-                    "warriorsScore": 2,
+                    "warriorsScore": 4,
                     "opponentScore": 0,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 5,
-                            "second": 22,
+                            "assists": [
+                                "2"
+                            ],
+                            "minute": 19,
+                            "second": 1,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 17,
+                            "assists": [
+                                "4",
+                                "3"
+                            ],
+                            "minute": 13,
                             "second": 45,
                             "type": "PP"
-                        }
-                    ],
-                    "opponentGoals": []
-                },
-                "two": {
-                    "warriorsScore": 2,
-                    "opponentScore": 1,
-                    "goals": [
+                        },
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 3,
-                            "second": 18,
+                            "assists": [],
+                            "minute": 19,
+                            "second": 44,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 14,
-                            "second": 33,
-                            "type": "EVEN"
+                            "assists": [],
+                            "minute": 4,
+                            "second": 44,
+                            "type": "SH"
                         }
                     ],
+                    "opponentGoals": [],
+                    "penalties": [
+                        {
+                            "type": "ABUSE",
+                            "minute": 10,
+                            "second": 54,
+                            "minutesGiven": 10,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "RETAL",
+                            "minute": 4,
+                            "second": 50,
+                            "minutesGiven": 5
+                        }
+                    ]
+                },
+                "two": {
+                    "warriorsScore": 0,
+                    "opponentScore": 2,
+                    "goals": [],
                     "opponentGoals": [
                         {
-                            "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 19,
-                            "second": 12,
-                            "type": "PP"
+                            "playerId": "opp3",
+                            "assists": [
+                                "opp3"
+                            ],
+                            "minute": 3,
+                            "second": 32,
+                            "type": "SH"
+                        },
+                        {
+                            "playerId": "opp4",
+                            "assists": [
+                                "opp1"
+                            ],
+                            "minute": 16,
+                            "second": 6,
+                            "type": "SH"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "GOALINTRF",
+                            "minute": 12,
+                            "second": 40,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "TOOM",
+                            "minute": 5,
+                            "second": 27,
+                            "minutesGiven": 2
                         }
                     ]
                 },
                 "three": {
-                    "warriorsScore": 1,
-                    "opponentScore": 0,
+                    "warriorsScore": 4,
+                    "opponentScore": 2,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 9,
-                            "second": 55,
+                            "assists": [
+                                "3",
+                                "4"
+                            ],
+                            "minute": 14,
+                            "second": 52,
                             "type": "SH"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "3",
+                                "4"
+                            ],
+                            "minute": 8,
+                            "second": 53,
+                            "type": "SH"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "3"
+                            ],
+                            "minute": 8,
+                            "second": 48,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "4",
+                                "3"
+                            ],
+                            "minute": 11,
+                            "second": 1,
+                            "type": "PP"
                         }
                     ],
-                    "opponentGoals": []
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp4",
+                            "assists": [
+                                "opp1"
+                            ],
+                            "minute": 7,
+                            "second": 22,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "opp3",
+                            "assists": [
+                                "opp2"
+                            ],
+                            "minute": 18,
+                            "second": 0,
+                            "type": "PP"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "KNEE",
+                            "minute": 7,
+                            "second": 5,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "UNSP",
+                            "minute": 14,
+                            "second": 31,
+                            "minutesGiven": 5
+                        }
+                    ]
                 }
             }
         }
@@ -1025,81 +1789,211 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-11-22",
         "seasonId": "23/24",
-        "roster": ["1"],
+        "roster": [
+            "1"
+        ],
+        "pims": 0,
         "score": {
-            "warriorsScore": 3,
-            "opponentScore": 4,
+            "warriorsScore": 8,
+            "opponentScore": 7,
             "period": {
                 "one": {
                     "warriorsScore": 1,
+                    "opponentScore": 3,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "3",
+                                "4"
+                            ],
+                            "minute": 1,
+                            "second": 5,
+                            "type": "SH"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp4",
+                            "assists": [],
+                            "minute": 8,
+                            "second": 19,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "opp3",
+                            "assists": [
+                                "opp2",
+                                "opp3"
+                            ],
+                            "minute": 14,
+                            "second": 47,
+                            "type": "SH"
+                        },
+                        {
+                            "playerId": "opp4",
+                            "assists": [
+                                "opp2"
+                            ],
+                            "minute": 9,
+                            "second": 19,
+                            "type": "SH"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "ROUGH",
+                            "minute": 8,
+                            "second": 7,
+                            "minutesGiven": 10,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "CHARG",
+                            "minute": 11,
+                            "second": 7,
+                            "minutesGiven": 10
+                        }
+                    ]
+                },
+                "two": {
+                    "warriorsScore": 4,
                     "opponentScore": 1,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 12,
-                            "second": 28,
+                            "assists": [],
+                            "minute": 16,
+                            "second": 17,
                             "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "4",
+                                "3"
+                            ],
+                            "minute": 4,
+                            "second": 53,
+                            "type": "SH"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "2"
+                            ],
+                            "minute": 12,
+                            "second": 11,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 18,
+                            "second": 8,
+                            "type": "PP"
                         }
                     ],
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 7,
-                            "second": 15,
+                            "assists": [],
+                            "minute": 18,
+                            "second": 18,
                             "type": "PP"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "TOOM",
+                            "minute": 5,
+                            "second": 40,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "INTRF",
+                            "minute": 1,
+                            "second": 36,
+                            "minutesGiven": 2
                         }
                     ]
                 },
-                "two": {
-                    "warriorsScore": 1,
-                    "opponentScore": 2,
+                "three": {
+                    "warriorsScore": 3,
+                    "opponentScore": 3,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 16,
-                            "second": 42,
+                            "assists": [
+                                "2"
+                            ],
+                            "minute": 2,
+                            "second": 16,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 3,
+                            "second": 25,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 19,
+                            "second": 40,
                             "type": "PP"
                         }
                     ],
                     "opponentGoals": [
                         {
                             "playerId": "opp2",
-                            "assists": ["2", "3"],
-                            "minute": 4,
-                            "second": 33,
-                            "type": "EVEN"
+                            "assists": [],
+                            "minute": 5,
+                            "second": 51,
+                            "type": "SH"
                         },
                         {
-                            "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 18,
-                            "second": 55,
-                            "type": "EVEN"
-                        }
-                    ]
-                },
-                "three": {
-                    "warriorsScore": 1,
-                    "opponentScore": 1,
-                    "goals": [
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 9,
-                            "second": 18,
+                            "playerId": "opp2",
+                            "assists": [
+                                "opp1"
+                            ],
+                            "minute": 4,
+                            "second": 35,
                             "type": "SH"
+                        },
+                        {
+                            "playerId": "opp4",
+                            "assists": [
+                                "opp3",
+                                "opp1"
+                            ],
+                            "minute": 15,
+                            "second": 58,
+                            "type": "PP"
                         }
                     ],
-                    "opponentGoals": [
+                    "penalties": [
                         {
-                            "playerId": "opp3",
-                            "assists": ["2", "3"],
-                            "minute": 14,
-                            "second": 22,
-                            "type": "EVEN"
+                            "type": "ILLEQUIP",
+                            "minute": 10,
+                            "second": 55,
+                            "minutesGiven": 5,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "GOALINTRF",
+                            "minute": 10,
+                            "second": 36,
+                            "minutesGiven": 5
                         }
                     ]
                 }
@@ -1112,116 +2006,211 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-12-10",
         "seasonId": "23/24",
-        "roster": ["1"],
+        "roster": [
+            "1"
+        ],
+        "pims": 0,
         "score": {
-            "warriorsScore": 7,
-            "opponentScore": 5,
+            "warriorsScore": 12,
+            "opponentScore": 3,
             "period": {
                 "one": {
-                    "warriorsScore": 3,
-                    "opponentScore": 2,
+                    "warriorsScore": 4,
+                    "opponentScore": 0,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 4,
-                            "second": 15,
+                            "assists": [
+                                "2",
+                                "3"
+                            ],
+                            "minute": 3,
+                            "second": 10,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 11,
-                            "second": 33,
-                            "type": "PP"
-                        },
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
+                            "assists": [],
                             "minute": 18,
-                            "second": 48,
-                            "type": "EVEN"
-                        }
-                    ],
-                    "opponentGoals": [
-                        {
-                            "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 8,
-                            "second": 22,
+                            "second": 4,
                             "type": "EVEN"
                         },
                         {
-                            "playerId": "opp2",
-                            "assists": ["2", "3"],
-                            "minute": 15,
-                            "second": 55,
-                            "type": "PP"
-                        }
-                    ]
-                },
-                "two": {
-                    "warriorsScore": 2,
-                    "opponentScore": 2,
-                    "goals": [
-                        {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 6,
+                            "assists": [],
+                            "minute": 14,
                             "second": 28,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 16,
-                            "second": 42,
+                            "assists": [
+                                "3",
+                                "4"
+                            ],
+                            "minute": 2,
+                            "second": 14,
                             "type": "SH"
+                        }
+                    ],
+                    "opponentGoals": [],
+                    "penalties": [
+                        {
+                            "type": "HIST",
+                            "minute": 10,
+                            "second": 44,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "HOOK",
+                            "minute": 8,
+                            "second": 59,
+                            "minutesGiven": 2
+                        }
+                    ]
+                },
+                "two": {
+                    "warriorsScore": 4,
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 18,
+                            "second": 14,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 9,
+                            "second": 52,
+                            "type": "SH"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 2,
+                            "second": 10,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "4",
+                                "3"
+                            ],
+                            "minute": 15,
+                            "second": 7,
+                            "type": "PP"
                         }
                     ],
                     "opponentGoals": [
                         {
                             "playerId": "opp3",
-                            "assists": ["2", "3"],
-                            "minute": 3,
-                            "second": 12,
+                            "assists": [
+                                "opp2",
+                                "opp3"
+                            ],
+                            "minute": 17,
+                            "second": 34,
                             "type": "PP"
-                        },
+                        }
+                    ],
+                    "penalties": [
                         {
-                            "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 19,
-                            "second": 18,
-                            "type": "EVEN"
+                            "type": "KICK",
+                            "minute": 15,
+                            "second": 5,
+                            "minutesGiven": 5,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "TRIP",
+                            "minute": 14,
+                            "second": 47,
+                            "minutesGiven": 2
                         }
                     ]
                 },
                 "three": {
-                    "warriorsScore": 2,
-                    "opponentScore": 1,
+                    "warriorsScore": 4,
+                    "opponentScore": 2,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 9,
-                            "second": 35,
+                            "assists": [],
+                            "minute": 8,
+                            "second": 43,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 17,
-                            "second": 22,
+                            "assists": [
+                                "2",
+                                "3"
+                            ],
+                            "minute": 19,
+                            "second": 2,
+                            "type": "SH"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "4"
+                            ],
+                            "minute": 15,
+                            "second": 58,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 19,
+                            "second": 27,
                             "type": "PP"
                         }
                     ],
                     "opponentGoals": [
                         {
-                            "playerId": "opp2",
-                            "assists": ["2", "3"],
-                            "minute": 13,
-                            "second": 45,
-                            "type": "EVEN"
+                            "playerId": "opp4",
+                            "assists": [
+                                "opp1"
+                            ],
+                            "minute": 12,
+                            "second": 26,
+                            "type": "SH"
+                        },
+                        {
+                            "playerId": "opp1",
+                            "assists": [
+                                "opp3"
+                            ],
+                            "minute": 6,
+                            "second": 21,
+                            "type": "PP"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "GOALINTRF",
+                            "minute": 16,
+                            "second": 18,
+                            "minutesGiven": 10,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "FIGHT",
+                            "minute": 18,
+                            "second": 2,
+                            "minutesGiven": 2
                         }
                     ]
                 }
@@ -1234,80 +2223,208 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-01-20",
         "seasonId": "23/24",
-        "roster": ["1"],
+        "roster": [
+            "1"
+        ],
+        "pims": 1,
         "score": {
-            "warriorsScore": 4,
-            "opponentScore": 3,
+            "warriorsScore": 8,
+            "opponentScore": 6,
             "period": {
                 "one": {
-                    "warriorsScore": 1,
+                    "warriorsScore": 2,
                     "opponentScore": 2,
                     "goals": [
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 15,
-                            "second": 42,
-                            "type": "EVEN"
-                        }
-                    ],
-                    "opponentGoals": [
-                        {
-                            "playerId": "opp1",
-                            "assists": ["2", "3"],
-                            "minute": 6,
-                            "second": 18,
-                            "type": "PP"
-                        },
-                        {
-                            "playerId": "opp2",
-                            "assists": ["2", "3"],
-                            "minute": 19,
-                            "second": 33,
-                            "type": "EVEN"
-                        }
-                    ]
-                },
-                "two": {
-                    "warriorsScore": 2,
-                    "opponentScore": 0,
-                    "goals": [
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 8,
-                            "second": 25,
-                            "type": "PP"
-                        },
-                        {
-                            "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 16,
+                            "assists": [],
+                            "minute": 13,
                             "second": 55,
-                            "type": "EVEN"
-                        }
-                    ],
-                    "opponentGoals": []
-                },
-                "three": {
-                    "warriorsScore": 1,
-                    "opponentScore": 1,
-                    "goals": [
+                            "type": "PP"
+                        },
                         {
                             "playerId": "1",
-                            "assists": ["2", "3"],
-                            "minute": 12,
-                            "second": 28,
+                            "assists": [],
+                            "minute": 18,
+                            "second": 29,
                             "type": "SH"
                         }
                     ],
                     "opponentGoals": [
                         {
-                            "playerId": "opp3",
-                            "assists": ["2", "3"],
+                            "playerId": "opp2",
+                            "assists": [],
+                            "minute": 17,
+                            "second": 23,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "opp4",
+                            "assists": [
+                                "opp3"
+                            ],
+                            "minute": 2,
+                            "second": 13,
+                            "type": "SH"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "ROUGH",
                             "minute": 18,
-                            "second": 15,
+                            "second": 8,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "ILLEQUIP",
+                            "minute": 16,
+                            "second": 7,
+                            "minutesGiven": 2
+                        }
+                    ]
+                },
+                "two": {
+                    "warriorsScore": 4,
+                    "opponentScore": 1,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "assists": [],
+                            "minute": 10,
+                            "second": 35,
+                            "type": "SH"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "3",
+                                "2"
+                            ],
+                            "minute": 8,
+                            "second": 53,
                             "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "2"
+                            ],
+                            "minute": 5,
+                            "second": 31,
+                            "type": "EVEN"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "4"
+                            ],
+                            "minute": 9,
+                            "second": 26,
+                            "type": "SH"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp4",
+                            "assists": [
+                                "opp1"
+                            ],
+                            "minute": 18,
+                            "second": 9,
+                            "type": "PP"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "FIGHT",
+                            "minute": 7,
+                            "second": 58,
+                            "minutesGiven": 5,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "KNEE",
+                            "minute": 5,
+                            "second": 55,
+                            "minutesGiven": 2
+                        }
+                    ]
+                },
+                "three": {
+                    "warriorsScore": 2,
+                    "opponentScore": 3,
+                    "goals": [
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "3",
+                                "2"
+                            ],
+                            "minute": 10,
+                            "second": 46,
+                            "type": "PP"
+                        },
+                        {
+                            "playerId": "1",
+                            "assists": [
+                                "4",
+                                "3"
+                            ],
+                            "minute": 5,
+                            "second": 28,
+                            "type": "PP"
+                        }
+                    ],
+                    "opponentGoals": [
+                        {
+                            "playerId": "opp3",
+                            "assists": [
+                                "opp2"
+                            ],
+                            "minute": 18,
+                            "second": 48,
+                            "type": "SH"
+                        },
+                        {
+                            "playerId": "opp3",
+                            "assists": [
+                                "opp2"
+                            ],
+                            "minute": 7,
+                            "second": 44,
+                            "type": "SH"
+                        },
+                        {
+                            "playerId": "opp4",
+                            "assists": [
+                                "opp2",
+                                "opp1"
+                            ],
+                            "minute": 2,
+                            "second": 20,
+                            "type": "EVEN"
+                        }
+                    ],
+                    "penalties": [
+                        {
+                            "type": "UNSP",
+                            "minute": 16,
+                            "second": 45,
+                            "minutesGiven": 2,
+                            "playerId": "1"
+                        }
+                    ],
+                    "opponentPenalties": [
+                        {
+                            "type": "FIGHT",
+                            "minute": 5,
+                            "second": 31,
+                            "minutesGiven": 2
                         }
                     ]
                 }
