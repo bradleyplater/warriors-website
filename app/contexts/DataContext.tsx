@@ -37,6 +37,7 @@ interface Goal {
     minute: number;
     second: number;
     type: 'EVEN' | 'PP' | 'SH';
+    assists: string[];
 }
 
 interface PeriodScore {
@@ -56,6 +57,7 @@ export interface Result {
   opponentTeam: string;
   logoImage: string;
   date: string;
+  roster: string[];
   seasonId: Season;
   score: {
     warriorsScore: number;

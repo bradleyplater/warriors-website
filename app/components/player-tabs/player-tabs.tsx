@@ -85,7 +85,7 @@ export default function PlayerTabs({
         )}
         
         {activeTab === 'games' && (
-          <PlayerGamesTab recentGames={recentGames} />
+          <PlayerGamesTab playerId={playerId} />
         )}
       </div>
     </div>

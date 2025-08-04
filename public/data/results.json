@@ -5,9 +5,11 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-09-15",
         "seasonId": "24/25",
+        "roster": ["1"],
+        "pims": 3,
         "score": {
-            "warriorsScore": 7,
-            "opponentScore": 3,
+            "warriorsScore": 3,
+            "opponentScore": 5,
             "period": {
                 "one": {
                     "warriorsScore": 2,
@@ -15,6 +17,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 1,
                             "second": 2,
                             "type": "EVEN"
@@ -23,6 +26,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 1,
                             "second": 2,
                             "type": "SH"
@@ -35,6 +39,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 1,
                             "second": 2,
                             "type": "EVEN"
@@ -43,6 +48,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 1,
                             "second": 2,
                             "type": "PP"
@@ -55,6 +61,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 1,
                             "second": 2,
                             "type": "EVEN"
@@ -63,6 +70,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 1,
                             "second": 2,
                             "type": "SH"
@@ -78,6 +86,7 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-10-02",
         "seasonId": "24/25",
+        "roster": ["1"],
         "score": {
             "warriorsScore": 10,
             "opponentScore": 8,
@@ -87,13 +96,15 @@
                     "opponentScore": 3,
                     "goals": [
                         {
-                            "playerId": "1",
+                            "playerId": "2",
+                            "assists": ["1", "3"],
                             "minute": 8,
                             "second": 15,
                             "type": "SH"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 14,
                             "second": 32,
                             "type": "PP"
@@ -102,18 +113,21 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 3,
                             "second": 22,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "opp2",
+                            "assists": ["2", "3"],
                             "minute": 11,
                             "second": 45,
                             "type": "PP"
                         },
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 18,
                             "second": 12,
                             "type": "EVEN"
@@ -126,12 +140,14 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 6,
                             "second": 28,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 15,
                             "second": 55,
                             "type": "SH"
@@ -140,12 +156,14 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp3",
+                            "assists": ["2", "3"],
                             "minute": 4,
                             "second": 18,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "opp2",
+                            "assists": ["2", "3"],
                             "minute": 12,
                             "second": 33,
                             "type": "EVEN"
@@ -158,6 +176,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 19,
                             "second": 45,
                             "type": "EVEN"
@@ -166,18 +185,21 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 2,
                             "second": 15,
                             "type": "PP"
                         },
                         {
                             "playerId": "opp4",
+                            "assists": ["2", "3"],
                             "minute": 8,
                             "second": 42,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "opp3",
+                            "assists": ["2", "3"],
                             "minute": 16,
                             "second": 28,
                             "type": "EVEN"
@@ -193,6 +215,7 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-10-20",
         "seasonId": "24/25",
+        "roster": ["1"],
         "score": {
             "warriorsScore": 11,
             "opponentScore": 4,
@@ -203,6 +226,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 12,
                             "second": 18,
                             "type": "EVEN"
@@ -211,12 +235,14 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 5,
                             "second": 33,
                             "type": "PP"
                         },
                         {
                             "playerId": "opp2",
+                            "assists": ["2", "3"],
                             "minute": 16,
                             "second": 45,
                             "type": "EVEN"
@@ -229,18 +255,21 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 3,
                             "second": 22,
                             "type": "PP"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 9,
                             "second": 15,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 17,
                             "second": 42,
                             "type": "EVEN"
@@ -249,6 +278,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp3",
+                            "assists": ["2", "3"],
                             "minute": 14,
                             "second": 28,
                             "type": "EVEN"
@@ -261,12 +291,14 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 7,
                             "second": 35,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 18,
                             "second": 55,
                             "type": "PP"
@@ -275,6 +307,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 11,
                             "second": 12,
                             "type": "SH"
@@ -290,6 +323,7 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-11-10",
         "seasonId": "24/25",
+        "roster": ["1"],
         "score": {
             "warriorsScore": 9,
             "opponentScore": 2,
@@ -300,18 +334,21 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 4,
                             "second": 12,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 11,
                             "second": 35,
                             "type": "PP"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 18,
                             "second": 22,
                             "type": "EVEN"
@@ -320,6 +357,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 15,
                             "second": 48,
                             "type": "EVEN"
@@ -332,24 +370,28 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 2,
                             "second": 15,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 8,
                             "second": 33,
                             "type": "PP"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 13,
                             "second": 45,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 19,
                             "second": 12,
                             "type": "EVEN"
@@ -363,12 +405,14 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 6,
                             "second": 28,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 14,
                             "second": 55,
                             "type": "PP"
@@ -377,6 +421,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp2",
+                            "assists": ["2", "3"],
                             "minute": 17,
                             "second": 33,
                             "type": "EVEN"
@@ -392,6 +437,7 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-12-01",
         "seasonId": "24/25",
+        "roster": ["1"],
         "score": {
             "warriorsScore": 6,
             "opponentScore": 5,
@@ -402,6 +448,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 16,
                             "second": 42,
                             "type": "EVEN"
@@ -410,12 +457,14 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 8,
                             "second": 15,
                             "type": "PP"
                         },
                         {
                             "playerId": "opp2",
+                            "assists": ["2", "3"],
                             "minute": 19,
                             "second": 33,
                             "type": "EVEN"
@@ -428,6 +477,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 12,
                             "second": 28,
                             "type": "PP"
@@ -436,6 +486,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp3",
+                            "assists": ["2", "3"],
                             "minute": 5,
                             "second": 55,
                             "type": "EVEN"
@@ -448,6 +499,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 3,
                             "second": 18,
                             "type": "EVEN"
@@ -456,12 +508,14 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 9,
                             "second": 45,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "opp4",
+                            "assists": ["2", "3"],
                             "minute": 18,
                             "second": 12,
                             "type": "SH"
@@ -477,6 +531,7 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2025-01-15",
         "seasonId": "24/25",
+        "roster": ["1"],
         "score": {
             "warriorsScore": 8,
             "opponentScore": 6,
@@ -487,12 +542,14 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 7,
                             "second": 22,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 15,
                             "second": 48,
                             "type": "PP"
@@ -501,12 +558,14 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 4,
                             "second": 12,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "opp2",
+                            "assists": ["2", "3"],
                             "minute": 18,
                             "second": 35,
                             "type": "EVEN"
@@ -519,18 +578,21 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 9,
                             "second": 15,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 13,
                             "second": 42,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 19,
                             "second": 28,
                             "type": "SH"
@@ -539,12 +601,14 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp3",
+                            "assists": ["2", "3"],
                             "minute": 6,
                             "second": 33,
                             "type": "PP"
                         },
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 16,
                             "second": 55,
                             "type": "EVEN"
@@ -557,18 +621,21 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 2,
                             "second": 18,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 11,
                             "second": 45,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 17,
                             "second": 12,
                             "type": "PP"
@@ -577,12 +644,14 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp4",
+                            "assists": ["2", "3"],
                             "minute": 8,
                             "second": 22,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "opp2",
+                            "assists": ["2", "3"],
                             "minute": 14,
                             "second": 38,
                             "type": "EVEN"
@@ -598,6 +667,7 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-09-10",
         "seasonId": "23/24",
+        "roster": ["1"],
         "score": {
             "warriorsScore": 9,
             "opponentScore": 7,
@@ -608,6 +678,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 14,
                             "second": 25,
                             "type": "EVEN"
@@ -616,18 +687,21 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 3,
                             "second": 18,
                             "type": "PP"
                         },
                         {
                             "playerId": "opp2",
+                            "assists": ["2", "3"],
                             "minute": 8,
                             "second": 42,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 17,
                             "second": 55,
                             "type": "EVEN"
@@ -640,12 +714,14 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 5,
                             "second": 12,
                             "type": "PP"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 16,
                             "second": 33,
                             "type": "EVEN"
@@ -654,12 +730,14 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp3",
+                            "assists": ["2", "3"],
                             "minute": 9,
                             "second": 28,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "opp2",
+                            "assists": ["2", "3"],
                             "minute": 19,
                             "second": 15,
                             "type": "PP"
@@ -672,6 +750,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 12,
                             "second": 48,
                             "type": "SH"
@@ -680,12 +759,14 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp4",
+                            "assists": ["2", "3"],
                             "minute": 6,
                             "second": 22,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 18,
                             "second": 35,
                             "type": "EVEN"
@@ -701,6 +782,7 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-09-28",
         "seasonId": "23/24",
+        "roster": ["1"],
         "score": {
             "warriorsScore": 6,
             "opponentScore": 3,
@@ -711,12 +793,14 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 6,
                             "second": 15,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 18,
                             "second": 42,
                             "type": "PP"
@@ -725,6 +809,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 12,
                             "second": 28,
                             "type": "EVEN"
@@ -737,12 +822,14 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 4,
                             "second": 33,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 15,
                             "second": 55,
                             "type": "EVEN"
@@ -751,6 +838,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp2",
+                            "assists": ["2", "3"],
                             "minute": 9,
                             "second": 18,
                             "type": "PP"
@@ -763,12 +851,14 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 7,
                             "second": 22,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 16,
                             "second": 45,
                             "type": "SH"
@@ -777,6 +867,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 19,
                             "second": 12,
                             "type": "EVEN"
@@ -792,6 +883,7 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-10-15",
         "seasonId": "23/24",
+        "roster": ["1"],
         "score": {
             "warriorsScore": 2,
             "opponentScore": 2,
@@ -802,6 +894,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 11,
                             "second": 35,
                             "type": "EVEN"
@@ -816,6 +909,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 13,
                             "second": 22,
                             "type": "PP"
@@ -828,6 +922,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 8,
                             "second": 48,
                             "type": "PP"
@@ -836,6 +931,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp2",
+                            "assists": ["2", "3"],
                             "minute": 16,
                             "second": 15,
                             "type": "EVEN"
@@ -851,6 +947,7 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-11-05",
         "seasonId": "23/24",
+        "roster": ["1"],
         "score": {
             "warriorsScore": 5,
             "opponentScore": 1,
@@ -861,12 +958,14 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 5,
                             "second": 22,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 17,
                             "second": 45,
                             "type": "PP"
@@ -880,12 +979,14 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 3,
                             "second": 18,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 14,
                             "second": 33,
                             "type": "EVEN"
@@ -894,6 +995,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 19,
                             "second": 12,
                             "type": "PP"
@@ -906,6 +1008,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 9,
                             "second": 55,
                             "type": "SH"
@@ -922,6 +1025,7 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-11-22",
         "seasonId": "23/24",
+        "roster": ["1"],
         "score": {
             "warriorsScore": 3,
             "opponentScore": 4,
@@ -932,6 +1036,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 12,
                             "second": 28,
                             "type": "EVEN"
@@ -940,6 +1045,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 7,
                             "second": 15,
                             "type": "PP"
@@ -952,6 +1058,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 16,
                             "second": 42,
                             "type": "PP"
@@ -960,12 +1067,14 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp2",
+                            "assists": ["2", "3"],
                             "minute": 4,
                             "second": 33,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 18,
                             "second": 55,
                             "type": "EVEN"
@@ -978,6 +1087,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 9,
                             "second": 18,
                             "type": "SH"
@@ -986,6 +1096,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp3",
+                            "assists": ["2", "3"],
                             "minute": 14,
                             "second": 22,
                             "type": "EVEN"
@@ -1001,6 +1112,7 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2023-12-10",
         "seasonId": "23/24",
+        "roster": ["1"],
         "score": {
             "warriorsScore": 7,
             "opponentScore": 5,
@@ -1011,18 +1123,21 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 4,
                             "second": 15,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 11,
                             "second": 33,
                             "type": "PP"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 18,
                             "second": 48,
                             "type": "EVEN"
@@ -1031,12 +1146,14 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 8,
                             "second": 22,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "opp2",
+                            "assists": ["2", "3"],
                             "minute": 15,
                             "second": 55,
                             "type": "PP"
@@ -1049,12 +1166,14 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 6,
                             "second": 28,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 16,
                             "second": 42,
                             "type": "SH"
@@ -1063,12 +1182,14 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp3",
+                            "assists": ["2", "3"],
                             "minute": 3,
                             "second": 12,
                             "type": "PP"
                         },
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 19,
                             "second": 18,
                             "type": "EVEN"
@@ -1081,12 +1202,14 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 9,
                             "second": 35,
                             "type": "EVEN"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 17,
                             "second": 22,
                             "type": "PP"
@@ -1095,6 +1218,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp2",
+                            "assists": ["2", "3"],
                             "minute": 13,
                             "second": 45,
                             "type": "EVEN"
@@ -1110,6 +1234,7 @@
         "logoImage": "leeds-warriors.jpg",
         "date": "2024-01-20",
         "seasonId": "23/24",
+        "roster": ["1"],
         "score": {
             "warriorsScore": 4,
             "opponentScore": 3,
@@ -1120,6 +1245,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 15,
                             "second": 42,
                             "type": "EVEN"
@@ -1128,12 +1254,14 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp1",
+                            "assists": ["2", "3"],
                             "minute": 6,
                             "second": 18,
                             "type": "PP"
                         },
                         {
                             "playerId": "opp2",
+                            "assists": ["2", "3"],
                             "minute": 19,
                             "second": 33,
                             "type": "EVEN"
@@ -1146,12 +1274,14 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 8,
                             "second": 25,
                             "type": "PP"
                         },
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 16,
                             "second": 55,
                             "type": "EVEN"
@@ -1165,6 +1295,7 @@
                     "goals": [
                         {
                             "playerId": "1",
+                            "assists": ["2", "3"],
                             "minute": 12,
                             "second": 28,
                             "type": "SH"
@@ -1173,6 +1304,7 @@
                     "opponentGoals": [
                         {
                             "playerId": "opp3",
+                            "assists": ["2", "3"],
                             "minute": 18,
                             "second": 15,
                             "type": "EVEN"

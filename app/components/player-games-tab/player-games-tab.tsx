@@ -1,3 +1,4 @@
+import { useData, type Result } from "~/contexts/DataContext";
 import ComingSoon from "../coming-soon/coming-soon";
 
 interface RecentGame {
@@ -7,32 +8,129 @@ interface RecentGame {
   goals: number;
   assists: number;
   points: number;
-  pointsPerGame: number;
   teamPlusMinus: number;
   penaltyMinutes: number;
 }
 
 interface PlayerGamesTabProps {
-  recentGames: RecentGame[];
+  playerId: string;
 }
 
-export default function PlayerGamesTab({ recentGames }: PlayerGamesTabProps) {
-  // Calculate recent performance stats
-  const recentStats = recentGames.reduce((stats, game) => ({
-    totalGoals: stats.totalGoals + game.goals,
-    totalAssists: stats.totalAssists + game.assists,
-    totalPoints: stats.totalPoints + game.points,
-    totalPointsPerGame: stats.totalPointsPerGame + game.pointsPerGame,
-    wins: stats.wins + (game.result.startsWith('W') ? 1 : 0),
-    losses: stats.losses + (game.result.startsWith('L') ? 1 : 0),
-  }), {
-    totalGoals: 0,
-    totalAssists: 0,
-    totalPoints: 0,
-    totalPointsPerGame: 0,
-    wins: 0,
-    losses: 0,
+function getRecentGoals(playerId: string, results: Result[]) {
+  const periodOneGoals = results.reduce((total, result) => {
+    const periodOneGoals = result.score.period.one.goals.filter(goal => goal.playerId === playerId);
+    return total + periodOneGoals.length;
+  }, 0);
+
+  const periodTwoGoals = results.reduce((total, result) => {
+    const periodTwoGoals = result.score.period.two.goals.filter(goal => goal.playerId === playerId);
+    return total + periodTwoGoals.length;
+  }, 0);
+
+  const periodThreeGoals = results.reduce((total, result) => {
+    const periodThreeGoals = result.score.period.three.goals.filter(goal => goal.playerId === playerId);
+    return total + periodThreeGoals.length;
+  }, 0);
+
+  return periodOneGoals + periodTwoGoals + periodThreeGoals;
+}
+
+function getRecentAssists(playerId: string, results: Result[]) {
+  const periodOneAssists = results.reduce((total, result) => {
+    const periodOneAssists = result.score.period.one.goals.filter(goal => goal.assists.includes(playerId));
+    return total + periodOneAssists.length;
+  }, 0);
+
+  const periodTwoAssists = results.reduce((total, result) => {
+    const periodTwoAssists = result.score.period.two.goals.filter(goal => goal.assists.includes(playerId));
+    return total + periodTwoAssists.length;
+  }, 0);
+
+  const periodThreeAssists = results.reduce((total, result) => {
+    const periodThreeAssists = result.score.period.three.goals.filter(goal => goal.assists.includes(playerId));
+    return total + periodThreeAssists.length;
+  }, 0);
+
+  return periodOneAssists + periodTwoAssists + periodThreeAssists;
+}
+
+function getRecentPoints(recentGoals: number, recentAssists: number) {
+  return recentGoals + recentAssists;
+}
+
+function getRecentPointPerGame(recentPoints: number, recentGames: Result[]) {
+  return recentPoints / recentGames.length;
+}
+
+function getRecentWins(recentGames: Result[]) {
+  return recentGames.filter((game) => game.score.warriorsScore > game.score.opponentScore).length;
+}
+
+function getRecentLosses(recentGames: Result[]) {
+  return recentGames.filter((game) => game.score.warriorsScore < game.score.opponentScore).length;
+}
+
+function getGoalsForOneGame(game: Result, playerId: string) {
+
+  const periodOneGoals = game.score.period.one.goals.filter(goal => goal.playerId === playerId).length;
+  const periodTwoGoals = game.score.period.two.goals.filter(goal => goal.playerId === playerId).length;
+  const periodThreeGoals = game.score.period.three.goals.filter(goal => goal.playerId === playerId).length;
+  
+  return periodOneGoals + periodTwoGoals + periodThreeGoals;
+}
+
+function getAssistsForOneGame(game: Result, playerId: string) {
+
+  const periodOneAssists = game.score.period.one.goals.filter(goal => goal.assists.includes(playerId)).length;
+  const periodTwoAssists = game.score.period.two.goals.filter(goal => goal.assists.includes(playerId)).length;
+  const periodThreeAssists = game.score.period.three.goals.filter(goal => goal.assists.includes(playerId)).length;
+
+  return periodOneAssists + periodTwoAssists + periodThreeAssists;
+}
+
+function mapRecentGames(recentGames: Result[], playerId: string) {
+
+  return recentGames.map((game) => {
+    
+    const goals = getGoalsForOneGame(game, playerId);
+    const assists = getAssistsForOneGame(game, playerId);
+    const points = goals + assists;
+
+    return {
+      date: game.date,
+      opponent: game.opponentTeam,
+      result: game.score.warriorsScore > game.score.opponentScore ? 'W' : 'L',
+      goals: goals,
+      assists: assists,
+      points: points,
+      teamPlusMinus: game.score.warriorsScore - game.score.opponentScore,
+      penaltyMinutes: 2, // TODO: Get penalty minutes from game data
+    }
   });
+}
+
+export default function PlayerGamesTab({ playerId }: PlayerGamesTabProps) {
+  const { data } = useData();
+
+  const recentGames = data.results.filter((game) => game.roster.includes(playerId)).slice(0, 5);
+
+  const recentGoals = getRecentGoals(playerId, recentGames);
+  const recentAssists = getRecentAssists(playerId, recentGames);
+
+  const recentPoints = getRecentPoints(recentGoals, recentAssists);
+  const recentPPG = getRecentPointPerGame(recentPoints, recentGames);
+
+    // Calculate recent performance stats
+  const recentStats = {
+    totalGoals: recentGoals,
+    totalAssists: recentAssists,
+    totalPoints: recentPoints,
+    totalPointsPerGame: recentPPG,
+    wins: getRecentWins(recentGames),
+    losses: getRecentLosses(recentGames),
+  };
+
+  const mappedRecentGames = mapRecentGames(recentGames, playerId);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -49,16 +147,6 @@ export default function PlayerGamesTab({ recentGames }: PlayerGamesTabProps) {
     return 'text-yellow-700 bg-yellow-100';
   };
 
-  if(true) {
-      return (
-        <ComingSoon 
-          title="Games"
-          message="Games will be available soon!"
-          showCountdown={true}
-          estimatedDate="2025-09-13"
-        />
-      )
-    }
 
   return (
     <div className="space-y-6">
@@ -90,7 +178,7 @@ export default function PlayerGamesTab({ recentGames }: PlayerGamesTabProps) {
         
         <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg text-center">
           <div className="text-2xl md:text-3xl font-bold text-orange-700">
-            {(recentStats.totalPointsPerGame / recentGames.length).toFixed(2)}
+            {recentStats.totalPointsPerGame.toFixed(2)}
           </div>
           <div className="text-sm text-orange-600 font-medium">Avg PPG</div>
           <div className="text-xs text-orange-500">Last {recentGames.length} games</div>
@@ -142,9 +230,6 @@ export default function PlayerGamesTab({ recentGames }: PlayerGamesTabProps) {
                   PTS
                 </th>
                 <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  PPG
-                </th>
-                <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Team +/-
                 </th>
                 <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -153,7 +238,7 @@ export default function PlayerGamesTab({ recentGames }: PlayerGamesTabProps) {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {recentGames.map((game, index) => (
+              {mappedRecentGames.map((game, index) => (
                 <tr 
                   key={`${game.date}-${game.opponent}`} 
                   className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-blue-50 transition-colors`}
@@ -182,11 +267,6 @@ export default function PlayerGamesTab({ recentGames }: PlayerGamesTabProps) {
                   <td className="px-4 py-3 text-sm text-center">
                     <span className={`font-bold ${game.points > 0 ? 'text-purple-700' : 'text-gray-600'}`}>
                       {game.points}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-sm text-center">
-                    <span className="text-blue-700 font-medium">
-                      {game.pointsPerGame.toFixed(2)}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-sm text-center">
