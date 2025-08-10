@@ -3,7 +3,7 @@
     "id": "PLR502819",
     "name": "Bradley Plater",
     "number": 4,
-    "position": "MISSING",
+    "position": "Forward",
     "stats": [
       {
         "season": "24/25",
@@ -19,7 +19,7 @@
     "id": "PLR297690",
     "name": "Matthew Heaton",
     "number": 5,
-    "position": "MISSING",
+    "position": "Defence",
     "stats": [
       {
         "season": "24/25",
@@ -35,7 +35,7 @@
     "id": "PLR357060",
     "name": "James Donovan",
     "number": 7,
-    "position": "MISSING",
+    "position": "Forward",
     "stats": [
       {
         "season": "24/25",
@@ -51,7 +51,7 @@
     "id": "PLR562272",
     "name": "Robin Evans",
     "number": 9,
-    "position": "MISSING",
+    "position": "Defence",
     "stats": [
       {
         "season": "24/25",
@@ -67,7 +67,7 @@
     "id": "PLR238395",
     "name": "Aaron Knight",
     "number": 19,
-    "position": "MISSING",
+    "position": "Forward",
     "stats": [
       {
         "season": "24/25",
@@ -83,7 +83,7 @@
     "id": "PLR760594",
     "name": "Charles Loew",
     "number": 34,
-    "position": "MISSING",
+    "position": "Forward",
     "stats": [
       {
         "season": "24/25",
@@ -99,7 +99,7 @@
     "id": "PLR006500",
     "name": "Rhys Evans",
     "number": 35,
-    "position": "MISSING",
+    "position": "Forward",
     "stats": [
       {
         "season": "24/25",
@@ -115,7 +115,7 @@
     "id": "PLR646257",
     "name": "Nick Mcfarlane",
     "number": 42,
-    "position": "MISSING",
+    "position": "Forward",
     "stats": [
       {
         "season": "24/25",
@@ -131,7 +131,7 @@
     "id": "PLR186348",
     "name": "Arnis Bauris",
     "number": 46,
-    "position": "MISSING",
+    "position": "Defence",
     "stats": [
       {
         "season": "24/25",
@@ -147,7 +147,7 @@
     "id": "PLR123881",
     "name": "Oli Mcgill",
     "number": 50,
-    "position": "MISSING",
+    "position": "Defence",
     "stats": [
       {
         "season": "24/25",
@@ -163,7 +163,7 @@
     "id": "PLR729592",
     "name": "Konstantins Grigorjevs",
     "number": 53,
-    "position": "MISSING",
+    "position": "Goaltender",
     "stats": [
       {
         "season": "24/25",
@@ -179,7 +179,7 @@
     "id": "PLR030348",
     "name": "Josh Turner",
     "number": 58,
-    "position": "MISSING",
+    "position": "Defence/Goaltender",
     "stats": [
       {
         "season": "24/25",
@@ -195,7 +195,7 @@
     "id": "PLR877760",
     "name": "Graeme Parry",
     "number": 70,
-    "position": "MISSING",
+    "position": "Defence",
     "stats": [
       {
         "season": "24/25",
@@ -211,7 +211,7 @@
     "id": "PLR197447",
     "name": "Adam Long",
     "number": 86,
-    "position": "MISSING",
+    "position": "Forward",
     "stats": [
       {
         "season": "24/25",
@@ -227,7 +227,7 @@
     "id": "PLR780396",
     "name": "Darren Bush",
     "number": 88,
-    "position": "MISSING",
+    "position": "Forward",
     "stats": [
       {
         "season": "24/25",
@@ -243,7 +243,7 @@
     "id": "PLR397024",
     "name": "Marcis Klemenss",
     "number": 90,
-    "position": "MISSING",
+    "position": "Forward",
     "stats": [
       {
         "season": "24/25",
@@ -259,7 +259,7 @@
     "id": "PLR829708",
     "name": "Katie Plumb",
     "number": 98,
-    "position": "MISSING",
+    "position": "Goaltender",
     "stats": [
       {
         "season": "24/25",
