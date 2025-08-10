@@ -37,19 +37,31 @@ function getRecentGoals(playerId: string, results: Result[]) {
 
 function getRecentAssists(playerId: string, results: Result[]) {
   const periodOneAssists = results.reduce((total, result) => {
+    console.log('one goals', result.score.period.one.goals)
+
     const periodOneAssists = result.score.period.one.goals.filter(goal => goal.assists.includes(playerId));
     return total + periodOneAssists.length;
   }, 0);
 
+  console.log('one: ', periodOneAssists)
+
   const periodTwoAssists = results.reduce((total, result) => {
+    console.log('two goals', result.score.period.two.goals)
+
     const periodTwoAssists = result.score.period.two.goals.filter(goal => goal.assists.includes(playerId));
     return total + periodTwoAssists.length;
   }, 0);
 
+  console.log('two', periodTwoAssists)
+
   const periodThreeAssists = results.reduce((total, result) => {
+    console.log('three goals', result.score.period.three.goals)
+
     const periodThreeAssists = result.score.period.three.goals.filter(goal => goal.assists.includes(playerId));
     return total + periodThreeAssists.length;
   }, 0);
+
+  console.log('three', periodThreeAssists)
 
   return periodOneAssists + periodTwoAssists + periodThreeAssists;
 }
