@@ -224,5 +224,285 @@
         }
       }
     }
+  },
+  {
+    "season": "24/25",
+    "opponentTeam": "Nottingham Outlaws",
+    "logoImage": "nottingham-outlaws.jpg",
+    "date": "2024-12-13T19:00:00.000Z",
+    "seasonId": "24/25",
+    "roster": [
+      "PLR357060",
+      "PLR562272",
+      "PLR208841",
+      "PLR238395",
+      "PLR810070",
+      "PLR760594",
+      "PLR006500",
+      "PLR646257",
+      "PLR186348",
+      "PLR729592",
+      "PLR930189",
+      "PLR241136",
+      "PLR915887",
+      "PLR197447",
+      "PLR382468",
+      "PLR397024"
+    ],
+    "score": {
+      "warriorsScore": 1,
+      "opponentScore": 11,
+      "period": {
+        "one": {
+          "warriorsScore": 0,
+          "opponentScore": 2,
+          "goals": [],
+          "opponentGoals": [
+            {
+              "playerId": "B Addison",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 11,
+              "second": 8,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "B Addison",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 17,
+              "second": 16,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": []
+        },
+        "two": {
+          "warriorsScore": 1,
+          "opponentScore": 4,
+          "goals": [
+            {
+              "playerId": "PLR810070",
+              "assists": [
+                "PLR646257"
+              ],
+              "minute": 39,
+              "second": 35,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "A Rowson",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 30,
+              "second": 8,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "R Mclean",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 32,
+              "second": 13,
+              "type": "SH"
+            },
+            {
+              "playerId": "R Mclean",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 36,
+              "second": 30,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "D Maving",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 37,
+              "second": 59,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "HOLD",
+              "minute": 34,
+              "second": 58,
+              "duration": 2,
+              "offender": "PLR810070"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "CROSS",
+              "minute": 34,
+              "second": 58,
+              "duration": 2,
+              "offender": "C Moore"
+            },
+            {
+              "type": "TRIP",
+              "minute": 36,
+              "second": 2,
+              "duration": 2,
+              "offender": "L Stone"
+            },
+            {
+              "type": "INTRF",
+              "minute": 38,
+              "second": 0,
+              "duration": 2,
+              "offender": "B Waplington"
+            }
+          ]
+        },
+        "three": {
+          "warriorsScore": 0,
+          "opponentScore": 5,
+          "goals": [],
+          "opponentGoals": [
+            {
+              "playerId": "B Addison",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 41,
+              "second": 41,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "R Mclean",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 42,
+              "second": 57,
+              "type": "PP"
+            },
+            {
+              "playerId": "O Adams",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 45,
+              "second": 16,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "R Mclean",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 50,
+              "second": 31,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "R Mclean",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 53,
+              "second": 27,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "DELAY",
+              "minute": 41,
+              "second": 54,
+              "duration": 2,
+              "offender": "PLR930189"
+            },
+            {
+              "type": "UNSP",
+              "minute": 46,
+              "second": 2,
+              "duration": 10,
+              "offender": "PLR006500"
+            },
+            {
+              "type": "CROSS",
+              "minute": 50,
+              "second": 46,
+              "duration": 2,
+              "offender": "PLR186348"
+            },
+            {
+              "type": "CROSS",
+              "minute": 50,
+              "second": 46,
+              "duration": 5,
+              "offender": "PLR186348"
+            },
+            {
+              "type": "FIGHT",
+              "minute": 50,
+              "second": 46,
+              "duration": 20,
+              "offender": "PLR186348"
+            },
+            {
+              "type": "HOOK",
+              "minute": 55,
+              "second": 25,
+              "duration": 2,
+              "offender": "PLR238395"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "HOOK",
+              "minute": 43,
+              "second": 8,
+              "duration": 2,
+              "offender": "O Adams"
+            },
+            {
+              "type": "BOARD",
+              "minute": 46,
+              "second": 20,
+              "duration": 2,
+              "offender": "B Waplington"
+            },
+            {
+              "type": "HIST",
+              "minute": 50,
+              "second": 46,
+              "duration": 2,
+              "offender": "O Adams"
+            },
+            {
+              "type": "ROUGH",
+              "minute": 50,
+              "second": 46,
+              "duration": 2,
+              "offender": "O Adams"
+            }
+          ]
+        }
+      }
+    }
   }
 ]
