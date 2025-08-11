@@ -504,5 +504,319 @@
         }
       }
     }
+  },
+  {
+    "season": "24/25",
+    "opponentTeam": "Leeds Warriors",
+    "logoImage": "leeds-warriors.jpg",
+    "date": "2024-12-14T19:00:00.000Z",
+    "seasonId": "24/25",
+    "roster": [
+      "PLR297690",
+      "PLR708075",
+      "PLR207827",
+      "PLR434650",
+      "PLR883828",
+      "PLR644758",
+      "PLR646257",
+      "PLR925453",
+      "PLR427400",
+      "PLR877760",
+      "PLR491823",
+      "PLR026982",
+      "PLR902411",
+      "PLR780396",
+      "PLR763992",
+      "PLR829708"
+    ],
+    "score": {
+      "warriorsScore": 4,
+      "opponentScore": 1,
+      "period": {
+        "one": {
+          "warriorsScore": 2,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR646257",
+              "assists": [
+                "PLR925453"
+              ],
+              "minute": 7,
+              "second": 18,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR883828",
+              "assists": [],
+              "minute": 16,
+              "second": 35,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [],
+          "opponentPenalties": [
+            {
+              "type": "TRIP",
+              "minute": 1,
+              "second": 4,
+              "duration": 2,
+              "offender": "Fred Monk"
+            },
+            {
+              "type": "TOOM",
+              "minute": 1,
+              "second": 31,
+              "duration": 2,
+              "offender": "Greg Clough"
+            }
+          ]
+        },
+        "two": {
+          "warriorsScore": 1,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR646257",
+              "assists": [
+                "PLR297690"
+              ],
+              "minute": 25,
+              "second": 2,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [],
+          "opponentPenalties": [
+            {
+              "type": "TOOM",
+              "minute": 35,
+              "second": 33,
+              "duration": 2,
+              "offender": "Daniel Read"
+            }
+          ]
+        },
+        "three": {
+          "warriorsScore": 1,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR646257",
+              "assists": [],
+              "minute": 42,
+              "second": 53,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Andis Jansons",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 50,
+              "second": 21,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "CHECK",
+              "minute": 51,
+              "second": 54,
+              "duration": 2,
+              "offender": "PLR883828"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "HOST",
+              "minute": 49,
+              "second": 54,
+              "duration": 2,
+              "offender": "Craig Baker"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "season": "24/25",
+    "opponentTeam": "Romford Renegades",
+    "logoImage": "romford-renegades.jpg",
+    "date": "2025-01-04T19:00:00.000Z",
+    "seasonId": "24/25",
+    "roster": [
+      "PLR502819",
+      "PLR357060",
+      "PLR208841",
+      "PLR238395",
+      "PLR207827",
+      "PLR813692",
+      "PLR883828",
+      "PLR006500",
+      "PLR053305",
+      "PLR644758",
+      "PLR729592",
+      "PLR030348",
+      "PLR427400",
+      "PLR070307",
+      "PLR491823",
+      "PLR382468"
+    ],
+    "score": {
+      "warriorsScore": 5,
+      "opponentScore": 4,
+      "period": {
+        "one": {
+          "warriorsScore": 0,
+          "opponentScore": 1,
+          "goals": [],
+          "opponentGoals": [
+            {
+              "playerId": "Dodds",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 8,
+              "second": 36,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": []
+        },
+        "two": {
+          "warriorsScore": 3,
+          "opponentScore": 2,
+          "goals": [
+            {
+              "playerId": "PLR813692",
+              "assists": [],
+              "minute": 27,
+              "second": 18,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR006500",
+              "assists": [],
+              "minute": 29,
+              "second": 26,
+              "type": "PP"
+            },
+            {
+              "playerId": "PLR030348",
+              "assists": [
+                "PLR006500"
+              ],
+              "minute": 33,
+              "second": 6,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Long",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 26,
+              "second": 53,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "Nadden",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 36,
+              "second": 7,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": [
+            {
+              "type": "TRIP",
+              "minute": 20,
+              "second": 0,
+              "duration": 2,
+              "offender": "Nadden"
+            },
+            {
+              "type": "CHECK",
+              "minute": 28,
+              "second": 37,
+              "duration": 2,
+              "offender": "Lucas"
+            }
+          ]
+        },
+        "three": {
+          "warriorsScore": 2,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR006500",
+              "assists": [
+                "PLR491823",
+                "PLR502819"
+              ],
+              "minute": 40,
+              "second": 16,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR006500",
+              "assists": [
+                "PLR502819",
+                "PLR030348"
+              ],
+              "minute": 43,
+              "second": 30,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Dodds",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 56,
+              "second": 14,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "TOOM",
+              "minute": 44,
+              "second": 24,
+              "duration": 2,
+              "offender": "BENCH"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "CHECK",
+              "minute": 53,
+              "second": 2,
+              "duration": 2,
+              "offender": "Drakeford"
+            }
+          ]
+        }
+      }
+    }
   }
 ]
