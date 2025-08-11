@@ -13,6 +13,8 @@ export function meta({ params }: Route.MetaArgs) {
 export default function Players() {
   const { data } = useData();
 
+  const players = data.players.sort((a, b) => a.number - b.number);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -22,7 +24,7 @@ export default function Players() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-          {data.players.map((player) => {
+          {players.map((player) => {
             const [imageError, setImageError] = useState(false);
             const imageSrc = `/images/players/${player.id}.jpg`;
             

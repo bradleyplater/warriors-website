@@ -9,7 +9,7 @@ import TeamStatsSpotlight from "~/components/team-stats-spotlight/team-stats-spo
 import UpcomingGameSpotlight from "~/components/upcoming-game-spotlight/upcoming-game-spotlight";
 
 export function Welcome() {
-  const [selectedSeason, setSelectedSeason] = useState<Season>('23/24');
+  const [selectedSeason, setSelectedSeason] = useState<Season>('24/25');
 
   const handleSeasonChange = (season: Season) => {
     setSelectedSeason(season);
