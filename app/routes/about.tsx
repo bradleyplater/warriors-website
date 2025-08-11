@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import type { Route } from '../+types/root';
+import { SocialIcon } from 'react-social-icons';
 
 export function meta({ params }: Route.MetaArgs) {
   return [
@@ -30,19 +31,14 @@ export default function About() {
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">Who We Are</h2>
           <div className="max-w-4xl mx-auto">
             <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-              The Warriors are a recreational ice hockey team based in Peterborough, bringing together players 
-              who share a passion for the game. We welcome everyone from those just learning to play to 
-              mixed level players, looking to play in a competitive environment.
-            </p>
-            <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-              Our team caters to all skill levels - from "Learn to Play" beginners taking their first steps 
-              on the ice, all the way to lower mixed level players who want to enjoy competitive hockey in a 
-              supportive community atmosphere.
+              The Warriors are a recreational ice hockey team based in Peterborough, uniting players who share 
+              a passion for the game. We welcome all skill levels - from complete beginners to experienced players 
+              seeking competitive hockey in a supportive community.
             </p>
             <p className="text-lg text-gray-700 leading-relaxed">
-              Whether you're picking up a hockey stick for the first time or you've been playing for years, 
-              the Warriors provide a welcoming environment where everyone can improve their skills, make new 
-              friends, and most importantly, have fun playing the game we all love.
+              Our mission is simple: provide a welcoming environment where everyone can improve their skills, 
+              build lasting friendships, and have fun playing the sport we love. Whether it's your first time 
+              on skates or you're a seasoned player, there's a place for you with the Warriors.
             </p>
           </div>
         </div>
@@ -138,8 +134,9 @@ export default function About() {
           </p>
           
           <div className="flex justify-center space-x-6">
-            {/* Facebook */}
-            </div>
+            <SocialIcon url="https://www.facebook.com/profile.php?id=100084577901994" network="facebook" className="w-12 h-12" />
+            <SocialIcon url="https://www.instagram.com/peterboroughwarriors" network="instagram" className="w-12 h-12" />
+          </div>
         </div>
       </div>
     </div>
