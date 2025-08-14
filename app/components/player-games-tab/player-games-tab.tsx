@@ -262,7 +262,7 @@ export default function PlayerGamesTab({ playerId }: PlayerGamesTabProps) {
                     {game.opponent}
                   </td>
                   <td className="px-4 py-3 text-center">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getResultColor(game.result)}`}>
+                    <span className={`inline-flex items-center justify-center px-2 py-1 text-xs font-semibold rounded-full ${getResultColor(game.result)}`}>
                       {game.result}
                     </span>
                   </td>
