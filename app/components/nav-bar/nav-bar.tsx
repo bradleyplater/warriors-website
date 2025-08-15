@@ -37,25 +37,12 @@ export default function NavBar() {
               <Link to="/player-stats" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                 Player Stats
               </Link>
-            </div>
-          </div>
-          
-          <div className="md:hidden" id="mobile-menu">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              <Link to="/" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-                Home
-              </Link>
-              <Link to="/about" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-                About
-              </Link>
-              <Link to="/players" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-                Players
-              </Link>
-              <Link to="/player-stats" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-                Player Stats
+              <Link to="/team-stats" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                Team Stats
               </Link>
             </div>
           </div>
+
           {/* Mobile menu button */}
           <div className="md:hidden">
             <button
@@ -104,6 +91,12 @@ export default function NavBar() {
             Home
           </Link>
           <Link
+            to="/about"
+            className="block px-3 py-2 rounded-md text-base font-medium"
+          >
+            About
+          </Link>
+          <Link
             to="/players"
             className="block px-3 py-2 rounded-md text-base font-medium"
           >
@@ -114,6 +107,12 @@ export default function NavBar() {
             className="block px-3 py-2 rounded-md text-base font-medium"
           >
             Player Stats
+          </Link>
+          <Link
+            to="/team-stats"
+            className="block px-3 py-2 rounded-md text-base font-medium"
+          >
+            Team Stats
           </Link>
         </div>
       </div>
