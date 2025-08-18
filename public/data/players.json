@@ -7,11 +7,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 4,
-        "goals": 5,
-        "assists": 13,
-        "pims": 8,
-        "points": 18
+        "games": 13,
+        "goals": 17,
+        "assists": 21,
+        "pims": 20,
+        "points": 38
       }
     ]
   },
@@ -23,11 +23,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 4,
-        "goals": 0,
-        "assists": 4,
-        "pims": 0,
-        "points": 4
+        "games": 10,
+        "goals": 1,
+        "assists": 5,
+        "pims": 4,
+        "points": 6
       }
     ]
   },
@@ -39,11 +39,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 5,
-        "goals": 2,
-        "assists": 3,
-        "pims": 0,
-        "points": 5
+        "games": 12,
+        "goals": 6,
+        "assists": 5,
+        "pims": 4,
+        "points": 11
       }
     ]
   },
@@ -55,10 +55,10 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 3,
+        "games": 8,
         "goals": 1,
         "assists": 0,
-        "pims": 0,
+        "pims": 14,
         "points": 1
       }
     ]
@@ -71,11 +71,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 5,
-        "goals": 0,
-        "assists": 2,
-        "pims": 10,
-        "points": 2
+        "games": 12,
+        "goals": 1,
+        "assists": 3,
+        "pims": 16,
+        "points": 4
       }
     ]
   },
@@ -87,11 +87,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 3,
-        "goals": 3,
-        "assists": 2,
-        "pims": 4,
-        "points": 5
+        "games": 7,
+        "goals": 4,
+        "assists": 5,
+        "pims": 46,
+        "points": 9
       }
     ]
   },
@@ -103,11 +103,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 5,
-        "goals": 15,
-        "assists": 6,
+        "games": 14,
+        "goals": 24,
+        "assists": 13,
         "pims": 10,
-        "points": 21
+        "points": 37
       }
     ]
   },
@@ -119,11 +119,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 5,
-        "goals": 7,
-        "assists": 3,
+        "games": 13,
+        "goals": 11,
+        "assists": 7,
         "pims": 4,
-        "points": 10
+        "points": 18
       }
     ]
   },
@@ -135,7 +135,7 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 3,
+        "games": 4,
         "goals": 0,
         "assists": 0,
         "pims": 29,
@@ -151,11 +151,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 1,
+        "games": 5,
         "goals": 0,
-        "assists": 0,
+        "assists": 1,
         "pims": 0,
-        "points": 0
+        "points": 1
       }
     ]
   },
@@ -167,7 +167,7 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 4,
+        "games": 10,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -183,11 +183,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 4,
+        "games": 12,
         "goals": 1,
-        "assists": 4,
+        "assists": 5,
         "pims": 0,
-        "points": 5
+        "points": 6
       }
     ]
   },
@@ -199,10 +199,10 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 2,
+        "games": 3,
         "goals": 0,
         "assists": 0,
-        "pims": 0,
+        "pims": 2,
         "points": 0
       }
     ]
@@ -215,11 +215,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 3,
-        "goals": 1,
+        "games": 7,
+        "goals": 3,
         "assists": 1,
-        "pims": 2,
-        "points": 2
+        "pims": 8,
+        "points": 4
       }
     ]
   },
@@ -231,7 +231,7 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 2,
+        "games": 6,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -247,7 +247,7 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 3,
+        "games": 4,
         "goals": 3,
         "assists": 2,
         "pims": 0,
@@ -263,7 +263,7 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 4,
+        "games": 7,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -279,7 +279,7 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 3,
+        "games": 5,
         "goals": 1,
         "assists": 0,
         "pims": 0,
@@ -295,11 +295,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 1,
-        "goals": 1,
+        "games": 2,
+        "goals": 2,
         "assists": 0,
         "pims": 2,
-        "points": 1
+        "points": 2
       }
     ]
   },
@@ -311,11 +311,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 1,
+        "games": 6,
         "goals": 0,
-        "assists": 0,
-        "pims": 2,
-        "points": 0
+        "assists": 1,
+        "pims": 4,
+        "points": 1
       }
     ]
   },
@@ -327,11 +327,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 3,
-        "goals": 0,
+        "games": 7,
+        "goals": 1,
         "assists": 0,
-        "pims": 0,
-        "points": 0
+        "pims": 2,
+        "points": 1
       }
     ]
   },
@@ -359,11 +359,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 3,
-        "goals": 3,
-        "assists": 0,
+        "games": 10,
+        "goals": 5,
+        "assists": 1,
         "pims": 0,
-        "points": 3
+        "points": 6
       }
     ]
   },
@@ -375,11 +375,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 3,
+        "games": 6,
         "goals": 0,
-        "assists": 1,
+        "assists": 2,
         "pims": 0,
-        "points": 1
+        "points": 2
       }
     ]
   },
@@ -391,11 +391,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 1,
+        "games": 5,
         "goals": 0,
-        "assists": 0,
+        "assists": 1,
         "pims": 0,
-        "points": 0
+        "points": 1
       }
     ]
   },
@@ -407,11 +407,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 1,
+        "games": 5,
         "goals": 0,
-        "assists": 0,
+        "assists": 1,
         "pims": 0,
-        "points": 0
+        "points": 1
       }
     ]
   },
@@ -423,11 +423,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 2,
+        "games": 4,
         "goals": 0,
-        "assists": 2,
+        "assists": 3,
         "pims": 0,
-        "points": 2
+        "points": 3
       }
     ]
   },
@@ -439,7 +439,7 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 2,
+        "games": 5,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -455,10 +455,10 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 2,
+        "games": 8,
         "goals": 1,
         "assists": 0,
-        "pims": 0,
+        "pims": 2,
         "points": 1
       }
     ]
@@ -471,7 +471,7 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 2,
+        "games": 3,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -503,11 +503,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 3,
+        "games": 8,
         "goals": 1,
-        "assists": 0,
-        "pims": 4,
-        "points": 1
+        "assists": 2,
+        "pims": 10,
+        "points": 3
       }
     ]
   },
@@ -519,7 +519,7 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 3,
+        "games": 5,
         "goals": 0,
         "assists": 1,
         "pims": 0,
@@ -535,11 +535,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 2,
+        "games": 7,
         "goals": 0,
-        "assists": 0,
+        "assists": 3,
         "pims": 0,
-        "points": 0
+        "points": 3
       }
     ]
   },
@@ -551,11 +551,11 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 2,
-        "goals": 1,
-        "assists": 0,
-        "pims": 2,
-        "points": 1
+        "games": 11,
+        "goals": 6,
+        "assists": 2,
+        "pims": 4,
+        "points": 8
       }
     ]
   },
@@ -567,7 +567,7 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 1,
+        "games": 2,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -583,11 +583,123 @@
     "stats": [
       {
         "season": "24/25",
-        "games": 1,
-        "goals": 1,
-        "assists": 0,
+        "games": 2,
+        "goals": 3,
+        "assists": 2,
+        "pims": 0,
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "PLR194252",
+    "name": "Ben Warby",
+    "number": 67,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 3,
+        "goals": 0,
+        "assists": 1,
         "pims": 0,
         "points": 1
+      }
+    ]
+  },
+  {
+    "id": "PLR348214",
+    "name": "Richard Davies",
+    "number": 63,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 3,
+        "goals": 0,
+        "assists": 0,
+        "pims": 6,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR238709",
+    "name": "Denis Fajta",
+    "number": 101,
+    "position": "Goaltender",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR992077",
+    "name": "Nick Foley",
+    "number": 62,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 6,
+        "goals": 4,
+        "assists": 0,
+        "pims": 0,
+        "points": 4
+      }
+    ]
+  },
+  {
+    "id": "PLR839247",
+    "name": "Connor Phillips",
+    "number": 82,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 2,
+        "goals": 1,
+        "assists": 1,
+        "pims": 0,
+        "points": 2
+      }
+    ]
+  },
+  {
+    "id": "PLR899328",
+    "name": "Matt Johnson",
+    "number": 44,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 2,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR941511",
+    "name": "Matt Silsby",
+    "number": 3,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 4,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
       }
     ]
   }

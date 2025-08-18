@@ -2,13 +2,13 @@
   "stats": [
     {
       "season": "24/25",
-      "games": 6,
-      "goalsFor": 47,
-      "pims": 77,
-      "goalsAgainst": 24,
-      "wins": 5,
-      "draws": 0,
-      "losses": 1
+      "games": 16,
+      "goalsFor": 97,
+      "pims": 187,
+      "goalsAgainst": 82,
+      "wins": 9,
+      "draws": 2,
+      "losses": 6
     }
   ]
 }
