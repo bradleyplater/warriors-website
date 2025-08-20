@@ -40,11 +40,21 @@ interface Goal {
     assists: string[];
 }
 
+interface Penalty {
+  offender: string;
+  minute: number;
+  second: number;
+  duration: number;
+  type: string;
+}
+
 interface PeriodScore {
   warriorsScore: number;
   opponentScore: number;
   goals: Goal[];
   opponentGoals: Goal[];
+  penalties: Penalty[];
+  opponentPenalties: Penalty[];
 }
 
 interface Period {

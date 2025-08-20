@@ -16,6 +16,12 @@ interface PlayerGamesTabProps {
   playerId: string;
 }
 
+const getRecentGames = (playerId: string, results: Result[]) => {
+  return results.filter((game) => game.roster.includes(playerId))
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .slice(0, 5);
+}
+
 function getRecentGoals(playerId: string, results: Result[]) {
   const periodOneGoals = results.reduce((total, result) => {
     const periodOneGoals = result.score.period.one.goals.filter(goal => goal.playerId === playerId);
@@ -100,7 +106,21 @@ function getAssistsForOneGame(game: Result, playerId: string) {
   return periodOneAssists + periodTwoAssists + periodThreeAssists;
 }
 
+function getPimsForOneGame(game: Result, playerId: string) {
+  const allPenalties = [
+    ...game.score.period.one.penalties,
+    ...game.score.period.two.penalties,
+    ...game.score.period.three.penalties
+  ];
+  
+  const playerPenalties = allPenalties.filter(penalty => penalty.offender === playerId);
+
+  return playerPenalties.reduce((total, penalty) => total + penalty.duration, 0);
+}
+
 function mapRecentGames(recentGames: Result[], playerId: string) {
+
+  recentGames.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return recentGames.map((game) => {
     
@@ -111,12 +131,12 @@ function mapRecentGames(recentGames: Result[], playerId: string) {
     return {
       date: game.date,
       opponent: game.opponentTeam,
-      result: game.score.warriorsScore > game.score.opponentScore ? 'W' : 'L',
+      result: game.score.warriorsScore > game.score.opponentScore ? 'W' : game.score.warriorsScore === game.score.opponentScore ? 'D' : 'L',
       goals: goals,
       assists: assists,
       points: points,
       teamPlusMinus: game.score.warriorsScore - game.score.opponentScore,
-      penaltyMinutes: 2, // TODO: Get penalty minutes from game data
+      penaltyMinutes: getPimsForOneGame(game, playerId),
     }
   });
 }
@@ -124,7 +144,7 @@ function mapRecentGames(recentGames: Result[], playerId: string) {
 export default function PlayerGamesTab({ playerId }: PlayerGamesTabProps) {
   const { data } = useData();
 
-  const recentGames = data.results.filter((game) => game.roster.includes(playerId)).slice(0, 5);
+  const recentGames = getRecentGames(playerId, data.results);
 
   const recentGoals = getRecentGoals(playerId, recentGames);
   const recentAssists = getRecentAssists(playerId, recentGames);
@@ -156,6 +176,7 @@ export default function PlayerGamesTab({ playerId }: PlayerGamesTabProps) {
   const getResultColor = (result: string) => {
     if (result.startsWith('W')) return 'text-green-700 bg-green-100';
     if (result.startsWith('L')) return 'text-red-700 bg-red-100';
+    if (result.startsWith('D')) return 'text-gray-700 bg-gray-100';
     return 'text-yellow-700 bg-yellow-100';
   };
 

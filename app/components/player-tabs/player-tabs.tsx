@@ -43,8 +43,8 @@ export default function PlayerTabs({
 }: PlayerTabsProps) {
   const tabs = [
     { id: 'stats' as const, label: 'Season Stats', icon: '📊' },
-    { id: 'charts' as const, label: 'Charts & Analytics', icon: '📈' },
     { id: 'games' as const, label: 'Recent Games', icon: '🏒' },
+    { id: 'charts' as const, label: 'Charts & Analytics', icon: '📈' },
   ];
 
   return (
@@ -80,14 +80,15 @@ export default function PlayerTabs({
           <PlayerStatsTab playerId={playerId} />
         )}
         
+        {activeTab === 'games' && (
+          <PlayerGamesTab playerId={playerId} />
+        )}
+
         {activeTab === 'charts' && (
           <PlayerChartsTab seasonStats={seasonStats} playerId={playerId} />
         )}
         
-        {activeTab === 'games' && (
-          <PlayerGamesTab playerId={playerId} />
-        )}
       </div>
     </div>
   );
-}
+} 
