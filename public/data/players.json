@@ -1,140 +1,770 @@
 [
-    {
-        "name": "John Smith",
-        "number": 10,
-        "position": "Forward",
-        "stats": [
-            {
-                "season": "24/25",
-                "games": 10,
-                "goals": 5,
-                "assists": 3,
-                "pims": 3,
-                "points": 32
-            },
-            {
-                "season": "23/24",
-                "games": 18,
-                "goals": 8,
-                "assists": 12,
-                "pims": 6,
-                "points": 20
-            }
-        ]
-    },
-    {
-        "name": "Derek Jones",
-        "number": 22,
-        "position": "Forward",
-        "stats": [
-            {
-                "season": "24/25",
-                "games": 10,
-                "goals": 6,
-                "assists": 3,
-                "pims": 3,
-                "points": 42
-            },
-            {
-                "season": "23/24",
-                "games": 22,
-                "goals": 14,
-                "assists": 9,
-                "pims": 8,
-                "points": 23
-            }
-        ]
-    },
-    {
-        "name": "Paul",
-        "number": 88,
-        "position": "Forward",
-        "stats": [
-            {
-                "season": "24/25",
-                "games": 10,
-                "goals": 22,
-                "assists": 3,
-                "pims": 3,
-                "points": 12
-            },
-            {
-                "season": "23/24",
-                "games": 25,
-                "goals": 18,
-                "assists": 15,
-                "pims": 12,
-                "points": 33
-            }
-        ]
-    },
-    {
-        "name": "Jonny Adams",
-        "number": 2,
-        "position": "Forward",
-        "stats": [
-            {
-                "season": "24/25",
-                "games": 10,
-                "goals": 16,
-                "assists": 3,
-                "pims": 3,
-                "points": 13
-            },
-            {
-                "season": "23/24",
-                "games": 20,
-                "goals": 11,
-                "assists": 7,
-                "pims": 4,
-                "points": 18
-            }
-        ]
-    },
-    {
-        "name": "Ben Smitty",
-        "number": 53,
-        "position": "Forward",
-        "stats": [
-            {
-                "season": "24/25",
-                "games": 10,
-                "goals": 2,
-                "assists": 3,
-                "pims": 3,
-                "points": 53
-            },
-            {
-                "season": "23/24",
-                "games": 16,
-                "goals": 5,
-                "assists": 11,
-                "pims": 2,
-                "points": 16
-            }
-        ]
-    },
-    {
-        "name": "Maddie Tyrell",
-        "number": 32,
-        "position": "Forward",
-        "stats": [
-            {
-                "season": "24/25",
-                "games": 10,
-                "goals": 3,
-                "assists": 3,
-                "pims": 3,
-                "points": 22
-            },
-            {
-                "season": "23/24",
-                "games": 19,
-                "goals": 7,
-                "assists": 13,
-                "pims": 5,
-                "points": 20
-            }
-        ]
-    }
+  {
+    "id": "PLR502819",
+    "name": "Bradley Plater",
+    "number": 4,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 18,
+        "goals": 28,
+        "assists": 24,
+        "pims": 30,
+        "points": 52
+      }
+    ]
+  },
+  {
+    "id": "PLR297690",
+    "name": "Matthew Heaton",
+    "number": 5,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 13,
+        "goals": 2,
+        "assists": 6,
+        "pims": 4,
+        "points": 8
+      }
+    ]
+  },
+  {
+    "id": "PLR357060",
+    "name": "James Donovan",
+    "number": 7,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 13,
+        "goals": 6,
+        "assists": 6,
+        "pims": 8,
+        "points": 12
+      }
+    ]
+  },
+  {
+    "id": "PLR562272",
+    "name": "Robin Evans",
+    "number": 9,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 10,
+        "goals": 2,
+        "assists": 0,
+        "pims": 14,
+        "points": 2
+      }
+    ]
+  },
+  {
+    "id": "PLR238395",
+    "name": "Aaron Knight",
+    "number": 19,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 16,
+        "goals": 2,
+        "assists": 5,
+        "pims": 16,
+        "points": 7
+      }
+    ]
+  },
+  {
+    "id": "PLR760594",
+    "name": "Charles Loew",
+    "number": 34,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 8,
+        "goals": 4,
+        "assists": 5,
+        "pims": 48,
+        "points": 9
+      }
+    ]
+  },
+  {
+    "id": "PLR006500",
+    "name": "Rhys Evans",
+    "number": 35,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 16,
+        "goals": 26,
+        "assists": 15,
+        "pims": 10,
+        "points": 41
+      }
+    ]
+  },
+  {
+    "id": "PLR646257",
+    "name": "Nick Mcfarlane",
+    "number": 42,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 19,
+        "goals": 14,
+        "assists": 9,
+        "pims": 6,
+        "points": 23
+      }
+    ]
+  },
+  {
+    "id": "PLR186348",
+    "name": "Arnis Bauris",
+    "number": 46,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 4,
+        "goals": 0,
+        "assists": 0,
+        "pims": 29,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR123881",
+    "name": "Oli Mcgill",
+    "number": 50,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 5,
+        "goals": 0,
+        "assists": 1,
+        "pims": 0,
+        "points": 1
+      }
+    ]
+  },
+  {
+    "id": "PLR729592",
+    "name": "Konstantins Grigorjevs",
+    "number": 53,
+    "position": "Goaltender",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 11,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR030348",
+    "name": "Josh Turner",
+    "number": 58,
+    "position": "Defence/Goaltender",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 18,
+        "goals": 1,
+        "assists": 5,
+        "pims": 2,
+        "points": 6
+      }
+    ]
+  },
+  {
+    "id": "PLR877760",
+    "name": "Graeme Parry",
+    "number": 70,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 3,
+        "goals": 0,
+        "assists": 0,
+        "pims": 2,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR197447",
+    "name": "Adam Long",
+    "number": 86,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 9,
+        "goals": 3,
+        "assists": 2,
+        "pims": 14,
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "PLR780396",
+    "name": "Darren Bush",
+    "number": 88,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 7,
+        "goals": 0,
+        "assists": 1,
+        "pims": 0,
+        "points": 1
+      }
+    ]
+  },
+  {
+    "id": "PLR397024",
+    "name": "Marcis Klemenss",
+    "number": 90,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 4,
+        "goals": 3,
+        "assists": 2,
+        "pims": 0,
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "PLR829708",
+    "name": "Katie Plumb",
+    "number": 98,
+    "position": "Goaltender",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 9,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR208841",
+    "name": "El Wilding",
+    "number": 11,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 7,
+        "goals": 1,
+        "assists": 0,
+        "pims": 0,
+        "points": 1
+      }
+    ]
+  },
+  {
+    "id": "PLR810070",
+    "name": "Sandis Miljons",
+    "number": 33,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 3,
+        "goals": 4,
+        "assists": 1,
+        "pims": 2,
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "PLR930189",
+    "name": "Austris Upenieks",
+    "number": 55,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 9,
+        "goals": 0,
+        "assists": 3,
+        "pims": 8,
+        "points": 3
+      }
+    ]
+  },
+  {
+    "id": "PLR241136",
+    "name": "Dan Sztymon",
+    "number": 72,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 10,
+        "goals": 2,
+        "assists": 0,
+        "pims": 4,
+        "points": 2
+      }
+    ]
+  },
+  {
+    "id": "PLR915887",
+    "name": "Steve Currey",
+    "number": 73,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR382468",
+    "name": "Chris Jeffs",
+    "number": 87,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 12,
+        "goals": 6,
+        "assists": 2,
+        "pims": 0,
+        "points": 8
+      }
+    ]
+  },
+  {
+    "id": "PLR207827",
+    "name": "Georgia Sansby",
+    "number": 23,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 7,
+        "goals": 0,
+        "assists": 2,
+        "pims": 0,
+        "points": 2
+      }
+    ]
+  },
+  {
+    "id": "PLR763992",
+    "name": "Dean Ruane",
+    "number": 97,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 5,
+        "goals": 0,
+        "assists": 1,
+        "pims": 0,
+        "points": 1
+      }
+    ]
+  },
+  {
+    "id": "PLR434650",
+    "name": "Emma Ibbertson",
+    "number": 29,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 5,
+        "goals": 0,
+        "assists": 1,
+        "pims": 0,
+        "points": 1
+      }
+    ]
+  },
+  {
+    "id": "PLR925453",
+    "name": "Ian Evans",
+    "number": 61,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 4,
+        "goals": 0,
+        "assists": 3,
+        "pims": 0,
+        "points": 3
+      }
+    ]
+  },
+  {
+    "id": "PLR427400",
+    "name": "Joe Randall",
+    "number": 66,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 5,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR708075",
+    "name": "Sandis Zutis",
+    "number": 6,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 13,
+        "goals": 2,
+        "assists": 0,
+        "pims": 2,
+        "points": 2
+      }
+    ]
+  },
+  {
+    "id": "PLR644758",
+    "name": "Sean Davies",
+    "number": 39,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 3,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR026982",
+    "name": "Paul Bush",
+    "number": 77,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR883828",
+    "name": "Callum Jarvis",
+    "number": 30,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 9,
+        "goals": 1,
+        "assists": 2,
+        "pims": 12,
+        "points": 3
+      }
+    ]
+  },
+  {
+    "id": "PLR491823",
+    "name": "Jyotinder Kumar",
+    "number": 71,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 5,
+        "goals": 0,
+        "assists": 1,
+        "pims": 0,
+        "points": 1
+      }
+    ]
+  },
+  {
+    "id": "PLR902411",
+    "name": "Jacques Dickinson",
+    "number": 84,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 12,
+        "goals": 1,
+        "assists": 4,
+        "pims": 0,
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "PLR053305",
+    "name": "Matthew Mowbray",
+    "number": 37,
+    "position": "Defence / Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 12,
+        "goals": 6,
+        "assists": 2,
+        "pims": 4,
+        "points": 8
+      }
+    ]
+  },
+  {
+    "id": "PLR070307",
+    "name": "Steve Brown",
+    "number": 69,
+    "position": "Forward / Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 2,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR813692",
+    "name": "Ivo Kairiss",
+    "number": 28,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 2,
+        "goals": 3,
+        "assists": 2,
+        "pims": 0,
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "PLR194252",
+    "name": "Ben Warby",
+    "number": 67,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 6,
+        "goals": 0,
+        "assists": 1,
+        "pims": 0,
+        "points": 1
+      }
+    ]
+  },
+  {
+    "id": "PLR348214",
+    "name": "Richard Davies",
+    "number": 63,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 3,
+        "goals": 0,
+        "assists": 0,
+        "pims": 6,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR238709",
+    "name": "Denis Fajta",
+    "number": 101,
+    "position": "Goaltender",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR992077",
+    "name": "Nick Foley",
+    "number": 62,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 11,
+        "goals": 4,
+        "assists": 1,
+        "pims": 0,
+        "points": 5
+      }
+    ]
+  },
+  {
+    "id": "PLR839247",
+    "name": "Connor Phillips",
+    "number": 82,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 2,
+        "goals": 1,
+        "assists": 1,
+        "pims": 0,
+        "points": 2
+      }
+    ]
+  },
+  {
+    "id": "PLR899328",
+    "name": "Matt Johnson",
+    "number": 44,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 6,
+        "goals": 0,
+        "assists": 1,
+        "pims": 2,
+        "points": 1
+      }
+    ]
+  },
+  {
+    "id": "PLR941511",
+    "name": "Matt Silsby",
+    "number": 3,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 10,
+        "goals": 4,
+        "assists": 2,
+        "pims": 2,
+        "points": 6
+      }
+    ]
+  },
+  {
+    "id": "PLR271434",
+    "name": "Harry Fitzjohn",
+    "number": 96,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 5,
+        "goals": 0,
+        "assists": 2,
+        "pims": 0,
+        "points": 2
+      }
+    ]
+  },
+  {
+    "id": "PLR689732",
+    "name": "Tommy Simpson",
+    "number": 102,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR582797",
+    "name": "Edgard Jekabsons",
+    "number": 103,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 4,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR937370",
+    "name": "Dan Bealing",
+    "number": 105,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "24/25",
+        "games": 3,
+        "goals": 1,
+        "assists": 1,
+        "pims": 0,
+        "points": 2
+      }
+    ]
+  }
 ]

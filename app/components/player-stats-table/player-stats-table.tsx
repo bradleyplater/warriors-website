@@ -47,14 +47,17 @@ function getPlayerStats(players: Player[], selectedSeason: Season, selectedPosit
             if (selectedPosition === 'all') return true;
             
             const playerPosition = player.position.toLowerCase();
+
+            console.log("position: ", playerPosition);
+
             if (selectedPosition === 'forward') {
                 return playerPosition.includes('forward')
             }
-            if (selectedPosition === 'defense') {
-                return playerPosition.includes('defense')
+            if (selectedPosition === 'defence') {
+                return playerPosition.includes('defence')
             }
-            if (selectedPosition === 'goalie') {
-                return playerPosition.includes('goalie')
+            if (selectedPosition === 'goaltender') {
+                return playerPosition.includes('goaltender')
             }
             return false;
         })
@@ -91,24 +94,24 @@ export default function PlayerStatsTable({ selectedSeason, selectedPosition, sor
       {/* Mobile: Horizontal scroll */}
       <div className="md:hidden overflow-x-auto">
         {/* Header */}
-        <div className="flex gap-2 px-3 py-3 min-w-[500px] bg-gray-50 border-b-2 border-gray-200">
+        <div className="flex gap-2 px-3 py-3 min-w-[500px] bg-gray-50 border-b border-gray-200">
           <div className="flex-shrink-0 w-32 flex items-center">
-            <span className="text-xs font-bold text-gray-700 uppercase tracking-wide">Player</span>
+            <span className="text-xs font-semibold text-gray-900 uppercase tracking-wide">Player</span>
           </div>
           <div className="flex-shrink-0 w-12 flex items-center justify-center">
-            <span className="text-xs font-bold text-gray-700 uppercase tracking-wide">GP</span>
+            <span className="text-xs font-semibold text-gray-900 uppercase tracking-wide">GP</span>
           </div>
           <div className="flex-shrink-0 w-12 flex items-center justify-center">
-            <span className="text-xs font-bold text-gray-700 uppercase tracking-wide">G</span>
+            <span className="text-xs font-semibold text-gray-900 uppercase tracking-wide">G</span>
           </div>
           <div className="flex-shrink-0 w-12 flex items-center justify-center">
-            <span className="text-xs font-bold text-gray-700 uppercase tracking-wide">A</span>
+            <span className="text-xs font-semibold text-gray-900 uppercase tracking-wide">A</span>
           </div>
           <div className="flex-shrink-0 w-16 flex items-center justify-center">
-            <span className="text-xs font-bold text-gray-700 uppercase tracking-wide">PTS</span>
+            <span className="text-xs font-semibold text-gray-900 uppercase tracking-wide">PTS</span>
           </div>
           <div className="flex-shrink-0 w-16 flex items-center justify-center">
-            <span className="text-xs font-bold text-gray-700 uppercase tracking-wide">PPG</span>
+            <span className="text-xs font-semibold text-gray-900 uppercase tracking-wide">PPG</span>
           </div>
         </div>
         {/* Player Rows */}

@@ -25,15 +25,36 @@ interface PlayerStat {
 }
 
 export interface Player {
+  id: string;
   name: string;
   number: number;
   position: string;
   stats: PlayerStat[];
 }
 
+interface Goal {
+    playerId: string;
+    minute: number;
+    second: number;
+    type: 'EVEN' | 'PP' | 'SH';
+    assists: string[];
+}
+
+interface Penalty {
+  offender: string;
+  minute: number;
+  second: number;
+  duration: number;
+  type: string;
+}
+
 interface PeriodScore {
   warriorsScore: number;
   opponentScore: number;
+  goals: Goal[];
+  opponentGoals: Goal[];
+  penalties: Penalty[];
+  opponentPenalties: Penalty[];
 }
 
 interface Period {
@@ -46,7 +67,8 @@ export interface Result {
   opponentTeam: string;
   logoImage: string;
   date: string;
-  season: Season;
+  roster: string[];
+  seasonId: Season;
   score: {
     warriorsScore: number;
     opponentScore: number;
