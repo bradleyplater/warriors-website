@@ -47,92 +47,43 @@ export const getNumberOfGWGoalsForPlayer = (playerId: string, results: Result[],
     const wonGames = results.filter(result => result.score.warriorsScore > result.score.opponentScore);
 
     for (const game of wonGames) {
-        // Build chronological list of all goals in the game
-        const allGoals: Array<{
+        // Get all Warriors goals in chronological order
+        const allWarriorsGoals: Array<{
             playerId: string;
             minute: number;
             second: number;
             type: string;
             period: number;
-            isWarriors: boolean;
         }> = [];
 
         // Add period 1 goals
         game.score.period.one.goals.forEach(goal => {
-            allGoals.push({ ...goal, period: 1, isWarriors: true });
-        });
-        game.score.period.one.opponentGoals?.forEach(goal => {
-            allGoals.push({ ...goal, period: 1, isWarriors: false });
+            allWarriorsGoals.push({ ...goal, period: 1 });
         });
 
         // Add period 2 goals
         game.score.period.two.goals.forEach(goal => {
-            allGoals.push({ ...goal, period: 2, isWarriors: true });
-        });
-        game.score.period.two.opponentGoals?.forEach(goal => {
-            allGoals.push({ ...goal, period: 2, isWarriors: false });
+            allWarriorsGoals.push({ ...goal, period: 2 });
         });
 
         // Add period 3 goals
         game.score.period.three.goals.forEach(goal => {
-            allGoals.push({ ...goal, period: 3, isWarriors: true });
-        });
-        game.score.period.three.opponentGoals?.forEach(goal => {
-            allGoals.push({ ...goal, period: 3, isWarriors: false });
+            allWarriorsGoals.push({ ...goal, period: 3 });
         });
 
         // Sort goals chronologically
-        allGoals.sort((a, b) => {
+        allWarriorsGoals.sort((a, b) => {
             if (a.period !== b.period) return a.period - b.period;
             if (a.minute !== b.minute) return a.minute - b.minute;
             return a.second - b.second;
         });
 
-        // Track score throughout the game
-        let warriorsScore = 0;
-        let opponentScore = 0;
-        let gameWinningGoal: typeof allGoals[0] | null = null;
-
-        for (const goal of allGoals) {
-            if (goal.isWarriors) {
-                warriorsScore++;
-            } else {
-                opponentScore++;
-            }
-
-            // Check if this Warriors goal puts them ahead for what becomes the final time
-            if (goal.isWarriors && warriorsScore > opponentScore) {
-                // This goal puts Warriors in the lead
-                // Check if they maintain this lead for the rest of the game
-                const remainingGoals = allGoals.slice(allGoals.indexOf(goal) + 1);
-                let futureWarriorsScore = warriorsScore;
-                let futureOpponentScore = opponentScore;
-                let maintainsLead = true;
-
-                for (const futureGoal of remainingGoals) {
-                    if (futureGoal.isWarriors) {
-                        futureWarriorsScore++;
-                    } else {
-                        futureOpponentScore++;
-                    }
-
-                    // If opponent ever ties or takes the lead, this wasn't the game winner
-                    if (futureOpponentScore >= futureWarriorsScore) {
-                        maintainsLead = false;
-                        break;
-                    }
-                }
-
-                // If Warriors maintain the lead from this goal onwards, it's the game winner
-                if (maintainsLead) {
-                    gameWinningGoal = goal;
-                    break; // Found the game-winning goal, no need to continue
-                }
-            }
-        }
-
-        // Check if the game-winning goal was scored by our player
-        if (gameWinningGoal && gameWinningGoal.playerId === playerId && gameWinningGoal.isWarriors) {
+        // The GWG is the first goal that puts Warriors above opponent's final score
+        const opponentFinalScore = game.score.opponentScore;
+        const gwgIndex = opponentFinalScore; // If opponent scored 3, the 4th Warriors goal (index 3) is the GWG
+        
+        // Check if the GWG exists and was scored by our player
+        if (allWarriorsGoals[gwgIndex] && allWarriorsGoals[gwgIndex].playerId === playerId) {
             gameWinningGoals++;
         }
     }
