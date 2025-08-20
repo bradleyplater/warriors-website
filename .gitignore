@@ -5,3 +5,7 @@
 /.react-router/
 /build/
 /dist/
+
+/dist/
+.wrangler/
+.dev.vars

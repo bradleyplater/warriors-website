@@ -1,0 +1,8 @@
+name = "warriors-website"
+compatibility_date = "2024-01-01"
+
+[env.production]
+name = "warriors-website"
+
+[[pages_build_output_dir]]
+directory = "dist"
