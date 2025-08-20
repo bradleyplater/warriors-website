@@ -37,74 +37,93 @@ export default function PlayerStats() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Page Title */}
+      {/* Page Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 text-center">
-            Player Stats
-          </h1>
+          <div className="text-center">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+              Player Statistics
+            </h1>
+            <p className="text-sm md:text-base text-gray-600">
+              Individual player performance across all seasons
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Collapsible Filters Bar */}
+      {/* Filters Section */}
       <div className="bg-white border-b shadow-sm">
         <div className="max-w-7xl mx-auto px-4">
-          {/* Mobile Filter Toggle Button */}
-          <div className="md:hidden py-4 flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-700">Filters</span>
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
-            >
-              <span>{showFilters ? 'Hide' : 'Show'}</span>
-              <svg
-                className={`w-4 h-4 transition-transform duration-200 ${showFilters ? 'rotate-180' : ''}`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
+          {/* Desktop: Always visible filters */}
+          <div className="hidden md:block py-6">
+            <div className="flex items-center justify-center gap-8">
+              <SeasonFilter 
+                selectedSeason={selectedSeason}
+                onSeasonChange={setSelectedSeason}
+              />
+              <GenericFilter<Position>
+                label="Position"
+                selectedValue={selectedPosition}
+                onValueChange={setSelectedPosition}
+                options={positionOptions}
+                placeholder="All Positions"
+              />
+              <GenericFilter<SortBy>
+                label="Sort By"
+                selectedValue={sortBy}
+                onValueChange={setSortBy}
+                options={sortOptions}
+                placeholder="Sort by Points"
+              />
+            </div>
           </div>
-          
-          {/* Filters Content */}
-          <div className={`overflow-hidden transition-all duration-300 ease-in-out ${
-            showFilters ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-          } md:max-h-none md:opacity-100`}>
-            <div className="pb-6 md:py-6">
-              <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
-                {/* Season Filter */}
-                <div className="w-full md:w-auto">
-                  <SeasonFilter 
-                    selectedSeason={selectedSeason}
-                    onSeasonChange={setSelectedSeason}
-                  />
-                </div>
-                
-                {/* Position Filter */}
-                <div className="w-full md:w-auto">
-                  <GenericFilter<Position>
-                    label="Filter by Position"
-                    selectedValue={selectedPosition}
-                    onValueChange={setSelectedPosition}
-                    options={positionOptions}
-                    placeholder="All Positions"
-                    className="mb-0"
-                  />
-                </div>
-                
-                {/* Sort Filter */}
-                <div className="w-full md:w-auto">
-                  <GenericFilter<SortBy>
-                    label="Sort by"
-                    selectedValue={sortBy}
-                    onValueChange={setSortBy}
-                    options={sortOptions}
-                    placeholder="Points"
-                    className="mb-0"
-                  />
-                </div>
+
+          {/* Mobile: Collapsible filters */}
+          <div className="md:hidden">
+            <div className="py-4 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-semibold text-gray-900">Filters & Sorting</span>
+                <span className="text-xs text-gray-500">({selectedSeason}, {positionOptions.find(p => p.value === selectedPosition)?.label})</span>
+              </div>
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
+              >
+                <span>{showFilters ? 'Hide' : 'Show'}</span>
+                <svg
+                  className={`w-4 h-4 transition-transform duration-200 ${showFilters ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+            
+            {/* Mobile Filters Content */}
+            <div className={`overflow-hidden transition-all duration-300 ease-in-out ${
+              showFilters ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            }`}>
+              <div className="pb-6 space-y-4">
+                <SeasonFilter 
+                  selectedSeason={selectedSeason}
+                  onSeasonChange={setSelectedSeason}
+                />
+                <GenericFilter<Position>
+                  label="Position"
+                  selectedValue={selectedPosition}
+                  onValueChange={setSelectedPosition}
+                  options={positionOptions}
+                  placeholder="All Positions"
+                />
+                <GenericFilter<SortBy>
+                  label="Sort By"
+                  selectedValue={sortBy}
+                  onValueChange={setSortBy}
+                  options={sortOptions}
+                  placeholder="Sort by Points"
+                />
               </div>
             </div>
           </div>

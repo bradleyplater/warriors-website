@@ -1,20 +1,16 @@
-import { useState } from 'react';
 import { Link } from 'react-router';
 import AssistSpotlight from "~/components/assist-spotlight/assist-spotlight";
 import GoalSpotlight from "~/components/goals-spotlight/goals-spotlight";
 import LatestResultSpotlight from "~/components/last-result-spotlight/last-result-spotlight";
 import PointsSpotlight from "~/components/points-spotlight/points-spotlight";
-import SeasonFilter, { type Season } from "~/components/season-filter/season-filter";
+import { type Season } from "~/components/season-filter/season-filter";
 import SpotlightCard from "~/components/spotlight-card/spotlight-card";
 import TeamStatsSpotlight from "~/components/team-stats-spotlight/team-stats-spotlight";
 import UpcomingGameSpotlight from "~/components/upcoming-game-spotlight/upcoming-game-spotlight";
 
 export function Welcome() {
-  const [selectedSeason, setSelectedSeason] = useState<Season>('24/25');
-
-  const handleSeasonChange = (season: Season) => {
-    setSelectedSeason(season);
-  };
+  // Always show current season data
+  const currentSeason: Season = '24/25';
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -53,20 +49,7 @@ export function Welcome() {
         </div>
       </div>
 
-      {/* Season Filter */}
-      <div className="bg-white border-b shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <h2 className="text-lg md:text-xl font-semibold text-gray-900">
-              Season Highlights
-            </h2>
-            <SeasonFilter 
-              selectedSeason={selectedSeason} 
-              onSeasonChange={handleSeasonChange} 
-            />
-          </div>
-        </div>
-      </div>
+
 
       {/* Game Information Section */}
       <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
@@ -81,44 +64,54 @@ export function Welcome() {
 
         {/* Team Performance Overview */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl md:text-2xl font-bold text-gray-900">
-              Team Performance
-            </h3>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900">
+                Team Performance
+              </h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Current season (2024/25) statistics
+              </p>
+            </div>
             <Link 
               to="/team-stats" 
-              className="text-sm md:text-base text-blue-600 hover:text-blue-800 font-medium"
+              className="text-sm md:text-base text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap"
             >
               View All Stats →
             </Link>
           </div>
           <div className="bg-white rounded-lg shadow-sm border p-6">
-            <TeamStatsSpotlight selectedSeason={selectedSeason} />
+            <TeamStatsSpotlight selectedSeason={currentSeason} />
           </div>
         </div>
 
         {/* Player Highlights */}
         <div>
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl md:text-2xl font-bold text-gray-900">
-              Player Highlights
-            </h3>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900">
+                Player Highlights
+              </h3>
+              <p className="text-sm text-gray-600 mt-1">
+                Current season (2024/25) leaders
+              </p>
+            </div>
             <Link 
               to="/player-stats" 
-              className="text-sm md:text-base text-blue-600 hover:text-blue-800 font-medium"
+              className="text-sm md:text-base text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap"
             >
               View All Players →
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <SpotlightCard cardHeader="🥅 Top Scorer">
-              <GoalSpotlight selectedSeason={selectedSeason} />
+              <GoalSpotlight selectedSeason={currentSeason} />
             </SpotlightCard>
             <SpotlightCard cardHeader="🎯 Playmaker">
-              <AssistSpotlight selectedSeason={selectedSeason} />
+              <AssistSpotlight selectedSeason={currentSeason} />
             </SpotlightCard>
             <SpotlightCard cardHeader="⭐ Points Leader">
-              <PointsSpotlight selectedSeason={selectedSeason} />
+              <PointsSpotlight selectedSeason={currentSeason} />
             </SpotlightCard>
           </div>
         </div>
