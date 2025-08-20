@@ -47,14 +47,17 @@ function getPlayerStats(players: Player[], selectedSeason: Season, selectedPosit
             if (selectedPosition === 'all') return true;
             
             const playerPosition = player.position.toLowerCase();
+
+            console.log("position: ", playerPosition);
+
             if (selectedPosition === 'forward') {
                 return playerPosition.includes('forward')
             }
-            if (selectedPosition === 'defense') {
-                return playerPosition.includes('defense')
+            if (selectedPosition === 'defence') {
+                return playerPosition.includes('defence')
             }
-            if (selectedPosition === 'goalie') {
-                return playerPosition.includes('goalie')
+            if (selectedPosition === 'goaltender') {
+                return playerPosition.includes('goaltender')
             }
             return false;
         })

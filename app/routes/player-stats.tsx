@@ -11,14 +11,14 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export type Position = 'all' | 'forward' | 'defense' | 'goalie';
+export type Position = 'all' | 'forward' | 'defence' | 'goaltender';
 export type SortBy = 'points' | 'goals' | 'assists' | 'games' | 'pointsPerGame';
 
 const positionOptions: FilterOption<Position>[] = [
   { value: 'all', label: 'All Positions' },
   { value: 'forward', label: 'Forward' },
-  { value: 'defense', label: 'Defense' },
-  { value: 'goalie', label: 'Goalie' },
+  { value: 'defence', label: 'Defence' },
+  { value: 'goaltender', label: 'Goaltender' },
 ];
 
 const sortOptions: FilterOption<SortBy>[] = [
