@@ -53,12 +53,12 @@ export default function GenericFilter<T = string>({
             className="
               flex items-center justify-between
               px-4 py-2 md:px-6 md:py-3
-              bg-white border-2 border-gray-300
-              rounded-lg shadow-sm
+              bg-white border border-gray-300
+              rounded-md shadow-sm
               text-sm md:text-base font-medium text-gray-700
-              hover:border-gray-400 hover:shadow-md hover:cursor-pointer
+              hover:border-gray-400 hover:bg-gray-50
               focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500
-              transition-all duration-200 ease-in-out
+              transition-colors duration-200
               min-w-[120px] md:min-w-[140px]
             "
           >

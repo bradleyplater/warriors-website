@@ -70,7 +70,6 @@ function calculateAllTimeRecords(results: Result[], players: Player[]): AnyRecor
 }
 
 const getCategoryColors = (category: string) => {
-  // Use a consistent blue theme for all records with different icons for variety
   const getIcon = (category: string) => {
     switch (category) {
       case 'goals': return '🥅';
@@ -81,9 +80,29 @@ const getCategoryColors = (category: string) => {
     }
   };
 
+  const getBorderColor = (category: string) => {
+    switch (category) {
+      case 'goals': return 'border-green-200 hover:border-green-300';
+      case 'assists': return 'border-blue-200 hover:border-blue-300';
+      case 'points': return 'border-purple-200 hover:border-purple-300';
+      case 'performance': return 'border-orange-200 hover:border-orange-300';
+      default: return 'border-gray-200 hover:border-gray-300';
+    }
+  };
+
+  const getTextColors = (category: string) => {
+    switch (category) {
+      case 'goals': return { title: 'text-green-700', value: 'text-green-800', description: 'text-green-600' };
+      case 'assists': return { title: 'text-blue-700', value: 'text-blue-800', description: 'text-blue-600' };
+      case 'points': return { title: 'text-purple-700', value: 'text-purple-800', description: 'text-purple-600' };
+      case 'performance': return { title: 'text-orange-700', value: 'text-orange-800', description: 'text-orange-600' };
+      default: return { title: 'text-gray-700', value: 'text-gray-800', description: 'text-gray-600' };
+    }
+  };
+
   return {
-    bg: 'bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 hover:from-blue-100 hover:to-blue-150',
-    text: { title: 'text-blue-700', value: 'text-blue-800', description: 'text-blue-600' },
+    bg: `bg-white ${getBorderColor(category)}`,
+    text: getTextColors(category),
     icon: getIcon(category)
   };
 };
@@ -142,7 +161,7 @@ export default function TeamRecords({ selectedSeason }: TeamRecordsProps) {
     return (
       <div
         key={index}
-        className={`${colors.bg} border rounded-xl p-4 md:p-6 shadow-md transition-all duration-200 hover:shadow-lg hover:scale-105 w-full min-w-0`}
+        className={`${colors.bg} border rounded-lg p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow duration-200 w-full min-w-0`}
       >
         <div className="mb-4">
           <div className="flex items-start gap-3 mb-3">

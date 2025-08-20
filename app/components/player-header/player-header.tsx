@@ -36,7 +36,7 @@ export default function PlayerHeader({ playerId }: PlayerHeaderProps) {
   };
 
   return (
-    <div className="bg-gradient-to-r from-gray-900 to-gray-800 text-white">
+    <div className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
         <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8">
           {/* Player Image */}

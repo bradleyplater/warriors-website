@@ -30,14 +30,14 @@ export default function TeamStats() {
       </div>
 
       {/* Collapsible Filters Bar */}
-      <div className="bg-gradient-to-r from-gray-50 to-gray-100 border-b shadow-sm">
+      <div className="bg-white border-b shadow-sm">
         <div className="max-w-7xl mx-auto px-4">
           {/* Mobile Filter Toggle Button */}
           <div className="md:hidden py-4 flex items-center justify-between">
             <span className="text-sm font-medium text-gray-700">Filters</span>
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+              className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
             >
               <span>{showFilters ? 'Hide' : 'Show'}</span>
               <svg

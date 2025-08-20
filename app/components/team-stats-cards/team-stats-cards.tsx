@@ -116,13 +116,13 @@ function getTeamStats(teamStats: TeamStat[], results: Result[], selectedSeason: 
 const getCardColors = (category: string) => {
   switch (category) {
     case 'positive':
-      return 'bg-gradient-to-br from-green-50 to-green-100 border-green-200 hover:from-green-100 hover:to-green-150';
+      return 'bg-white border-green-200 hover:border-green-300';
     case 'negative':
-      return 'bg-gradient-to-br from-red-50 to-red-100 border-red-200 hover:from-red-100 hover:to-red-150';
+      return 'bg-white border-red-200 hover:border-red-300';
     case 'neutral':
-      return 'bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 hover:from-blue-100 hover:to-blue-150';
+      return 'bg-white border-blue-200 hover:border-blue-300';
     default:
-      return 'bg-gradient-to-br from-gray-50 to-gray-100 border-gray-200 hover:from-gray-100 hover:to-gray-150';
+      return 'bg-white border-gray-200 hover:border-gray-300';
   }
 };
 
@@ -171,7 +171,7 @@ export default function TeamStatsCards({ selectedSeason }: TeamStatsCardsProps) 
             return (
               <div 
                 key={index} 
-                className={`${cardColors} border rounded-xl p-4 md:p-6 shadow-md transition-all duration-200 hover:shadow-lg hover:scale-105`}
+                className={`${cardColors} border rounded-lg p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow duration-200`}
               >
                 <div className="text-center">
                   <div className={`text-2xl md:text-3xl font-bold ${textColors.value} mb-2`}>
