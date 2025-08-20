@@ -354,18 +354,22 @@ const getQuickestHattrick = (results: Result[], players: Player[]): TeamRecord =
             });
         });
 
-        // Check for hat tricks (3+ goals) and find the time to complete them
+        // Check for hat tricks (3+ goals) and find the time span from 1st to 3rd goal
         Object.entries(playerGoals).forEach(([playerId, goals]) => {
             if (goals.length >= 3) {
-                // Sort goals by time to find the 3rd goal
+                // Sort goals by time to find the 1st and 3rd goals
                 const sortedGoals = goals.sort((a, b) => a.time - b.time);
+                const firstGoalTime = sortedGoals[0].time; // Index 0 is the 1st goal
                 const thirdGoalTime = sortedGoals[2].time; // Index 2 is the 3rd goal
                 
-                if (thirdGoalTime < quickestHattrickTime) {
+                // Calculate time span from 1st goal to 3rd goal
+                const hattrickTimeSpan = thirdGoalTime - firstGoalTime;
+                
+                if (hattrickTimeSpan < quickestHattrickTime) {
                     // New record holder
-                    quickestHattrickTime = thirdGoalTime;
+                    quickestHattrickTime = hattrickTimeSpan;
                     recordHolders = [{ playerId, gameData: result }];
-                } else if (thirdGoalTime === quickestHattrickTime) {
+                } else if (hattrickTimeSpan === quickestHattrickTime) {
                     // Tied record - add to holders if not already present
                     const alreadyExists = recordHolders.some(
                         holder => holder.playerId === playerId && holder.gameData.date === result.date
@@ -385,7 +389,7 @@ const getQuickestHattrick = (results: Result[], players: Player[]): TeamRecord =
 
     return {
         title: 'Quickest Hat Trick',
-        description: 'Fastest time to score 3 goals from game start',
+        description: 'Fastest time span from 1st goal to 3rd goal',
         value: timeDisplay,
         category: 'performance',
         holders: recordHolders.map(holder => ({
