@@ -88,7 +88,7 @@ export default function About() {
               </div>
               <h4 className="text-base md:text-lg font-semibold text-gray-900 mb-3">Regular Games</h4>
               <p className="text-sm text-gray-700">
-                Weekly games and tournaments to keep your skills sharp and competitive spirit alive.
+                Regular games and tournaments to keep your skills sharp and competitive spirit alive.
               </p>
             </div>
 
