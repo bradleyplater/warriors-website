@@ -78,8 +78,7 @@ export default function PlayerHeader({ playerId }: PlayerHeaderProps) {
             </div>
 
             {/* Player Details Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-              <div className="text-center md:text-left">
+              <div className="flex flex-col items-center md:items-start">
                 <div className="text-2xl md:text-3xl font-bold text-gray-200">
                   {playerInformation.seasonsWithWarriors}
                 </div>
@@ -87,7 +86,6 @@ export default function PlayerHeader({ playerId }: PlayerHeaderProps) {
                   Seasons with Warriors
                 </div>
               </div>
-            </div>
           </div>
         </div>
       </div>

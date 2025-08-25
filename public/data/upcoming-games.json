@@ -1,10 +1,10 @@
 [
     {
-        "opponentTeam": "Peterborough Predators",
-        "logoImage": "peterborough-predators.gif",
+        "opponentTeam": "Sheffield Mavericks",
+        "logoImage": "sheffield-mavericks.jpg",
         "gameType": "Challenge",
-        "date": "23rd August 2025",
-        "time": "6:30 PM",
-        "location": "Planet Ice Peterborough"
+        "date": "30th August 2025",
+        "time": "4:40 PM",
+        "location": "Ice Sheffield"
     }
 ]

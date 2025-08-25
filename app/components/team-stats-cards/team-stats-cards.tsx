@@ -89,7 +89,7 @@ function getTeamStats(teamStats: TeamStat[], results: Result[], selectedSeason: 
   const losses = isOverall ? filteredStats.reduce((total, stats) => total + stats.losses, 0) : filteredStats[0].losses ?? 0
   
   const goalDifference = goalsFor - goalsAgainst
-  const winPercentage = gamesPlayed > 0 ? (wins / gamesPlayed) * 100 : 0
+  const winPercentage = gamesPlayed > 0 ? (wins / (wins + draws + losses)) * 100 : 0
   const goalsPerGame = gamesPlayed > 0 ? goalsFor / gamesPlayed : 0
   const goalsConcededPerGame = gamesPlayed > 0 ? goalsAgainst / gamesPlayed : 0
 
