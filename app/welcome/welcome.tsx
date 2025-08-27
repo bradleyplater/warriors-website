@@ -15,11 +15,19 @@ export function Welcome() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
+      <div className="relative bg-gray-900 text-white overflow-hidden">
+        {/* Background Image */}
+        <img 
+          src="/images/team/tournament.jpg"
+          alt="Tournament Victory"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/60" />
+        <div className="relative max-w-7xl mx-auto px-4 py-8 md:py-12 z-10">
           <div className="text-center">
             <img
-              src="images/warriors-logo-white.png"
+              src="/images/warriors-logo-white.png"
               alt="Warriors Logo"
               className="h-16 md:h-20 w-auto mx-auto mb-6"
             />

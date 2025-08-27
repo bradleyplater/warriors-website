@@ -102,8 +102,8 @@ export default function PlayerStats() {
             </div>
             
             {/* Mobile Filters Content */}
-            <div className={`overflow-hidden transition-all duration-300 ease-in-out ${
-              showFilters ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            <div className={`transition-all duration-300 ease-in-out ${
+              showFilters ? 'block opacity-100' : 'hidden opacity-0'
             }`}>
               <div className="pb-6 space-y-4">
                 <SeasonFilter 
