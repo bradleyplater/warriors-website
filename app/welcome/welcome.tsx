@@ -57,7 +57,86 @@ export function Welcome() {
         </div>
       </div>
 
-
+      {/* Sponsors & Photographer Section */}
+      <div className="bg-gray-800 border-b border-gray-700">
+        <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
+          <div className="text-center mb-6">
+            <h2 className="text-lg md:text-xl font-semibold text-white mb-2">
+              Our Partners
+            </h2>
+            <p className="text-sm text-gray-300">
+              Proudly supported by our sponsors and photographer
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            {/* Sponsors */}
+            <div>
+              <h3 className="text-base font-medium text-white mb-4 text-center">
+                Sponsors
+              </h3>
+              <div className="flex flex-wrap justify-center items-center gap-6">
+                <img
+                  src="/images/sponsor-logos/ask-to-build.png"
+                  alt="Ask to Build"
+                  className="h-12 md:h-16 w-auto object-contain hover:scale-105 transition-transform duration-200"
+                />
+                <img
+                  src="/images/sponsor-logos/hockaine.jpg"
+                  alt="Hockaine"
+                  className="h-12 md:h-16 w-auto object-contain hover:scale-105 transition-transform duration-200"
+                />
+                <img
+                  src="/images/sponsor-logos/hockey-jam.jpg"
+                  alt="Hockey Jam"
+                  className="h-12 md:h-16 w-auto object-contain hover:scale-105 transition-transform duration-200"
+                />
+              </div>
+            </div>
+            
+            {/* Photographer */}
+            <div>
+              <h3 className="text-base font-medium text-white mb-4 text-center">
+                Official Photographer
+              </h3>
+              <div className="flex justify-center">
+                <div className="text-center">
+                  <img
+                    src="/images/sponsor-logos/j70.jpg"
+                    alt="J70 Photography"
+                    className="h-16 md:h-20 w-auto object-contain mx-auto mb-2 hover:scale-105 transition-transform duration-200"
+                  />
+                  <p className="text-sm text-gray-300">
+                    Capturing our best moments
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Scroll Down Prompt */}
+          <div className="flex justify-center mt-6">
+            <div className="flex flex-col items-center text-white animate-bounce">
+              <p className="text-sm mb-2 font-medium">
+                Scroll to see highlights
+              </p>
+              <svg 
+                className="w-6 h-6" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M19 14l-7 7m0 0l-7-7m7 7V3" 
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Game Information Section */}
       <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
