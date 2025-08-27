@@ -18,7 +18,7 @@ export function Welcome() {
       <div className="relative bg-gray-900 text-white overflow-hidden">
         {/* Background Image */}
         <img 
-          src="/images/team/tournament.jpg"
+          src="/images/team/tournament-win.jpg"
           alt="Tournament Victory"
           className="absolute inset-0 w-full h-full object-cover"
         />
