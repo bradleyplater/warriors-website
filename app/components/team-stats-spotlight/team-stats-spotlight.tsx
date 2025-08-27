@@ -11,7 +11,7 @@ interface TeamStatsData {
 function getLast5(results: Result[], selectedSeason: Season) {
   const isOverall = selectedSeason === 'overall'
 
-  const filteredResults = results.filter((result) => result.season === selectedSeason || isOverall)
+  const filteredResults = results.filter((result) => result.seasonId === selectedSeason || isOverall)
     .sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 5)
 
@@ -34,7 +34,7 @@ function getForm(results: Result[], selectedSeason: Season): string {
   const isOverall = selectedSeason === 'overall'
 
   const filteredResults = results
-    .filter((result) => result.season === selectedSeason || isOverall)
+    .filter((result) => result.seasonId === selectedSeason || isOverall)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   
   if (filteredResults.length === 0) return 'N/A'
@@ -78,7 +78,7 @@ function getTeamStats(teamStats: TeamStat[], results: Result[], selectedSeason: 
   const wins = isOverall ? filteredStats.reduce((total, stats) => total + stats.wins, 0) : filteredStats[0].wins ?? 0
   const draws = isOverall ? filteredStats.reduce((total, stats) => total + stats.draws, 0) : filteredStats[0].draws ?? 0
   const losses = isOverall ? filteredStats.reduce((total, stats) => total + stats.losses, 0) : filteredStats[0].losses ?? 0
-  const winPercentage = isOverall ? (wins / gamePlayed) * 100 : (filteredStats[0].wins / filteredStats[0].games) * 100
+  const winPercentage = isOverall ? (wins / (wins + draws + losses)) * 100 : (filteredStats[0].wins / (filteredStats[0].wins + filteredStats[0].draws + filteredStats[0].losses)) * 100
 
   const last5 = getLast5(results, selectedSeason)
 
