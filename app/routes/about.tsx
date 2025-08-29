@@ -1,6 +1,9 @@
 import { Link } from 'react-router';
 import type { Route } from '../+types/root';
 import { SocialIcon } from 'react-social-icons';
+import { GiBrain, GiHockey, GiOnTarget } from "react-icons/gi";
+import { FaHandshakeSimple } from 'react-icons/fa6';
+import { RiUserCommunityLine } from 'react-icons/ri';
 
 export function meta({ params }: Route.MetaArgs) {
   return [
@@ -49,8 +52,8 @@ export default function About() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           <div className="bg-white rounded-lg shadow-sm border p-6">
             <div className="text-center mb-4">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-2xl">🎯</span>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                <GiOnTarget className="text-4xl" />
               </div>
               <h3 className="text-lg md:text-xl font-semibold text-gray-900">Our Mission</h3>
             </div>
@@ -63,8 +66,8 @@ export default function About() {
 
           <div className="bg-white rounded-lg shadow-sm border p-6">
             <div className="text-center mb-4">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-2xl">🤝</span>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                <FaHandshakeSimple className="text-4xl" />
               </div>
               <h3 className="text-lg md:text-xl font-semibold text-gray-900">Our Values</h3>
             </div>
@@ -83,8 +86,8 @@ export default function About() {
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white rounded-lg shadow-sm border p-6 text-center">
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🏒</span>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                <GiHockey className="text-4xl" />
               </div>
               <h4 className="text-base md:text-lg font-semibold text-gray-900 mb-3">Regular Games</h4>
               <p className="text-sm text-gray-700">
@@ -93,18 +96,18 @@ export default function About() {
             </div>
 
             <div className="bg-white rounded-lg shadow-sm border p-6 text-center">
-              <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">📚</span>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                <GiBrain className="text-4xl" />
               </div>
               <h4 className="text-base md:text-lg font-semibold text-gray-900 mb-3">Skill Development</h4>
               <p className="text-sm text-gray-700">
                 Training sessions and mentorship opportunities to help players improve at every level.
-              </p>
+              </p>  
             </div>
 
             <div className="bg-white rounded-lg shadow-sm border p-6 text-center">
-              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">❤️</span>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                <RiUserCommunityLine className="text-4xl" />
               </div>
               <h4 className="text-base md:text-lg font-semibold text-gray-900 mb-3">Community Impact</h4>
               <p className="text-sm text-gray-700">
@@ -124,7 +127,7 @@ export default function About() {
             <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
               <div className="aspect-video overflow-hidden">
                 <img 
-                  src="/images/team/charity-game.JPG" 
+                  src="/images/team/charity-game.jpg" 
                   alt="Warriors Charity Game"
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-200"
                 />
@@ -156,7 +159,7 @@ export default function About() {
             <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
               <div className="aspect-video overflow-hidden">
                 <img 
-                  src="/images/team/tournament.JPG" 
+                  src="/images/team/tournament.jpg" 
                   alt="Warriors Tournament Team"
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-200"
                 />

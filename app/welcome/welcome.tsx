@@ -1,16 +1,6 @@
 import { Link } from 'react-router';
-import AssistSpotlight from "~/components/assist-spotlight/assist-spotlight";
-import GoalSpotlight from "~/components/goals-spotlight/goals-spotlight";
-import LatestResultSpotlight from "~/components/last-result-spotlight/last-result-spotlight";
-import PointsSpotlight from "~/components/points-spotlight/points-spotlight";
-import { type Season } from "~/components/season-filter/season-filter";
-import SpotlightCard from "~/components/spotlight-card/spotlight-card";
-import TeamStatsSpotlight from "~/components/team-stats-spotlight/team-stats-spotlight";
-import UpcomingGameSpotlight from "~/components/upcoming-game-spotlight/upcoming-game-spotlight";
 
 export function Welcome() {
-  // Always show current season data
-  const currentSeason: Season = '24/25';
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -34,7 +24,7 @@ export function Welcome() {
             <h1 className="text-3xl md:text-4xl font-bold mb-4">
               Peterborough Warriors
             </h1>
-            <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
               Recreational ice hockey team bringing together players of all skill levels
             </p>
             
@@ -113,94 +103,76 @@ export function Welcome() {
               </div>
             </div>
           </div>
-          
-          {/* Scroll Down Prompt */}
-          <div className="flex justify-center mt-6">
-            <div className="flex flex-col items-center text-white animate-bounce">
-              <p className="text-sm mb-2 font-medium">
-                Scroll to see highlights
-              </p>
-              <svg 
-                className="w-6 h-6" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M19 14l-7 7m0 0l-7-7m7 7V3" 
-                />
-              </svg>
-            </div>
-          </div>
         </div>
       </div>
 
-      {/* Game Information Section */}
-      <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-8">
-          <SpotlightCard cardHeader="🏒 Next Game">
-            <UpcomingGameSpotlight/>
-          </SpotlightCard>
-          <SpotlightCard cardHeader="📊 Latest Result">
-            <LatestResultSpotlight/>
-          </SpotlightCard>
+      {/* Quick Links Section */}
+      <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+            Explore the Warriors
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Discover our team's journey, upcoming games, and player achievements
+          </p>
         </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Spotlights */}
+          <Link 
+            to="/spotlights" 
+            className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-6 text-center group"
+          >
+            <div className="text-4xl mb-4">⭐</div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+              Team Spotlights
+            </h3>
+            <p className="text-gray-600 text-sm">
+              Current season highlights and key statistics
+            </p>
+          </Link>
 
-        {/* Team Performance Overview */}
-        <div className="mb-8">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-            <div>
-              <h3 className="text-xl md:text-2xl font-bold text-gray-900">
-                Team Performance
-              </h3>
-              <p className="text-sm text-gray-600 mt-1">
-                Current season (2024/25) statistics
-              </p>
-            </div>
-            <Link 
-              to="/team-stats" 
-              className="text-sm md:text-base text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap"
-            >
-              View All Stats →
-            </Link>
-          </div>
-          <div className="bg-white rounded-lg shadow-sm border p-6">
-            <TeamStatsSpotlight selectedSeason={currentSeason} />
-          </div>
-        </div>
+          {/* Upcoming Games */}
+          <Link 
+            to="/upcoming-games" 
+            className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-6 text-center group"
+          >
+            <div className="text-4xl mb-4">🏒</div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+              Upcoming Games
+            </h3>
+            <p className="text-gray-600 text-sm">
+              View our fixture list with dates and venues
+            </p>
+          </Link>
 
-        {/* Player Highlights */}
-        <div>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-            <div>
-              <h3 className="text-xl md:text-2xl font-bold text-gray-900">
-                Player Highlights
-              </h3>
-              <p className="text-sm text-gray-600 mt-1">
-                Current season (2024/25) leaders
-              </p>
-            </div>
-            <Link 
-              to="/player-stats" 
-              className="text-sm md:text-base text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap"
-            >
-              View All Players →
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <SpotlightCard cardHeader="🥅 Top Scorer">
-              <GoalSpotlight selectedSeason={currentSeason} />
-            </SpotlightCard>
-            <SpotlightCard cardHeader="🎯 Playmaker">
-              <AssistSpotlight selectedSeason={currentSeason} />
-            </SpotlightCard>
-            <SpotlightCard cardHeader="⭐ Points Leader">
-              <PointsSpotlight selectedSeason={currentSeason} />
-            </SpotlightCard>
-          </div>
+          {/* Player Stats */}
+          <Link 
+            to="/player-stats" 
+            className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-6 text-center group"
+          >
+            <div className="text-4xl mb-4">👥</div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+              Player Stats
+            </h3>
+            <p className="text-gray-600 text-sm">
+              Individual player performance and statistics
+            </p>
+          </Link>
+
+          {/* Team Stats */}
+          <Link 
+            to="/team-stats" 
+            className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-6 text-center group"
+          >
+            <div className="text-4xl mb-4">📊</div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+              Team Stats
+            </h3>
+            <p className="text-gray-600 text-sm">
+              Overall team performance and records
+            </p>
+          </Link>
         </div>
       </div>
     </div>
