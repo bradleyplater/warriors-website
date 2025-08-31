@@ -23,21 +23,9 @@ export default function GenericFilter<T = string>({
   className = ""
 }: GenericFilterProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
-  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
   const buttonRef = useRef<HTMLButtonElement>(null);
   const selectedOption = options.find(option => option.value === selectedValue);
   const selectedLabel = selectedOption?.label || placeholder;
-
-  useEffect(() => {
-    if (isOpen && buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      setDropdownPosition({
-        top: rect.bottom + window.scrollY + 4, // 4px gap
-        left: rect.left + window.scrollX,
-        width: rect.width
-      });
-    }
-  }, [isOpen]);
 
   return (
     <div className={`w-full px-4 mb-6 ${className}`}>
@@ -78,14 +66,10 @@ export default function GenericFilter<T = string>({
           {isOpen && (
             <div 
               className="
-                fixed bg-white border border-gray-300 rounded-lg shadow-lg
-                z-50
+                absolute top-full left-0 right-0 mt-1
+                bg-white border border-gray-300 rounded-lg shadow-lg
+                z-[9999] max-h-60 overflow-y-auto
               "
-              style={{
-                top: `${dropdownPosition.top}px`,
-                left: `${dropdownPosition.left}px`,
-                width: `${dropdownPosition.width}px`
-              }}
             >
               {options.map((option) => (
                 <button
@@ -116,7 +100,7 @@ export default function GenericFilter<T = string>({
       {/* Overlay to close dropdown when clicking outside */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40"
+          className="fixed inset-0 z-[9998]"
           onClick={() => setIsOpen(false)}
         />
       )}

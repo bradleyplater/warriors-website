@@ -11,6 +11,7 @@ interface TeamStatsData {
   value: number | string;
   category: "general" | "positive" | "negative" | "neutral";
   description?: string;
+  supplementaryText?: string;
 }
 
 function getLast5(results: Result[], selectedSeason: Season) {
@@ -63,6 +64,7 @@ function getTeamStats(teamStats: TeamStat[], results: Result[], selectedSeason: 
   const isOverall = selectedSeason === 'overall'
 
   const filteredStats = teamStats.filter((stats) => stats.season === selectedSeason || isOverall)
+  const filteredResults = results.filter((result) => result.seasonId === selectedSeason || isOverall)
 
   if(filteredStats.length === 0) {
     return [
@@ -77,7 +79,10 @@ function getTeamStats(teamStats: TeamStat[], results: Result[], selectedSeason: 
       { title: "Current Form", value: "N/A", category: "general", description: "Current winning/losing streak" },
       { title: "Last 5 Games", value: "N/A", category: "general", description: "Record in the last 5 games" },
       { title: "Goals Per Game", value: "N/A", category: "general", description: "Average goals scored per game" },
-      { title: "Goals Conceded Per Game", value: "N/A", category: "general", description: "Average goals conceded per game" }
+      { title: "Goals Conceded Per Game", value: "N/A", category: "general", description: "Average goals conceded per game" },
+      { title: "Power Play %", value: "N/A", category: "general", description: "Power play success rate" },
+      { title: "Penalty Kill %", value: "N/A", category: "general", description: "Penalty kill success rate" },
+      { title: "Most Frequent Penalty", value: "N/A", category: "general", description: "Most common penalty type taken by the team" }
     ]
   }
 
@@ -96,6 +101,52 @@ function getTeamStats(teamStats: TeamStat[], results: Result[], selectedSeason: 
   const last5 = getLast5(results, selectedSeason)
   const form = getForm(results, selectedSeason)
 
+  // Calculate penalty statistics
+  let powerPlayGoals = 0
+  let powerPlayGoalsAgainst = 0
+  let totalOpponentPenalties = 0
+  let totalWarriorsPenalties = 0
+  const penaltyTypes: { [key: string]: number } = {}
+
+  filteredResults.forEach(result => {
+    const periods = [result.score.period.one, result.score.period.two, result.score.period.three]
+    
+    periods.forEach(period => {
+      // Count our power play goals (PP type goals)
+      powerPlayGoals += period.goals.filter(goal => goal.type === 'PP').length
+      
+      // Count opponent power play goals against us
+      powerPlayGoalsAgainst += period.opponentGoals.filter(goal => goal.type === 'PP').length
+      
+      // Count opponent penalties (our power play opportunities)
+      totalOpponentPenalties += period.opponentPenalties.length
+      
+      // Count our penalties (opponent power play opportunities)
+      totalWarriorsPenalties += period.penalties.length
+      
+      // Track penalty types for most frequent penalty
+      period.penalties.forEach(penalty => {
+        const penaltyType = penalty.type
+        penaltyTypes[penaltyType] = (penaltyTypes[penaltyType] || 0) + 1
+      })
+    })
+  })
+
+  // Calculate percentages
+  const powerPlayPercentage = totalOpponentPenalties > 0 ? (powerPlayGoals / totalOpponentPenalties) * 100 : 0
+  const penaltyKillPercentage = totalWarriorsPenalties > 0 ? ((totalWarriorsPenalties - powerPlayGoalsAgainst) / totalWarriorsPenalties) * 100 : 0
+  
+  // Find most frequent penalty
+  let mostFrequentPenalty = 'N/A'
+  let mostFrequentCount = 0
+  
+  Object.entries(penaltyTypes).forEach(([type, count]) => {
+    if (count > mostFrequentCount) {
+      mostFrequentCount = count
+      mostFrequentPenalty = type
+    }
+  })
+
   return [
     { title: "Games Played", value: gamesPlayed, category: "general", description: "Total number of games played" },
     { title: "Goals For", value: goalsFor, category: "positive", description: "Total goals scored by the team" },
@@ -108,7 +159,10 @@ function getTeamStats(teamStats: TeamStat[], results: Result[], selectedSeason: 
     { title: "Current Form", value: form, category: form.includes('W') ? 'positive' : form.includes('L') ? 'negative' : 'neutral', description: "Current winning/losing streak" },
     { title: "Last 5 Games", value: last5, category: "general", description: "Record in the last 5 games (W-L-D)" },
     { title: "Goals Per Game", value: goalsPerGame.toFixed(1), category: goalsPerGame >= 3 ? "positive" : goalsPerGame >= 2 ? "neutral" : "negative", description: "Average goals scored per game" },
-    { title: "Goals Conceded Per Game", value: goalsConcededPerGame.toFixed(1), category: goalsConcededPerGame <= 2 ? "positive" : goalsConcededPerGame <= 3 ? "neutral" : "negative", description: "Average goals conceded per game" }
+    { title: "Goals Conceded Per Game", value: goalsConcededPerGame.toFixed(1), category: goalsConcededPerGame <= 2 ? "positive" : goalsConcededPerGame <= 3 ? "neutral" : "negative", description: "Average goals conceded per game" },
+    { title: "Power Play %", value: `${powerPlayPercentage.toFixed(1)}%`, category: powerPlayPercentage >= 20 ? "positive" : powerPlayPercentage >= 15 ? "neutral" : "negative", description: `Power play success rate (${powerPlayGoals}/${totalOpponentPenalties})`, supplementaryText: totalOpponentPenalties > 0 ? `${powerPlayGoals} Power Play goals in ${totalOpponentPenalties} opportunities` : "No power play opportunities" },
+    { title: "Penalty Kill %", value: `${penaltyKillPercentage.toFixed(1)}%`, category: penaltyKillPercentage >= 80 ? "positive" : penaltyKillPercentage >= 70 ? "neutral" : "negative", description: `Penalty kill success rate (${totalWarriorsPenalties - powerPlayGoalsAgainst}/${totalWarriorsPenalties})`, supplementaryText: totalWarriorsPenalties > 0 ? `${totalWarriorsPenalties - powerPlayGoalsAgainst} penalties killed in ${totalWarriorsPenalties} penalties` : "No penalties taken" },
+    { title: "Most Frequent Penalty", value: mostFrequentPenalty, category: "neutral", description: "Most common penalty type taken by the team", supplementaryText: mostFrequentCount > 0 ? `${mostFrequentCount} ${mostFrequentPenalty} penalties taken` : "No penalties taken" }
   ]
 }
 
@@ -177,9 +231,14 @@ export default function TeamStatsCards({ selectedSeason }: TeamStatsCardsProps) 
                   <div className={`text-2xl md:text-3xl font-bold ${textColors.value} mb-2`}>
                     {stat.value}
                   </div>
-                  <div className={`text-sm md:text-base font-semibold ${textColors.title}`}>
+                  <div className={`text-sm md:text-base font-semibold ${textColors.title} mb-1`}>
                     {stat.title}
                   </div>
+                  {stat.supplementaryText && (
+                    <div className={`text-xs ${textColors.description} leading-tight`}>
+                      {stat.supplementaryText}
+                    </div>
+                  )}
                 </div>
               </div>
             );
