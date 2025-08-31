@@ -13,6 +13,7 @@ import NavBar from "./components/nav-bar/nav-bar";
 import { DataProvider } from "./contexts/DataContext";
 
 export const links: Route.LinksFunction = () => [
+  { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",

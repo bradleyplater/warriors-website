@@ -5246,5 +5246,156 @@
         }
       }
     }
+  },
+  {
+    "season": "24/25",
+    "opponentTeam": "Sheffield Mavericks",
+    "logoImage": "sheffield-mavericks.jpg",
+    "date": "2025-08-30T19:00:00.000Z",
+    "seasonId": "24/25",
+    "roster": [
+      "PLR941511",
+      "PLR502819",
+      "PLR708075",
+      "PLR357060",
+      "PLR238395",
+      "PLR006500",
+      "PLR053305",
+      "PLR646257",
+      "PLR729592",
+      "PLR930189",
+      "PLR030348",
+      "PLR194252",
+      "PLR241136",
+      "PLR902411",
+      "PLR382468",
+      "PLR271434"
+    ],
+    "score": {
+      "warriorsScore": 3,
+      "opponentScore": 2,
+      "period": {
+        "one": {
+          "warriorsScore": 2,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR238395",
+              "assists": [],
+              "minute": 10,
+              "second": 35,
+              "type": "PP"
+            },
+            {
+              "playerId": "PLR006500",
+              "assists": [
+                "PLR053305"
+              ],
+              "minute": 14,
+              "second": 53,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Ryan Darlow",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 15,
+              "second": 31,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": [
+            {
+              "type": "TRIP",
+              "minute": 9,
+              "second": 45,
+              "duration": 2,
+              "offender": "Ryan Darlow"
+            }
+          ]
+        },
+        "two": {
+          "warriorsScore": 1,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR053305",
+              "assists": [
+                "PLR238395",
+                "PLR930189"
+              ],
+              "minute": 34,
+              "second": 59,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [
+            {
+              "type": "ROUGH",
+              "minute": 27,
+              "second": 34,
+              "duration": 2,
+              "offender": "PLR502819"
+            }
+          ],
+          "opponentPenalties": []
+        },
+        "three": {
+          "warriorsScore": 0,
+          "opponentScore": 1,
+          "goals": [],
+          "opponentGoals": [
+            {
+              "playerId": "Carl Hodgson",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 43,
+              "second": 13,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "TRIP",
+              "minute": 46,
+              "second": 38,
+              "duration": 2,
+              "offender": "PLR930189"
+            },
+            {
+              "type": "ROUGH",
+              "minute": 55,
+              "second": 24,
+              "duration": 2,
+              "offender": "PLR502819"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "TRIP",
+              "minute": 55,
+              "second": 24,
+              "duration": 2,
+              "offender": "Josh Osborne"
+            },
+            {
+              "type": "ROUGH",
+              "minute": 55,
+              "second": 24,
+              "duration": 2,
+              "offender": "Josh Osborne"
+            }
+          ]
+        }
+      }
+    }
   }
 ]
