@@ -34,6 +34,9 @@ export default function NavBar() {
               <Link to="/upcoming-games" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                 Upcoming Games
               </Link>
+              <Link to="/results" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                Results
+              </Link>
               <Link to="/players" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                 Players
               </Link>
@@ -104,6 +107,12 @@ export default function NavBar() {
             className="block px-3 py-2 rounded-md text-base font-medium"
           >
             Upcoming Games
+          </Link>
+          <Link
+            to="/results"
+            className="block px-3 py-2 rounded-md text-base font-medium"
+          >
+            Results
           </Link>
           <Link
             to="/players"
