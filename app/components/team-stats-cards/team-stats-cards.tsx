@@ -166,30 +166,30 @@ function getTeamStats(teamStats: TeamStat[], results: Result[], selectedSeason: 
   ]
 }
 
-// Color scheme based on category
+// Enhanced color scheme based on category
 const getCardColors = (category: string) => {
   switch (category) {
     case 'positive':
-      return 'bg-white border-green-200 hover:border-green-300';
+      return 'border-green-200/60 hover:border-green-300/80 shadow-green-100/50';
     case 'negative':
-      return 'bg-white border-red-200 hover:border-red-300';
+      return 'border-red-200/60 hover:border-red-300/80 shadow-red-100/50';
     case 'neutral':
-      return 'bg-white border-blue-200 hover:border-blue-300';
+      return 'border-blue-200/60 hover:border-blue-300/80 shadow-blue-100/50';
     default:
-      return 'bg-white border-gray-200 hover:border-gray-300';
+      return 'border-gray-200/60 hover:border-gray-300/80 shadow-gray-100/50';
   }
 };
 
 const getTextColors = (category: string) => {
   switch (category) {
     case 'positive':
-      return { value: 'text-green-700', title: 'text-green-600', description: 'text-green-500' };
+      return { value: 'text-green-700', title: 'text-green-600', description: 'text-green-600' };
     case 'negative':
-      return { value: 'text-red-700', title: 'text-red-600', description: 'text-red-500' };
+      return { value: 'text-red-700', title: 'text-red-600', description: 'text-red-600' };
     case 'neutral':
-      return { value: 'text-blue-700', title: 'text-blue-600', description: 'text-blue-500' };
+      return { value: 'text-blue-700', title: 'text-blue-600', description: 'text-blue-600' };
     default:
-      return { value: 'text-gray-700', title: 'text-gray-600', description: 'text-gray-500' };
+      return { value: 'text-gray-700', title: 'text-gray-600', description: 'text-gray-600' };
   }
 };
 
@@ -211,13 +211,18 @@ export default function TeamStatsCards({ selectedSeason }: TeamStatsCardsProps) 
   const statsData = getTeamStats(teamStats, results, selectedSeason);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       {/* Main Stats Section */}
       <div>
-        <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">
-          Team Performance
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="flex items-center gap-3 mb-8">
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-md">
+            <span className="text-lg text-white">📊</span>
+          </div>
+          <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            Performance Metrics
+          </h2>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
           {statsData.map((stat, index) => {
             const cardColors = getCardColors(stat.category);
             const textColors = getTextColors(stat.category);
@@ -225,17 +230,17 @@ export default function TeamStatsCards({ selectedSeason }: TeamStatsCardsProps) 
             return (
               <div 
                 key={index} 
-                className={`${cardColors} border rounded-lg p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow duration-200`}
+                className={`${cardColors} border rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] backdrop-blur-sm bg-white/90`}
               >
                 <div className="text-center">
-                  <div className={`text-2xl md:text-3xl font-bold ${textColors.value} mb-2`}>
+                  <div className={`text-2xl md:text-3xl font-bold ${textColors.value} mb-3`}>
                     {stat.value}
                   </div>
-                  <div className={`text-sm md:text-base font-semibold ${textColors.title} mb-1`}>
+                  <div className={`text-sm md:text-base font-semibold ${textColors.title} mb-2`}>
                     {stat.title}
                   </div>
                   {stat.supplementaryText && (
-                    <div className={`text-xs ${textColors.description} leading-tight`}>
+                    <div className={`text-xs ${textColors.description} leading-tight bg-gray-50/80 rounded-lg px-2 py-1 mt-2`}>
                       {stat.supplementaryText}
                     </div>
                   )}
@@ -248,21 +253,34 @@ export default function TeamStatsCards({ selectedSeason }: TeamStatsCardsProps) 
 
       {/* Team Records Section */}
       <div>
-        <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">
-          Team Records
-        </h2>
+        <div className="flex items-center gap-3 mb-8">
+          <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center shadow-md">
+            <span className="text-lg text-white">🏆</span>
+          </div>
+          <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+            Team Records
+          </h2>
+        </div>
         <TeamRecords selectedSeason={selectedSeason} />
       </div>
 
-      {/* Another Placeholder Section */}
+      {/* Historical Comparisons Section */}
       <div>
-        <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">
-          Historical Comparisons
-        </h2>
-        <div className="bg-white rounded-xl border border-gray-200 p-8 text-center">
-          <div className="text-gray-400 text-lg mb-2">Coming Soon</div>
-          <div className="text-gray-500 text-sm">
-            Season-over-season comparisons and historical performance data
+        <div className="flex items-center gap-3 mb-8">
+          <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-md">
+            <span className="text-lg text-white">📈</span>
+          </div>
+          <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+            Historical Analysis
+          </h2>
+        </div>
+        <div className="bg-gradient-to-br from-white/90 to-gray-50/90 backdrop-blur-sm rounded-2xl border border-white/40 p-8 md:p-12 text-center shadow-lg">
+          <div className="w-16 h-16 bg-gradient-to-br from-gray-200 to-gray-300 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <span className="text-2xl text-gray-500">📊</span>
+          </div>
+          <div className="text-gray-600 text-xl font-semibold mb-3">Coming Soon</div>
+          <div className="text-gray-500 text-sm max-w-md mx-auto leading-relaxed">
+            Season-over-season comparisons, trend analysis, and historical performance benchmarks
           </div>
         </div>
       </div>

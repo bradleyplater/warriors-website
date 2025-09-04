@@ -90,62 +90,62 @@ export default function PlayerStatsTable({ selectedSeason, selectedPosition, sor
 
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+    <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl border border-white/30 overflow-hidden">
       {/* Mobile: Horizontal scroll */}
       <div className="md:hidden overflow-x-auto">
         {/* Header */}
-        <div className="flex gap-2 px-3 py-3 min-w-[500px] bg-gray-50 border-b border-gray-200">
+        <div className="flex gap-2 px-4 py-4 min-w-[500px] bg-gradient-to-r from-slate-50 to-blue-50 border-b border-blue-100">
           <div className="flex-shrink-0 w-32 flex items-center">
-            <span className="text-xs font-semibold text-gray-900 uppercase tracking-wide">Player</span>
+            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">Player</span>
           </div>
           <div className="flex-shrink-0 w-12 flex items-center justify-center">
-            <span className="text-xs font-semibold text-gray-900 uppercase tracking-wide">GP</span>
+            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">GP</span>
           </div>
           <div className="flex-shrink-0 w-12 flex items-center justify-center">
-            <span className="text-xs font-semibold text-gray-900 uppercase tracking-wide">G</span>
+            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">G</span>
           </div>
           <div className="flex-shrink-0 w-12 flex items-center justify-center">
-            <span className="text-xs font-semibold text-gray-900 uppercase tracking-wide">A</span>
+            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">A</span>
           </div>
           <div className="flex-shrink-0 w-16 flex items-center justify-center">
-            <span className="text-xs font-semibold text-gray-900 uppercase tracking-wide">PTS</span>
+            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">PTS</span>
           </div>
           <div className="flex-shrink-0 w-16 flex items-center justify-center">
-            <span className="text-xs font-semibold text-gray-900 uppercase tracking-wide">PPG</span>
+            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">PPG</span>
           </div>
         </div>
         {/* Player Rows */}
-        <div className="divide-y divide-gray-100">
+        <div className="divide-y divide-blue-100/50">
           {mappedPlayers.map((player, index) => (
             <div
               key={player.name}
               className={`
-                flex gap-2 px-3 py-3 min-w-[500px] transition-all duration-200 hover:bg-blue-50
-                ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}
+                flex gap-2 px-4 py-4 min-w-[500px] transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:shadow-sm
+                ${index % 2 === 0 ? 'bg-white/80' : 'bg-slate-50/60'}
               `}
             >
-              <div className="flex-shrink-0 w-32 flex items-center gap-1 min-w-0">
-                <span className="text-xs font-bold text-blue-600 bg-blue-100 px-1.5 py-0.5 rounded-full min-w-[20px] text-center flex-shrink-0">
+              <div className="flex-shrink-0 w-32 flex items-center gap-2 min-w-0">
+                <span className="text-xs font-bold text-white bg-gradient-to-r from-blue-500 to-indigo-600 px-2 py-1 rounded-full min-w-[24px] text-center flex-shrink-0 shadow-sm">
                   #{player.number}
                 </span>
-                <span className="text-xs font-semibold text-gray-900 truncate">
+                <span className="text-xs font-semibold text-slate-800 truncate">
                   {player.name}
                 </span>
               </div>
               <div className="flex-shrink-0 w-12 flex items-center justify-center">
-                <span className="text-xs font-medium text-gray-700">{player.games}</span>
+                <span className="text-xs font-medium text-slate-700 bg-slate-100 px-2 py-1 rounded-lg">{player.games}</span>
               </div>
               <div className="flex-shrink-0 w-12 flex items-center justify-center">
-                <span className="text-xs font-semibold text-green-600">{player.goals}</span>
+                <span className="text-xs font-bold text-green-700 bg-green-100 px-2 py-1 rounded-lg">{player.goals}</span>
               </div>
               <div className="flex-shrink-0 w-12 flex items-center justify-center">
-                <span className="text-xs font-semibold text-blue-600">{player.assists}</span>
+                <span className="text-xs font-bold text-blue-700 bg-blue-100 px-2 py-1 rounded-lg">{player.assists}</span>
               </div>
               <div className="flex-shrink-0 w-16 flex items-center justify-center">
-                <span className="text-xs font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded">{player.points}</span>
+                <span className="text-xs font-bold text-purple-700 bg-gradient-to-r from-purple-100 to-pink-100 px-2 py-1 rounded-lg shadow-sm">{player.points}</span>
               </div>
               <div className="flex-shrink-0 w-16 flex items-center justify-center">
-                <span className="text-xs font-medium text-gray-700">{player.pointsPerGame.toFixed(2)}</span>
+                <span className="text-xs font-medium text-slate-700">{player.pointsPerGame.toFixed(2)}</span>
               </div>
             </div>
           ))}
@@ -155,68 +155,68 @@ export default function PlayerStatsTable({ selectedSeason, selectedPosition, sor
       {/* Desktop: Regular grid layout */}
       <div className="hidden md:block">
         {/* Header */}
-        <div className="bg-gray-50 border-b-2 border-gray-200">
-          <div className="grid grid-cols-8 gap-2 px-4 py-4">
+        <div className="bg-gradient-to-r from-slate-50 via-blue-50 to-slate-50 border-b-2 border-blue-200">
+          <div className="grid grid-cols-8 gap-3 px-6 py-5">
             <div className="col-span-2 flex items-center">
-              <span className="text-sm font-bold text-gray-700 uppercase tracking-wide">Player</span>
+              <span className="text-sm font-bold text-slate-700 uppercase tracking-wider">Player</span>
             </div>
             <div className="flex items-center justify-center">
-              <span className="text-sm font-bold text-gray-700 uppercase tracking-wide">POS</span>
+              <span className="text-sm font-bold text-slate-700 uppercase tracking-wider">POS</span>
             </div>
             <div className="flex items-center justify-center">
-              <span className="text-sm font-bold text-gray-700 uppercase tracking-wide">GP</span>
+              <span className="text-sm font-bold text-slate-700 uppercase tracking-wider">GP</span>
             </div>
             <div className="flex items-center justify-center">
-              <span className="text-sm font-bold text-gray-700 uppercase tracking-wide">G</span>
+              <span className="text-sm font-bold text-slate-700 uppercase tracking-wider">G</span>
             </div>
             <div className="flex items-center justify-center">
-              <span className="text-sm font-bold text-gray-700 uppercase tracking-wide">A</span>
+              <span className="text-sm font-bold text-slate-700 uppercase tracking-wider">A</span>
             </div>
             <div className="flex items-center justify-center">
-              <span className="text-sm font-bold text-gray-700 uppercase tracking-wide">PTS</span>
+              <span className="text-sm font-bold text-slate-700 uppercase tracking-wider">PTS</span>
             </div>
             <div className="flex items-center justify-center">
-              <span className="text-sm font-bold text-gray-700 uppercase tracking-wide">PPG</span>
+              <span className="text-sm font-bold text-slate-700 uppercase tracking-wider">PPG</span>
             </div>
           </div>
         </div>
         {/* Player Rows */}
-        <div className="divide-y divide-gray-100">
+        <div className="divide-y divide-blue-100/50">
           {mappedPlayers.map((player, index) => (
             <div
               key={player.name}
               className={`
-                grid grid-cols-8 gap-2 px-4 py-4 transition-all duration-200 hover:bg-blue-50 hover:shadow-sm
-                ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}
+                grid grid-cols-8 gap-3 px-6 py-5 transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:shadow-lg hover:scale-[1.01]
+                ${index % 2 === 0 ? 'bg-white/80' : 'bg-slate-50/60'}
               `}
             >
-              <div className="col-span-2 flex items-center gap-2 min-w-0">
-                <span className="text-sm font-bold text-blue-600 bg-blue-100 px-2 py-1 rounded-full min-w-[32px] text-center">
+              <div className="col-span-2 flex items-center gap-3 min-w-0">
+                <span className="text-sm font-bold text-white bg-gradient-to-r from-blue-500 to-indigo-600 px-3 py-2 rounded-xl min-w-[40px] text-center shadow-md">
                   #{player.number}
                 </span>
-                <span className="text-sm font-semibold text-gray-900 truncate">
+                <span className="text-sm font-semibold text-slate-800 truncate">
                   {player.name}
                 </span>
               </div>
               <div className="flex items-center justify-center">
-                <span className="text-sm font-medium text-gray-600 bg-gray-100 px-2 py-1 rounded-full min-w-[24px] text-center">
+                <span className="text-sm font-medium text-slate-600 bg-gradient-to-r from-slate-100 to-gray-100 px-3 py-2 rounded-xl min-w-[48px] text-center shadow-sm">
                   {player.position}
                 </span>
               </div>
               <div className="flex items-center justify-center">
-                <span className="text-sm font-medium text-gray-700">{player.games}</span>
+                <span className="text-sm font-semibold text-slate-700 bg-slate-100 px-3 py-2 rounded-xl shadow-sm">{player.games}</span>
               </div>
               <div className="flex items-center justify-center">
-                <span className="text-sm font-semibold text-green-600">{player.goals}</span>
+                <span className="text-sm font-bold text-green-700 bg-gradient-to-r from-green-100 to-emerald-100 px-3 py-2 rounded-xl shadow-sm">{player.goals}</span>
               </div>
               <div className="flex items-center justify-center">
-                <span className="text-sm font-semibold text-blue-600">{player.assists}</span>
+                <span className="text-sm font-bold text-blue-700 bg-gradient-to-r from-blue-100 to-cyan-100 px-3 py-2 rounded-xl shadow-sm">{player.assists}</span>
               </div>
               <div className="flex items-center justify-center">
-                <span className="text-sm font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded">{player.points}</span>
+                <span className="text-sm font-bold text-purple-700 bg-gradient-to-r from-purple-100 to-pink-100 px-3 py-2 rounded-xl shadow-md">{player.points}</span>
               </div>
               <div className="flex items-center justify-center">
-                <span className="text-sm font-medium text-gray-700">{player.pointsPerGame.toFixed(2)}</span>
+                <span className="text-sm font-semibold text-slate-700 bg-slate-100 px-3 py-2 rounded-xl shadow-sm">{player.pointsPerGame.toFixed(2)}</span>
               </div>
             </div>
           ))}
