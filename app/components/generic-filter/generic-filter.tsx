@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 export interface FilterOption<T = string> {
   value: T;
@@ -23,14 +24,37 @@ export default function GenericFilter<T = string>({
   className = ""
 }: GenericFilterProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
   const buttonRef = useRef<HTMLButtonElement>(null);
   const selectedOption = options.find(option => option.value === selectedValue);
   const selectedLabel = selectedOption?.label || placeholder;
 
+  useEffect(() => {
+    if (isOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const dropdownHeight = Math.min(240, options.length * 40); // Estimate dropdown height
+      const spaceBelow = viewportHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      
+      // Position dropdown above button if not enough space below
+      const shouldPositionAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
+      
+      // Use viewport coordinates since we're using position: fixed
+      setDropdownPosition({
+        top: shouldPositionAbove 
+          ? rect.top - dropdownHeight - 4
+          : rect.bottom + 4,
+        left: rect.left,
+        width: rect.width
+      });
+    }
+  }, [isOpen, options.length]);
+
   return (
     <div className={`w-full px-4 mb-6 ${className}`}>
       <div className="flex justify-center">
-        <div className="relative">
+        <div className="relative z-[100]">
           <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
             {label}
           </label>
@@ -63,46 +87,53 @@ export default function GenericFilter<T = string>({
             </svg>
           </button>
 
-          {isOpen && (
-            <div 
-              className="
-                absolute top-full left-0 right-0 mt-1
-                bg-white border border-gray-300 rounded-lg shadow-lg
-                z-[9999] max-h-60 overflow-y-auto
-              "
-            >
-              {options.map((option) => (
-                <button
-                  key={String(option.value)}
-                  onClick={() => {
-                    onValueChange(option.value);
-                    setIsOpen(false);
-                  }}
-                  className={`
-                    w-full px-4 py-2 text-left text-sm md:text-base
-                    hover:bg-gray-50 transition-colors duration-150
-                    first:rounded-t-lg last:rounded-b-lg
-                    ${
-                      selectedValue === option.value
-                        ? 'bg-gray-100 text-gray-900 font-medium'
-                        : 'text-gray-700'
-                    }
-                  `}
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
       </div>
 
-      {/* Overlay to close dropdown when clicking outside */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 z-[9998]"
-          onClick={() => setIsOpen(false)}
-        />
+      {/* Portal-based dropdown to avoid z-index issues */}
+      {isOpen && typeof window !== 'undefined' && createPortal(
+        <>
+          {/* Overlay to close dropdown when clicking outside */}
+          <div
+            className="fixed inset-0 z-[99998]"
+            onClick={() => setIsOpen(false)}
+          />
+          {/* Dropdown menu */}
+          <div 
+            className="
+              fixed bg-white border border-gray-300 rounded-lg shadow-lg
+              z-[99999] max-h-60 overflow-y-auto
+            "
+            style={{
+              top: dropdownPosition.top,
+              left: dropdownPosition.left,
+              width: dropdownPosition.width,
+            }}
+          >
+            {options.map((option) => (
+              <button
+                key={String(option.value)}
+                onClick={() => {
+                  onValueChange(option.value);
+                  setIsOpen(false);
+                }}
+                className={`
+                  w-full px-4 py-2 text-left text-sm md:text-base
+                  hover:bg-gray-50 transition-colors duration-150
+                  first:rounded-t-lg last:rounded-b-lg
+                  ${
+                    selectedValue === option.value
+                      ? 'bg-gray-100 text-gray-900 font-medium'
+                      : 'text-gray-700'
+                  }
+                `}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </>,
+        document.body
       )}
     </div>
   );

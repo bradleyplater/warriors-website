@@ -79,40 +79,23 @@ function calculateAllTimeRecords(results: Result[], players: Player[]): AnyRecor
 }
 
 const getCategoryColors = (category: string) => {
-  const getIcon = (category: string) => {
-    switch (category) {
-      case 'goals': return '🥅';
-      case 'assists': return '🎯';
-      case 'points': return '⭐';
-      case 'performance': return '⚡';
-      default: return '🏒';
-    }
-  };
-
   const getBorderColor = (category: string) => {
-    switch (category) {
-      case 'goals': return 'border-green-200 hover:border-green-300';
-      case 'assists': return 'border-blue-200 hover:border-blue-300';
-      case 'points': return 'border-purple-200 hover:border-purple-300';
-      case 'performance': return 'border-orange-200 hover:border-orange-300';
-      default: return 'border-gray-200 hover:border-gray-300';
-    }
+    return 'border-gray-200 hover:border-gray-300';
   };
 
   const getTextColors = (category: string) => {
     switch (category) {
-      case 'goals': return { title: 'text-green-700', value: 'text-green-800', description: 'text-green-600' };
-      case 'assists': return { title: 'text-blue-700', value: 'text-blue-800', description: 'text-blue-600' };
-      case 'points': return { title: 'text-purple-700', value: 'text-purple-800', description: 'text-purple-600' };
-      case 'performance': return { title: 'text-orange-700', value: 'text-orange-800', description: 'text-orange-600' };
-      default: return { title: 'text-gray-700', value: 'text-gray-800', description: 'text-gray-600' };
+      case 'goals': return { title: 'text-black', value: 'text-green-700', description: 'text-gray-600' };
+      case 'assists': return { title: 'text-black', value: 'text-blue-700', description: 'text-gray-600' };
+      case 'points': return { title: 'text-black', value: 'text-purple-700', description: 'text-gray-600' };
+      case 'performance': return { title: 'text-black', value: 'text-orange-700', description: 'text-gray-600' };
+      default: return { title: 'text-black', value: 'text-gray-700', description: 'text-gray-600' };
     }
   };
 
   return {
     bg: `bg-white ${getBorderColor(category)}`,
-    text: getTextColors(category),
-    icon: getIcon(category)
+    text: getTextColors(category)
   };
 };
 
@@ -174,7 +157,6 @@ export default function TeamRecords({ selectedSeason }: TeamRecordsProps) {
       >
         <div className="mb-4">
           <div className="flex items-start gap-3 mb-3">
-            <span className="text-xl md:text-2xl flex-shrink-0">{colors.icon}</span>
             <div className="min-w-0 flex-1">
               <h3 className={`text-base md:text-lg font-bold ${colors.text.title} leading-tight break-words`}>
                 {record.title}
@@ -259,22 +241,21 @@ export default function TeamRecords({ selectedSeason }: TeamRecordsProps) {
           {/* Accordion Header */}
           <button
             onClick={() => toggleSection(section.id)}
-            className="w-full px-4 md:px-6 py-4 bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-150 transition-all duration-200 text-left"
+            className="w-full px-4 md:px-6 py-4 bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-150 transition-all duration-200 text-left"
           >
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3 min-w-0 flex-1">
-                <span className="text-xl md:text-2xl flex-shrink-0">{section.icon}</span>
                 <div className="min-w-0 flex-1">
-                  <h2 className="text-lg md:text-xl font-bold text-blue-700 leading-tight break-words">{section.title}</h2>
-                  <p className="text-xs md:text-sm text-blue-600 mt-1 leading-relaxed break-words">{section.description}</p>
+                  <h2 className="text-lg md:text-xl font-bold text-black leading-tight break-words">{section.title}</h2>
+                  <p className="text-xs md:text-sm text-gray-600 mt-1 leading-relaxed break-words">{section.description}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
-                <span className="text-xs md:text-sm text-blue-600 font-medium whitespace-nowrap hidden sm:inline">
+                <span className="text-xs md:text-sm text-gray-600 font-medium whitespace-nowrap hidden sm:inline">
                   {section.records.filter(r => r.holders.length > 0).length} records
                 </span>
                 <svg
-                  className={`w-5 h-5 text-blue-600 transition-transform duration-200 ${
+                  className={`w-5 h-5 text-gray-600 transition-transform duration-200 ${
                     openSection === section.id ? 'rotate-180' : ''
                   }`}
                   fill="none"
