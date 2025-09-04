@@ -40,11 +40,8 @@ export default function NavBar() {
               <Link to="/players" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                 Players
               </Link>
-              <Link to="/player-stats" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                Player Stats
-              </Link>
-              <Link to="/team-stats" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                Team Stats
+              <Link to="/team" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                Team
               </Link>
             </div>
           </div>
@@ -121,16 +118,10 @@ export default function NavBar() {
             Players
           </Link>
           <Link
-            to="/player-stats"
+            to="/team"
             className="block px-3 py-2 rounded-md text-base font-medium"
           >
-            Player Stats
-          </Link>
-          <Link
-            to="/team-stats"
-            className="block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Team Stats
+            Team
           </Link>
         </div>
       </div>

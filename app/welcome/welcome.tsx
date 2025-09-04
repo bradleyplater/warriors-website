@@ -31,13 +31,13 @@ export function Welcome() {
             {/* Quick Actions */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Link 
-                to="/player-stats" 
+                to="/team" 
                 className="bg-white text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
               >
                 View Player Stats
               </Link>
               <Link 
-                to="/team-stats" 
+                to="/team" 
                 className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-gray-900 transition-colors"
               >
                 Team Performance
@@ -148,7 +148,7 @@ export function Welcome() {
 
           {/* Player Stats */}
           <Link 
-            to="/player-stats" 
+            to="/team" 
             className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-6 text-center group"
           >
             <div className="text-4xl mb-4">👥</div>
@@ -162,7 +162,7 @@ export function Welcome() {
 
           {/* Team Stats */}
           <Link 
-            to="/team-stats" 
+            to="/team" 
             className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-6 text-center group"
           >
             <div className="text-4xl mb-4">📊</div>

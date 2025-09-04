@@ -47,7 +47,7 @@ export default function Spotlights() {
               </p>
             </div>
             <Link 
-              to="/team-stats" 
+              to="/team" 
               className="text-sm md:text-base text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap"
             >
               View All Stats →
@@ -70,7 +70,7 @@ export default function Spotlights() {
               </p>
             </div>
             <Link 
-              to="/player-stats" 
+              to="/team" 
               className="text-sm md:text-base text-blue-600 hover:text-blue-800 font-medium whitespace-nowrap"
             >
               View All Players →

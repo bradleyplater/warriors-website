@@ -4,11 +4,17 @@ import SeasonFilter from '../components/season-filter/season-filter';
 import GenericFilter, { type FilterOption } from '../components/generic-filter/generic-filter';
 import PlayerStatsTable from '../components/player-stats-table/player-stats-table';
 import type { Route } from '../+types/root';
+import { Navigate } from 'react-router';
 
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Player Stats" },
   ];
+}
+
+// In SPA mode, use client-side redirect
+export default function PlayerStatsRedirect() {
+  return <Navigate to="/team" replace />;
 }
 
 export type Position = 'all' | 'forward' | 'defence' | 'goaltender';
@@ -29,7 +35,7 @@ const sortOptions: FilterOption<SortBy>[] = [
   { value: 'games', label: 'Games Played' },
 ];
 
-export default function PlayerStats() {
+export function PlayerStats() {
   const [selectedSeason, setSelectedSeason] = useState<Season>('overall');
   const [selectedPosition, setSelectedPosition] = useState<Position>('all');
   const [sortBy, setSortBy] = useState<SortBy>('points');

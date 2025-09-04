@@ -1,4 +1,4 @@
-import { getMostAssists, getMostGoals, getMostGoalsInASeason, getMostPoints, getQuickestGoal, getQuickestHattrick, type TeamRecord, type SeasonRecord, type AllTimeRecord, getMostAssistsInASeason, getMostPointsInASeason, getMostHattricksInASeason, getMostPowerPlayGoalsInASeason, getMostShortHandedGoalsInASeason, getMostGameWinningGoalsInASeason, getMostPowerPlayGoalsAllTime, getMostShortHandedGoalsAllTime, getMostGameWinningGoalsAllTime, getCareerGamesPlayedLeader } from "~/helpers/team-records-helper";
+import { getMostAssists, getMostGoals, getMostGoalsInASeason, getMostPoints, getQuickestGoal, getQuickestHattrick, type TeamRecord, type SeasonRecord, type AllTimeRecord, getMostAssistsInASeason, getMostPointsInASeason, getMostHattricksInASeason, getMostPowerPlayGoalsInASeason, getMostShortHandedGoalsInASeason, getMostGameWinningGoalsInASeason, getMostPowerPlayGoalsAllTime, getMostShortHandedGoalsAllTime, getMostGameWinningGoalsAllTime, getCareerGamesPlayedLeader, getCareerGoalsLeader, getCareerAssistsLeader, getCareerPointsLeader } from "~/helpers/team-records-helper";
 import { useData, type DataContextType, type Result, type Player } from "../../contexts/DataContext";
 import type { Season } from "../season-filter/season-filter";
 import { useState } from "react";
@@ -56,16 +56,25 @@ function calculateSeasonRecords(results: Result[], players: Player[]): AnyRecord
 }
 
 function calculateAllTimeRecords(results: Result[], players: Player[]): AnyRecord[] {
-  // Placeholder for all-time records - implement logic here
+  // Career leaders (all seasons combined)
+  const careerGoals = getCareerGoalsLeader(players);
+  const careerAssists = getCareerAssistsLeader(players);
+  const careerPoints = getCareerPointsLeader(players);
+
+  // Special teams and other all-time records
   const mostPowerPlayGoals = getMostPowerPlayGoalsAllTime(results, players);
   const mostShortHandedGoals = getMostShortHandedGoalsAllTime(results, players);
   const mostGameWinningGoals = getMostGameWinningGoalsAllTime(results, players);
   const mostGamesPlayed = getCareerGamesPlayedLeader(players);
+
   return [
+    mostGamesPlayed,
+    careerGoals,
+    careerAssists,
+    careerPoints,
     mostPowerPlayGoals,
     mostShortHandedGoals,
     mostGameWinningGoals,
-    mostGamesPlayed,
   ];
 }
 

@@ -3,6 +3,7 @@ import type { Season } from '../components/season-filter/season-filter';
 import SeasonFilter from '../components/season-filter/season-filter';
 import TeamStatsCards from '../components/team-stats-cards/team-stats-cards';
 import type { Route } from '../+types/root';
+import { Navigate } from 'react-router';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -11,7 +12,12 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function TeamStats() {
+// In SPA mode, use client-side redirect
+export default function TeamStatsRedirect() {
+  return <Navigate to="/team" replace />;
+}
+
+export function TeamStats() {
   const [selectedSeason, setSelectedSeason] = useState<Season>('overall');
 
   return (
