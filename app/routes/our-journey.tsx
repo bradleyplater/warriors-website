@@ -198,7 +198,7 @@ export default function OurJourney() {
       title: 'Second Charity Game Victory',
       date: 'August 2024',
       description: 'Building on their charitable efforts, the Warriors hosted their second annual charity game against the Cyclones. This time, the Warriors emerged victorious, combining competitive hockey with community support. The event raised significant funds for local causes while entertaining fans with high-quality hockey action.',
-      images: [], // No images available for this event
+      images: ['/images/events/charity-game-24/1.jpg', '/images/events/charity-game-24/2.jpg', '/images/events/charity-game-24/3.jpg'], // No images available for this event
       gameResult: {
         opponent: 'Cyclones',
         score: 'Warriors Win'
@@ -209,7 +209,7 @@ export default function OurJourney() {
       title: 'Second Tournament Championship',
       date: 'August 2024',
       description: 'The Warriors achieved a major milestone by winning their first tournament championship in their second year. This victory marked a significant step forward in the team\'s development, showcasing improved skills, teamwork, and strategic play. The championship win boosted team morale and established the Warriors as serious contenders in competitive hockey.',
-      images: ['/images/events/tournament-24/1.jpg']
+      images: ['/images/events/tournament-24/1.jpg', '/images/events/tournament-24/2.jpg', '/images/events/tournament-24/3.jpg', '/images/events/tournament-24/4.jpg']
     },
     {
       id: 'awards-23',
