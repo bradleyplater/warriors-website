@@ -15,7 +15,7 @@ interface TimelineEvent {
   title: string;
   date: string;
   description: string;
-  photoFolder: string;
+  images: string[];
   awards?: Award[];
   gameResult?: {
     opponent: string;
@@ -47,59 +47,17 @@ const responsive = {
   }
 };
 
-function PhotoCarousel({ photoFolder, eventTitle }: { photoFolder: string; eventTitle: string }) {
-  const [photos, setPhotos] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Generate and validate photo paths
-    const loadPhotos = async () => {
-      const folderName = photoFolder.split('/').pop(); // Get folder name
-      const photoList = [];
-      
-      const patterns = [
-        '1', '2', '3', '4', '5', '6', '7' // numbered files
-      ];
-      
-      // Check which images actually exist
-      const validPhotos = [];
-      for (const pattern of patterns) {
-          const photoPath = `/images/${photoFolder}/${pattern}.jpg`;
-          try {
-            const response = await fetch(photoPath, { method: 'HEAD' });
-            if (response.ok) {
-              validPhotos.push(photoPath);
-            }
-          } catch (error) {
-            // Image doesn't exist, continue
-          }
-      }
-      
-      setPhotos(validPhotos);
-      setLoading(false);
-    };
-
-    loadPhotos();
-  }, [photoFolder]);
-
-  if (loading) {
-    return (
-      <div className="h-64 bg-gray-200 rounded-lg animate-pulse flex items-center justify-center">
-        <span className="text-gray-500">Loading photos...</span>
-      </div>
-    );
-  }
-
-  if (photos.length === 0) {
+function PhotoCarousel({ images, eventTitle }: { images: string[]; eventTitle: string }) {
+  if (images.length === 0) {
     return null;
   }
 
-  if (photos.length === 1) {
+  if (images.length === 1) {
     return (
       <div className="mb-6">
         <div className="px-2">
           <img
-            src={photos[0]}
+            src={images[0]}
             alt={`${eventTitle} - Photo`}
             className="w-full h-64 object-cover rounded-lg shadow-md"
           />
@@ -123,10 +81,10 @@ function PhotoCarousel({ photoFolder, eventTitle }: { photoFolder: string; event
         dotListClass="custom-dot-list-style"
         itemClass="carousel-item-padding-40-px"
       >
-        {photos.map((photo, index) => (
+        {images.map((image, index) => (
           <div key={index} className="px-2">
             <img
-              src={photo}
+              src={image}
               alt={`${eventTitle} - Photo ${index + 1}`}
               className="w-full h-64 object-cover rounded-lg shadow-md"
             />
@@ -174,7 +132,7 @@ function TimelineItem({ event, isLast }: { event: TimelineEvent; isLast: boolean
           
           {/* Photo Carousel */}
           <div className="p-6">
-            <PhotoCarousel photoFolder={event.photoFolder} eventTitle={event.title} />
+            <PhotoCarousel images={event.images} eventTitle={event.title} />
             
             {/* Description */}
             <div className="prose max-w-none">
@@ -218,21 +176,29 @@ export default function OurJourney() {
       title: 'Third Tournament Victory',
       date: 'August 2025',
       description: 'The Warriors continued their tournament success story by claiming the Tier 2 championship in their third year. This victory demonstrated the team\'s consistent growth and competitive spirit, establishing them as a formidable force in regional hockey. The tournament showcased the depth of talent and tactical improvements that have become hallmarks of the Warriors organization.',
-      photoFolder: 'events/tournament-25'
+      images: [] // No images available yet for future event
     },
     {
       id: 'awards-24',
       title: 'Second Annual Awards Evening',
       date: 'October 2024',
       description: 'The Warriors celebrated another successful season with their second annual awards ceremony. This event recognized the outstanding contributions of players, coaches, and supporters who made the 2023/24 season memorable. The evening highlighted individual achievements while emphasizing the team spirit that drives the Warriors forward.',
-      photoFolder: 'events/awards-24'
+      images: [
+        '/images/events/awards-24/1.jpg',
+        '/images/events/awards-24/2.jpg',
+        '/images/events/awards-24/3.jpg',
+        '/images/events/awards-24/4..jpg',
+        '/images/events/awards-24/5.jpg',
+        '/images/events/awards-24/6.jpg',
+        '/images/events/awards-24/7.jpg'
+      ]
     },
     {
       id: 'charity-24',
       title: 'Second Charity Game Victory',
       date: 'August 2024',
       description: 'Building on their charitable efforts, the Warriors hosted their second annual charity game against the Cyclones. This time, the Warriors emerged victorious, combining competitive hockey with community support. The event raised significant funds for local causes while entertaining fans with high-quality hockey action.',
-      photoFolder: 'events/charity-game-24',
+      images: [], // No images available for this event
       gameResult: {
         opponent: 'Cyclones',
         score: 'Warriors Win'
@@ -243,14 +209,14 @@ export default function OurJourney() {
       title: 'Second Tournament Championship',
       date: 'August 2024',
       description: 'The Warriors achieved a major milestone by winning their first tournament championship in their second year. This victory marked a significant step forward in the team\'s development, showcasing improved skills, teamwork, and strategic play. The championship win boosted team morale and established the Warriors as serious contenders in competitive hockey.',
-      photoFolder: 'events/tournament-24'
+      images: ['/images/events/tournament-24/1.jpg']
     },
     {
       id: 'awards-23',
       title: 'First Annual Awards Evening',
       date: 'November 2023',
       description: 'The Warriors celebrated their inaugural season with a memorable awards ceremony, recognizing the exceptional contributions of players who helped establish the team\'s foundation. This milestone event honored individual achievements while celebrating the collective spirit that would define the Warriors\' identity for years to come.',
-      photoFolder: 'events/awards-23',
+      images: [], // No images available for this event
       awards: [
         { category: 'Most Goals of the Year', winner: 'Marcis Klemenss' },
         { category: 'Most Assists of the Year', winner: 'Aaron Knight' },
@@ -280,14 +246,14 @@ export default function OurJourney() {
       title: 'First Tournament - Plate Runners Up',
       date: 'August 2023',
       description: 'The Warriors made their tournament debut with an impressive showing, reaching the plate final in their first competitive tournament. Though they finished as runners-up, this achievement demonstrated the team\'s rapid development and competitive potential. The experience gained from this tournament would prove invaluable for future competitions.',
-      photoFolder: 'events/tournament-23'
+      images: ['/images/events/tournament-23/1.jpg']
     },
     {
       id: 'charity-23',
       title: 'First Charity Game - Buzzer Beater Victory',
       date: 'August 2023',
       description: 'In a thrilling charity match against the Cyclones, Aaron Knight delivered a spectacular buzzer-beater goal to secure the Warriors\' victory. This dramatic win not only provided entertainment for fans but also raised funds for local charitable causes, establishing the Warriors as a community-minded organization committed to giving back.',
-      photoFolder: 'events/charity-game-23',
+      images: [], // No images available for this event
       gameResult: {
         opponent: 'Cyclones',
         score: 'Warriors Win (Buzzer Beater)'
@@ -298,7 +264,7 @@ export default function OurJourney() {
       title: 'Historic First Victory',
       date: 'April 2023',
       description: 'The Warriors achieved a monumental milestone with their first-ever competitive victory, defeating the Cyclones 3-2 at the prestigious Motorpoint Arena. This historic win marked the beginning of the team\'s competitive success and provided validation for all the hard work and dedication invested during their inaugural season.',
-      photoFolder: 'events/first-win',
+      images: [], // No images available for this event
       gameResult: {
         opponent: 'Cyclones',
         score: '3-2 Win',
@@ -310,7 +276,7 @@ export default function OurJourney() {
       title: 'Inaugural Game',
       date: 'November 2022',
       description: 'The Warriors stepped onto the ice for their very first competitive game against the Cyclones in Peterborough. Despite a 5-1 defeat, this historic moment marked the beginning of the Warriors\' journey in competitive hockey. The team showed determination and sportsmanship that would become their trademark, learning valuable lessons that would fuel their future success.',
-      photoFolder: 'events/first-game',
+      images: ['/images/events/first-game/1.jpg'],
       gameResult: {
         opponent: 'Cyclones',
         score: '5-1 Loss',
@@ -322,7 +288,7 @@ export default function OurJourney() {
       title: 'The Warriors Are Born',
       date: 'August 2022',
       description: 'The Warriors hockey team was officially founded, marking the beginning of an incredible journey in competitive ice hockey. With a vision to build a strong, community-focused team, the founders assembled a group of passionate players and supporters who shared the dream of creating something special. This was the moment when the Warriors\' legacy began, setting the foundation for years of growth, achievement, and unforgettable memories.',
-      photoFolder: 'events/warriors-start'
+      images: ['/images/events/warriors-start/1.jpg']
     }
   ];
 
