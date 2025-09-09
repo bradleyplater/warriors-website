@@ -272,7 +272,7 @@ export default function OurJourney() {
       title: 'First Charity Game',
       date: 'August 2023',
       description: 'The Warriors’ journey has always been about more than just hockey. Demonstrating their commitment to the wider community, the team hosted the Nottingham Cyclones in Peterborough for a special charity game dedicated to raising awareness around mental health. Supporting both CPSL Mind and Nottinghamshire Mind, the event highlighted the power of sport to bring people together for an important cause. Through the generosity of supporters and players alike, a total of £1,550.78 was raised and shared between the two charities—an achievement that remains a proud moment in the Warriors’ history.',
-      images: [], // No images available for this event
+      images: ['/images/events/charity-game-23/1.jpg'], // No images available for this event
       gameResult: {
         opponent: 'Cyclones',
         score: 'Warriors Win'
