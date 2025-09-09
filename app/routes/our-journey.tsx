@@ -100,23 +100,23 @@ function TimelineItem({ event, isLast }: { event: TimelineEvent; isLast: boolean
     <div className="relative">
       {/* Timeline connector */}
       {!isLast && (
-        <div className="absolute left-6 top-16 w-0.5 h-full bg-gradient-to-b from-gray-500 to-gray-300 z-0"></div>
+        <div className="absolute left-3 md:left-6 top-12 md:top-16 w-0.5 h-full bg-gradient-to-b from-gray-500 to-gray-300 z-0"></div>
       )}
       
       {/* Timeline dot */}
-      <div className="absolute left-4 top-8 w-4 h-4 bg-gray-600 rounded-full border-4 border-white shadow-lg z-10"></div>
+      <div className="absolute left-2 md:left-4 top-6 md:top-8 w-3 h-3 md:w-4 md:h-4 bg-gray-600 rounded-full border-2 md:border-4 border-white shadow-lg z-10"></div>
       
       {/* Content */}
-      <div className="ml-16 mb-12">
+      <div className="ml-8 md:ml-16 mb-8 md:mb-12">
         <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-gray-600 to-gray-700 text-white p-6">
+          <div className="bg-gradient-to-r from-gray-600 to-gray-700 text-white p-4 md:p-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-              <h3 className="text-xl md:text-2xl font-bold">{event.title}</h3>
-              <span className="text-blue-100 font-medium">{event.date}</span>
+              <h3 className="text-lg md:text-xl lg:text-2xl font-bold">{event.title}</h3>
+              <span className="text-blue-100 font-medium text-sm md:text-base">{event.date}</span>
             </div>
             {event.gameResult && (
-              <div className="mt-2 text-blue-100">
+              <div className="mt-2 text-blue-100 text-sm md:text-base">
                 <span className="font-medium">vs {event.gameResult.opponent}</span>
                 <span className="mx-2">•</span>
                 <span className="font-bold">{event.gameResult.score}</span>
@@ -131,30 +131,30 @@ function TimelineItem({ event, isLast }: { event: TimelineEvent; isLast: boolean
           </div>
           
           {/* Photo Carousel */}
-          <div className="p-6">
+          <div className="p-4 md:p-6">
             <PhotoCarousel images={event.images} eventTitle={event.title} />
             
             {/* Description */}
             <div className="prose max-w-none">
-              <p className="text-gray-700 leading-relaxed text-base md:text-lg">
+              <p className="text-gray-700 leading-relaxed text-sm md:text-base lg:text-lg">
                 {event.description}
               </p>
             </div>
             
             {/* Awards Section */}
             {event.awards && event.awards.length > 0 && (
-              <div className="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                <h4 className="text-lg font-bold text-yellow-800 mb-4 flex items-center">
+              <div className="mt-4 md:mt-6 p-3 md:p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                <h4 className="text-base md:text-lg font-bold text-yellow-800 mb-3 md:mb-4 flex items-center">
                   <span className="mr-2">🏆</span>
                   Season Awards
                 </h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3">
                   {event.awards.map((award, index) => (
-                    <div key={index} className="bg-white p-3 rounded-lg shadow-sm border border-yellow-300">
-                      <div className="text-sm font-medium text-yellow-700 mb-1">
+                    <div key={index} className="bg-white p-2 md:p-3 rounded-lg shadow-sm border border-yellow-300">
+                      <div className="text-xs md:text-sm font-medium text-yellow-700 mb-1">
                         {award.category}
                       </div>
-                      <div className="text-base font-bold text-gray-900">
+                      <div className="text-sm md:text-base font-bold text-gray-900">
                         {award.winner}
                       </div>
                     </div>
@@ -218,17 +218,16 @@ export default function OurJourney() {
       description: 'The Warriors celebrated their inaugural season with a memorable awards ceremony, recognizing the exceptional contributions of players who helped establish the team\'s foundation. This milestone event honored individual achievements while celebrating the collective spirit that would define the Warriors\' identity for years to come.',
       images: [], // No images available for this event
       awards: [
-        { category: 'Most Goals of the Year', winner: 'Marcis Klemenss' },
-        { category: 'Most Assists of the Year', winner: 'Aaron Knight' },
+        { category: 'Captain for 2023/24 Season', winner: 'Joshua Turner' },
+        { category: 'Captain Assistant for 2023/24 Season', winner: 'Aaron Knight' },
+        { category: 'Captain Assistant for 2023/24 Season', winner: 'Rhys Evans' },
+        { category: 'MVP', winner: 'Konstantins Grigorjevs' },
         { category: 'Coaches Player of the Year', winner: 'Katie Bmx Plumb' },
         { category: 'Managers Player of the Year', winner: 'Darren Wolf' },
-        { category: 'Biggest MK Lightning Fan', winner: 'Darren Bush' },
-        { category: 'MVP', winner: 'Konstantins Grigorjevs' },
-        { category: 'Best Attempt at Backflip', winner: 'Dean Ruane' },
-        { category: 'Muffin Shot', winner: 'James Donovan' },
-        { category: 'Team Enforcer', winner: 'Bradley Plater' },
         { category: 'Players Player', winner: 'Aaron Knight' },
         { category: 'Players Player', winner: 'Josh Jt Turner' },
+        { category: 'Most Goals of the Year', winner: 'Marcis Klemenss' },
+        { category: 'Most Assists of the Year', winner: 'Aaron Knight' },
         { category: 'Most Consistent Defender', winner: 'Joshua Turner' },
         { category: 'Most Consistent Forward', winner: 'Marcis Klemenss' },
         { category: 'Most Improved Player', winner: 'Bradley Plater' },
@@ -236,9 +235,10 @@ export default function OurJourney() {
         { category: 'Most Improved Stickhandling', winner: 'Joshua Turner' },
         { category: 'Most Improved Stickhandling', winner: 'Rhys Evans' },
         { category: 'Most Improved Shooting', winner: 'Rhys Evans' },
-        { category: 'Captain for 2023/24 Season', winner: 'Joshua Turner' },
-        { category: 'Captain Assistant for 2023/24 Season', winner: 'Aaron Knight' },
-        { category: 'Captain Assistant for 2023/24 Season', winner: 'Rhys Evans' }
+        { category: 'Biggest MK Lightning Fan', winner: 'Darren Bush' },
+        { category: 'Best Attempt at Backflip', winner: 'Dean Ruane' },
+        { category: 'Muffin Shot', winner: 'James Donovan' },
+        { category: 'Team Enforcer', winner: 'Bradley Plater' },
       ]
     },
     {
@@ -287,7 +287,7 @@ export default function OurJourney() {
       id: 'warriors-start',
       title: 'The Warriors Are Born',
       date: 'August 2022',
-      description: 'The Warriors hockey team was officially founded, marking the beginning of an incredible journey in competitive ice hockey. With a vision to build a strong, community-focused team, the founders assembled a group of passionate players and supporters who shared the dream of creating something special. This was the moment when the Warriors\' legacy began, setting the foundation for years of growth, achievement, and unforgettable memories.',
+      description: 'What began as a simple skills and drills session soon became the foundation of a new recreational ice hockey team. Built on the idea of learning and growing together, the team has evolved with a focus on enjoyment, development, and creating opportunities for new players. With this spirit at its core, the club is committed to fostering a welcoming environment for all new players.',
       images: ['/images/events/warriors-start/1.jpg']
     }
   ];
@@ -296,12 +296,12 @@ export default function OurJourney() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 py-12 md:py-20">
+        <div className="max-w-7xl mx-auto px-4 py-8 md:py-12 lg:py-20">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
               Our Journey
             </h1>
-            <p className="text-xl md:text-2xl text-gray-100 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base md:text-xl lg:text-2xl text-gray-100 max-w-3xl mx-auto leading-relaxed">
               From humble beginnings to championship victories, explore the complete history 
               of the Warriors hockey team and the milestones that shaped our legacy.
             </p>
@@ -310,7 +310,7 @@ export default function OurJourney() {
       </div>
 
       {/* Timeline */}
-      <div className="max-w-6xl mx-auto px-4 py-12 md:py-16">
+      <div className="max-w-6xl mx-auto px-4 py-8 md:py-12 lg:py-16">
         <div className="relative">
           {timelineEvents.map((event, index) => (
             <TimelineItem 
@@ -323,12 +323,12 @@ export default function OurJourney() {
       </div>
 
       {/* Footer Message */}
-      <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-12">
+      <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-8 md:py-12">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4">
             The Journey Continues
           </h2>
-          <p className="text-lg md:text-xl text-gray-100 leading-relaxed">
+          <p className="text-base md:text-lg lg:text-xl text-gray-100 leading-relaxed">
             Every game, every practice, every moment adds to our story. 
             Join us as we continue to build the Warriors legacy, one victory at a time.
           </p>
