@@ -35,9 +35,12 @@ export default function NavBar() {
                 Upcoming Games
               </Link>
               <Link to="/results" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                Results
-              </Link>
-              <Link to="/players" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                 Results
+               </Link>
+               <Link to="/our-journey" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                 Our Journey
+               </Link>
+               <Link to="/players" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                 Players
               </Link>
               <Link to="/team" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
@@ -106,12 +109,18 @@ export default function NavBar() {
             Upcoming Games
           </Link>
           <Link
-            to="/results"
-            className="block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Results
-          </Link>
-          <Link
+             to="/results"
+             className="block px-3 py-2 rounded-md text-base font-medium"
+           >
+             Results
+           </Link>
+           <Link
+             to="/our-journey"
+             className="block px-3 py-2 rounded-md text-base font-medium"
+           >
+             Our Journey
+           </Link>
+           <Link
             to="/players"
             className="block px-3 py-2 rounded-md text-base font-medium"
           >
