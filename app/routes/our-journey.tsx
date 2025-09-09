@@ -263,7 +263,7 @@ export default function OurJourney() {
       id: 'first-win',
       title: 'Historic First Victory',
       date: 'April 2023',
-      description: 'The Warriors achieved a monumental milestone with their first-ever competitive victory, defeating the Cyclones 3-2 at the prestigious Motorpoint Arena. This historic win marked the beginning of the team\'s competitive success and provided validation for all the hard work and dedication invested during their inaugural season.',
+      description: 'The Warriors’ second major milestone came with their very first victory—an achievement that could not have been scripted in a more memorable setting. Inside the iconic Motorpoint Arena in Nottingham, the team triumphed over the Nottingham Cyclones with a hard-fought 3–2 win. That breakthrough moment not only fueled the Warriors’ hunger for future success but also validated the dedication, effort, and resilience invested by every player. It was a victory that made all the hard work feel worthwhile and strengthened the team’s belief in what they could achieve together.',
       images: [], // No images available for this event
       gameResult: {
         opponent: 'Cyclones',
@@ -275,7 +275,7 @@ export default function OurJourney() {
       id: 'first-game',
       title: 'Inaugural Game',
       date: 'November 2022',
-      description: 'The Warriors stepped onto the ice for their very first competitive game against the Cyclones in Peterborough. Despite a 5-1 defeat, this historic moment marked the beginning of the Warriors\' journey in competitive hockey. The team showed determination and sportsmanship that would become their trademark, learning valuable lessons that would fuel their future success.',
+      description: 'The Warriors played their first official game in November 2022 against the Nottingham Cyclones. Although the match ended in a 5–1 defeat, it marked the beginning of an exciting journey. Over the following seasons, the Warriors faced the Cyclones multiple times, turning early setbacks into victories on several occasions. More importantly, that very first game laid the foundation for lasting bonds between teammates—a spirit of camaraderie and determination that continues to define the team today.',
       images: ['/images/events/first-game/1.jpg'],
       gameResult: {
         opponent: 'Cyclones',
