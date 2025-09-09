@@ -175,14 +175,14 @@ export default function OurJourney() {
       id: 'tournament-25',
       title: 'Third Tournament Victory',
       date: 'August 2025',
-      description: 'The Warriors continued their tournament success story by claiming the Tier 2 championship in their third year. This victory demonstrated the team\'s consistent growth and competitive spirit, establishing them as a formidable force in regional hockey. The tournament showcased the depth of talent and tactical improvements that have become hallmarks of the Warriors organization.',
+      description: 'In their third year, the Warriors were invited to compete in another prestigious tournament—this time in Telford. The event featured a three-tier cup structure and brought together strong teams from across the region. Entering as a Tier 3 side, the Warriors made an immediate impact by winning their opening game, earning a place in the Tier 1 semi-final. Although they fell short against a top-tier opponent, the team showed resilience and determination, advancing to the Tier 2 final. There, the Warriors rose to the occasion and secured victory, proudly bringing home yet another trophy in what was a defining moment of their continued growth.',
       images: [] // No images available yet for future event
     },
     {
       id: 'awards-24',
       title: 'Second Annual Awards Evening',
       date: 'October 2024',
-      description: 'The Warriors celebrated another successful season with their second annual awards ceremony. This event recognized the outstanding contributions of players, coaches, and supporters who made the 2023/24 season memorable. The evening highlighted individual achievements while emphasizing the team spirit that drives the Warriors forward.',
+      description: 'The Warriors then hosted their second annual awards evening—an even bigger celebration than the year before. With new players having joined the roster, the event became not only a chance to reflect on another season of growth and success, but also a way to welcome fresh faces into the club’s culture. The evening marked a true celebration of how far the team had come, both on and off the ice.',
       images: [
         '/images/events/awards-24/1.jpg',
         '/images/events/awards-24/2.jpg',
@@ -191,14 +191,33 @@ export default function OurJourney() {
         '/images/events/awards-24/5.jpg',
         '/images/events/awards-24/6.jpg',
         '/images/events/awards-24/7.jpg'
+      ],
+      awards: [
+        { category: 'MVP', winner: 'Bradley Plater' },
+        { category: 'Coaches Player of the Year', winner: 'Nick Mcfarlane' },
+        { category: 'Managers Player of the Year', winner: 'Deane Ruane' },
+        { category: 'Players Player', winner: 'Oliver McGill' },
+        { category: 'Most Goals of the Year', winner: 'Charles Loew' },
+        { category: 'Most Assists of the Year', winner: 'Bradley Plater' },
+        { category: 'Most Points of the Year', winner: 'Rhys Evans & Charles Loew' },
+        { category: 'Most Consistent Defender', winner: 'Joshua Turner' },
+        { category: 'Most Consistent Forward', winner: 'Charles Loew' },
+        { category: 'Most Improved Player', winner: 'Carlos Garret' },
+        { category: 'Most Improved Skater', winner: 'Sandis Zutis' },
+        { category: 'Most Improved Stickhandling', winner: 'Callum Jarvis' },
+        { category: 'Most Improved Shooting', winner: 'James Donovan' },
+        { category: 'Best Goalie', winner: 'Conor Watkins' },
+        { category: 'Most Likely To Score An Own Goal', winner: 'Matt Heaton' },
+        { category: 'Best Right Hook To Teammate', winner: 'Paul Bush' },
+        { category: 'Biggest No Show', winner: 'Chris Jeffs' },
       ]
     },
     {
       id: 'charity-24',
       title: 'Second Charity Game Victory',
       date: 'August 2024',
-      description: 'Building on their charitable efforts, the Warriors hosted their second annual charity game against the Cyclones. This time, the Warriors emerged victorious, combining competitive hockey with community support. The event raised significant funds for local causes while entertaining fans with high-quality hockey action.',
-      images: ['/images/events/charity-game-24/1.jpg', '/images/events/charity-game-24/2.jpg', '/images/events/charity-game-24/3.jpg'], // No images available for this event
+      description: 'Almost a year after their first charity match, the Warriors once again teamed up with the Nottingham Cyclones—this time taking the cause to the iconic Motorpoint Arena in Nottingham. With the goal of making the event bigger and better, the team succeeded in bringing the community together for another memorable occasion. The game raised an impressive £3,615.72, which was shared between CPSL Mind and Nottinghamshire Mind, further strengthening the Warriors’ commitment to supporting mental health awareness and making a positive impact beyond the ice.',
+      images: ['/images/events/charity-game-24/1.jpg', '/images/events/charity-game-24/2.jpg', '/images/events/charity-game-24/3.jpg'],
       gameResult: {
         opponent: 'Cyclones',
         score: 'Warriors Win'
@@ -208,14 +227,14 @@ export default function OurJourney() {
       id: 'tournament-24',
       title: 'Second Tournament Championship',
       date: 'August 2024',
-      description: 'The Warriors achieved a major milestone by winning their first tournament championship in their second year. This victory marked a significant step forward in the team\'s development, showcasing improved skills, teamwork, and strategic play. The championship win boosted team morale and established the Warriors as serious contenders in competitive hockey.',
+      description: 'Almost a year later, the Warriors were invited back to compete in the MK Development Invitational. After a season spent challenging stronger opponents and growing closer as a team, the Warriors returned with renewed confidence and determination. This time, the hard work paid off. Not only did the team improve on their previous performance, but they also reached the final for one of the tournament’s major prizes—the Cup. In a nail-biting showdown against the MK Icebreakers, the Warriors triumphed to secure their first tournament victory, marking another defining milestone in the club’s history.',
       images: ['/images/events/tournament-24/1.jpg', '/images/events/tournament-24/2.jpg', '/images/events/tournament-24/3.jpg', '/images/events/tournament-24/4.jpg']
     },
     {
       id: 'awards-23',
       title: 'First Annual Awards Evening',
       date: 'November 2023',
-      description: 'The Warriors celebrated their inaugural season with a memorable awards ceremony, recognizing the exceptional contributions of players who helped establish the team\'s foundation. This milestone event honored individual achievements while celebrating the collective spirit that would define the Warriors\' identity for years to come.',
+      description: 'To close out the season, the Warriors held their annual awards evening—an opportunity to reflect on the year gone by and celebrate the team’s achievements both on and off the ice. The event also recognised the individual successes that contributed to the Warriors’ growth, while staying true to the team’s spirit with plenty of light-hearted fun along the way. It was the perfect way to bring players together to round off an unforgettable season.',
       images: [], // No images available for this event
       awards: [
         { category: 'Captain for 2023/24 Season', winner: 'Joshua Turner' },
@@ -245,18 +264,18 @@ export default function OurJourney() {
       id: 'tournament-23',
       title: 'First Tournament - Plate Runners Up',
       date: 'August 2023',
-      description: 'The Warriors made their tournament debut with an impressive showing, reaching the plate final in their first competitive tournament. Though they finished as runners-up, this achievement demonstrated the team\'s rapid development and competitive potential. The experience gained from this tournament would prove invaluable for future competitions.',
+      description: 'The Warriors soon reached another key milestone by competing in their first official tournament—the MK Development Invitational. This event brought together teams from across England for an action-packed day of competitive hockey. Despite being less than a year old, the Warriors rose to the challenge and narrowly missed out on securing the second of the two major prizes, finishing as runners-up in the Plate Competition. This achievement marked an important step in the team’s development and proved their ability to compete with more established sides.',
       images: ['/images/events/tournament-23/1.jpg']
     },
     {
       id: 'charity-23',
-      title: 'First Charity Game - Buzzer Beater Victory',
+      title: 'First Charity Game',
       date: 'August 2023',
-      description: 'In a thrilling charity match against the Cyclones, Aaron Knight delivered a spectacular buzzer-beater goal to secure the Warriors\' victory. This dramatic win not only provided entertainment for fans but also raised funds for local charitable causes, establishing the Warriors as a community-minded organization committed to giving back.',
+      description: 'The Warriors’ journey has always been about more than just hockey. Demonstrating their commitment to the wider community, the team hosted the Nottingham Cyclones in Peterborough for a special charity game dedicated to raising awareness around mental health. Supporting both CPSL Mind and Nottinghamshire Mind, the event highlighted the power of sport to bring people together for an important cause. Through the generosity of supporters and players alike, a total of £1,550.78 was raised and shared between the two charities—an achievement that remains a proud moment in the Warriors’ history.',
       images: [], // No images available for this event
       gameResult: {
         opponent: 'Cyclones',
-        score: 'Warriors Win (Buzzer Beater)'
+        score: 'Warriors Win'
       }
     },
     {
