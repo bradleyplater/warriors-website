@@ -15,7 +15,7 @@ export function meta({ params }: Route.MetaArgs) {
 
 export default function PlayerDetail() {
   const { playerId } = useParams();
-  const [activeTab, setActiveTab] = useState<'stats' | 'charts' | 'games'>('stats');
+  const [activeTab, setActiveTab] = useState<'stats' | 'charts' | 'games' | 'allgames'>('stats');
 
   const data = useData();
 
