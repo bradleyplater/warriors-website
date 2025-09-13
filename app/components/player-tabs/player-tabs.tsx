@@ -29,22 +29,17 @@ interface RecentGame {
 interface PlayerTabsProps {
   activeTab: 'stats' | 'charts' | 'games';
   onTabChange: (tab: 'stats' | 'charts' | 'games') => void;
-  seasonStats: SeasonStats[];
-  recentGames: RecentGame[];
   playerId: string;
 }
 
 export default function PlayerTabs({ 
   activeTab, 
   onTabChange, 
-  seasonStats, 
-  recentGames, 
   playerId 
 }: PlayerTabsProps) {
   const tabs = [
     { id: 'stats' as const, label: 'Season Stats', icon: '📊' },
-    { id: 'games' as const, label: 'Recent Games', icon: '🏒' },
-    { id: 'charts' as const, label: 'Charts & Analytics', icon: '📈' },
+    { id: 'games' as const, label: 'Recent Games', icon: '🏒' }
   ];
 
   return (
@@ -83,11 +78,6 @@ export default function PlayerTabs({
         {activeTab === 'games' && (
           <PlayerGamesTab playerId={playerId} />
         )}
-
-        {activeTab === 'charts' && (
-          <PlayerChartsTab seasonStats={seasonStats} playerId={playerId} />
-        )}
-        
       </div>
     </div>
   );

@@ -67,7 +67,7 @@ export default function Players() {
                   
                   {/* Show current season stats if available */}
                   {player.stats.length > 0 && (
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-gray-600 mb-3">
                       <div className="flex justify-between">
                         <span>Games:</span>
                         <span className="font-medium">{player.stats[0].games}</span>
@@ -86,6 +86,21 @@ export default function Players() {
                       </div>
                     </div>
                   )}
+                  
+                  {/* More Details Button */}
+                  <div className="flex items-center justify-center mt-3 pt-3 border-t border-gray-100">
+                    <div className="flex items-center gap-2 text-blue-600 group-hover:text-blue-700 transition-colors">
+                      <span className="text-sm font-medium">View Details</span>
+                      <svg 
+                        className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
               </Link>
             );
