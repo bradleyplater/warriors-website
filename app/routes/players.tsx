@@ -65,27 +65,39 @@ export default function Players() {
                     {player.name}
                   </h3>
                   
-                  {/* Show current season stats if available */}
-                  {player.stats.length > 0 && (
-                    <div className="text-sm text-gray-600 mb-3">
-                      <div className="flex justify-between">
-                        <span>Games:</span>
-                        <span className="font-medium">{player.stats[0].games}</span>
+                  {/* Show career totals if available */}
+                  {player.stats.length > 0 && (() => {
+                    const careerTotals = player.stats.reduce(
+                      (totals, season) => ({
+                        games: totals.games + season.games,
+                        goals: totals.goals + season.goals,
+                        assists: totals.assists + season.assists,
+                        points: totals.points + season.points
+                      }),
+                      { games: 0, goals: 0, assists: 0, points: 0 }
+                    );
+                    
+                    return (
+                      <div className="text-sm text-gray-600 mb-3">
+                        <div className="flex justify-between">
+                          <span>Career Games:</span>
+                          <span className="font-medium">{careerTotals.games}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Career Goals:</span>
+                          <span className="font-medium">{careerTotals.goals}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Career Assists:</span>
+                          <span className="font-medium">{careerTotals.assists}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Career Points:</span>
+                          <span className="font-medium text-blue-600">{careerTotals.points}</span>
+                        </div>
                       </div>
-                      <div className="flex justify-between">
-                        <span>Goals:</span>
-                        <span className="font-medium">{player.stats[0].goals}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Assists:</span>
-                        <span className="font-medium">{player.stats[0].assists}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Points:</span>
-                        <span className="font-medium text-blue-600">{player.stats[0].points}</span>
-                      </div>
-                    </div>
-                  )}
+                    );
+                  })()}
                   
                   {/* More Details Button */}
                   <div className="flex items-center justify-center mt-3 pt-3 border-t border-gray-100">

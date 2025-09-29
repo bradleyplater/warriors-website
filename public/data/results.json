@@ -5397,5 +5397,195 @@
         }
       }
     }
+  },
+  {
+    "season": "22/23",
+    "opponentTeam": "Coventry Centurions",
+    "logoImage": "coventry-centurions.jpg",
+    "date": "2023-04-02T19:00:00.000Z",
+    "seasonId": "22/23",
+    "roster": [
+      "PLR502819",
+      "PLR850188",
+      "PLR238395",
+      "PLR513770",
+      "PLR434650",
+      "PLR006500",
+      "PLR644758",
+      "PLR373492",
+      "PLR930189",
+      "PLR030348",
+      "PLR877760",
+      "PLR915887",
+      "PLR382468",
+      "PLR397024",
+      "PLR829708",
+      "PLR484137"
+    ],
+    "score": {
+      "warriorsScore": 1,
+      "opponentScore": 10,
+      "period": {
+        "one": {
+          "warriorsScore": 0,
+          "opponentScore": 5,
+          "goals": [],
+          "opponentGoals": [
+            {
+              "playerId": "Jordan Leigh",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 1,
+              "second": 13,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "Warren Spare",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 1,
+              "second": 30,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "Ben Payne",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 13,
+              "second": 1,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "Henry Herrick",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 13,
+              "second": 53,
+              "type": "PP"
+            },
+            {
+              "playerId": "John Nurden",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 14,
+              "second": 56,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": []
+        },
+        "two": {
+          "warriorsScore": 0,
+          "opponentScore": 5,
+          "goals": [],
+          "opponentGoals": [
+            {
+              "playerId": "Jake Hutchingson",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 23,
+              "second": 27,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "Henry Herrick",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 26,
+              "second": 4,
+              "type": "PP"
+            },
+            {
+              "playerId": "Ben Payne",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 27,
+              "second": 3,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "Curtis Herrick",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 32,
+              "second": 8,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "Warren Spare",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 37,
+              "second": 45,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "TOOM",
+              "minute": 25,
+              "second": 42,
+              "duration": 2,
+              "offender": "PLR373492"
+            }
+          ],
+          "opponentPenalties": []
+        },
+        "three": {
+          "warriorsScore": 1,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR397024",
+              "assists": [
+                "PLR502819"
+              ],
+              "minute": 49,
+              "second": 37,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [],
+          "opponentPenalties": [
+            {
+              "type": "BDYCH",
+              "minute": 53,
+              "second": 19,
+              "duration": 2,
+              "offender": "Brody Butlin"
+            },
+            {
+              "type": "HOLD",
+              "minute": 54,
+              "second": 18,
+              "duration": 2,
+              "offender": "Russ Lee"
+            }
+          ]
+        }
+      }
+    }
   }
 ]

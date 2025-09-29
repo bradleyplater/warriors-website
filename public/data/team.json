@@ -9,6 +9,16 @@
       "wins": 13,
       "draws": 2,
       "losses": 10
+    },
+    {
+      "season": "22/23",
+      "games": 1,
+      "goalsFor": 1,
+      "pims": 2,
+      "goalsAgainst": 10,
+      "wins": 0,
+      "draws": 0,
+      "losses": 1
     }
   ]
 }
