@@ -19,6 +19,16 @@
       "wins": 0,
       "draws": 0,
       "losses": 1
+    },
+    {
+      "season": "23/24",
+      "games": 3,
+      "goalsFor": 15,
+      "pims": 38,
+      "goalsAgainst": 17,
+      "wins": 1,
+      "draws": 1,
+      "losses": 1
     }
   ]
 }
