@@ -28,6 +28,7 @@ function getPlayerStats(players: Player[], selectedSeason: Season, selectedPosit
             const goals = statsToTrack.reduce((total, stat) => total + stat.goals, 0);
             const assists = statsToTrack.reduce((total, stat) => total + stat.assists, 0);
             const points = statsToTrack.reduce((total, stat) => total + stat.points, 0);
+            const pims = statsToTrack.reduce((total, stat) => total + (stat.pims || 0), 0);
             const pointsPerGame = games > 0 ? points / games : 0;
     
             return {
@@ -38,6 +39,7 @@ function getPlayerStats(players: Player[], selectedSeason: Season, selectedPosit
                 goals,
                 assists,
                 points,
+                pims,
                 pointsPerGame
             };
         })
@@ -113,6 +115,9 @@ export default function PlayerStatsTable({ selectedSeason, selectedPosition, sor
           <div className="flex-shrink-0 w-16 flex items-center justify-center">
             <span className="text-xs font-bold text-black uppercase tracking-wider">PPG</span>
           </div>
+          <div className="flex-shrink-0 w-16 flex items-center justify-center">
+            <span className="text-xs font-bold text-black uppercase tracking-wider">PIM</span>
+          </div>
         </div>
         {/* Player Rows */}
         <div className="divide-y divide-gray-200">
@@ -147,6 +152,9 @@ export default function PlayerStatsTable({ selectedSeason, selectedPosition, sor
               <div className="flex-shrink-0 w-16 flex items-center justify-center">
                 <span className="text-xs font-medium text-gray-700">{player.pointsPerGame.toFixed(2)}</span>
               </div>
+              <div className="flex-shrink-0 w-16 flex items-center justify-center">
+                <span className="text-xs font-medium text-red-700 bg-red-50 px-2 py-1 rounded-lg">{player.pims}</span>
+              </div>
             </div>
           ))}
         </div>
@@ -156,7 +164,7 @@ export default function PlayerStatsTable({ selectedSeason, selectedPosition, sor
       <div className="hidden md:block">
         {/* Header */}
         <div className="bg-gradient-to-r from-gray-50 to-gray-100 border-b-2 border-gray-200">
-          <div className="grid grid-cols-8 gap-3 px-6 py-5">
+          <div className="grid grid-cols-9 gap-3 px-6 py-5">
             <div className="col-span-2 flex items-center">
               <span className="text-sm font-bold text-black uppercase tracking-wider">Player</span>
             </div>
@@ -178,6 +186,9 @@ export default function PlayerStatsTable({ selectedSeason, selectedPosition, sor
             <div className="flex items-center justify-center">
               <span className="text-sm font-bold text-black uppercase tracking-wider">PPG</span>
             </div>
+            <div className="flex items-center justify-center">
+              <span className="text-sm font-bold text-black uppercase tracking-wider">PIM</span>
+            </div>
           </div>
         </div>
         {/* Player Rows */}
@@ -186,7 +197,7 @@ export default function PlayerStatsTable({ selectedSeason, selectedPosition, sor
             <div
               key={player.name}
               className={`
-                grid grid-cols-8 gap-3 px-6 py-5 transition-all duration-300 hover:bg-gray-50 hover:shadow-lg hover:scale-[1.01]
+                grid grid-cols-9 gap-3 px-6 py-5 transition-all duration-300 hover:bg-gray-50 hover:shadow-lg hover:scale-[1.01]
                 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}
               `}
             >
@@ -217,6 +228,9 @@ export default function PlayerStatsTable({ selectedSeason, selectedPosition, sor
               </div>
               <div className="flex items-center justify-center">
                 <span className="text-sm font-semibold text-gray-700 bg-gray-100 px-3 py-2 rounded-xl shadow-sm">{player.pointsPerGame.toFixed(2)}</span>
+              </div>
+              <div className="flex items-center justify-center">
+                <span className="text-sm font-semibold text-red-700 bg-red-50 px-3 py-2 rounded-xl shadow-sm">{player.pims}</span>
               </div>
             </div>
           ))}

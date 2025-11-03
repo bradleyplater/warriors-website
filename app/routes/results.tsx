@@ -160,7 +160,15 @@ export default function Results() {
     return acc;
   }, {} as Record<string, Result[]>);
 
-  const seasons = Object.keys(gamesBySeason).sort().reverse(); // Most recent season first
+  // Sort seasons by first number in descending order (e.g., 24/25 > 23/24 > 22/23)
+  const seasons = Object.keys(gamesBySeason).sort((a, b) => {
+    // Extract first number from each season (e.g., '24' from '24/25')
+    const firstNumberA = parseInt(a.split('/')[0], 10);
+    const firstNumberB = parseInt(b.split('/')[0], 10);
+    
+    // Sort in descending order (highest first)
+    return firstNumberB - firstNumberA;
+  });
 
   return (
     <div className="min-h-screen bg-gray-50">

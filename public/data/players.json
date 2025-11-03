@@ -12,6 +12,22 @@
         "assists": 24,
         "pims": 38,
         "points": 53
+      },
+      {
+        "season": "22/23",
+        "games": 14,
+        "goals": 2,
+        "assists": 2,
+        "pims": 53,
+        "points": 4
+      },
+      {
+        "season": "23/24",
+        "games": 21,
+        "goals": 8,
+        "assists": 12,
+        "pims": 40,
+        "points": 20
       }
     ]
   },
@@ -28,6 +44,14 @@
         "assists": 6,
         "pims": 4,
         "points": 8
+      },
+      {
+        "season": "23/24",
+        "games": 5,
+        "goals": 0,
+        "assists": 0,
+        "pims": 32,
+        "points": 0
       }
     ]
   },
@@ -44,6 +68,22 @@
         "assists": 6,
         "pims": 8,
         "points": 12
+      },
+      {
+        "season": "23/24",
+        "games": 17,
+        "goals": 5,
+        "assists": 2,
+        "pims": 4,
+        "points": 7
+      },
+      {
+        "season": "22/23",
+        "games": 13,
+        "goals": 2,
+        "assists": 0,
+        "pims": 6,
+        "points": 2
       }
     ]
   },
@@ -60,6 +100,22 @@
         "assists": 0,
         "pims": 14,
         "points": 2
+      },
+      {
+        "season": "23/24",
+        "games": 10,
+        "goals": 3,
+        "assists": 0,
+        "pims": 8,
+        "points": 3
+      },
+      {
+        "season": "22/23",
+        "games": 3,
+        "goals": 0,
+        "assists": 1,
+        "pims": 0,
+        "points": 1
       }
     ]
   },
@@ -76,6 +132,22 @@
         "assists": 6,
         "pims": 20,
         "points": 9
+      },
+      {
+        "season": "22/23",
+        "games": 17,
+        "goals": 4,
+        "assists": 5,
+        "pims": 16,
+        "points": 9
+      },
+      {
+        "season": "23/24",
+        "games": 24,
+        "goals": 6,
+        "assists": 9,
+        "pims": 16,
+        "points": 15
       }
     ]
   },
@@ -92,6 +164,14 @@
         "assists": 5,
         "pims": 48,
         "points": 9
+      },
+      {
+        "season": "23/24",
+        "games": 16,
+        "goals": 15,
+        "assists": 7,
+        "pims": 18,
+        "points": 22
       }
     ]
   },
@@ -108,6 +188,22 @@
         "assists": 16,
         "pims": 10,
         "points": 44
+      },
+      {
+        "season": "22/23",
+        "games": 17,
+        "goals": 2,
+        "assists": 2,
+        "pims": 2,
+        "points": 4
+      },
+      {
+        "season": "23/24",
+        "games": 24,
+        "goals": 15,
+        "assists": 10,
+        "pims": 10,
+        "points": 25
       }
     ]
   },
@@ -124,6 +220,14 @@
         "assists": 9,
         "pims": 8,
         "points": 24
+      },
+      {
+        "season": "23/24",
+        "games": 16,
+        "goals": 5,
+        "assists": 4,
+        "pims": 15,
+        "points": 9
       }
     ]
   },
@@ -139,6 +243,22 @@
         "goals": 0,
         "assists": 0,
         "pims": 29,
+        "points": 0
+      },
+      {
+        "season": "23/24",
+        "games": 9,
+        "goals": 1,
+        "assists": 0,
+        "pims": 16,
+        "points": 1
+      },
+      {
+        "season": "22/23",
+        "games": 10,
+        "goals": 0,
+        "assists": 0,
+        "pims": 4,
         "points": 0
       }
     ]
@@ -156,6 +276,14 @@
         "assists": 1,
         "pims": 0,
         "points": 1
+      },
+      {
+        "season": "23/24",
+        "games": 14,
+        "goals": 2,
+        "assists": 3,
+        "pims": 4,
+        "points": 5
       }
     ]
   },
@@ -172,6 +300,22 @@
         "assists": 0,
         "pims": 0,
         "points": 0
+      },
+      {
+        "season": "23/24",
+        "games": 14,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      },
+      {
+        "season": "22/23",
+        "games": 13,
+        "goals": 0,
+        "assists": 1,
+        "pims": 4,
+        "points": 1
       }
     ]
   },
@@ -188,6 +332,22 @@
         "assists": 5,
         "pims": 2,
         "points": 6
+      },
+      {
+        "season": "22/23",
+        "games": 17,
+        "goals": 1,
+        "assists": 3,
+        "pims": 2,
+        "points": 4
+      },
+      {
+        "season": "23/24",
+        "games": 23,
+        "goals": 0,
+        "assists": 5,
+        "pims": 2,
+        "points": 5
       }
     ]
   },
@@ -203,6 +363,22 @@
         "goals": 0,
         "assists": 0,
         "pims": 2,
+        "points": 0
+      },
+      {
+        "season": "22/23",
+        "games": 6,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      },
+      {
+        "season": "23/24",
+        "games": 2,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
         "points": 0
       }
     ]
@@ -236,6 +412,22 @@
         "assists": 1,
         "pims": 0,
         "points": 1
+      },
+      {
+        "season": "23/24",
+        "games": 10,
+        "goals": 1,
+        "assists": 1,
+        "pims": 0,
+        "points": 2
+      },
+      {
+        "season": "22/23",
+        "games": 12,
+        "goals": 1,
+        "assists": 0,
+        "pims": 0,
+        "points": 1
       }
     ]
   },
@@ -252,6 +444,22 @@
         "assists": 2,
         "pims": 0,
         "points": 5
+      },
+      {
+        "season": "22/23",
+        "games": 11,
+        "goals": 7,
+        "assists": 1,
+        "pims": 2,
+        "points": 8
+      },
+      {
+        "season": "23/24",
+        "games": 13,
+        "goals": 11,
+        "assists": 4,
+        "pims": 4,
+        "points": 15
       }
     ]
   },
@@ -268,6 +476,22 @@
         "assists": 0,
         "pims": 0,
         "points": 0
+      },
+      {
+        "season": "22/23",
+        "games": 9,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      },
+      {
+        "season": "23/24",
+        "games": 8,
+        "goals": 0,
+        "assists": 1,
+        "pims": 0,
+        "points": 1
       }
     ]
   },
@@ -284,6 +508,22 @@
         "assists": 0,
         "pims": 0,
         "points": 1
+      },
+      {
+        "season": "23/24",
+        "games": 12,
+        "goals": 4,
+        "assists": 2,
+        "pims": 0,
+        "points": 6
+      },
+      {
+        "season": "22/23",
+        "games": 11,
+        "goals": 6,
+        "assists": 2,
+        "pims": 2,
+        "points": 8
       }
     ]
   },
@@ -300,6 +540,22 @@
         "assists": 1,
         "pims": 2,
         "points": 5
+      },
+      {
+        "season": "23/24",
+        "games": 4,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      },
+      {
+        "season": "22/23",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 12,
+        "points": 0
       }
     ]
   },
@@ -316,6 +572,22 @@
         "assists": 4,
         "pims": 10,
         "points": 4
+      },
+      {
+        "season": "22/23",
+        "games": 13,
+        "goals": 1,
+        "assists": 1,
+        "pims": 2,
+        "points": 2
+      },
+      {
+        "season": "23/24",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 2,
+        "points": 0
       }
     ]
   },
@@ -332,6 +604,22 @@
         "assists": 1,
         "pims": 6,
         "points": 3
+      },
+      {
+        "season": "23/24",
+        "games": 13,
+        "goals": 1,
+        "assists": 0,
+        "pims": 14,
+        "points": 1
+      },
+      {
+        "season": "22/23",
+        "games": 3,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
       }
     ]
   },
@@ -347,6 +635,22 @@
         "goals": 0,
         "assists": 0,
         "pims": 0,
+        "points": 0
+      },
+      {
+        "season": "22/23",
+        "games": 11,
+        "goals": 1,
+        "assists": 1,
+        "pims": 2,
+        "points": 2
+      },
+      {
+        "season": "23/24",
+        "games": 8,
+        "goals": 0,
+        "assists": 0,
+        "pims": 2,
         "points": 0
       }
     ]
@@ -364,6 +668,22 @@
         "assists": 2,
         "pims": 0,
         "points": 8
+      },
+      {
+        "season": "22/23",
+        "games": 12,
+        "goals": 4,
+        "assists": 1,
+        "pims": 2,
+        "points": 5
+      },
+      {
+        "season": "23/24",
+        "games": 10,
+        "goals": 3,
+        "assists": 2,
+        "pims": 0,
+        "points": 5
       }
     ]
   },
@@ -396,6 +716,22 @@
         "assists": 1,
         "pims": 0,
         "points": 1
+      },
+      {
+        "season": "23/24",
+        "games": 6,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      },
+      {
+        "season": "22/23",
+        "games": 9,
+        "goals": 0,
+        "assists": 2,
+        "pims": 2,
+        "points": 2
       }
     ]
   },
@@ -408,6 +744,22 @@
       {
         "season": "24/25",
         "games": 5,
+        "goals": 0,
+        "assists": 1,
+        "pims": 0,
+        "points": 1
+      },
+      {
+        "season": "22/23",
+        "games": 10,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      },
+      {
+        "season": "23/24",
+        "games": 3,
         "goals": 0,
         "assists": 1,
         "pims": 0,
@@ -444,6 +796,22 @@
         "assists": 0,
         "pims": 0,
         "points": 0
+      },
+      {
+        "season": "23/24",
+        "games": 7,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      },
+      {
+        "season": "22/23",
+        "games": 3,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
       }
     ]
   },
@@ -460,6 +828,14 @@
         "assists": 0,
         "pims": 2,
         "points": 2
+      },
+      {
+        "season": "23/24",
+        "games": 3,
+        "goals": 0,
+        "assists": 1,
+        "pims": 2,
+        "points": 1
       }
     ]
   },
@@ -476,6 +852,22 @@
         "assists": 0,
         "pims": 0,
         "points": 0
+      },
+      {
+        "season": "22/23",
+        "games": 5,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      },
+      {
+        "season": "23/24",
+        "games": 7,
+        "goals": 1,
+        "assists": 1,
+        "pims": 6,
+        "points": 2
       }
     ]
   },
@@ -488,6 +880,22 @@
       {
         "season": "24/25",
         "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      },
+      {
+        "season": "23/24",
+        "games": 2,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      },
+      {
+        "season": "22/23",
+        "games": 4,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -508,6 +916,22 @@
         "assists": 2,
         "pims": 12,
         "points": 3
+      },
+      {
+        "season": "23/24",
+        "games": 8,
+        "goals": 0,
+        "assists": 2,
+        "pims": 4,
+        "points": 2
+      },
+      {
+        "season": "22/23",
+        "games": 10,
+        "goals": 0,
+        "assists": 0,
+        "pims": 15,
+        "points": 0
       }
     ]
   },
@@ -524,6 +948,14 @@
         "assists": 1,
         "pims": 0,
         "points": 1
+      },
+      {
+        "season": "23/24",
+        "games": 4,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
       }
     ]
   },
@@ -556,6 +988,22 @@
         "assists": 4,
         "pims": 4,
         "points": 11
+      },
+      {
+        "season": "23/24",
+        "games": 9,
+        "goals": 4,
+        "assists": 0,
+        "pims": 4,
+        "points": 4
+      },
+      {
+        "season": "22/23",
+        "games": 6,
+        "goals": 1,
+        "assists": 1,
+        "pims": 2,
+        "points": 2
       }
     ]
   },
@@ -572,6 +1020,22 @@
         "assists": 0,
         "pims": 0,
         "points": 0
+      },
+      {
+        "season": "23/24",
+        "games": 3,
+        "goals": 2,
+        "assists": 0,
+        "pims": 0,
+        "points": 2
+      },
+      {
+        "season": "22/23",
+        "games": 2,
+        "goals": 2,
+        "assists": 2,
+        "pims": 0,
+        "points": 4
       }
     ]
   },
@@ -588,6 +1052,14 @@
         "assists": 2,
         "pims": 0,
         "points": 5
+      },
+      {
+        "season": "23/24",
+        "games": 5,
+        "goals": 7,
+        "assists": 1,
+        "pims": 4,
+        "points": 8
       }
     ]
   },
@@ -620,6 +1092,22 @@
         "assists": 0,
         "pims": 6,
         "points": 0
+      },
+      {
+        "season": "23/24",
+        "games": 6,
+        "goals": 1,
+        "assists": 0,
+        "pims": 10,
+        "points": 1
+      },
+      {
+        "season": "22/23",
+        "games": 7,
+        "goals": 0,
+        "assists": 0,
+        "pims": 6,
+        "points": 0
       }
     ]
   },
@@ -631,6 +1119,14 @@
     "stats": [
       {
         "season": "24/25",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      },
+      {
+        "season": "22/23",
         "games": 1,
         "goals": 0,
         "assists": 0,
@@ -668,6 +1164,14 @@
         "assists": 1,
         "pims": 0,
         "points": 2
+      },
+      {
+        "season": "23/24",
+        "games": 3,
+        "goals": 1,
+        "assists": 3,
+        "pims": 0,
+        "points": 4
       }
     ]
   },
@@ -684,6 +1188,22 @@
         "assists": 1,
         "pims": 2,
         "points": 1
+      },
+      {
+        "season": "23/24",
+        "games": 2,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      },
+      {
+        "season": "22/23",
+        "games": 2,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
       }
     ]
   },
@@ -764,6 +1284,397 @@
         "assists": 1,
         "pims": 0,
         "points": 2
+      }
+    ]
+  },
+  {
+    "id": "PLR513770",
+    "name": "Kyamil Ali",
+    "number": 26,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "22/23",
+        "games": 8,
+        "goals": 0,
+        "assists": 3,
+        "pims": 2,
+        "points": 3
+      },
+      {
+        "season": "23/24",
+        "games": 6,
+        "goals": 2,
+        "assists": 0,
+        "pims": 2,
+        "points": 2
+      }
+    ]
+  },
+  {
+    "id": "PLR437945",
+    "name": "Sophie Heather",
+    "number": "MISSING",
+    "position": "Forward",
+    "stats": []
+  },
+  {
+    "id": "PLR484137",
+    "name": "Sophie Heather",
+    "number": 106,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "22/23",
+        "games": 3,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR373492",
+    "name": "Michael Dunkley",
+    "number": 52,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "22/23",
+        "games": 9,
+        "goals": 0,
+        "assists": 1,
+        "pims": 6,
+        "points": 1
+      }
+    ]
+  },
+  {
+    "id": "PLR850188",
+    "name": "Laura Broadley",
+    "number": 17,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "22/23",
+        "games": 11,
+        "goals": 1,
+        "assists": 1,
+        "pims": 0,
+        "points": 2
+      },
+      {
+        "season": "23/24",
+        "games": 0,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR798807",
+    "name": "Conor Watkins",
+    "number": 85,
+    "position": "Goaltender",
+    "stats": [
+      {
+        "season": "23/24",
+        "games": 8,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR039418",
+    "name": "Sandis Margevics",
+    "number": 21,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "23/24",
+        "games": 4,
+        "goals": 0,
+        "assists": 2,
+        "pims": 2,
+        "points": 2
+      }
+    ]
+  },
+  {
+    "id": "PLR143854",
+    "name": "Darren Almond",
+    "number": 12,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "23/24",
+        "games": 9,
+        "goals": 3,
+        "assists": 2,
+        "pims": 2,
+        "points": 5
+      },
+      {
+        "season": "22/23",
+        "games": 7,
+        "goals": 5,
+        "assists": 2,
+        "pims": 6,
+        "points": 7
+      }
+    ]
+  },
+  {
+    "id": "PLR277435",
+    "name": "Carlos Garrett",
+    "number": 91,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "23/24",
+        "games": 12,
+        "goals": 1,
+        "assists": 7,
+        "pims": 4,
+        "points": 8
+      },
+      {
+        "season": "22/23",
+        "games": 3,
+        "goals": 0,
+        "assists": 0,
+        "pims": 2,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR864007",
+    "name": "Matt Jackson",
+    "number": 64,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "23/24",
+        "games": 4,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR848625",
+    "name": "Robin Foster",
+    "number": 13,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "23/24",
+        "games": 4,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      },
+      {
+        "season": "22/23",
+        "games": 7,
+        "goals": 0,
+        "assists": 1,
+        "pims": 0,
+        "points": 1
+      }
+    ]
+  },
+  {
+    "id": "PLR269562",
+    "name": "Luke Slater",
+    "number": 31,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "23/24",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR339883",
+    "name": "Alex Pelan",
+    "number": 14,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "22/23",
+        "games": 3,
+        "goals": 1,
+        "assists": 0,
+        "pims": 6,
+        "points": 1
+      }
+    ]
+  },
+  {
+    "id": "PLR097556",
+    "name": "James Hissit",
+    "number": 59,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "22/23",
+        "games": 5,
+        "goals": 0,
+        "assists": 1,
+        "pims": 2,
+        "points": 1
+      },
+      {
+        "season": "23/24",
+        "games": 0,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR317498",
+    "name": "Gareth Evans",
+    "number": 107,
+    "position": "Goaltender",
+    "stats": [
+      {
+        "season": "22/23",
+        "games": 2,
+        "goals": 0,
+        "assists": 0,
+        "pims": 2,
+        "points": 0
+      },
+      {
+        "season": "23/24",
+        "games": 0,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR856107",
+    "name": "Igors Bulas",
+    "number": 16,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "22/23",
+        "games": 8,
+        "goals": 0,
+        "assists": 1,
+        "pims": 2,
+        "points": 1
+      },
+      {
+        "season": "23/24",
+        "games": 0,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR477581",
+    "name": "Jay Belham",
+    "number": 25,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "22/23",
+        "games": 5,
+        "goals": 0,
+        "assists": 0,
+        "pims": 4,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR516086",
+    "name": "Scott Lambie",
+    "number": 18,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "22/23",
+        "games": 4,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR531632",
+    "name": "Kevin Issac",
+    "number": 40,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "22/23",
+        "games": 3,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR931925",
+    "name": "Yuri Aud",
+    "number": 92,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "22/23",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 2,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR645232",
+    "name": "Lauris Unknown",
+    "number": 110,
+    "position": "Goaltender",
+    "stats": [
+      {
+        "season": "22/23",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
       }
     ]
   }

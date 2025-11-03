@@ -65,6 +65,13 @@ export default function PlayerStatsTab({ playerId }: PlayerStatsTabProps) {
       shortHandedGoals: getNumberOfSHGoalsForPlayer(playerId, data.data.results, stats.season as Season),
       gameWinningGoals: getNumberOfGWGoalsForPlayer(playerId, data.data.results, stats.season as Season),
     }
+  }).sort((a, b) => {
+    // Extract first number from each season (e.g., '24' from '24/25')
+    const firstNumberA = parseInt(a.season.split('/')[0], 10);
+    const firstNumberB = parseInt(b.season.split('/')[0], 10);
+    
+    // Sort in descending order (highest first)
+    return firstNumberB - firstNumberA;
   })
 
   return (
