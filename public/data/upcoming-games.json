@@ -1,17 +1,9 @@
 [
 
     {
-        "opponentTeam": "To be confirmed",
-        "logoImage": "to-be-confirmed.jpg",
-        "gameType": "Challenge",
-        "date": "2025-10-04",
-        "time": "9:00 PM",
-        "location": "Planet Ice Peterborough"
-    },
-    {
-        "opponentTeam": "To be confirmed",
-        "logoImage": "to-be-confirmed.jpg",
-        "gameType": "Challenge",
+        "opponentTeam": "Leeds Warriors 3",
+        "logoImage": "leeds-warriors.jpg",
+        "gameType": "BOTB",
         "date": "2025-11-08",
         "time": "9:00 PM",
         "location": "Planet Ice Peterborough"
@@ -25,11 +17,75 @@
         "location": "Blackburn Ice Arena"
     },
     {
+        "opponentTeam": "Manchester Swarm",
+        "logoImage": "manchester-swarm.jpg",
+        "gameType": "LLIHC",
+        "date": "2026-01-18",
+        "time": "7:30 PM",
+        "location": "Planet Ice Altringham"
+    },
+    {
         "opponentTeam": "Blackburn Renegades",
         "logoImage": "blackburn-renegades.jpg",
         "gameType": "BOTB",
         "date": "2026-01-25",
         "time": "7:00 PM",
         "location": "Blackburn Ice Arena"
+    },
+    {
+        "opponentTeam": "Manchester Swarm",
+        "logoImage": "manchester-swarm.jpg",
+        "gameType": "LLIHC",
+        "date": "2026-02-07",
+        "time": "9:15 PM",
+        "location": "Planet Ice Peterborough"
+    },
+    {
+        "opponentTeam": "Beighton Bombers",
+        "logoImage": "beighton-bombers.jpg",
+        "gameType": "LLIHC",
+        "date": "2026-02-14",
+        "time": "10:20 PM",
+        "location": "Ice Sheffield"
+    },
+    {
+        "opponentTeam": "Beighton Bombers",
+        "logoImage": "beighton-bombers.jpg",
+        "gameType": "LLIHC",
+        "date": "2026-03-14",
+        "time": "9:15 PM",
+        "location": "Planet Ice Peterborough"
+    },
+    {
+        "opponentTeam": "Sheffield Mavericks",
+        "logoImage": "sheffield-mavericks.jpg",
+        "gameType": "LLIHC",
+        "date": "2026-03-28",
+        "time": "10:20 PM",
+        "location": "Ice Sheffield"
+    },
+    {
+        "opponentTeam": "Leeds Warriors 3",
+        "logoImage": "leeds-warriors.jpg",
+        "gameType": "BOTB",
+        "date": "2026-05-9",
+        "time": "8:45 PM",
+        "location": "Planet Ice Leeds"
+    },
+    {
+        "opponentTeam": "Cleveland Comets",
+        "logoImage": "cleveland-comets.jpg",
+        "gameType": "BOTB",
+        "date": "2026-05-30",
+        "time": "5:30 PM",
+        "location": "Planet Ice Peterborough"
+    },
+    {
+        "opponentTeam": "Peterborough Predators",
+        "logoImage": "peterborough-predators.jpg",
+        "gameType": "Challenge",
+        "date": "2026-07-18",
+        "time": "5:30 PM",
+        "location": "Planet Ice Peterborough"
     }
 ]

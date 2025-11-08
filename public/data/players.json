@@ -1257,8 +1257,8 @@
   },
   {
     "id": "PLR582797",
-    "name": "Edgard Jekabsons",
-    "number": 103,
+    "name": "Edgars Jekabsons",
+    "number": 38,
     "position": "Forward",
     "stats": [
       {
@@ -1310,13 +1310,6 @@
         "points": 2
       }
     ]
-  },
-  {
-    "id": "PLR437945",
-    "name": "Sophie Heather",
-    "number": "MISSING",
-    "position": "Forward",
-    "stats": []
   },
   {
     "id": "PLR484137",
