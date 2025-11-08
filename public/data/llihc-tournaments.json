@@ -1,0 +1,57 @@
+[
+  {
+    "season": "25/26",
+    "groupStage": [
+      {
+        "name": "Peterborough Warriors",
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "points": 0
+      },
+      {
+        "name": "Beighton Bombers",
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "points": 0
+      },
+      {
+        "name": "Blackburn Renegades",
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "points": 0
+      },
+      {
+        "name": "Manchester Swarm",
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "points": 0
+      },
+      {
+        "name": "Sheffield Mavericks",
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "points": 0
+      }
+    ]
+  }
+]

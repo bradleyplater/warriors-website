@@ -25,17 +25,23 @@ export default function UpcomingGames() {
   const upcomingGames = sortedUpcomingGames;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-6 md:py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-            Upcoming Games
-          </h1>
-          <p className="text-base md:text-lg text-gray-600">
-            Our upcoming fixtures, times, and locations
-          </p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Header */}
+      <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">
+              Upcoming Games
+            </h1>
+            <p className="text-xl md:text-2xl opacity-90">
+              Our upcoming fixtures, times, and locations
+            </p>
+          </div>
         </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+        {/* Games Content */}
 
         {/* Games List */}
         {!upcomingGames || upcomingGames.length === 0 ? (

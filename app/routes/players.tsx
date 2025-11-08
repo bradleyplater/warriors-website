@@ -81,11 +81,21 @@ export default function Players() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Warriors Players</h1>
-          <p className="text-lg text-gray-600">Meet our current roster</p>
+      {/* Hero Header */}
+      <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">
+              Warriors Players
+            </h1>
+            <p className="text-xl md:text-2xl opacity-90">
+              Meet our current roster
+            </p>
+          </div>
         </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         {/* Quick Navigation Links */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">

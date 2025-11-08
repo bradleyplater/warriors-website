@@ -1,0 +1,67 @@
+[
+  {
+    "season": "25/26",
+    "groupStage": [
+      {
+        "name": "Peterborough Warriors",
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "points": 0
+      },
+      {
+        "name": "Leeds Warriors",
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "points": 0
+      },
+      {
+        "name": "Cleveland Comets",
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "points": 0
+      },
+      {
+        "name": "Blackburn Renegades",
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "points": 0
+      },
+      {
+        "name": "Grimsby Trawlers",
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "points": 0
+      },
+      {
+        "name": "Bradford Ice Wolves",
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "goalsFor": 0,
+        "goalsAgainst": 0,
+        "points": 0
+      }
+    ]
+  }
+]

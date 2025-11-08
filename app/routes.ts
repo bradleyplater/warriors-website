@@ -9,6 +9,7 @@ export default [
   route("our-journey", "routes/our-journey.tsx"),
   route("players", "routes/players.tsx"),
   route("team", "routes/team.tsx"),
+  route("cups", "routes/cups.tsx"),
   route("player-stats", "routes/player-stats.tsx"),
   route("team-stats", "routes/team-stats.tsx"),
   route("player/:playerId", "routes/player.$playerId.tsx")

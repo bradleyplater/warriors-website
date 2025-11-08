@@ -172,14 +172,14 @@ export default function Results() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Page Header */}
-      <div className="bg-white shadow-sm border-b">
+      {/* Hero Header */}
+      <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white">
         <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
           <div className="text-center">
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="text-2xl md:text-3xl font-bold mb-2">
               Results
             </h1>
-            <p className="text-sm md:text-base text-gray-600">
+            <p className="text-sm md:text-base opacity-90">
               Complete history of Warriors games and results
             </p>
           </div>
