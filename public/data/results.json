@@ -24,6 +24,7 @@
       "PLR397024",
       "PLR829708"
     ],
+    "location": "MISSING",
     "score": {
       "warriorsScore": 11,
       "opponentScore": 0,
@@ -249,6 +250,7 @@
       "PLR382468",
       "PLR397024"
     ],
+    "location": "MISSING",
     "score": {
       "warriorsScore": 1,
       "opponentScore": 11,
@@ -529,6 +531,7 @@
       "PLR763992",
       "PLR829708"
     ],
+    "location": "MISSING",
     "score": {
       "warriorsScore": 4,
       "opponentScore": 1,
@@ -669,6 +672,7 @@
       "PLR491823",
       "PLR382468"
     ],
+    "location": "MISSING",
     "score": {
       "warriorsScore": 5,
       "opponentScore": 4,
@@ -844,6 +848,7 @@
       "PLR397024",
       "PLR829708"
     ],
+    "location": "MISSING",
     "score": {
       "warriorsScore": 19,
       "opponentScore": 2,
@@ -1193,6 +1198,7 @@
       "PLR829708",
       "PLR491823"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 7,
       "opponentScore": 6,
@@ -1426,6 +1432,7 @@
       "PLR902411",
       "PLR382468"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 14,
       "opponentScore": 5,
@@ -1675,6 +1682,7 @@
       "PLR780396",
       "PLR397024"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 2,
       "opponentScore": 5,
@@ -1848,6 +1856,7 @@
       "PLR382468",
       "PLR238709"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 8,
       "opponentScore": 4,
@@ -2056,6 +2065,7 @@
       "PLR780396",
       "PLR763992"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 5,
       "opponentScore": 2,
@@ -2230,6 +2240,7 @@
       "PLR382468",
       "PLR829708"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 4,
       "opponentScore": 9,
@@ -2453,6 +2464,7 @@
       "PLR382468",
       "PLR829708"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 1,
       "opponentScore": 1,
@@ -2638,6 +2650,7 @@
       "PLR763992",
       "PLR829708"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 2,
       "opponentScore": 7,
@@ -2823,6 +2836,7 @@
       "PLR763992",
       "PLR760594"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 0,
       "opponentScore": 10,
@@ -3054,6 +3068,7 @@
       "PLR197447",
       "PLR763992"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 4,
       "opponentScore": 8,
@@ -3302,6 +3317,7 @@
       "PLR902411",
       "PLR197447"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 6,
       "opponentScore": 3,
@@ -3500,6 +3516,7 @@
       "PLR197447",
       "PLR382468"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 4,
       "opponentScore": 4,
@@ -3718,6 +3735,7 @@
       "PLR382468",
       "PLR829708"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 4,
       "opponentScore": 13,
@@ -3993,6 +4011,7 @@
       "PLR271434",
       "PLR030348"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 6,
       "opponentScore": 1,
@@ -4165,6 +4184,7 @@
       "PLR271434",
       "PLR829708"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 4,
       "opponentScore": 9,
@@ -4442,6 +4462,7 @@
       "PLR902411",
       "PLR271434"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 10,
       "opponentScore": 8,
@@ -4706,6 +4727,7 @@
       "PLR902411",
       "PLR271434"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 1,
       "opponentScore": 8,
@@ -4867,6 +4889,7 @@
       "PLR902411",
       "PLR271434"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 5,
       "opponentScore": 1,
@@ -5017,6 +5040,7 @@
       "PLR271434",
       "PLR829708"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 4,
       "opponentScore": 7,
@@ -5271,6 +5295,7 @@
       "PLR382468",
       "PLR271434"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 3,
       "opponentScore": 2,
@@ -5422,6 +5447,7 @@
       "PLR829708",
       "PLR484137"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 1,
       "opponentScore": 10,
@@ -5612,6 +5638,7 @@
       "PLR123881",
       "PLR006500"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 6,
       "opponentScore": 11,
@@ -5920,6 +5947,7 @@
       "PLR644758",
       "PLR030348"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 2,
       "opponentScore": 2,
@@ -6083,6 +6111,7 @@
       "PLR397024",
       "PLR277435"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 7,
       "opponentScore": 4,
@@ -6323,6 +6352,7 @@
       "PLR780396",
       "PLR763992"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 0,
       "opponentScore": 12,
@@ -6547,6 +6577,7 @@
       "PLR562272",
       "PLR238395"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 4,
       "opponentScore": 4,
@@ -6733,6 +6764,7 @@
       "PLR810070",
       "PLR708075"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 19,
       "opponentScore": 1,
@@ -6982,6 +7014,7 @@
       "PLR006500",
       "PLR348214"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 7,
       "opponentScore": 6,
@@ -7231,6 +7264,7 @@
       "PLR070307",
       "PLR397024"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 6,
       "opponentScore": 2,
@@ -7414,6 +7448,7 @@
       "PLR277435",
       "PLR763992"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 4,
       "opponentScore": 1,
@@ -7572,6 +7607,7 @@
       "PLR829708",
       "PLR348214"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 5,
       "opponentScore": 2,
@@ -7699,6 +7735,7 @@
       "PLR864007",
       "PLR915887"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 5,
       "opponentScore": 1,
@@ -7833,6 +7870,7 @@
       "PLR006500",
       "PLR562272"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 6,
       "opponentScore": 7,
@@ -8105,6 +8143,7 @@
       "PLR397024",
       "PLR829708"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 3,
       "opponentScore": 13,
@@ -8384,6 +8423,7 @@
       "PLR930189",
       "PLR829708"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 3,
       "opponentScore": 7,
@@ -8562,6 +8602,7 @@
       "PLR562272",
       "PLR915887"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 1,
       "opponentScore": 5,
@@ -8733,6 +8774,7 @@
       "PLR277435",
       "PLR763992"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 1,
       "opponentScore": 12,
@@ -8937,6 +8979,7 @@
       "PLR915887",
       "PLR502819"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 2,
       "opponentScore": 6,
@@ -9111,6 +9154,7 @@
       "PLR798807",
       "PLR143854"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 1,
       "opponentScore": 11,
@@ -9313,6 +9357,7 @@
       "PLR208841",
       "PLR813692"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 3,
       "opponentScore": 9,
@@ -9523,6 +9568,7 @@
       "PLR006500",
       "PLR708075"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 2,
       "opponentScore": 12,
@@ -9759,6 +9805,7 @@
       "PLR123881",
       "PLR006500"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 2,
       "opponentScore": 2,
@@ -10005,6 +10052,7 @@
       "PLR039418",
       "PLR644758"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 3,
       "opponentScore": 3,
@@ -10197,6 +10245,7 @@
       "PLR397024",
       "PLR763992"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 3,
       "opponentScore": 8,
@@ -10379,6 +10428,7 @@
       "PLR562272",
       "PLR644758"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 6,
       "opponentScore": 4,
@@ -10621,6 +10671,7 @@
       "PLR644758",
       "PLR915887"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 1,
       "opponentScore": 10,
@@ -10842,6 +10893,7 @@
       "PLR070307",
       "PLR915887"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 3,
       "opponentScore": 2,
@@ -10976,6 +11028,7 @@
       "PLR373492",
       "PLR883828"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 3,
       "opponentScore": 2,
@@ -11158,6 +11211,7 @@
       "PLR850188",
       "PLR516086"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 1,
       "opponentScore": 5,
@@ -11284,6 +11338,7 @@
       "PLR434650",
       "PLR357060"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 0,
       "opponentScore": 3,
@@ -11401,6 +11456,7 @@
       "PLR915887",
       "PLR382468"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 11,
       "opponentScore": 1,
@@ -11684,6 +11740,7 @@
       "PLR780396",
       "PLR238709"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 4,
       "opponentScore": 7,
@@ -11913,6 +11970,7 @@
       "PLR562272",
       "PLR070307"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 5,
       "opponentScore": 5,
@@ -12122,6 +12180,7 @@
       "PLR763992",
       "PLR208841"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 3,
       "opponentScore": 6,
@@ -12327,6 +12386,7 @@
       "PLR348214",
       "PLR644758"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 2,
       "opponentScore": 2,
@@ -12475,6 +12535,7 @@
       "PLR829708",
       "PLR856107"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 2,
       "opponentScore": 10,
@@ -12737,6 +12798,7 @@
       "PLR780396",
       "PLR397024"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 0,
       "opponentScore": 11,
@@ -12954,6 +13016,7 @@
       "PLR516086",
       "PLR915887"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 0,
       "opponentScore": 7,
@@ -13123,6 +13186,7 @@
       "PLR763992",
       "PLR829708"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 4,
       "opponentScore": 8,
@@ -13328,6 +13392,7 @@
       "PLR931925",
       "PLR850188"
     ],
+    "location": "HOME",
     "score": {
       "warriorsScore": 1,
       "opponentScore": 12,
@@ -13543,6 +13608,7 @@
       "PLR006500",
       "PLR915887"
     ],
+    "location": "AWAY",
     "score": {
       "warriorsScore": 1,
       "opponentScore": 7,
@@ -13704,6 +13770,148 @@
               "second": 0,
               "duration": 2,
               "offender": "98"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "season": "25/26",
+    "opponentTeam": "Leeds Warriors",
+    "logoImage": "leeds-warriors.jpg",
+    "date": "2025-11-08T19:00:00.000Z",
+    "seasonId": "25/26",
+    "roster": [
+      "PLR941511",
+      "PLR297690",
+      "PLR708075",
+      "PLR207827",
+      "PLR434650",
+      "PLR883828",
+      "PLR810070",
+      "PLR582797",
+      "PLR030348",
+      "PLR925453",
+      "PLR992077",
+      "PLR491823",
+      "PLR241136",
+      "PLR271434",
+      "PLR763992",
+      "PLR106345",
+      "PLR930189"
+    ],
+    "location": "HOME",
+    "score": {
+      "warriorsScore": 5,
+      "opponentScore": 0,
+      "period": {
+        "one": {
+          "warriorsScore": 1,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR883828",
+              "assists": [],
+              "minute": 13,
+              "second": 26,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [],
+          "opponentPenalties": [
+            {
+              "type": "TRIP",
+              "minute": 14,
+              "second": 22,
+              "duration": 2,
+              "offender": "Paul Eaglestone"
+            }
+          ]
+        },
+        "two": {
+          "warriorsScore": 1,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR434650",
+              "assists": [
+                "PLR241136",
+                "PLR271434"
+              ],
+              "minute": 21,
+              "second": 0,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [
+            {
+              "type": "TRIP",
+              "minute": 32,
+              "second": 0,
+              "duration": 2,
+              "offender": "PLR708075"
+            },
+            {
+              "type": "HIST",
+              "minute": 27,
+              "second": 25,
+              "duration": 2,
+              "offender": "PLR106345"
+            }
+          ],
+          "opponentPenalties": []
+        },
+        "three": {
+          "warriorsScore": 3,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR271434",
+              "assists": [
+                "PLR241136"
+              ],
+              "minute": 46,
+              "second": 18,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR941511",
+              "assists": [
+                "PLR491823",
+                "PLR582797"
+              ],
+              "minute": 49,
+              "second": 18,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR992077",
+              "assists": [],
+              "minute": 55,
+              "second": 38,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [
+            {
+              "type": "CROSS",
+              "minute": 52,
+              "second": 30,
+              "duration": 2,
+              "offender": "PLR106345"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "ELBOW",
+              "minute": 52,
+              "second": 30,
+              "duration": 2,
+              "offender": "Craig Baker"
             }
           ]
         }

@@ -29,6 +29,16 @@
       "wins": 8,
       "draws": 4,
       "losses": 12
+    },
+    {
+      "season": "25/26",
+      "games": 1,
+      "goalsFor": 5,
+      "pims": 6,
+      "goalsAgainst": 0,
+      "wins": 1,
+      "draws": 0,
+      "losses": 0
     }
   ]
 }

@@ -4,22 +4,22 @@
     "groupStage": [
       {
         "name": "Peterborough Warriors",
-        "played": 0,
-        "won": 0,
+        "played": 1,
+        "won": 1,
         "drawn": 0,
         "lost": 0,
-        "goalsFor": 0,
+        "goalsFor": 5,
         "goalsAgainst": 0,
-        "points": 0
+        "points": 2
       },
       {
         "name": "Leeds Warriors",
-        "played": 0,
+        "played": 1,
         "won": 0,
         "drawn": 0,
-        "lost": 0,
+        "lost": 1,
         "goalsFor": 0,
-        "goalsAgainst": 0,
+        "goalsAgainst": 5,
         "points": 0
       },
       {

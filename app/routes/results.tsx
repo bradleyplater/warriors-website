@@ -22,7 +22,9 @@ function GameCard({ game }: GameCardProps) {
   
   // For now, assume all games are away games since we don't have home/away data
   // This can be enhanced later when home/away data is available
-  const isHomeGame = false;
+
+  console.log("location: ", game.location)
+  const isHomeGame = game.location === "HOME";
   
   const resultColor = isWin ? 'text-green-600' : isDraw ? 'text-yellow-600' : 'text-red-600';
   const resultBg = isWin ? 'bg-green-50' : isDraw ? 'bg-yellow-50' : 'bg-red-50';

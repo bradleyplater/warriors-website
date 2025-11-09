@@ -52,6 +52,14 @@
         "assists": 0,
         "pims": 32,
         "points": 0
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
       }
     ]
   },
@@ -348,6 +356,14 @@
         "assists": 5,
         "pims": 2,
         "points": 5
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
       }
     ]
   },
@@ -556,6 +572,14 @@
         "assists": 0,
         "pims": 12,
         "points": 0
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
       }
     ]
   },
@@ -587,6 +611,14 @@
         "goals": 0,
         "assists": 0,
         "pims": 2,
+        "points": 0
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
         "points": 0
       }
     ]
@@ -620,6 +652,14 @@
         "assists": 0,
         "pims": 0,
         "points": 0
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 2,
+        "pims": 0,
+        "points": 2
       }
     ]
   },
@@ -700,6 +740,14 @@
         "assists": 2,
         "pims": 0,
         "points": 2
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
       }
     ]
   },
@@ -732,6 +780,14 @@
         "assists": 2,
         "pims": 2,
         "points": 2
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
       }
     ]
   },
@@ -764,6 +820,14 @@
         "assists": 1,
         "pims": 0,
         "points": 1
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 1,
+        "assists": 0,
+        "pims": 0,
+        "points": 1
       }
     ]
   },
@@ -780,6 +844,14 @@
         "assists": 3,
         "pims": 0,
         "points": 3
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
       }
     ]
   },
@@ -836,6 +908,14 @@
         "assists": 1,
         "pims": 2,
         "points": 1
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 2,
+        "points": 0
       }
     ]
   },
@@ -932,6 +1012,14 @@
         "assists": 0,
         "pims": 15,
         "points": 0
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 1,
+        "assists": 0,
+        "pims": 0,
+        "points": 1
       }
     ]
   },
@@ -956,6 +1044,14 @@
         "assists": 0,
         "pims": 0,
         "points": 0
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 1,
+        "pims": 0,
+        "points": 1
       }
     ]
   },
@@ -1148,6 +1244,14 @@
         "assists": 2,
         "pims": 0,
         "points": 6
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 1,
+        "assists": 0,
+        "pims": 0,
+        "points": 1
       }
     ]
   },
@@ -1220,6 +1324,14 @@
         "assists": 2,
         "pims": 2,
         "points": 6
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 1,
+        "assists": 0,
+        "pims": 0,
+        "points": 1
       }
     ]
   },
@@ -1236,6 +1348,14 @@
         "assists": 2,
         "pims": 0,
         "points": 3
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 1,
+        "assists": 1,
+        "pims": 0,
+        "points": 2
       }
     ]
   },
@@ -1268,6 +1388,14 @@
         "assists": 0,
         "pims": 0,
         "points": 0
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 1,
+        "pims": 0,
+        "points": 1
       }
     ]
   },
@@ -1667,6 +1795,22 @@
         "goals": 0,
         "assists": 0,
         "pims": 0,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR106345",
+    "name": "Ollie Simpson",
+    "number": 111,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 4,
         "points": 0
       }
     ]

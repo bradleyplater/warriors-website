@@ -46,7 +46,7 @@ export default function CupsPage() {
   const botbData = data.botbTournaments || [];
   const llihcData = data.llihcTournaments || [];
   const currentData = activeTab === 'botb' ? botbData : llihcData;
-  const tournamentName = activeTab === 'botb' ? 'Battle of the Bridge' : 'Lions League Ice Hockey Cup';
+  const tournamentName = activeTab === 'botb' ? 'Bottom of the Barrel' : 'Lamp Lighters Ice Hockey Cup';
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -77,7 +77,7 @@ export default function CupsPage() {
                     : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
                 }`}
               >
-                Battle of the Bridge
+                BOTB
               </button>
               <button
                 onClick={() => setActiveTab('llihc')}

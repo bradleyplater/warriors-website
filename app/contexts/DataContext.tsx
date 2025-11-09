@@ -67,6 +67,7 @@ export interface Result {
   opponentTeam: string;
   logoImage: string;
   date: string;
+  location: "HOME" | "AWAY";
   roster: string[];
   seasonId: Season;
   score: {
