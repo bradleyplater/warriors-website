@@ -13917,5 +13917,184 @@
         }
       }
     }
+  },
+  {
+    "season": "25/26",
+    "opponentTeam": "Blackburn Renegades",
+    "logoImage": "blackburn-renegades.jpg",
+    "date": "2025-11-09T19:00:00.000Z",
+    "seasonId": "25/26",
+    "roster": [
+      "PLR186348",
+      "PLR502819",
+      "PLR030348",
+      "PLR241136",
+      "PLR208841",
+      "PLR271434",
+      "PLR813692",
+      "PLR357060",
+      "PLR629413",
+      "PLR397024",
+      "PLR053305",
+      "PLR646257",
+      "PLR006500",
+      "PLR810070",
+      "PLR991178"
+    ],
+    "location": "AWAY",
+    "score": {
+      "warriorsScore": 5,
+      "opponentScore": 2,
+      "period": {
+        "one": {
+          "warriorsScore": 0,
+          "opponentScore": 1,
+          "goals": [],
+          "opponentGoals": [
+            {
+              "playerId": "Adam",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 16,
+              "second": 6,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "ILLEQUIP",
+              "minute": 2,
+              "second": 50,
+              "duration": 2,
+              "offender": "PLR813692"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "HOOK",
+              "minute": 16,
+              "second": 41,
+              "duration": 2,
+              "offender": "Unknown"
+            }
+          ]
+        },
+        "two": {
+          "warriorsScore": 2,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR813692",
+              "assists": [],
+              "minute": 23,
+              "second": 14,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR813692",
+              "assists": [
+                "PLR397024"
+              ],
+              "minute": 37,
+              "second": 2,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Adam",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 39,
+              "second": 18,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "TOOM",
+              "minute": 34,
+              "second": 18,
+              "duration": 2,
+              "offender": "BENCH"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "GOALINTRF",
+              "minute": 20,
+              "second": 15,
+              "duration": 2,
+              "offender": "M. Hosk"
+            },
+            {
+              "type": "INTRF",
+              "minute": 38,
+              "second": 22,
+              "duration": 2,
+              "offender": "Unknown"
+            }
+          ]
+        },
+        "three": {
+          "warriorsScore": 3,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR813692",
+              "assists": [],
+              "minute": 46,
+              "second": 42,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR813692",
+              "assists": [],
+              "minute": 47,
+              "second": 4,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR629413",
+              "assists": [
+                "PLR397024"
+              ],
+              "minute": 52,
+              "second": 23,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [
+            {
+              "type": "CROSS",
+              "minute": 49,
+              "second": 40,
+              "duration": 2,
+              "offender": "PLR810070"
+            },
+            {
+              "type": "TRIP",
+              "minute": 58,
+              "second": 55,
+              "duration": 2,
+              "offender": "PLR810070"
+            },
+            {
+              "type": "HOOK",
+              "minute": 59,
+              "second": 43,
+              "duration": 2,
+              "offender": "PLR357060"
+            }
+          ],
+          "opponentPenalties": []
+        }
+      }
+    }
   }
 ]

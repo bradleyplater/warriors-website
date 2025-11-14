@@ -28,6 +28,14 @@
         "assists": 12,
         "pims": 40,
         "points": 20
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
       }
     ]
   },
@@ -92,6 +100,14 @@
         "assists": 0,
         "pims": 6,
         "points": 2
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 2,
+        "points": 0
       }
     ]
   },
@@ -162,7 +178,7 @@
   {
     "id": "PLR760594",
     "name": "Charles Loew",
-    "number": 34,
+    "number": 134,
     "position": "Forward",
     "stats": [
       {
@@ -212,6 +228,14 @@
         "assists": 10,
         "pims": 10,
         "points": 25
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
       }
     ]
   },
@@ -236,6 +260,14 @@
         "assists": 4,
         "pims": 15,
         "points": 9
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
       }
     ]
   },
@@ -267,6 +299,14 @@
         "goals": 0,
         "assists": 0,
         "pims": 4,
+        "points": 0
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
         "points": 0
       }
     ]
@@ -359,7 +399,7 @@
       },
       {
         "season": "25/26",
-        "games": 1,
+        "games": 2,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -476,6 +516,14 @@
         "assists": 4,
         "pims": 4,
         "points": 15
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 2,
+        "pims": 0,
+        "points": 2
       }
     ]
   },
@@ -540,6 +588,14 @@
         "assists": 2,
         "pims": 2,
         "points": 8
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
       }
     ]
   },
@@ -575,10 +631,10 @@
       },
       {
         "season": "25/26",
-        "games": 1,
+        "games": 2,
         "goals": 0,
         "assists": 0,
-        "pims": 0,
+        "pims": 4,
         "points": 0
       }
     ]
@@ -655,7 +711,7 @@
       },
       {
         "season": "25/26",
-        "games": 1,
+        "games": 2,
         "goals": 0,
         "assists": 2,
         "pims": 0,
@@ -1100,6 +1156,14 @@
         "assists": 1,
         "pims": 2,
         "points": 2
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0
       }
     ]
   },
@@ -1156,6 +1220,14 @@
         "assists": 1,
         "pims": 4,
         "points": 8
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 4,
+        "assists": 0,
+        "pims": 2,
+        "points": 4
       }
     ]
   },
@@ -1351,7 +1423,7 @@
       },
       {
         "season": "25/26",
-        "games": 1,
+        "games": 2,
         "goals": 1,
         "assists": 1,
         "pims": 0,
@@ -1801,7 +1873,7 @@
   },
   {
     "id": "PLR106345",
-    "name": "Ollie Simpson",
+    "name": "Ollie Cooper",
     "number": 111,
     "position": "Forward",
     "stats": [
@@ -1811,6 +1883,38 @@
         "goals": 0,
         "assists": 0,
         "pims": 4,
+        "points": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR629413",
+    "name": "Janis Vincukovs",
+    "number": 74,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 1,
+        "assists": 0,
+        "pims": 0,
+        "points": 1
+      }
+    ]
+  },
+  {
+    "id": "PLR991178",
+    "name": "Vincent Graziano",
+    "number": 34,
+    "position": "Goaltender",
+    "stats": [
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
         "points": 0
       }
     ]
