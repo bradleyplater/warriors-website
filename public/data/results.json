@@ -14096,5 +14096,155 @@
         }
       }
     }
+  },
+  {
+    "season": "25/26",
+    "opponentTeam": "Streatham Night Wolves",
+    "logoImage": "streatham-night-wolves.jpg",
+    "date": "2025-12-07T19:00:00.000Z",
+    "seasonId": "25/26",
+    "roster": [
+      "PLR930189",
+      "PLR241136",
+      "PLR434650",
+      "PLR271434",
+      "PLR813692",
+      "PLR629413",
+      "PLR941511",
+      "PLR646257",
+      "PLR992077",
+      "PLR123881",
+      "PLR106345",
+      "PLR006500",
+      "PLR810070",
+      "PLR991178"
+    ],
+    "location": "AWAY",
+    "score": {
+      "warriorsScore": 6,
+      "opponentScore": 2,
+      "period": {
+        "one": {
+          "warriorsScore": 3,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR813692",
+              "assists": [
+                "PLR271434"
+              ],
+              "minute": 3,
+              "second": 14,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR241136",
+              "assists": [
+                "PLR941511",
+                "PLR434650"
+              ],
+              "minute": 7,
+              "second": 58,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR006500",
+              "assists": [
+                "PLR930189"
+              ],
+              "minute": 10,
+              "second": 1,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [],
+          "opponentPenalties": []
+        },
+        "two": {
+          "warriorsScore": 1,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR813692",
+              "assists": [
+                "PLR810070",
+                "PLR271434"
+              ],
+              "minute": 38,
+              "second": 12,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [
+            {
+              "type": "HOOK",
+              "minute": 27,
+              "second": 29,
+              "duration": 2,
+              "offender": "PLR241136"
+            }
+          ],
+          "opponentPenalties": []
+        },
+        "three": {
+          "warriorsScore": 2,
+          "opponentScore": 2,
+          "goals": [
+            {
+              "playerId": "PLR813692",
+              "assists": [
+                "PLR271434"
+              ],
+              "minute": 54,
+              "second": 50,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR810070",
+              "assists": [
+                "PLR271434"
+              ],
+              "minute": 59,
+              "second": 9,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Jason Cullbing",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 44,
+              "second": 45,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "Guy Baresford",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 58,
+              "second": 6,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "TRIP",
+              "minute": 56,
+              "second": 1,
+              "duration": 2,
+              "offender": "PLR930189"
+            }
+          ],
+          "opponentPenalties": []
+        }
+      }
+    }
   }
 ]
