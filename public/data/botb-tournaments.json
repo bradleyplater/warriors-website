@@ -4,22 +4,22 @@
     "groupStage": [
       {
         "name": "Peterborough Warriors",
-        "played": 1,
-        "won": 1,
+        "played": 2,
+        "won": 2,
         "drawn": 0,
         "lost": 0,
-        "goalsFor": 5,
-        "goalsAgainst": 0,
-        "points": 2
+        "goalsFor": 11,
+        "goalsAgainst": 4,
+        "points": 4
       },
       {
         "name": "Leeds Warriors",
-        "played": 1,
+        "played": 2,
         "won": 0,
         "drawn": 0,
-        "lost": 1,
-        "goalsFor": 0,
-        "goalsAgainst": 5,
+        "lost": 2,
+        "goalsFor": 2,
+        "goalsAgainst": 11,
         "points": 0
       },
       {
@@ -44,13 +44,13 @@
       },
       {
         "name": "Grimsby Trawlers",
-        "played": 0,
-        "won": 0,
+        "played": 2,
+        "won": 1,
         "drawn": 0,
-        "lost": 0,
-        "goalsFor": 0,
-        "goalsAgainst": 0,
-        "points": 0
+        "lost": 1,
+        "goalsFor": 10,
+        "goalsAgainst": 8,
+        "points": 2
       },
       {
         "name": "Bradford Ice Wolves",

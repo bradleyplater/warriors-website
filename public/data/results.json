@@ -14246,5 +14246,163 @@
         }
       }
     }
+  },
+  {
+    "season": "25/26",
+    "opponentTeam": "Grimsby Trawlers",
+    "logoImage": "grimsby-trawlers.jpg",
+    "date": "2025-12-13T19:00:00.000Z",
+    "seasonId": "25/26",
+    "roster": [
+      "PLR930189",
+      "PLR194252",
+      "PLR883828",
+      "PLR241136",
+      "PLR582797",
+      "PLR434650",
+      "PLR271434",
+      "PLR575853",
+      "PLR899328",
+      "PLR941511",
+      "PLR646257",
+      "PLR106345",
+      "PLR109219",
+      "PLR810070",
+      "PLR708075",
+      "PLR992077"
+    ],
+    "location": "AWAY",
+    "score": {
+      "warriorsScore": 6,
+      "opponentScore": 4,
+      "period": {
+        "one": {
+          "warriorsScore": 2,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR271434",
+              "assists": [],
+              "minute": 9,
+              "second": 22,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR582797",
+              "assists": [
+                "PLR646257"
+              ],
+              "minute": 18,
+              "second": 24,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "E Airley",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 17,
+              "second": 14,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": []
+        },
+        "two": {
+          "warriorsScore": 2,
+          "opponentScore": 2,
+          "goals": [
+            {
+              "playerId": "PLR646257",
+              "assists": [
+                "PLR582797"
+              ],
+              "minute": 24,
+              "second": 46,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR194252",
+              "assists": [],
+              "minute": 33,
+              "second": 57,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "A Lamb",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 23,
+              "second": 55,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "K Cathorpe",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 28,
+              "second": 58,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": [
+            {
+              "type": "SLASH",
+              "minute": 26,
+              "second": 30,
+              "duration": 2,
+              "offender": "Unknown"
+            }
+          ]
+        },
+        "three": {
+          "warriorsScore": 2,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR109219",
+              "assists": [
+                "PLR992077"
+              ],
+              "minute": 47,
+              "second": 59,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR992077",
+              "assists": [],
+              "minute": 58,
+              "second": 42,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "E Airley",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 53,
+              "second": 51,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": []
+        }
+      }
+    }
   }
 ]

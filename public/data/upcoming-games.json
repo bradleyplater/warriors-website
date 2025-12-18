@@ -1,13 +1,5 @@
 [
     {
-        "opponentTeam": "Grimsby Trawlers",
-        "logoImage": "grimsby-trawlers.jpg",
-        "gameType": "BOTB",
-        "date": "2025-12-13",
-        "time": "3:00 PM",
-        "location": "Grimsby Ice Rink"
-    },
-    {
         "opponentTeam": "Manchester Swarm",
         "logoImage": "manchester-swarm.jpg",
         "gameType": "LLIHC",
