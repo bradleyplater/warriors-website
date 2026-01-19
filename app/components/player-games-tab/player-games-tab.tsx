@@ -1,5 +1,6 @@
 import { useData, type Result } from "~/contexts/DataContext";
-import ComingSoon from "../coming-soon/coming-soon";
+import { getAssistsForOneGame, getGoalsForOneGame, getPimsForOneGame } from "~/helpers/game-helpers";
+import { Link } from "react-router";
 
 interface RecentGame {
   date: string;
@@ -86,36 +87,6 @@ function getRecentWins(recentGames: Result[]) {
 
 function getRecentLosses(recentGames: Result[]) {
   return recentGames.filter((game) => game.score.warriorsScore < game.score.opponentScore).length;
-}
-
-function getGoalsForOneGame(game: Result, playerId: string) {
-
-  const periodOneGoals = game.score.period.one.goals.filter(goal => goal.playerId === playerId).length;
-  const periodTwoGoals = game.score.period.two.goals.filter(goal => goal.playerId === playerId).length;
-  const periodThreeGoals = game.score.period.three.goals.filter(goal => goal.playerId === playerId).length;
-  
-  return periodOneGoals + periodTwoGoals + periodThreeGoals;
-}
-
-function getAssistsForOneGame(game: Result, playerId: string) {
-
-  const periodOneAssists = game.score.period.one.goals.filter(goal => goal.assists.includes(playerId)).length;
-  const periodTwoAssists = game.score.period.two.goals.filter(goal => goal.assists.includes(playerId)).length;
-  const periodThreeAssists = game.score.period.three.goals.filter(goal => goal.assists.includes(playerId)).length;
-
-  return periodOneAssists + periodTwoAssists + periodThreeAssists;
-}
-
-function getPimsForOneGame(game: Result, playerId: string) {
-  const allPenalties = [
-    ...game.score.period.one.penalties,
-    ...game.score.period.two.penalties,
-    ...game.score.period.three.penalties
-  ];
-  
-  const playerPenalties = allPenalties.filter(penalty => penalty.offender === playerId);
-
-  return playerPenalties.reduce((total, penalty) => total + penalty.duration, 0);
 }
 
 function mapRecentGames(recentGames: Result[], playerId: string) {
@@ -277,10 +248,14 @@ export default function PlayerGamesTab({ playerId }: PlayerGamesTabProps) {
                   className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-blue-50 transition-colors`}
                 >
                   <td className="px-4 py-3 text-sm text-gray-900">
-                    {formatDate(game.date)}
+                    <Link to={`/game/${encodeURIComponent(game.date)}`} className="hover:underline hover:text-blue-600">
+                      {formatDate(game.date)}
+                    </Link>
                   </td>
                   <td className="px-4 py-3 text-sm font-medium text-gray-900">
-                    {game.opponent}
+                    <Link to={`/game/${encodeURIComponent(game.date)}`} className="hover:underline hover:text-blue-600">
+                      {game.opponent}
+                    </Link>
                   </td>
                   <td className="px-4 py-3 text-center">
                     <span className={`inline-flex items-center justify-center px-2 py-1 text-xs font-semibold rounded-full ${getResultColor(game.result)}`}>

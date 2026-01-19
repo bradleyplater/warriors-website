@@ -43,9 +43,6 @@ export default function NavBar() {
                <Link to="/players" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                 Players
               </Link>
-              <Link to="/cups" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                Cups
-              </Link>
               <Link to="/team" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                 Team
               </Link>
@@ -128,12 +125,6 @@ export default function NavBar() {
             className="block px-3 py-2 rounded-md text-base font-medium"
           >
             Players
-          </Link>
-          <Link
-            to="/cups"
-            className="block px-3 py-2 rounded-md text-base font-medium"
-          >
-            Cups
           </Link>
           <Link
             to="/team"

@@ -9,13 +9,13 @@ import NotFound from '~/components/not-found/not-found';
 
 export function meta({ params }: Route.MetaArgs) {
   return [
-    { title: `Player Profile` },
+    { title: `Player Profile - ${params.playerId}` },
   ];
 }
 
 export default function PlayerDetail() {
   const { playerId } = useParams();
-  const [activeTab, setActiveTab] = useState<'stats' | 'charts' | 'games' | 'allgames'>('stats');
+  const [activeTab, setActiveTab] = useState<'stats' | 'charts' | 'games' | 'allgames' | 'records'>('stats');
 
   const data = useData();
 

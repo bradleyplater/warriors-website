@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useData } from '../contexts/DataContext';
 import type { Result } from '../contexts/DataContext';
 import type { Route } from '../+types/root';
+import { Link } from 'react-router';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -31,7 +32,10 @@ function GameCard({ game }: GameCardProps) {
   const resultBorder = isWin ? 'border-green-200' : isDraw ? 'border-yellow-200' : 'border-red-200';
 
   return (
-    <div className={`bg-white rounded-lg shadow-sm border ${resultBorder} hover:shadow-md transition-shadow duration-200`}>
+    <Link 
+      to={`/game/${encodeURIComponent(game.date)}`}
+      className={`bg-white rounded-lg shadow-sm border ${resultBorder} hover:shadow-md transition-shadow duration-200 block`}
+    >
       <div className="p-4 md:p-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           {/* Game Info */}
@@ -98,7 +102,7 @@ function GameCard({ game }: GameCardProps) {
           </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

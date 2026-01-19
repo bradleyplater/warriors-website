@@ -1,5 +1,6 @@
 import { useData, type DataContextType } from "../../contexts/DataContext";
 import TeamPanelSection from "../team-section/team-panel-section";
+import { Link } from "react-router";
 
 interface LatestResultSpotlightProps {
     cardHeader: string;
@@ -33,7 +34,10 @@ interface LatestResultSpotlightProps {
       const baseBackgroundColor = isTie ? 'bg-gray-100' : warriorsWon ? 'bg-green-100' : 'bg-red-100';
 
     return (
-      <div className={`${baseBackgroundColor} rounded-2xl h-full w-full shadow-inner py-2 md:py-3 flex flex-col justify-center items-center overflow-hidden`}>
+      <Link 
+        to={`/game/${encodeURIComponent(latestResult.date)}`}
+        className={`${baseBackgroundColor} rounded-2xl h-full w-full shadow-inner py-2 md:py-3 flex flex-col justify-center items-center overflow-hidden hover:opacity-90 transition-opacity block text-decoration-none`}
+      >
         {/* Teams Section */}
         <TeamPanelSection 
           opponentTeam={latestResult.opponentTeam}
@@ -89,6 +93,6 @@ interface LatestResultSpotlightProps {
             <span className="text-xs md:text-sm lg:text-base font-medium text-gray-700">{latestResult.score.period.three.warriorsScore} - {latestResult.score.period.three.opponentScore}</span>
           </div>
         </div>
-      </div>
+      </Link>
     );
   }

@@ -2,6 +2,7 @@ import PlayerStatsTab from '../player-stats-tab/player-stats-tab';
 import PlayerChartsTab from '../player-charts-tab/player-charts-tab';
 import PlayerGamesTab from '../player-games-tab/player-games-tab';
 import PlayerAllGamesTab from '../player-all-games-tab/player-all-games-tab';
+import PlayerRecordsTab from '../player-records-tab/player-records-tab';
 
 interface SeasonStats {
   season: string;
@@ -28,8 +29,8 @@ interface RecentGame {
 }
 
 interface PlayerTabsProps {
-  activeTab: 'stats' | 'charts' | 'games' | 'allgames';
-  onTabChange: (tab: 'stats' | 'charts' | 'games' | 'allgames') => void;
+  activeTab: 'stats' | 'charts' | 'games' | 'allgames' | 'records';
+  onTabChange: (tab: 'stats' | 'charts' | 'games' | 'allgames' | 'records') => void;
   playerId: string;
 }
 
@@ -41,7 +42,8 @@ export default function PlayerTabs({
   const tabs = [
     { id: 'stats' as const, label: 'Season Stats', icon: '📊' },
     { id: 'games' as const, label: 'Recent Games', icon: '🏒' },
-    { id: 'allgames' as const, label: 'All Games', icon: '📋' }
+    { id: 'allgames' as const, label: 'All Games', icon: '📋' },
+    { id: 'records' as const, label: 'Records', icon: '🏆' }
   ];
 
   return (
@@ -83,6 +85,10 @@ export default function PlayerTabs({
         
         {activeTab === 'allgames' && (
           <PlayerAllGamesTab playerId={playerId} />
+        )}
+
+        {activeTab === 'records' && (
+          <PlayerRecordsTab playerId={playerId} />
         )}
       </div>
     </div>

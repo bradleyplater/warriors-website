@@ -86,42 +86,11 @@ interface UpcomingGame {
   location: string;
 }
 
-interface TournamentData {
-  season: string;
-  year: string;
-  winner: string;
-  runnerUp: string;
-  finalScore: string;
-  groupStage: Record<string, {
-    played: number;
-    won: number;
-    drawn: number;
-    lost: number;
-    goalsFor: number;
-    goalsAgainst: number;
-    points: number;
-  }>;
-  semiFinals: Array<{
-    team1: string;
-    team2: string;
-    score: string;
-    date: string;
-  }>;
-  final: {
-    team1: string;
-    team2: string;
-    score: string;
-    date: string;
-  };
-}
-
 interface Data {
   upcomingGames: UpcomingGame[];
   results: Result[];
   players: Player[];
   team: Team;
-  botbTournaments: TournamentData[];
-  llihcTournaments: TournamentData[];
 }
 
 export interface DataContextType {
@@ -137,9 +106,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
     upcomingGames: [], 
     results: [], 
     players: [], 
-    team: { stats: []},
-    botbTournaments: [],
-    llihcTournaments: []
+    team: { stats: []}
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -147,29 +114,25 @@ export function DataProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [upcomingGamesResponse, resultsResponse, playerResponse, teamResponse, botbResponse, llihcResponse] = await Promise.all([
+        const [upcomingGamesResponse, resultsResponse, playerResponse, teamResponse] = await Promise.all([
           fetch('/data/upcoming-games.json'),
           fetch('/data/results.json'),
           fetch('/data/players.json'),
-          fetch('/data/team.json'),
-          fetch('/data/botb-tournaments.json'),
-          fetch('/data/llihc-tournaments.json')
+          fetch('/data/team.json')
         ]);
 
-        if (!upcomingGamesResponse.ok || !resultsResponse.ok || !playerResponse.ok || !teamResponse.ok || !botbResponse.ok || !llihcResponse.ok) {
+        if (!upcomingGamesResponse.ok || !resultsResponse.ok || !playerResponse.ok || !teamResponse.ok) {
           throw new Error(`Failed to fetch data: ${upcomingGamesResponse.status} ${upcomingGamesResponse.statusText}`);
         }
         
-        const [upcomingGames, results, players, team, botbTournaments, llihcTournaments] = await Promise.all([
+        const [upcomingGames, results, players, team] = await Promise.all([
           upcomingGamesResponse.json(),
           resultsResponse.json(),
           playerResponse.json(),
           teamResponse.json(),
-          botbResponse.json(),
-          llihcResponse.json()
         ]);
         
-        setData({ upcomingGames, results, players, team, botbTournaments, llihcTournaments });
+        setData({ upcomingGames, results, players, team });
       } catch (error) {
         console.error('Error loading JSON:', error);
         setError('Failed to load data');

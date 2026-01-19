@@ -14404,5 +14404,175 @@
         }
       }
     }
+  },
+  {
+    "season": "25/26",
+    "opponentTeam": "Manchester Swarm",
+    "logoImage": "manchester-swarm.jpg",
+    "date": "2026-01-18T19:00:00.000Z",
+    "seasonId": "25/26",
+    "roster": [
+      "PLR186348",
+      "PLR930189",
+      "PLR502819",
+      "PLR030348",
+      "PLR271434",
+      "PLR813692",
+      "PLR357060",
+      "PLR629413",
+      "PLR397024",
+      "PLR604611",
+      "PLR053305",
+      "PLR646257",
+      "PLR123881",
+      "PLR006500",
+      "PLR810070",
+      "PLR991178"
+    ],
+    "location": "AWAY",
+    "score": {
+      "warriorsScore": 4,
+      "opponentScore": 3,
+      "period": {
+        "one": {
+          "warriorsScore": 0,
+          "opponentScore": 2,
+          "goals": [],
+          "opponentGoals": [
+            {
+              "playerId": "Mika Nykanen",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 13,
+              "second": 5,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "Nic Hageman",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 18,
+              "second": 51,
+              "type": "PP"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "BOARD",
+              "minute": 18,
+              "second": 23,
+              "duration": 2,
+              "offender": "PLR123881"
+            }
+          ],
+          "opponentPenalties": []
+        },
+        "two": {
+          "warriorsScore": 2,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR502819",
+              "assists": [
+                "PLR813692"
+              ],
+              "minute": 20,
+              "second": 11,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR629413",
+              "assists": [
+                "PLR397024"
+              ],
+              "minute": 39,
+              "second": 43,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Liam Kay",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 26,
+              "second": 7,
+              "type": "PP"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "TRIP",
+              "minute": 25,
+              "second": 14,
+              "duration": 2,
+              "offender": "PLR930189"
+            },
+            {
+              "type": "TRIP",
+              "minute": 35,
+              "second": 52,
+              "duration": 2,
+              "offender": "PLR629413"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "HOOK",
+              "minute": 33,
+              "second": 37,
+              "duration": 2,
+              "offender": "Unknown"
+            }
+          ]
+        },
+        "three": {
+          "warriorsScore": 2,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR502819",
+              "assists": [
+                "PLR813692"
+              ],
+              "minute": 47,
+              "second": 16,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR813692",
+              "assists": [],
+              "minute": 59,
+              "second": 56,
+              "type": "PP"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [],
+          "opponentPenalties": [
+            {
+              "type": "TRIP",
+              "minute": 53,
+              "second": 16,
+              "duration": 2,
+              "offender": "Unknown"
+            },
+            {
+              "type": "TOOM",
+              "minute": 58,
+              "second": 6,
+              "duration": 2,
+              "offender": "Bench"
+            }
+          ]
+        }
+      }
+    }
   }
 ]
