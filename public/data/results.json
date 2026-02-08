@@ -14574,5 +14574,406 @@
         }
       }
     }
+  },
+  {
+    "season": "25/26",
+    "opponentTeam": "Blackburn Renegades",
+    "logoImage": "blackburn-renegades.jpg",
+    "date": "2026-01-25T19:00:00.000Z",
+    "seasonId": "25/26",
+    "roster": [
+      "PLR007346",
+      "PLR930189",
+      "PLR030348",
+      "PLR241136",
+      "PLR226199",
+      "PLR434650",
+      "PLR575853",
+      "PLR899328",
+      "PLR941511",
+      "PLR646257",
+      "PLR106345",
+      "PLR708075"
+    ],
+    "location": "AWAY",
+    "score": {
+      "warriorsScore": 7,
+      "opponentScore": 1,
+      "period": {
+        "one": {
+          "warriorsScore": 2,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR575853",
+              "assists": [
+                "PLR941511"
+              ],
+              "minute": 12,
+              "second": 29,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR241136",
+              "assists": [
+                "PLR646257"
+              ],
+              "minute": 15,
+              "second": 40,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [
+            {
+              "type": "TOOM",
+              "minute": 5,
+              "second": 23,
+              "duration": 2,
+              "offender": "BENCH"
+            },
+            {
+              "type": "BDYCH",
+              "minute": 11,
+              "second": 7,
+              "duration": 2,
+              "offender": "PLR007346"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "BDYCH",
+              "minute": 17,
+              "second": 24,
+              "duration": 2,
+              "offender": "Gater"
+            },
+            {
+              "type": "UNSP",
+              "minute": 13,
+              "second": 56,
+              "duration": 2,
+              "offender": "Mcguire"
+            },
+            {
+              "type": "TRIP",
+              "minute": 18,
+              "second": 38,
+              "duration": 2,
+              "offender": "Mcguire"
+            }
+          ]
+        },
+        "two": {
+          "warriorsScore": 3,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR646257",
+              "assists": [
+                "PLR930189"
+              ],
+              "minute": 27,
+              "second": 30,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR941511",
+              "assists": [],
+              "minute": 36,
+              "second": 39,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR941511",
+              "assists": [
+                "PLR226199"
+              ],
+              "minute": 38,
+              "second": 19,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Smalley",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 23,
+              "second": 23,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "TRIP",
+              "minute": 31,
+              "second": 55,
+              "duration": 2,
+              "offender": "PLR646257"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "HOOK",
+              "minute": 26,
+              "second": 2,
+              "duration": 2,
+              "offender": "Unknown"
+            },
+            {
+              "type": "HOLD",
+              "minute": 35,
+              "second": 52,
+              "duration": 2,
+              "offender": "Saunders"
+            }
+          ]
+        },
+        "three": {
+          "warriorsScore": 2,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR226199",
+              "assists": [],
+              "minute": 44,
+              "second": 2,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR941511",
+              "assists": [
+                "PLR241136"
+              ],
+              "minute": 58,
+              "second": 17,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [
+            {
+              "type": "TOOM",
+              "minute": 48,
+              "second": 54,
+              "duration": 2,
+              "offender": "BENCH"
+            },
+            {
+              "type": "TOOM",
+              "minute": 49,
+              "second": 18,
+              "duration": 2,
+              "offender": "BENCH"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "BDYCH",
+              "minute": 51,
+              "second": 14,
+              "duration": 2,
+              "offender": "Unknown"
+            },
+            {
+              "type": "DELAY",
+              "minute": 51,
+              "second": 44,
+              "duration": 2,
+              "offender": "Dunn"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "season": "25/26",
+    "opponentTeam": "Manchester Swarm",
+    "logoImage": "manchester-swarm.jpg",
+    "date": "2026-02-07T19:00:00.000Z",
+    "seasonId": "25/26",
+    "roster": [
+      "PLR502819",
+      "PLR357060",
+      "PLR208841",
+      "PLR226199",
+      "PLR810070",
+      "PLR991178",
+      "PLR006500",
+      "PLR646257",
+      "PLR186348",
+      "PLR123881",
+      "PLR930189",
+      "PLR030348",
+      "PLR629413",
+      "PLR271434",
+      "PLR397024",
+      "PLR109219"
+    ],
+    "location": "HOME",
+    "score": {
+      "warriorsScore": 3,
+      "opponentScore": 3,
+      "period": {
+        "one": {
+          "warriorsScore": 1,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR397024",
+              "assists": [
+                "PLR226199",
+                "PLR810070"
+              ],
+              "minute": 15,
+              "second": 16,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Medcalf",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 2,
+              "second": 3,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": []
+        },
+        "two": {
+          "warriorsScore": 1,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR646257",
+              "assists": [
+                "PLR271434"
+              ],
+              "minute": 33,
+              "second": 14,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "J Barton",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 39,
+              "second": 45,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "BOARD",
+              "minute": 27,
+              "second": 2,
+              "duration": 2,
+              "offender": "PLR357060"
+            },
+            {
+              "type": "KNEE",
+              "minute": 26,
+              "second": 48,
+              "duration": 2,
+              "offender": "PLR502819"
+            }
+          ],
+          "opponentPenalties": []
+        },
+        "three": {
+          "warriorsScore": 1,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR930189",
+              "assists": [
+                "PLR502819"
+              ],
+              "minute": 43,
+              "second": 40,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "L Kay",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 50,
+              "second": 40,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "CHECK",
+              "minute": 42,
+              "second": 31,
+              "duration": 2,
+              "offender": "PLR123881"
+            },
+            {
+              "type": "ROUGH",
+              "minute": 54,
+              "second": 5,
+              "duration": 2,
+              "offender": "PLR186348"
+            },
+            {
+              "type": "HOOK",
+              "minute": 57,
+              "second": 18,
+              "duration": 2,
+              "offender": "PLR226199"
+            },
+            {
+              "type": "ROUGH",
+              "minute": 59,
+              "second": 18,
+              "duration": 2,
+              "offender": "PLR810070"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "ROUGH",
+              "minute": 54,
+              "second": 5,
+              "duration": 2,
+              "offender": "D Ozeikonski"
+            },
+            {
+              "type": "TRIP",
+              "minute": 58,
+              "second": 37,
+              "duration": 2,
+              "offender": "D Prescott"
+            },
+            {
+              "type": "SLASH",
+              "minute": 59,
+              "second": 18,
+              "duration": 2,
+              "offender": "Medcalf"
+            }
+          ]
+        }
+      }
+    }
   }
 ]

@@ -1,6 +1,6 @@
 import { useData, type Result } from "~/contexts/DataContext";
 import { Link } from "react-router";
-import { getGoalsForOneGame, getAssistsForOneGame, getPimsForOneGame } from "~/helpers/game-helpers";
+import { getGoalsForOneGame, getAssistsForOneGame, getPimsForOneGame, getPlayerMilestones } from "~/helpers/game-helpers";
 
 interface AllGame {
   date: string;
@@ -11,6 +11,13 @@ interface AllGame {
   points: number;
   teamPlusMinus: number;
   penaltyMinutes: number;
+  milestones?: {
+    isFirstGoal: boolean;
+    isFirstAssist: boolean;
+    isFirstHattrick: boolean;
+    isMultiPoint: boolean;
+    isHattrick: boolean;
+  };
 }
 
 interface PlayerAllGamesTabProps {
@@ -77,6 +84,11 @@ function getAllLosses(allGames: Result[]) {
 }
 
 function mapAllGames(allGames: Result[], playerId: string) {
+  
+  // Calculate milestones based on ALL games provided (assuming allGames contains the full history)
+  const milestones = getPlayerMilestones(allGames, playerId);
+  
+  // Sort descending for display
   allGames.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return allGames.map((game) => {
@@ -93,6 +105,13 @@ function mapAllGames(allGames: Result[], playerId: string) {
       points: points,
       teamPlusMinus: game.score.warriorsScore - game.score.opponentScore,
       penaltyMinutes: getPimsForOneGame(game, playerId),
+      milestones: {
+        isFirstGoal: milestones.firstGoalGameDate === game.date,
+        isFirstAssist: milestones.firstAssistGameDate === game.date,
+        isFirstHattrick: milestones.firstHattrickGameDate === game.date,
+        isMultiPoint: points >= 2,
+        isHattrick: goals >= 3,
+      }
     }
   });
 }
@@ -232,6 +251,9 @@ export default function PlayerAllGamesTab({ playerId }: PlayerAllGamesTabProps) 
                 <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                   PIM
                 </th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Notes
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -285,6 +307,38 @@ export default function PlayerAllGamesTab({ playerId }: PlayerAllGamesTabProps) 
                     <span className={`${game.penaltyMinutes > 0 ? 'text-orange-600 font-medium' : 'text-gray-600'}`}>
                       {game.penaltyMinutes}
                     </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <div className="flex flex-col gap-1">
+                      {game.milestones?.isFirstGoal && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 border border-green-200 w-fit">
+                          First Goal
+                        </span>
+                      )}
+                      {game.milestones?.isFirstAssist && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200 w-fit">
+                          First Assist
+                        </span>
+                      )}
+                      {game.milestones?.isFirstHattrick && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-200 w-fit">
+                          First Hattrick
+                        </span>
+                      )}
+                      {game.milestones?.isHattrick && !game.milestones?.isFirstHattrick && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800 border border-orange-200 w-fit">
+                          Hattrick
+                        </span>
+                      )}
+                      {game.milestones?.isMultiPoint && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200 w-fit">
+                          Multi Point
+                        </span>
+                      )}
+                      {!game.milestones?.isFirstGoal && !game.milestones?.isFirstAssist && !game.milestones?.isFirstHattrick && !game.milestones?.isHattrick && !game.milestones?.isMultiPoint && (
+                        <span>-</span>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}

@@ -27,3 +27,48 @@ export function getPimsForOneGame(game: Result, playerId: string) {
 
   return playerPenalties.reduce((total, penalty) => total + penalty.duration, 0);
 }
+
+export interface PlayerMilestones {
+  firstGoalGameDate: string | null;
+  firstAssistGameDate: string | null;
+  firstHattrickGameDate: string | null;
+}
+
+export function getPlayerMilestones(allGames: Result[], playerId: string): PlayerMilestones {
+  // Sort games chronologically (ascending)
+  const sortedGames = [...allGames].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  
+  const milestones: PlayerMilestones = {
+    firstGoalGameDate: null,
+    firstAssistGameDate: null,
+    firstHattrickGameDate: null,
+  };
+
+  let foundFirstGoal = false;
+  let foundFirstAssist = false;
+  let foundFirstHattrick = false;
+
+  for (const game of sortedGames) {
+    if (foundFirstGoal && foundFirstAssist && foundFirstHattrick) break;
+
+    const goals = getGoalsForOneGame(game, playerId);
+    const assists = getAssistsForOneGame(game, playerId);
+
+    if (goals > 0 && !foundFirstGoal) {
+      milestones.firstGoalGameDate = game.date;
+      foundFirstGoal = true;
+    }
+
+    if (assists > 0 && !foundFirstAssist) {
+      milestones.firstAssistGameDate = game.date;
+      foundFirstAssist = true;
+    }
+
+    if (goals >= 3 && !foundFirstHattrick) {
+      milestones.firstHattrickGameDate = game.date;
+      foundFirstHattrick = true;
+    }
+  }
+
+  return milestones;
+}

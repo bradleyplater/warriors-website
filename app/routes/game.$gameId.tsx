@@ -37,7 +37,7 @@ export default function GameResult() {
   };
 
   // Collect all goals for timeline
-  const allGoals = [
+  const allGoalsRaw = [
     ...score.period.one.goals.map(g => ({ ...g, period: 1 })),
     ...score.period.two.goals.map(g => ({ ...g, period: 2 })),
     ...score.period.three.goals.map(g => ({ ...g, period: 3 })),
@@ -45,6 +45,17 @@ export default function GameResult() {
     if (a.period !== b.period) return a.period - b.period;
     if (a.minute !== b.minute) return a.minute - b.minute;
     return a.second - b.second;
+  });
+
+  // Calculate hattricks
+  const playerGoalCounts: Record<string, number> = {};
+  const allGoals = allGoalsRaw.map(goal => {
+    const currentCount = (playerGoalCounts[goal.playerId] || 0) + 1;
+    playerGoalCounts[goal.playerId] = currentCount;
+    return {
+      ...goal,
+      isHattrick: currentCount === 3
+    };
   });
 
   return (
@@ -139,6 +150,11 @@ export default function GameResult() {
                         <span className="text-xs font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800 border border-blue-200">
                           {goal.type}
                         </span>
+                        {goal.isHattrick && (
+                          <span className="text-xs font-bold px-2 py-0.5 rounded bg-yellow-100 text-yellow-800 border border-yellow-200 flex items-center gap-1">
+                            🎩 Hattrick
+                          </span>
+                        )}
                      </div>
                      <div className="text-sm text-gray-600 mt-1">
                         {goal.assists.length > 0 ? (

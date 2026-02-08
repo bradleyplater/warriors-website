@@ -1,5 +1,5 @@
 import { useData, type Result } from "~/contexts/DataContext";
-import { getAssistsForOneGame, getGoalsForOneGame, getPimsForOneGame } from "~/helpers/game-helpers";
+import { getAssistsForOneGame, getGoalsForOneGame, getPimsForOneGame, getPlayerMilestones } from "~/helpers/game-helpers";
 import { Link } from "react-router";
 
 interface RecentGame {
@@ -11,6 +11,13 @@ interface RecentGame {
   points: number;
   teamPlusMinus: number;
   penaltyMinutes: number;
+  milestones?: {
+    isFirstGoal: boolean;
+    isFirstAssist: boolean;
+    isFirstHattrick: boolean;
+    isMultiPoint: boolean;
+    isHattrick: boolean;
+  };
 }
 
 interface PlayerGamesTabProps {
@@ -89,7 +96,10 @@ function getRecentLosses(recentGames: Result[]) {
   return recentGames.filter((game) => game.score.warriorsScore < game.score.opponentScore).length;
 }
 
-function mapRecentGames(recentGames: Result[], playerId: string) {
+function mapRecentGames(recentGames: Result[], playerId: string, allGames: Result[]) {
+
+  // Calculate milestones based on ALL games
+  const milestones = getPlayerMilestones(allGames.filter(g => g.roster.includes(playerId)), playerId);
 
   recentGames.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
@@ -108,6 +118,13 @@ function mapRecentGames(recentGames: Result[], playerId: string) {
       points: points,
       teamPlusMinus: game.score.warriorsScore - game.score.opponentScore,
       penaltyMinutes: getPimsForOneGame(game, playerId),
+      milestones: {
+        isFirstGoal: milestones.firstGoalGameDate === game.date,
+        isFirstAssist: milestones.firstAssistGameDate === game.date,
+        isFirstHattrick: milestones.firstHattrickGameDate === game.date,
+        isMultiPoint: points >= 2,
+        isHattrick: goals >= 3,
+      }
     }
   });
 }
@@ -133,7 +150,7 @@ export default function PlayerGamesTab({ playerId }: PlayerGamesTabProps) {
     losses: getRecentLosses(recentGames),
   };
 
-  const mappedRecentGames = mapRecentGames(recentGames, playerId);
+  const mappedRecentGames = mapRecentGames(recentGames, playerId, data.results);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -239,6 +256,9 @@ export default function PlayerGamesTab({ playerId }: PlayerGamesTabProps) {
                 <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                   PIM
                 </th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Notes
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -292,6 +312,38 @@ export default function PlayerGamesTab({ playerId }: PlayerGamesTabProps) {
                     <span className={`${game.penaltyMinutes > 0 ? 'text-orange-600 font-medium' : 'text-gray-600'}`}>
                       {game.penaltyMinutes}
                     </span>
+                  </td>
+                  <td className="px-4 py-3 text-sm">
+                    <div className="flex flex-col gap-1">
+                      {game.milestones?.isFirstGoal && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 border border-green-200 w-fit">
+                          First Goal
+                        </span>
+                      )}
+                      {game.milestones?.isFirstAssist && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200 w-fit">
+                          First Assist
+                        </span>
+                      )}
+                      {game.milestones?.isFirstHattrick && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-200 w-fit">
+                          First Hattrick
+                        </span>
+                      )}
+                      {game.milestones?.isHattrick && !game.milestones?.isFirstHattrick && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800 border border-orange-200 w-fit">
+                          Hattrick
+                        </span>
+                      )}
+                      {game.milestones?.isMultiPoint && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200 w-fit">
+                          Multi Point
+                        </span>
+                      )}
+                      {!game.milestones?.isFirstGoal && !game.milestones?.isFirstAssist && !game.milestones?.isFirstHattrick && !game.milestones?.isHattrick && !game.milestones?.isMultiPoint && (
+                        <span>-</span>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}
