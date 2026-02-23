@@ -7,7 +7,7 @@ import GenericFilter, { type FilterOption } from '../components/generic-filter/g
 import type { Route } from '../+types/root';
 // Local type definitions for player filters
 export type Position = 'all' | 'forward' | 'defence' | 'goaltender';
-export type SortBy = 'points' | 'goals' | 'assists' | 'games' | 'pointsPerGame';
+export type SortBy = 'points' | 'goals' | 'assists' | 'games' | 'pointsPerGame' | 'motm' | 'wotg';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -29,6 +29,8 @@ const sortOptions: FilterOption<SortBy>[] = [
   { value: 'assists', label: 'Assists' },
   { value: 'pointsPerGame', label: 'Points/Game' },
   { value: 'games', label: 'Games Played' },
+  { value: 'motm', label: 'MOTM' },
+  { value: 'wotg', label: 'WOTG' },
 ];
 
 export default function Team() {

@@ -8,6 +8,8 @@ interface Player {
   assists: number;
   points: number;
   pointsPerGame: number;
+  manOfTheMatch?: number;
+  warriorOfTheGame?: number;
 }
 
 interface PlayerStatsRowProps {
@@ -19,7 +21,7 @@ interface PlayerStatsRowProps {
 export default function PlayerStatsRow({ player, rank, isEven }: PlayerStatsRowProps) {
   return (
     <div className={`
-      flex min-w-[600px] md:min-w-0 md:grid md:grid-cols-8 gap-2 px-3 py-3 md:px-4 md:py-4
+      flex min-w-[700px] md:min-w-0 md:grid md:grid-cols-10 gap-2 px-3 py-3 md:px-4 md:py-4
       transition-all duration-200 hover:bg-blue-50 hover:shadow-sm
       ${isEven ? 'bg-white' : 'bg-gray-50/50'}
     `}>
@@ -72,6 +74,18 @@ export default function PlayerStatsRow({ player, rank, isEven }: PlayerStatsRowP
       <div className="flex-shrink-0 w-16 md:w-auto flex items-center justify-center">
         <span className="text-xs md:text-sm font-medium text-gray-700">
           {player.pointsPerGame.toFixed(2)}
+        </span>
+      </div>
+      {/* Man of the Match */}
+      <div className="flex-shrink-0 w-16 md:w-auto flex items-center justify-center">
+        <span className="text-xs md:text-sm font-medium text-gray-700">
+          {player.manOfTheMatch ?? 0}
+        </span>
+      </div>
+      {/* Warrior of the Game */}
+      <div className="flex-shrink-0 w-16 md:w-auto flex items-center justify-center">
+        <span className="text-xs md:text-sm font-medium text-gray-700">
+          {player.warriorOfTheGame ?? 0}
         </span>
       </div>
     </div>

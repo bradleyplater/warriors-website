@@ -1,4 +1,5 @@
 import type { Result } from "~/contexts/DataContext";
+import type { Player } from "~/contexts/DataContext";
 
 export function getGoalsForOneGame(game: Result, playerId: string) {
   const periodOneGoals = game.score.period.one.goals.filter(goal => goal.playerId === playerId).length;
@@ -71,4 +72,30 @@ export function getPlayerMilestones(allGames: Result[], playerId: string): Playe
   }
 
   return milestones;
+}
+
+export interface GameAwards {
+  motmId: string | null;
+  motmName: string | null;
+  wotgId: string | null;
+  wotgName: string | null;
+}
+
+export function getGameAwards(game: Result, players: Player[]): GameAwards {
+  const motmId = game.manOfTheMatchPlayerId && game.manOfTheMatchPlayerId !== "MISSING"
+    ? game.manOfTheMatchPlayerId
+    : null;
+  const wotgId = game.warriorOfTheGamePlayerId && game.warriorOfTheGamePlayerId !== "MISSING"
+    ? game.warriorOfTheGamePlayerId
+    : null;
+
+  const motmPlayer = motmId ? players.find(pl => pl.id === motmId) : undefined;
+  const wotgPlayer = wotgId ? players.find(pl => pl.id === wotgId) : undefined;
+
+  return {
+    motmId,
+    motmName: motmPlayer ? motmPlayer.name : null,
+    wotgId,
+    wotgName: wotgPlayer ? wotgPlayer.name : null,
+  };
 }

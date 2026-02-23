@@ -3,6 +3,7 @@ import { useData } from "~/contexts/DataContext";
 import NotFound from "~/components/not-found/not-found";
 import { getPlayer } from "~/helpers/data-helpers";
 import type { Result } from "~/contexts/DataContext";
+import { getGameAwards } from "~/helpers/game-helpers";
 
 export function meta({ params }: { params: { gameId: string } }) {
   return [
@@ -29,6 +30,7 @@ export default function GameResult() {
   const isWin = score.warriorsScore > score.opponentScore;
   const outcomeColor = isWin ? "text-green-600" : score.warriorsScore < score.opponentScore ? "text-red-600" : "text-gray-600";
   const outcomeText = isWin ? "WIN" : score.warriorsScore < score.opponentScore ? "LOSS" : "DRAW";
+  const awards = getGameAwards(game, data.players);
 
   // Helper to get player name
   const getPlayerName = (id: string) => {
@@ -121,6 +123,41 @@ export default function GameResult() {
                 <div>{score.period.three.opponentScore}</div>
              </div>
           </div>
+
+          {(awards.motmName || awards.wotgName) && (
+            <div className="mt-6 border-t pt-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {awards.motmName && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-gray-600">Man of the Match</span>
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-800 border border-blue-200">
+                      {awards.motmId ? (
+                        <Link to={`/player/${awards.motmId}`} className="hover:underline hover:text-blue-600">
+                          {awards.motmName}
+                        </Link>
+                      ) : (
+                        awards.motmName
+                      )}
+                    </span>
+                  </div>
+                )}
+                {awards.wotgName && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-gray-600">Warrior of the Game</span>
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-50 text-indigo-800 border border-indigo-200">
+                      {awards.wotgId ? (
+                        <Link to={`/player/${awards.wotgId}`} className="hover:underline hover:text-blue-600">
+                          {awards.wotgName}
+                        </Link>
+                      ) : (
+                        awards.wotgName
+                      )}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Goals Timeline */}

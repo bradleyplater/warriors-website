@@ -60,6 +60,41 @@ function getForm(results: Result[], selectedSeason: Season): string {
   return `${latestResultType}${streak}`
 } 
 
+function getStreaks(results: Result[]): { bestWinStreak: number; bestUnbeatenStreak: number } {
+  const sorted = [...results].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  )
+
+  let bestWinStreak = 0
+  let currentWinStreak = 0
+  let bestUnbeatenStreak = 0
+  let currentUnbeatenStreak = 0
+
+  for (const result of sorted) {
+    const type = getResultType(result)
+
+    if (type === 'W') {
+      currentWinStreak++
+    } else {
+      currentWinStreak = 0
+    }
+    if (currentWinStreak > bestWinStreak) {
+      bestWinStreak = currentWinStreak
+    }
+
+    if (type === 'L') {
+      currentUnbeatenStreak = 0
+    } else {
+      currentUnbeatenStreak++
+    }
+    if (currentUnbeatenStreak > bestUnbeatenStreak) {
+      bestUnbeatenStreak = currentUnbeatenStreak
+    }
+  }
+
+  return { bestWinStreak, bestUnbeatenStreak }
+}
+
 function getTeamStats(teamStats: TeamStat[], results: Result[], selectedSeason: Season): TeamStatsData[] {
   const isOverall = selectedSeason === 'overall'
 
@@ -100,6 +135,7 @@ function getTeamStats(teamStats: TeamStat[], results: Result[], selectedSeason: 
 
   const last5 = getLast5(results, selectedSeason)
   const form = getForm(results, selectedSeason)
+  const { bestWinStreak, bestUnbeatenStreak } = getStreaks(filteredResults)
 
   // Calculate penalty statistics
   let powerPlayGoals = 0
@@ -157,6 +193,8 @@ function getTeamStats(teamStats: TeamStat[], results: Result[], selectedSeason: 
     { title: "Losses", value: losses, category: "negative", description: "Total number of losses" },
     { title: "Win Percentage", value: `${winPercentage.toFixed(1)}%`, category: winPercentage >= 50 ? 'positive' : 'negative', description: "Percentage of games won" },
     { title: "Current Form", value: form, category: form.includes('W') ? 'positive' : form.includes('L') ? 'negative' : 'neutral', description: "Current winning/losing streak" },
+    { title: "Best Win Streak", value: bestWinStreak, category: "positive", description: "Longest run of consecutive wins" },
+    { title: "Best Unbeaten Streak", value: bestUnbeatenStreak, category: "positive", description: "Longest run of games without defeat (W/D)" },
     { title: "Last 5 Games", value: last5, category: "general", description: "Record in the last 5 games (W-L-D)" },
     { title: "Goals Per Game", value: goalsPerGame.toFixed(1), category: goalsPerGame >= 3 ? "positive" : goalsPerGame >= 2 ? "neutral" : "negative", description: "Average goals scored per game" },
     { title: "Goals Conceded Per Game", value: goalsConcededPerGame.toFixed(1), category: goalsConcededPerGame <= 2 ? "positive" : goalsConcededPerGame <= 3 ? "neutral" : "negative", description: "Average goals conceded per game" },

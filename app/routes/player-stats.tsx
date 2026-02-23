@@ -18,7 +18,7 @@ export default function PlayerStatsRedirect() {
 }
 
 export type Position = 'all' | 'forward' | 'defence' | 'goaltender';
-export type SortBy = 'points' | 'goals' | 'assists' | 'games' | 'pointsPerGame';
+export type SortBy = 'points' | 'goals' | 'assists' | 'games' | 'pointsPerGame' | 'motm' | 'wotg';
 
 const positionOptions: FilterOption<Position>[] = [
   { value: 'all', label: 'All Positions' },
@@ -33,6 +33,8 @@ const sortOptions: FilterOption<SortBy>[] = [
   { value: 'assists', label: 'Assists' },
   { value: 'pointsPerGame', label: 'Points/Game' },
   { value: 'games', label: 'Games Played' },
+  { value: 'motm', label: 'MOTM' },
+  { value: 'wotg', label: 'WOTG' },
 ];
 
 export function PlayerStats() {

@@ -3,6 +3,7 @@ import { useData } from '../contexts/DataContext';
 import type { Result } from '../contexts/DataContext';
 import type { Route } from '../+types/root';
 import { Link } from 'react-router';
+import { getGameAwards } from '~/helpers/game-helpers';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -16,10 +17,12 @@ interface GameCardProps {
 }
 
 function GameCard({ game }: GameCardProps) {
+  const { data } = useData();
   const gameDate = new Date(game.date);
   const isWin = game.score.warriorsScore > game.score.opponentScore;
   const isDraw = game.score.warriorsScore === game.score.opponentScore;
   const isLoss = game.score.warriorsScore < game.score.opponentScore;
+  const awards = getGameAwards(game, data.players);
   
   // For now, assume all games are away games since we don't have home/away data
   // This can be enhanced later when home/away data is available
@@ -101,6 +104,39 @@ function GameCard({ game }: GameCardProps) {
             {isWin ? 'WIN' : isDraw ? 'DRAW' : 'LOSS'}
           </span>
         </div>
+
+        {(awards.motmName || awards.wotgName) && (
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+            {awards.motmName && (
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-medium text-gray-600">Man of the Match</span>
+                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-800 border border-blue-200">
+                  {awards.motmId ? (
+                    <Link to={`/player/${awards.motmId}`} className="hover:underline hover:text-blue-600">
+                      {awards.motmName}
+                    </Link>
+                  ) : (
+                    awards.motmName
+                  )}
+                </span>
+              </div>
+            )}
+            {awards.wotgName && (
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-medium text-gray-600">Warrior of the Game</span>
+                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-50 text-indigo-800 border border-indigo-200">
+                  {awards.wotgId ? (
+                    <Link to={`/player/${awards.wotgId}`} className="hover:underline hover:text-blue-600">
+                      {awards.wotgName}
+                    </Link>
+                  ) : (
+                    awards.wotgName
+                  )}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </Link>
   );

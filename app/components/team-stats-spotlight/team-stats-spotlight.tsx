@@ -54,6 +54,43 @@ function getForm(results: Result[], selectedSeason: Season): string {
   return `${latestResultType}${streak}`
 } 
 
+function getStreaks(results: Result[], selectedSeason: Season) {
+  const isOverall = selectedSeason === 'overall'
+
+  const filteredResults = results
+    .filter((result) => result.seasonId === selectedSeason || isOverall)
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+
+  let bestWinStreak = 0
+  let currentWinStreak = 0
+  let bestUnbeatenStreak = 0
+  let currentUnbeatenStreak = 0
+
+  for (const result of filteredResults) {
+    const type = getResultType(result)
+
+    if (type === 'W') {
+      currentWinStreak++
+    } else {
+      currentWinStreak = 0
+    }
+    if (currentWinStreak > bestWinStreak) {
+      bestWinStreak = currentWinStreak
+    }
+
+    if (type === 'L') {
+      currentUnbeatenStreak = 0
+    } else {
+      currentUnbeatenStreak++
+    }
+    if (currentUnbeatenStreak > bestUnbeatenStreak) {
+      bestUnbeatenStreak = currentUnbeatenStreak
+    }
+  }
+
+  return { bestWinStreak, bestUnbeatenStreak }
+}
+
 function getTeamStats(teamStats: TeamStat[], results: Result[], selectedSeason: Season): TeamStatsData[] {
   const isOverall = selectedSeason === 'overall'
 
@@ -84,6 +121,8 @@ function getTeamStats(teamStats: TeamStat[], results: Result[], selectedSeason: 
 
   const form = getForm(results, selectedSeason)
 
+  const { bestWinStreak, bestUnbeatenStreak } = getStreaks(results, selectedSeason)
+
   return [
     { title: "Games Played", value: gamePlayed, category: "general" },
     { title: "Goals For", value: goalsFor, category: "positive" },
@@ -93,7 +132,9 @@ function getTeamStats(teamStats: TeamStat[], results: Result[], selectedSeason: 
     { title: "Losses", value: losses, category: "negative" },
     { title: "Form", value: form, category: form.includes('W') ? 'positive' : form.includes('L') ? 'negative' : 'neutral' },
     { title: "Win %", value: `${winPercentage.toFixed(1)}%`, category: winPercentage >= 50 ? 'positive' : 'negative' },
-    { title: "Last 5", value: last5, category: "general" }
+    { title: "Last 5", value: last5, category: "general" },
+    { title: "Best Win Streak", value: bestWinStreak, category: "positive" },
+    { title: "Best Unbeaten Streak", value: bestUnbeatenStreak, category: "positive" },
   ]
 }
 

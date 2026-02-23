@@ -22,6 +22,8 @@ interface Player {
     assists: number;
     pims: number;
     points: number;
+    manOfTheMatch?: number;
+    warriorOfTheGame?: number;
   }>;
 }
 
@@ -81,21 +83,11 @@ export default function Players() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Header */}
-      <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">
-              Warriors Players
-            </h1>
-            <p className="text-xl md:text-2xl opacity-90">
-              Meet our current roster
-            </p>
-          </div>
-        </div>
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Warriors Players</h1>
+          <p className="text-lg text-gray-600">Meet our current roster</p>
+        </div>
         
         {/* Quick Navigation Links */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
@@ -262,9 +254,11 @@ function PlayerCard({ player, role }: { player: Player; role?: string | null }) 
               games: totals.games + season.games,
               goals: totals.goals + season.goals,
               assists: totals.assists + season.assists,
-              points: totals.points + season.points
+              points: totals.points + season.points,
+              manOfTheMatch: totals.manOfTheMatch + (season.manOfTheMatch || 0),
+              warriorOfTheGame: totals.warriorOfTheGame + (season.warriorOfTheGame || 0)
             }),
-            { games: 0, goals: 0, assists: 0, points: 0 }
+            { games: 0, goals: 0, assists: 0, points: 0, manOfTheMatch: 0, warriorOfTheGame: 0 }
           );
           
           return (
@@ -284,6 +278,14 @@ function PlayerCard({ player, role }: { player: Player; role?: string | null }) 
               <div className="flex justify-between">
                 <span>Career Points:</span>
                 <span className="font-medium text-blue-600">{careerTotals.points}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Man of the Match:</span>
+                <span className="font-medium">{careerTotals.manOfTheMatch}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Warrior of the Game:</span>
+                <span className="font-medium">{careerTotals.warriorOfTheGame}</span>
               </div>
             </div>
           );

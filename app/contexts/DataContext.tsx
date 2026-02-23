@@ -22,6 +22,8 @@ interface PlayerStat {
   assists: number;
   pims: number;
   points: number;
+  manOfTheMatch?: number;
+  warriorOfTheGame?: number;
 }
 
 export interface Player {
@@ -70,6 +72,8 @@ export interface Result {
   location: "HOME" | "AWAY";
   roster: string[];
   seasonId: Season;
+  manOfTheMatchPlayerId?: string;
+  warriorOfTheGamePlayerId?: string;
   score: {
     warriorsScore: number;
     opponentScore: number;

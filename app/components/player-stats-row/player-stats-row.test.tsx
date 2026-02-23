@@ -11,7 +11,9 @@ const mockPlayer = {
   goals: 64,
   assists: 89,
   points: 153,
-  pointsPerGame: 1.87
+  pointsPerGame: 1.87,
+  manOfTheMatch: 5,
+  warriorOfTheGame: 3
 };
 
 describe('PlayerStatsRow', () => {

@@ -12,6 +12,8 @@ interface SeasonStats {
   powerPlayGoals: number;
   shortHandedGoals: number;
   gameWinningGoals: number;
+  manOfTheMatch: number;
+  warriorOfTheGame: number;
 }
 
 interface PlayerStatsTabProps {
@@ -38,6 +40,8 @@ export default function PlayerStatsTab({ playerId }: PlayerStatsTabProps) {
     powerPlayGoals: totals.powerPlayGoals + 0, // Is set further down
     shortHandedGoals: totals.shortHandedGoals + 0, // Is set further down
     gameWinningGoals: totals.gameWinningGoals + 0, // Is set further down
+    manOfTheMatch: totals.manOfTheMatch + (stat.manOfTheMatch || 0),
+    warriorOfTheGame: totals.warriorOfTheGame + (stat.warriorOfTheGame || 0),
   }), {
     gamesPlayed: 0,
     goals: 0,
@@ -47,6 +51,8 @@ export default function PlayerStatsTab({ playerId }: PlayerStatsTabProps) {
     powerPlayGoals: 0,
     shortHandedGoals: 0,
     gameWinningGoals: 0,
+    manOfTheMatch: 0,
+    warriorOfTheGame: 0,
   });
 
   careerTotals.powerPlayGoals = getNumberOfPPGoalsForPlayer(playerId, data.data.results);
@@ -64,6 +70,8 @@ export default function PlayerStatsTab({ playerId }: PlayerStatsTabProps) {
       powerPlayGoals: getNumberOfPPGoalsForPlayer(playerId, data.data.results, stats.season as Season),
       shortHandedGoals: getNumberOfSHGoalsForPlayer(playerId, data.data.results, stats.season as Season),
       gameWinningGoals: getNumberOfGWGoalsForPlayer(playerId, data.data.results, stats.season as Season),
+      manOfTheMatch: stats.manOfTheMatch || 0,
+      warriorOfTheGame: stats.warriorOfTheGame || 0,
     }
   }).sort((a, b) => {
     // Extract first number from each season (e.g., '24' from '24/25')
@@ -119,6 +127,18 @@ export default function PlayerStatsTab({ playerId }: PlayerStatsTabProps) {
           </div>
           <div className="text-sm text-indigo-600 font-medium">Total PIM</div>
         </div>
+        <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 p-4 rounded-lg text-center">
+          <div className="text-2xl md:text-3xl font-bold text-yellow-700">
+            {careerTotals.manOfTheMatch}
+          </div>
+          <div className="text-sm text-yellow-600 font-medium">Man of the Match</div>
+        </div>
+        <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg text-center">
+          <div className="text-2xl md:text-3xl font-bold text-orange-700">
+            {careerTotals.warriorOfTheGame}
+          </div>
+          <div className="text-sm text-orange-600 font-medium">Warrior of the Game</div>
+        </div>
       </div>
 
       {/* Season by Season Stats Table */}
@@ -161,6 +181,12 @@ export default function PlayerStatsTab({ playerId }: PlayerStatsTabProps) {
                 <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                   GWG
                 </th>
+                <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  MOTM
+                </th>
+                <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  WOTG
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -198,6 +224,12 @@ export default function PlayerStatsTab({ playerId }: PlayerStatsTabProps) {
                   <td className="px-4 py-3 text-sm text-center">
                     <span className="text-indigo-700 font-medium">{stat.gameWinningGoals}</span>
                   </td>
+                  <td className="px-4 py-3 text-sm text-center">
+                    <span className="text-yellow-700 font-medium">{stat.manOfTheMatch}</span>
+                  </td>
+                  <td className="px-4 py-3 text-sm text-center">
+                    <span className="text-orange-700 font-medium">{stat.warriorOfTheGame}</span>
+                  </td>
                 </tr>
               ))}
               
@@ -234,6 +266,12 @@ export default function PlayerStatsTab({ playerId }: PlayerStatsTabProps) {
                 </td>
                 <td className="px-4 py-3 text-sm text-center">
                   <span className="text-indigo-700 font-bold">{careerTotals.gameWinningGoals}</span>
+                </td>
+                <td className="px-4 py-3 text-sm text-center">
+                  <span className="text-yellow-700 font-bold">{careerTotals.manOfTheMatch}</span>
+                </td>
+                <td className="px-4 py-3 text-sm text-center">
+                  <span className="text-orange-700 font-bold">{careerTotals.warriorOfTheGame}</span>
                 </td>
               </tr>
             </tbody>
