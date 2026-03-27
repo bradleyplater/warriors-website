@@ -75,6 +75,7 @@ export interface Result {
   competition?: string;
   manOfTheMatchPlayerId?: string;
   warriorOfTheGamePlayerId?: string;
+  netminderPlayerId?: string;
   score: {
     warriorsScore: number;
     opponentScore: number;

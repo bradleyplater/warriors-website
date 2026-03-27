@@ -26,6 +26,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "MISSING",
     "score": {
@@ -255,6 +256,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "MISSING",
     "score": {
@@ -539,6 +541,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "MISSING",
     "score": {
@@ -683,6 +686,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "MISSING",
     "score": {
@@ -862,6 +866,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "MISSING",
     "score": {
@@ -1215,6 +1220,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -1452,6 +1458,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -1705,6 +1712,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -1882,6 +1890,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -2094,6 +2103,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -2272,6 +2282,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -2499,6 +2510,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -2688,6 +2700,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -2877,6 +2890,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -3112,6 +3126,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -3364,6 +3379,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -3566,6 +3582,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -3788,6 +3805,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -4067,6 +4085,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -4243,6 +4262,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -4524,6 +4544,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "NIHC",
     "location": "AWAY",
     "score": {
@@ -4792,6 +4813,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "NIHC",
     "location": "AWAY",
     "score": {
@@ -4957,6 +4979,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "NIHC",
     "location": "AWAY",
     "score": {
@@ -5111,6 +5134,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -5369,6 +5393,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -5524,6 +5549,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -5718,6 +5744,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -6030,6 +6057,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -6197,6 +6225,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -6441,6 +6470,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -6669,6 +6699,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -6859,6 +6890,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -7112,6 +7144,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -7365,6 +7398,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -7552,6 +7586,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -7714,6 +7749,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -7845,6 +7881,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -7983,6 +8020,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -8259,6 +8297,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -8542,6 +8581,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -8724,6 +8764,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -8899,6 +8940,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -9107,6 +9149,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -9285,6 +9328,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -9491,6 +9535,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -9705,6 +9750,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -9945,6 +9991,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -10195,6 +10242,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -10391,6 +10439,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -10577,6 +10626,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -10823,6 +10873,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -11048,6 +11099,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -11186,6 +11238,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -11372,6 +11425,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -11502,6 +11556,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -11623,6 +11678,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -11910,6 +11966,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -12143,6 +12200,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -12356,6 +12414,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -12565,6 +12624,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -12717,6 +12777,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -12983,6 +13044,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -13204,6 +13266,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -13377,6 +13440,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -13586,6 +13650,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -13805,6 +13870,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -14001,6 +14067,7 @@
     ],
     "manOfTheMatchPlayerId": "PLR241136",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "PLR030348",
     "competition": "BOTBC",
     "location": "HOME",
     "score": {
@@ -14144,6 +14211,7 @@
     ],
     "manOfTheMatchPlayerId": "PLR991178",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "PLR991178",
     "competition": "LLIHC",
     "location": "AWAY",
     "score": {
@@ -14325,6 +14393,7 @@
     ],
     "manOfTheMatchPlayerId": "PLR006500",
     "warriorOfTheGamePlayerId": "PLR271434",
+    "netminderPlayerId": "PLR991178",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -14480,6 +14549,7 @@
     ],
     "manOfTheMatchPlayerId": "PLR271434",
     "warriorOfTheGamePlayerId": "PLR582797",
+    "netminderPlayerId": "PLR810070",
     "competition": "BOTBC",
     "location": "AWAY",
     "score": {
@@ -14641,6 +14711,7 @@
     ],
     "manOfTheMatchPlayerId": "PLR397024",
     "warriorOfTheGamePlayerId": "PLR271434",
+    "netminderPlayerId": "PLR991178",
     "competition": "LLIHC",
     "location": "AWAY",
     "score": {
@@ -14810,6 +14881,7 @@
     ],
     "manOfTheMatchPlayerId": "PLR241136",
     "warriorOfTheGamePlayerId": "PLR575853",
+    "netminderPlayerId": "PLR030348",
     "competition": "BOTBC",
     "location": "AWAY",
     "score": {
@@ -15032,6 +15104,7 @@
     ],
     "manOfTheMatchPlayerId": "PLR006500",
     "warriorOfTheGamePlayerId": "PLR271434",
+    "netminderPlayerId": "PLR991178",
     "competition": "LLIHC",
     "location": "HOME",
     "score": {
@@ -15221,6 +15294,7 @@
     ],
     "manOfTheMatchPlayerId": "PLR813692",
     "warriorOfTheGamePlayerId": "PLR646257",
+    "netminderPlayerId": "PLR991178",
     "competition": "LLIHC",
     "location": "AWAY",
     "score": {
@@ -15408,6 +15482,7 @@
     ],
     "manOfTheMatchPlayerId": "PLR502819",
     "warriorOfTheGamePlayerId": "PLR007346",
+    "netminderPlayerId": "PLR030348",
     "competition": "Challenge",
     "location": "AWAY",
     "score": {
@@ -15633,6 +15708,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "PLR991178",
     "competition": "LLIHC",
     "location": "HOME",
     "score": {
