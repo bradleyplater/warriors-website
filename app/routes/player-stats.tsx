@@ -18,6 +18,7 @@ export default function PlayerStatsRedirect() {
 }
 
 export type Position = 'all' | 'forward' | 'defence' | 'goaltender';
+export type Competition = 'all' | 'LLIHC' | 'BOTBC' | 'Challenge';
 export type SortBy = 'points' | 'goals' | 'assists' | 'games' | 'pointsPerGame' | 'motm' | 'wotg';
 
 const positionOptions: FilterOption<Position>[] = [
@@ -25,6 +26,13 @@ const positionOptions: FilterOption<Position>[] = [
   { value: 'forward', label: 'Forward' },
   { value: 'defence', label: 'Defence' },
   { value: 'goaltender', label: 'Goaltender' },
+];
+
+const competitionOptions: FilterOption<Competition>[] = [
+  { value: 'all', label: 'All Competitions' },
+  { value: 'LLIHC', label: 'LLIHC' },
+  { value: 'BOTBC', label: 'BOTBC' },
+  { value: 'Challenge', label: 'Challenge' },
 ];
 
 const sortOptions: FilterOption<SortBy>[] = [
@@ -40,6 +48,7 @@ const sortOptions: FilterOption<SortBy>[] = [
 export function PlayerStats() {
   const [selectedSeason, setSelectedSeason] = useState<Season>('overall');
   const [selectedPosition, setSelectedPosition] = useState<Position>('all');
+  const [selectedCompetition, setSelectedCompetition] = useState<Competition>('all');
   const [sortBy, setSortBy] = useState<SortBy>('points');
   const [showFilters, setShowFilters] = useState(false);
 
@@ -75,6 +84,13 @@ export function PlayerStats() {
                 onValueChange={setSelectedPosition}
                 options={positionOptions}
                 placeholder="All Positions"
+              />
+              <GenericFilter<Competition>
+                label="Competition"
+                selectedValue={selectedCompetition}
+                onValueChange={setSelectedCompetition}
+                options={competitionOptions}
+                placeholder="All Competitions"
               />
               <GenericFilter<SortBy>
                 label="Sort By"
@@ -125,6 +141,13 @@ export function PlayerStats() {
                   options={positionOptions}
                   placeholder="All Positions"
                 />
+                <GenericFilter<Competition>
+                  label="Competition"
+                  selectedValue={selectedCompetition}
+                  onValueChange={setSelectedCompetition}
+                  options={competitionOptions}
+                  placeholder="All Competitions"
+                />
                 <GenericFilter<SortBy>
                   label="Sort By"
                   selectedValue={sortBy}
@@ -139,10 +162,11 @@ export function PlayerStats() {
       </div>
 
       {/* Player Stats Table */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
+      <div className="max-w-7xl auto px-4 py-6">
         <PlayerStatsTable 
           selectedSeason={selectedSeason}
           selectedPosition={selectedPosition}
+          selectedCompetition={selectedCompetition}
           sortBy={sortBy}
         />
       </div>

@@ -7,6 +7,7 @@ import GenericFilter, { type FilterOption } from '../components/generic-filter/g
 import type { Route } from '../+types/root';
 // Local type definitions for player filters
 export type Position = 'all' | 'forward' | 'defence' | 'goaltender';
+export type Competition = 'all' | 'LLIHC' | 'BOTBC' | 'Challenge';
 export type SortBy = 'points' | 'goals' | 'assists' | 'games' | 'pointsPerGame' | 'motm' | 'wotg';
 
 export function meta({}: Route.MetaArgs) {
@@ -21,6 +22,13 @@ const positionOptions: FilterOption<Position>[] = [
   { value: 'forward', label: 'Forward' },
   { value: 'defence', label: 'Defence' },
   { value: 'goaltender', label: 'Goaltender' },
+];
+
+const competitionOptions: FilterOption<Competition>[] = [
+  { value: 'all', label: 'All Competitions' },
+  { value: 'LLIHC', label: 'LLIHC' },
+  { value: 'BOTBC', label: 'BOTBC' },
+  { value: 'Challenge', label: 'Challenge' },
 ];
 
 const sortOptions: FilterOption<SortBy>[] = [
@@ -39,6 +47,7 @@ export default function Team() {
 
   const [playerSeason, setPlayerSeason] = useState<Season>('overall');
   const [selectedPosition, setSelectedPosition] = useState<Position>('all');
+  const [selectedCompetition, setSelectedCompetition] = useState<Competition>('all');
   const [sortBy, setSortBy] = useState<SortBy>('points');
   const [showPlayerFilters, setShowPlayerFilters] = useState(false);
   const [activeSection, setActiveSection] = useState<'team' | 'players'>('team');
@@ -171,6 +180,15 @@ export default function Team() {
                     />
                   </div>
                   <div className="bg-white/80 backdrop-blur-sm rounded-xl p-1 shadow-sm border border-gray-200 relative z-50">
+                    <GenericFilter<Competition>
+                      label="Competition"
+                      selectedValue={selectedCompetition}
+                      onValueChange={setSelectedCompetition}
+                      options={competitionOptions}
+                      placeholder="All Competitions"
+                    />
+                  </div>
+                  <div className="bg-white/80 backdrop-blur-sm rounded-xl p-1 shadow-sm border border-gray-200 relative z-50">
                     <GenericFilter<SortBy>
                       label="Sort By"
                       selectedValue={sortBy}
@@ -216,6 +234,15 @@ export default function Team() {
                       />
                     </div>
                     <div className="bg-white/80 backdrop-blur-sm rounded-xl p-1 shadow-sm border border-gray-200 relative z-50">
+                      <GenericFilter<Competition>
+                        label="Competition"
+                        selectedValue={selectedCompetition}
+                        onValueChange={setSelectedCompetition}
+                        options={competitionOptions}
+                        placeholder="All Competitions"
+                      />
+                    </div>
+                    <div className="bg-white/80 backdrop-blur-sm rounded-xl p-1 shadow-sm border border-gray-200 relative z-50">
                       <GenericFilter<SortBy>
                         label="Sort By"
                         selectedValue={sortBy}
@@ -231,7 +258,7 @@ export default function Team() {
 
             {/* Player Table */}
             <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 overflow-hidden relative z-10">
-              <PlayerStatsTable selectedSeason={playerSeason} selectedPosition={selectedPosition} sortBy={sortBy} />
+              <PlayerStatsTable selectedSeason={playerSeason} selectedPosition={selectedPosition} selectedCompetition={selectedCompetition} sortBy={sortBy} />
             </div>
           </section>
         )}

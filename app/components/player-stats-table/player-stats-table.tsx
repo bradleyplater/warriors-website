@@ -1,36 +1,81 @@
 import type { Season } from '../season-filter/season-filter';
-import type { Position, SortBy } from '../../routes/player-stats';
+import type { Position, Competition, SortBy } from '../../routes/player-stats';
 import PlayerStatsRow from '../player-stats-row/player-stats-row';
-import { useData, type Player } from '../../contexts/DataContext';
+import { useData, type Player, type Result } from '../../contexts/DataContext';
+import { getGoalsForOneGame, getAssistsForOneGame, getPimsForOneGame } from '~/helpers/game-helpers';
 
 interface PlayerStatsTableProps {
   selectedSeason: Season;
   selectedPosition: Position;
+  selectedCompetition: Competition;
   sortBy: SortBy;
 }
 
-function getPlayerStats(players: Player[], selectedSeason: Season, selectedPosition: Position, sortBy: SortBy) {
-    const playerWithStatsInSeason = players.filter(player => 
-        player.stats.find(stat => stat.season === selectedSeason || selectedSeason === 'overall')
-    );
-
-    return playerWithStatsInSeason
-        .map(player => {
-            const statsToTrack = player.stats.filter(stat => 
-                stat.season === selectedSeason || selectedSeason === 'overall'
+function getPlayerStats(players: Player[], results: Result[], selectedSeason: Season, selectedPosition: Position, selectedCompetition: Competition, sortBy: SortBy) {
+    const playerWithStats = players.filter(player => {
+        if (selectedSeason === 'overall' && selectedCompetition === 'all') {
+            return player.stats.length > 0;
+        }
+        
+        // If filtering by competition, we must check the results
+        if (selectedCompetition !== 'all') {
+            return results.some(r => 
+                (selectedSeason === 'overall' || r.seasonId === selectedSeason) &&
+                r.competition === selectedCompetition &&
+                r.roster.includes(player.id)
             );
-    
-            if (!statsToTrack.length) {
-                return null;
+        }
+
+        return player.stats.find(stat => stat.season === selectedSeason);
+    });
+
+    return playerWithStats
+        .map(player => {
+            let games = 0;
+            let goals = 0;
+            let assists = 0;
+            let points = 0;
+            let pims = 0;
+            let manOfTheMatch = 0;
+            let warriorOfTheGame = 0;
+
+            if (selectedCompetition !== 'all') {
+                // Filter results by competition and season
+                const filteredResults = results.filter(r => 
+                    (selectedSeason === 'overall' || r.seasonId === selectedSeason) &&
+                    r.competition === selectedCompetition &&
+                    r.roster.includes(player.id)
+                );
+
+                if (filteredResults.length === 0) return null;
+
+                games = filteredResults.length;
+                filteredResults.forEach(r => {
+                    goals += getGoalsForOneGame(r, player.id);
+                    assists += getAssistsForOneGame(r, player.id);
+                    pims += getPimsForOneGame(r, player.id);
+                    if (r.manOfTheMatchPlayerId === player.id) manOfTheMatch++;
+                    if (r.warriorOfTheGamePlayerId === player.id) warriorOfTheGame++;
+                });
+                points = goals + assists;
+            } else {
+                const statsToTrack = player.stats.filter(stat => 
+                    stat.season === selectedSeason || selectedSeason === 'overall'
+                );
+        
+                if (!statsToTrack.length) {
+                    return null;
+                }
+
+                games = statsToTrack.reduce((total, stat) => total + stat.games, 0);
+                goals = statsToTrack.reduce((total, stat) => total + stat.goals, 0);
+                assists = statsToTrack.reduce((total, stat) => total + stat.assists, 0);
+                points = statsToTrack.reduce((total, stat) => total + stat.points, 0);
+                pims = statsToTrack.reduce((total, stat) => total + (stat.pims || 0), 0);
+                manOfTheMatch = statsToTrack.reduce((total, stat) => total + (stat.manOfTheMatch || 0), 0);
+                warriorOfTheGame = statsToTrack.reduce((total, stat) => total + (stat.warriorOfTheGame || 0), 0);
             }
 
-            const games = statsToTrack.reduce((total, stat) => total + stat.games, 0);
-            const goals = statsToTrack.reduce((total, stat) => total + stat.goals, 0);
-            const assists = statsToTrack.reduce((total, stat) => total + stat.assists, 0);
-            const points = statsToTrack.reduce((total, stat) => total + stat.points, 0);
-            const pims = statsToTrack.reduce((total, stat) => total + (stat.pims || 0), 0);
-            const manOfTheMatch = statsToTrack.reduce((total, stat) => total + (stat.manOfTheMatch || 0), 0);
-            const warriorOfTheGame = statsToTrack.reduce((total, stat) => total + (stat.warriorOfTheGame || 0), 0);
             const pointsPerGame = games > 0 ? points / games : 0;
     
             return {
@@ -91,12 +136,13 @@ function getPlayerStats(players: Player[], selectedSeason: Season, selectedPosit
 }
 
 
-export default function PlayerStatsTable({ selectedSeason, selectedPosition, sortBy }: PlayerStatsTableProps) {
+export default function PlayerStatsTable({ selectedSeason, selectedPosition, selectedCompetition, sortBy }: PlayerStatsTableProps) {
     const { data } = useData();    
 
     const players = data.players;
+    const results = data.results;
 
-    const mappedPlayers = getPlayerStats(players, selectedSeason, selectedPosition, sortBy);
+    const mappedPlayers = getPlayerStats(players, results, selectedSeason, selectedPosition, selectedCompetition, sortBy);
 
 
   return (

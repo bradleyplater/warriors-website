@@ -72,6 +72,7 @@ export interface Result {
   location: "HOME" | "AWAY";
   roster: string[];
   seasonId: Season;
+  competition?: string;
   manOfTheMatchPlayerId?: string;
   warriorOfTheGamePlayerId?: string;
   score: {

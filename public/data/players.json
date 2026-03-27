@@ -31,11 +31,11 @@
       },
       {
         "season": "25/26",
-        "games": 5,
-        "goals": 3,
+        "games": 6,
+        "goals": 4,
         "assists": 4,
-        "pims": 6,
-        "points": 7,
+        "pims": 8,
+        "points": 8,
         "manOfTheMatch": 1
       }
     ]
@@ -64,7 +64,7 @@
       },
       {
         "season": "25/26",
-        "games": 2,
+        "games": 3,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -104,10 +104,10 @@
       },
       {
         "season": "25/26",
-        "games": 5,
+        "games": 6,
         "goals": 1,
         "assists": 0,
-        "pims": 4,
+        "pims": 6,
         "points": 1,
         "warriorOfTheGame": 0
       }
@@ -233,11 +233,11 @@
       },
       {
         "season": "25/26",
-        "games": 5,
+        "games": 6,
         "goals": 1,
-        "assists": 1,
+        "assists": 2,
         "pims": 0,
-        "points": 2,
+        "points": 3,
         "manOfTheMatch": 2
       }
     ]
@@ -266,7 +266,7 @@
       },
       {
         "season": "25/26",
-        "games": 8,
+        "games": 9,
         "goals": 3,
         "assists": 3,
         "pims": 2,
@@ -307,7 +307,7 @@
       },
       {
         "season": "25/26",
-        "games": 4,
+        "games": 5,
         "goals": 1,
         "assists": 0,
         "pims": 4,
@@ -339,11 +339,11 @@
       },
       {
         "season": "25/26",
-        "games": 5,
-        "goals": 0,
+        "games": 6,
+        "goals": 1,
         "assists": 0,
         "pims": 4,
-        "points": 0
+        "points": 1
       }
     ]
   },
@@ -411,11 +411,11 @@
       },
       {
         "season": "25/26",
-        "games": 7,
+        "games": 8,
         "goals": 0,
-        "assists": 0,
+        "assists": 1,
         "pims": 0,
-        "points": 0
+        "points": 1
       }
     ]
   },
@@ -531,7 +531,7 @@
       },
       {
         "season": "25/26",
-        "games": 3,
+        "games": 4,
         "goals": 1,
         "assists": 3,
         "pims": 0,
@@ -604,7 +604,7 @@
       },
       {
         "season": "25/26",
-        "games": 2,
+        "games": 3,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -644,7 +644,7 @@
       },
       {
         "season": "25/26",
-        "games": 6,
+        "games": 7,
         "goals": 1,
         "assists": 2,
         "pims": 6,
@@ -684,7 +684,7 @@
       },
       {
         "season": "25/26",
-        "games": 7,
+        "games": 8,
         "goals": 1,
         "assists": 2,
         "pims": 4,
@@ -1237,11 +1237,11 @@
       },
       {
         "season": "25/26",
-        "games": 4,
-        "goals": 11,
-        "assists": 2,
+        "games": 5,
+        "goals": 12,
+        "assists": 3,
         "pims": 2,
-        "points": 13,
+        "points": 15,
         "manOfTheMatch": 1
       }
     ]
@@ -1454,11 +1454,11 @@
       },
       {
         "season": "25/26",
-        "games": 8,
-        "goals": 4,
+        "games": 9,
+        "goals": 5,
         "assists": 7,
         "pims": 0,
-        "points": 11,
+        "points": 12,
         "warriorOfTheGame": 3,
         "manOfTheMatch": 1
       }
@@ -1908,12 +1908,12 @@
   {
     "id": "PLR106345",
     "name": "Ollie Cooper",
-    "number": 111,
+    "number": 22,
     "position": "Forward",
     "stats": [
       {
         "season": "25/26",
-        "games": 5,
+        "games": 6,
         "goals": 0,
         "assists": 0,
         "pims": 13,
@@ -1945,7 +1945,7 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 5,
+        "games": 6,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -2028,7 +2028,7 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 4,
+        "games": 5,
         "goals": 2,
         "assists": 3,
         "pims": 2,
