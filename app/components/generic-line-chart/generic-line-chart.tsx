@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 interface DataPoint {
   x: string | number;
   y: number;
+  date?: string;
+  opponent?: string;
 }
 
 interface LineSeries {
@@ -36,15 +38,20 @@ interface GenericLineChartProps {
   mainLineLabel?: string;
   averageLineLabel?: string;
   showLegend?: boolean;
+  width?: number;
+  height?: number;
+  onHoverLine?: (label: string | null) => void;
+  hoveredLineLabel?: string | null;
+  showEndLabels?: boolean;
 }
 
 // Responsive chart dimensions
-const getChartDimensions = (isMobile: boolean) => ({
-  width: isMobile ? 350 : 600,
-  height: isMobile ? 280 : 320,
+const getChartDimensions = (isMobile: boolean, customWidth?: number, customHeight?: number, showEndLabels?: boolean) => ({
+  width: customWidth || (isMobile ? 350 : 850),
+  height: customHeight || (isMobile ? 280 : 500),
   margin: isMobile 
-    ? { top: 20, right: 20, bottom: 50, left: 65 }
-    : { top: 25, right: 25, bottom: 60, left: 70 }
+    ? { top: 20, right: showEndLabels ? 60 : 20, bottom: 50, left: 65 }
+    : { top: 30, right: showEndLabels ? 120 : 30, bottom: 70, left: 80 }
 });
 
 export default function GenericLineChart({ 
@@ -61,9 +68,17 @@ export default function GenericLineChart({
   additionalLines = [],
   mainLineLabel = 'Actual',
   averageLineLabel = 'Average',
-  showLegend = true
+  showLegend = true,
+  width: customWidth,
+  height: customHeight,
+  onHoverLine,
+  hoveredLineLabel: externalHoveredLabel,
+  showEndLabels = false
 }: GenericLineChartProps) {
   const [isMobile, setIsMobile] = useState(false);
+  const [internalHoveredLabel, setInternalHoveredLabel] = useState<string | null>(null);
+
+  const hoveredLabel = externalHoveredLabel !== undefined ? externalHoveredLabel : internalHoveredLabel;
 
   useEffect(() => {
     const checkMobile = () => {
@@ -75,7 +90,7 @@ export default function GenericLineChart({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const { width, height, margin } = getChartDimensions(isMobile);
+  const { width, height, margin } = getChartDimensions(isMobile, customWidth, customHeight, showEndLabels);
   const xMax = width - margin.left - margin.right;
   const yMax = height - margin.top - margin.bottom;
 
@@ -101,27 +116,45 @@ export default function GenericLineChart({
     ...additionalLines.flatMap(line => line.data)
   ];
 
+  if (allDataPoints.length === 0) {
+    return (
+      <div className="w-full h-full flex items-center justify-center text-gray-400 italic">
+        No data to display.
+      </div>
+    );
+  }
+
   // Create scales
   const xScale = scalePoint<string>({
     range: [0, xMax],
-    domain: chartData.map(d => String(d.x)),
+    domain: [...new Set(allDataPoints.map(d => String(d.x)))].sort(),
     padding: 0.2
   });
 
   const yScale = scaleLinear<number>({
     range: [yMax, 0],
-    domain: [0, Math.max(...allDataPoints.map(d => d.y)) * 1.1],
+    domain: [0, Math.max(...allDataPoints.map(d => d.y), 0) * 1.1],
     nice: true
   });
 
   // Accessor functions
-  const getX = (d: typeof chartData[0]) => xScale(String(d.x)) ?? 0;
-  const getY = (d: typeof chartData[0]) => yScale(d.y) ?? 0;
+  const getX = (d: { x: string | number }) => xScale(String(d.x)) ?? 0;
+  const getY = (d: { y: number }) => yScale(d.y) ?? 0;
+
+  const handleMouseEnter = (label: string) => {
+    setInternalHoveredLabel(label);
+    onHoverLine?.(label);
+  };
+
+  const handleMouseLeave = () => {
+    setInternalHoveredLabel(null);
+    onHoverLine?.(null);
+  };
 
   return (
     <div className="w-full">
       <div className="overflow-x-auto">
-        <svg width={width} height={height} className="mx-auto">
+        <svg width={width} height={height} className="mx-auto overflow-visible">
         <Group left={margin.left} top={margin.top}>
           {/* Grid */}
           {showGrid && (
@@ -144,14 +177,18 @@ export default function GenericLineChart({
           )}
           
           {/* Main Line */}
-          <LinePath<typeof chartData[0]>
-            data={chartData}
-            x={getX}
-            y={getY}
-            stroke={lineColor}
-            strokeWidth={3}
-            curve={curveMonotoneX}
-          />
+          {chartData.length > 0 && (
+            <LinePath<typeof chartData[0]>
+              data={chartData}
+              x={getX}
+              y={getY}
+              stroke={lineColor}
+              strokeWidth={hoveredLabel === mainLineLabel ? 5 : 3}
+              strokeOpacity={hoveredLabel && hoveredLabel !== mainLineLabel ? 0.2 : 1}
+              onMouseEnter={() => handleMouseEnter(mainLineLabel)}
+              onMouseLeave={handleMouseLeave}
+            />
+          )}
           
           {/* Average Line */}
           {showAverage && (
@@ -162,22 +199,109 @@ export default function GenericLineChart({
               stroke={averageColor}
               strokeWidth={2}
               strokeDasharray="5,5"
+              strokeOpacity={hoveredLabel && hoveredLabel !== averageLineLabel ? 0.2 : 1}
+              onMouseEnter={() => handleMouseEnter(averageLineLabel)}
+              onMouseLeave={handleMouseLeave}
             />
           )}
           
           {/* Additional Lines */}
-          {additionalLines.map((line, index) => (
-            <LinePath<DataPoint>
-              key={index}
-              data={line.data}
-              x={(d) => xScale(String(d.x)) ?? 0}
-              y={(d) => yScale(d.y) ?? 0}
-              stroke={line.color}
-              strokeWidth={line.strokeWidth || 2}
-              strokeDasharray={line.strokeDasharray}
-              curve={curveMonotoneX}
-            />
-          ))}
+          {additionalLines.map((line, index) => {
+            const isHovered = hoveredLabel === line.label;
+            const hasOtherHovered = hoveredLabel && !isHovered;
+            
+            return (
+              <g key={index}>
+                {/* Hit area for easier hovering */}
+                <LinePath<DataPoint>
+                  data={line.data}
+                  x={getX}
+                  y={getY}
+                  stroke="transparent"
+                  strokeWidth={20}
+                  onMouseEnter={() => handleMouseEnter(line.label)}
+                  onMouseLeave={handleMouseLeave}
+                />
+                <LinePath<DataPoint>
+                  data={line.data}
+                  x={getX}
+                  y={getY}
+                  stroke={line.color}
+                  strokeWidth={isHovered ? 5 : (line.strokeWidth || 2)}
+                  strokeDasharray={line.strokeDasharray}
+                  strokeOpacity={hasOtherHovered ? 0.1 : 1}
+                  className="transition-all duration-300 pointer-events-none"
+                />
+                
+                {/* Data points for hovered line */}
+                {isHovered && line.data.map((d, i) => (
+                  <g key={`point-${index}-${i}`}>
+                    <circle
+                      cx={getX(d)}
+                      cy={getY(d)}
+                      r={isMobile ? 5 : 7}
+                      fill={line.color}
+                      stroke="white"
+                      strokeWidth={2}
+                      className="animate-in fade-in zoom-in duration-300"
+                    />
+                    <g className="animate-in fade-in slide-in-from-bottom-1 duration-300">
+                      <rect
+                        x={getX(d) - (isMobile ? 25 : 35)}
+                        y={getY(d) - (isMobile ? 35 : 45)}
+                        width={isMobile ? 50 : 70}
+                        height={isMobile ? 20 : 25}
+                        rx={4}
+                        fill="white"
+                        stroke={line.color}
+                        strokeWidth={1}
+                        className="shadow-sm"
+                      />
+                      <text
+                        x={getX(d)}
+                        y={getY(d) - (isMobile ? 21 : 28)}
+                        textAnchor="middle"
+                        fontSize={isMobile ? 10 : 12}
+                        fill="#111827"
+                        fontWeight="900"
+                      >
+                        {d.y}
+                      </text>
+                      {d.opponent && (
+                        <text
+                          x={getX(d)}
+                          y={getY(d) + (isMobile ? 20 : 25)}
+                          textAnchor="middle"
+                          fontSize={9}
+                          fill="#6b7280"
+                          fontWeight="600"
+                          style={{ pointerEvents: 'none' }}
+                        >
+                          vs {d.opponent}
+                        </text>
+                      )}
+                    </g>
+                  </g>
+                ))}
+
+                {/* End-of-line Labels */}
+                {showEndLabels && line.data.length > 0 && (
+                  <text
+                    x={getX(line.data[line.data.length - 1]) + 10}
+                    y={getY(line.data[line.data.length - 1])}
+                    alignmentBaseline="middle"
+                    fontSize={isMobile ? 10 : 11}
+                    fontWeight={isHovered ? "bold" : "600"}
+                    fill={isHovered ? "#111827" : line.color}
+                    fillOpacity={hasOtherHovered ? 0.1 : 1}
+                    className="transition-all duration-300 pointer-events-none"
+                  >
+                    {line.label}
+                  </text>
+                )}
+              </g>
+            );
+          })}
           
           {/* Data points */}
           {showPoints && chartData.map((d, i) => (
@@ -189,6 +313,8 @@ export default function GenericLineChart({
               fill={pointColor}
               stroke="white"
               strokeWidth={isMobile ? 1.5 : 2}
+              strokeOpacity={hoveredLabel && hoveredLabel !== mainLineLabel ? 0.2 : 1}
+              fillOpacity={hoveredLabel && hoveredLabel !== mainLineLabel ? 0.2 : 1}
             />
           ))}
           
@@ -202,6 +328,7 @@ export default function GenericLineChart({
               fontSize={isMobile ? 10 : 12}
               fill="#374151"
               fontWeight="bold"
+              fillOpacity={hoveredLabel && hoveredLabel !== mainLineLabel ? 0.2 : 1}
             >
               {d.y}
             </text>
@@ -213,6 +340,11 @@ export default function GenericLineChart({
             scale={xScale}
             tickStroke="#6b7280"
             stroke="#6b7280"
+            tickValues={
+              xScale.domain().length > 15 
+                ? xScale.domain().filter((_, i) => i % Math.ceil(xScale.domain().length / 10) === 0) 
+                : undefined
+            }
             tickLabelProps={() => ({
               fill: '#6b7280',
               fontSize: isMobile ? 10 : 12,
@@ -251,27 +383,42 @@ export default function GenericLineChart({
       
       {/* Legend */}
       {showLegend && (
-        <div className="flex flex-wrap justify-center gap-4 mt-4">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-0.5" style={{ backgroundColor: lineColor }}></div>
-            <span className="text-sm text-gray-700">{mainLineLabel}</span>
-          </div>
+        <div className="flex flex-wrap justify-center gap-4 mt-8 px-4">
+          {chartData.length > 0 && (
+            <div 
+              className={`flex items-center gap-2 transition-all duration-300 ${hoveredLabel && hoveredLabel !== mainLineLabel ? 'opacity-20 grayscale scale-95' : 'opacity-100 scale-100'}`}
+              onMouseEnter={() => handleMouseEnter(mainLineLabel)}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="w-4 h-0.5" style={{ backgroundColor: lineColor }}></div>
+              <span className="text-sm font-medium text-gray-700">{mainLineLabel}</span>
+            </div>
+          )}
           {showAverage && (
-            <div className="flex items-center gap-2">
+            <div 
+              className={`flex items-center gap-2 transition-all duration-300 ${hoveredLabel && hoveredLabel !== averageLineLabel ? 'opacity-20 grayscale scale-95' : 'opacity-100 scale-100'}`}
+              onMouseEnter={() => handleMouseEnter(averageLineLabel)}
+              onMouseLeave={handleMouseLeave}
+            >
               <div className="w-4 h-0.5 border-dashed border-t-2" style={{ borderColor: averageColor }}></div>
-              <span className="text-sm text-gray-700">{averageLineLabel}</span>
+              <span className="text-sm font-medium text-gray-700">{averageLineLabel}</span>
             </div>
           )}
           {additionalLines.map((line, index) => (
-            <div key={index} className="flex items-center gap-2">
+            <div 
+              key={index} 
+              className={`flex items-center gap-2 cursor-pointer transition-all duration-300 ${hoveredLabel && hoveredLabel !== line.label ? 'opacity-20 grayscale scale-95' : 'opacity-100 scale-100'}`}
+              onMouseEnter={() => handleMouseEnter(line.label)}
+              onMouseLeave={handleMouseLeave}
+            >
               <div 
-                className="w-4 h-0.5" 
+                className="w-4 h-0.5 rounded-full" 
                 style={{ 
                   backgroundColor: line.color,
                   borderTop: line.strokeDasharray ? `2px dashed ${line.color}` : 'none'
                 }}
               ></div>
-              <span className="text-sm text-gray-700">{line.label}</span>
+              <span className={`text-xs font-semibold ${hoveredLabel === line.label ? 'text-gray-900' : 'text-gray-600'}`}>{line.label}</span>
             </div>
           ))}
         </div>

@@ -3,6 +3,7 @@ import type { Season } from '../components/season-filter/season-filter';
 import SeasonFilter from '../components/season-filter/season-filter';
 import TeamStatsCards from '../components/team-stats-cards/team-stats-cards';
 import PlayerStatsTable from '../components/player-stats-table/player-stats-table';
+import StatsCharts from '../components/stats-charts/stats-charts';
 import GenericFilter, { type FilterOption } from '../components/generic-filter/generic-filter';
 import type { Route } from '../+types/root';
 // Local type definitions for player filters
@@ -62,7 +63,7 @@ export default function Team() {
   const [goalieSortBy, setGoalieSortBy] = useState<SortBy>('gaa');
   const [showGoalieFilters, setShowGoalieFilters] = useState(false);
 
-  const [activeSection, setActiveSection] = useState<'team' | 'players' | 'goalies'>('team');
+  const [activeSection, setActiveSection] = useState<'team' | 'players' | 'goalies' | 'charts'>('team');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50">
@@ -134,6 +135,22 @@ export default function Team() {
                 <div className="text-left">
                   <div className="font-bold">Goalie Statistics</div>
                   <div className="text-xs opacity-80">Netminder Performance</div>
+                </div>
+              </button>
+              <button
+                id="charts-tab"
+                role="tab"
+                aria-selected={activeSection === 'charts'}
+                onClick={() => setActiveSection('charts')}
+                className={`flex-1 flex items-center justify-center gap-3 px-6 py-4 text-sm md:text-base font-semibold rounded-xl transition-all duration-300 ${
+                  activeSection === 'charts'
+                    ? 'bg-gradient-to-r from-gray-800 to-gray-900 text-white shadow-lg transform scale-[1.02]'
+                    : 'text-gray-700 hover:text-black hover:bg-gray-100'
+                }`}
+              >
+                <div className="text-left">
+                  <div className="font-bold">Statistics Charts</div>
+                  <div className="text-xs opacity-80">Visual Performance Data</div>
                 </div>
               </button>
             </nav>
@@ -387,6 +404,28 @@ export default function Team() {
             {/* Goalie Table */}
             <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 overflow-hidden relative z-10">
               <PlayerStatsTable selectedSeason={goalieSeason} selectedPosition="goaltender" selectedCompetition={goalieCompetition} sortBy={goalieSortBy} />
+            </div>
+          </section>
+        )}
+
+        {/* Statistics Charts Section */}
+        {activeSection === 'charts' && (
+          <section role="tabpanel" aria-labelledby="charts-tab" className="space-y-8">
+            {/* Charts Section Header */}
+            <div className="bg-white/90 backdrop-blur-lg rounded-2xl shadow-lg border border-gray-200 p-6 md:p-8">
+              <div className="flex items-center gap-4">
+                <div>
+                  <h2 className="text-2xl md:text-3xl font-bold text-black">
+                    Statistics Charts
+                  </h2>
+                  <p className="text-gray-600 mt-1">Visual representation of player and team performance over time</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Charts Content */}
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 p-6 md:p-8">
+              <StatsCharts />
             </div>
           </section>
         )}
