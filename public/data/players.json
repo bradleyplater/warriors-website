@@ -31,11 +31,12 @@
       },
       {
         "season": "25/26",
-        "games": 6,
-        "goals": 4,
+        "games": 7,
+        "goals": 6,
         "assists": 4,
         "pims": 8,
-        "points": 8,
+        "points": 10,
+        "warriorOfTheGame": 1,
         "manOfTheMatch": 1
       }
     ]
@@ -64,7 +65,7 @@
       },
       {
         "season": "25/26",
-        "games": 3,
+        "games": 4,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -233,11 +234,11 @@
       },
       {
         "season": "25/26",
-        "games": 6,
+        "games": 7,
         "goals": 1,
-        "assists": 2,
-        "pims": 0,
-        "points": 3,
+        "assists": 3,
+        "pims": 2,
+        "points": 4,
         "manOfTheMatch": 2
       }
     ]
@@ -266,12 +267,13 @@
       },
       {
         "season": "25/26",
-        "games": 9,
+        "games": 10,
         "goals": 3,
         "assists": 3,
         "pims": 2,
         "points": 6,
-        "warriorOfTheGame": 1
+        "warriorOfTheGame": 1,
+        "manOfTheMatch": 1
       }
     ]
   },
@@ -307,7 +309,7 @@
       },
       {
         "season": "25/26",
-        "games": 5,
+        "games": 6,
         "goals": 1,
         "assists": 0,
         "pims": 4,
@@ -339,10 +341,10 @@
       },
       {
         "season": "25/26",
-        "games": 6,
+        "games": 7,
         "goals": 1,
         "assists": 0,
-        "pims": 4,
+        "pims": 6,
         "points": 1
       }
     ]
@@ -411,7 +413,7 @@
       },
       {
         "season": "25/26",
-        "games": 8,
+        "games": 9,
         "goals": 0,
         "assists": 1,
         "pims": 0,
@@ -531,11 +533,11 @@
       },
       {
         "season": "25/26",
-        "games": 4,
-        "goals": 1,
+        "games": 5,
+        "goals": 2,
         "assists": 3,
         "pims": 0,
-        "points": 4,
+        "points": 5,
         "manOfTheMatch": 1
       }
     ]
@@ -644,7 +646,7 @@
       },
       {
         "season": "25/26",
-        "games": 7,
+        "games": 8,
         "goals": 1,
         "assists": 2,
         "pims": 6,
@@ -684,11 +686,11 @@
       },
       {
         "season": "25/26",
-        "games": 8,
+        "games": 9,
         "goals": 1,
-        "assists": 2,
-        "pims": 4,
-        "points": 3
+        "assists": 3,
+        "pims": 6,
+        "points": 4
       }
     ]
   },
@@ -1237,11 +1239,11 @@
       },
       {
         "season": "25/26",
-        "games": 5,
+        "games": 6,
         "goals": 12,
-        "assists": 3,
-        "pims": 2,
-        "points": 15,
+        "assists": 4,
+        "pims": 4,
+        "points": 16,
         "manOfTheMatch": 1
       }
     ]
@@ -1454,7 +1456,7 @@
       },
       {
         "season": "25/26",
-        "games": 9,
+        "games": 10,
         "goals": 5,
         "assists": 7,
         "pims": 0,
@@ -1913,7 +1915,7 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 6,
+        "games": 7,
         "goals": 0,
         "assists": 0,
         "pims": 13,
@@ -1945,7 +1947,7 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 6,
+        "games": 7,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -2028,11 +2030,29 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 5,
+        "games": 6,
         "goals": 2,
         "assists": 3,
         "pims": 2,
         "points": 5
+      }
+    ]
+  },
+  {
+    "id": "PLR504745",
+    "name": "Krists Kless",
+    "number": 333,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0,
+        "warriorOfTheGame": 0,
+        "manOfTheMatch": 0
       }
     ]
   }

@@ -15793,5 +15793,175 @@
         }
       }
     }
+  },
+  {
+    "season": "25/26",
+    "opponentTeam": "Sheffield Mavericks",
+    "logoImage": "sheffield-mavericks.jpg",
+    "date": "2026-03-28T19:00:00.000Z",
+    "seasonId": "25/26",
+    "roster": [
+      "PLR502819",
+      "PLR297690",
+      "PLR106345",
+      "PLR226199",
+      "PLR813692",
+      "PLR810070",
+      "PLR991178",
+      "PLR006500",
+      "PLR646257",
+      "PLR186348",
+      "PLR123881",
+      "PLR930189",
+      "PLR030348",
+      "PLR397024",
+      "PLR271434",
+      "PLR504745"
+    ],
+    "manOfTheMatchPlayerId": "PLR646257",
+    "warriorOfTheGamePlayerId": "PLR502819",
+    "netminderPlayerId": "PLR991178",
+    "competition": "LLIHC",
+    "location": "AWAY",
+    "score": {
+      "warriorsScore": 3,
+      "opponentScore": 2,
+      "period": {
+        "one": {
+          "warriorsScore": 0,
+          "opponentScore": 1,
+          "goals": [],
+          "opponentGoals": [
+            {
+              "playerId": "C Hodgeson",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 17,
+              "second": 24,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": []
+        },
+        "two": {
+          "warriorsScore": 1,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR397024",
+              "assists": [
+                "PLR930189"
+              ],
+              "minute": 30,
+              "second": 38,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "O Shaw",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 24,
+              "second": 41,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "CROSS",
+              "minute": 31,
+              "second": 12,
+              "duration": 2,
+              "offender": "PLR930189"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "CROSS",
+              "minute": 21,
+              "second": 12,
+              "duration": 2,
+              "offender": "C Hodgeson"
+            },
+            {
+              "type": "TRIP",
+              "minute": 34,
+              "second": 36,
+              "duration": 2,
+              "offender": "D Keelan"
+            }
+          ]
+        },
+        "three": {
+          "warriorsScore": 2,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR502819",
+              "assists": [],
+              "minute": 51,
+              "second": 1,
+              "type": "SH"
+            },
+            {
+              "playerId": "PLR502819",
+              "assists": [
+                "PLR813692",
+                "PLR006500"
+              ],
+              "minute": 59,
+              "second": 23,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [
+            {
+              "type": "HOLD",
+              "minute": 48,
+              "second": 1,
+              "duration": 2,
+              "offender": "PLR123881"
+            },
+            {
+              "type": "CHARG",
+              "minute": 51,
+              "second": 0,
+              "duration": 2,
+              "offender": "PLR813692"
+            },
+            {
+              "type": "HOLD",
+              "minute": 54,
+              "second": 36,
+              "duration": 2,
+              "offender": "PLR006500"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "SLASH",
+              "minute": 46,
+              "second": 27,
+              "duration": 2,
+              "offender": "J Jones"
+            },
+            {
+              "type": "UNSP",
+              "minute": 57,
+              "second": 52,
+              "duration": 10,
+              "offender": "A Lightfoot"
+            }
+          ]
+        }
+      }
+    }
   }
 ]

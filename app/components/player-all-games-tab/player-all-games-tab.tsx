@@ -1,6 +1,6 @@
 import { useData, type Result } from "~/contexts/DataContext";
 import { Link } from "react-router";
-import { getGoalsForOneGame, getAssistsForOneGame, getPimsForOneGame, getPlayerMilestones } from "~/helpers/game-helpers";
+import { getGoalsForOneGame, getAssistsForOneGame, getPimsForOneGame, getPlayerMilestones, getGameWinningGoalScorerId } from "~/helpers/game-helpers";
 
 interface AllGame {
   date: string;
@@ -17,6 +17,7 @@ interface AllGame {
     isFirstHattrick: boolean;
     isMultiPoint: boolean;
     isHattrick: boolean;
+    isGameWinningGoal: boolean;
   };
 }
 
@@ -95,6 +96,7 @@ function mapAllGames(allGames: Result[], playerId: string) {
     const goals = getGoalsForOneGame(game, playerId);
     const assists = getAssistsForOneGame(game, playerId);
     const points = goals + assists;
+    const gameWinningGoalScorerId = getGameWinningGoalScorerId(game);
 
     return {
       date: game.date,
@@ -111,6 +113,7 @@ function mapAllGames(allGames: Result[], playerId: string) {
         isFirstHattrick: milestones.firstHattrickGameDate === game.date,
         isMultiPoint: points >= 2,
         isHattrick: goals >= 3,
+        isGameWinningGoal: gameWinningGoalScorerId === playerId,
       }
     }
   });
@@ -335,7 +338,12 @@ export default function PlayerAllGamesTab({ playerId }: PlayerAllGamesTabProps) 
                           Multi Point
                         </span>
                       )}
-                      {!game.milestones?.isFirstGoal && !game.milestones?.isFirstAssist && !game.milestones?.isFirstHattrick && !game.milestones?.isHattrick && !game.milestones?.isMultiPoint && (
+                      {game.milestones?.isGameWinningGoal && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800 border border-indigo-200 w-fit">
+                          Game Winning Goal
+                        </span>
+                      )}
+                      {!game.milestones?.isFirstGoal && !game.milestones?.isFirstAssist && !game.milestones?.isFirstHattrick && !game.milestones?.isHattrick && !game.milestones?.isMultiPoint && !game.milestones?.isGameWinningGoal && (
                         <span>-</span>
                       )}
                     </div>

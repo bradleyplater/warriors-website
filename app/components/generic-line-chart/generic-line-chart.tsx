@@ -124,10 +124,28 @@ export default function GenericLineChart({
     );
   }
 
+  const xDomain: string[] = [];
+  const seenX = new Set<string>();
+
+  const pushX = (x: string | number) => {
+    const key = String(x);
+    if (seenX.has(key)) return;
+    seenX.add(key);
+    xDomain.push(key);
+  };
+
+  if (chartData.length > 0) {
+    chartData.forEach(d => pushX(d.x));
+  } else if (additionalLines.length > 0) {
+    additionalLines[0].data.forEach(d => pushX(d.x));
+  } else {
+    allDataPoints.forEach(d => pushX(d.x));
+  }
+
   // Create scales
   const xScale = scalePoint<string>({
     range: [0, xMax],
-    domain: [...new Set(allDataPoints.map(d => String(d.x)))].sort(),
+    domain: xDomain,
     padding: 0.2
   });
 

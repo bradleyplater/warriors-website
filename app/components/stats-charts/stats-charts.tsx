@@ -13,13 +13,17 @@ export default function StatsCharts() {
   const [selectedPlayers, setSelectedPlayers] = useState<string[]>([]);
   const [activeMetric, setActiveMetric] = useState<'points' | 'goals' | 'assists' | 'pims'>('points');
   const [viewMode, setViewMode] = useState<'season' | 'game'>('season');
+  const [gameSeason, setGameSeason] = useState<string>('all');
   const [hoveredPlayerName, setHoveredPlayerName] = useState<string | null>(null);
 
-  // 1. Get all unique seasons from team stats
+  // 1. Get all unique seasons
   const seasons = useMemo(() => {
-    const s = data.team.stats.map(stat => stat.season).sort();
-    return s.filter(season => season !== 'overall');
-  }, [data.team.stats]);
+    const seasonSet = new Set<string>();
+    data.team.stats.forEach(stat => seasonSet.add(stat.season));
+    data.results.forEach(result => seasonSet.add(result.seasonId));
+    seasonSet.delete('overall');
+    return Array.from(seasonSet).sort();
+  }, [data.team.stats, data.results]);
 
   // 2. Process player data for cumulative stats per season
   const playerStatsPerSeason = useMemo(() => {
@@ -56,10 +60,11 @@ export default function StatsCharts() {
   const playerStatsPerGame = useMemo(() => {
     // Sort all results by date
     const sortedResults = [...data.results].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    const filteredResults = gameSeason === 'all' ? sortedResults : sortedResults.filter(r => r.seasonId === gameSeason);
     
     return data.players.map(player => {
       let cumulativeValue = 0;
-      const gameData = sortedResults.map((result, index) => {
+      const gameData = filteredResults.map((result, index) => {
         const goals = getGoalsForOneGame(result, player.id);
         const assists = getAssistsForOneGame(result, player.id);
         const pims = getPimsForOneGame(result, player.id);
@@ -88,7 +93,7 @@ export default function StatsCharts() {
     })
     .filter(p => p.totalValue > 0)
     .sort((a, b) => b.totalValue - a.totalValue);
-  }, [data.players, data.results, activeMetric]);
+  }, [data.players, data.results, activeMetric, gameSeason]);
 
   const activeStatsData = viewMode === 'season' ? playerStatsPerSeason : playerStatsPerGame;
 
@@ -118,7 +123,7 @@ export default function StatsCharts() {
     );
   }
 
-  const metricLabel = activeMetric.charAt(0).toUpperCase() + activeMetric.slice(1);
+  const metricLabel = activeMetric === 'pims' ? 'PIMs' : activeMetric.charAt(0).toUpperCase() + activeMetric.slice(1);
 
   return (
     <div className="space-y-8">
@@ -164,6 +169,24 @@ export default function StatsCharts() {
             By Game
           </button>
         </div>
+
+        {/* Season Filter for Game View */}
+        {viewMode === 'game' && (
+          <div className="bg-gray-100 rounded-2xl shadow-inner border border-gray-200 px-3 py-2">
+            <select
+              value={gameSeason}
+              onChange={(e) => setGameSeason(e.target.value)}
+              className="bg-transparent text-xs font-bold text-gray-700 focus:outline-none"
+            >
+              <option value="all">All Seasons</option>
+              {seasons.map((season) => (
+                <option key={season} value={season}>
+                  {season}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8">
@@ -259,7 +282,13 @@ export default function StatsCharts() {
               <GenericLineChart
                 data={[]}
                 additionalLines={chartLines}
-                xLabel={viewMode === 'season' ? "Season" : "Games Played"}
+                xLabel={
+                  viewMode === 'season'
+                    ? 'Season'
+                    : gameSeason === 'all'
+                    ? 'Games Played'
+                    : `Games Played (${gameSeason})`
+                }
                 yLabel={`Cumulative ${metricLabel}`}
                 showLegend={true}
                 showGrid={true}

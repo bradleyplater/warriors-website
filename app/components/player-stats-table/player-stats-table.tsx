@@ -136,7 +136,7 @@ function getPlayerStats(players: Player[], results: Result[], selectedSeason: Se
         });
 }
 
-function getGoalieStats(players: Player[], results: Result[], selectedSeason: Season, selectedCompetition: Competition) {
+function getGoalieStats(players: Player[], results: Result[], selectedSeason: Season, selectedCompetition: Competition, sortBy: SortBy) {
     const goalies = players.filter(player => {
         return results.some(r => 
             (selectedSeason === 'overall' || r.seasonId === selectedSeason) &&
@@ -160,9 +160,20 @@ function getGoalieStats(players: Player[], results: Result[], selectedSeason: Se
             number: goalie.number.toString(),
             name: goalie.name,
             games,
-            gaa
+            gaa,
+            goalsAgainst
         };
-    }).sort((a, b) => a.gaa - b.gaa); // Sort by GAA (lower is better)
+    }).sort((a, b) => {
+        switch (sortBy) {
+            case 'games':
+                return b.games - a.games;
+            case 'goalsAgainst':
+                return a.goalsAgainst - b.goalsAgainst;
+            case 'gaa':
+            default:
+                return a.gaa - b.gaa;
+        }
+    });
 }
 
 
@@ -173,7 +184,7 @@ export default function PlayerStatsTable({ selectedSeason, selectedPosition, sel
     const results = data.results;
 
     const mappedPlayers = getPlayerStats(players, results, selectedSeason, selectedPosition, selectedCompetition, sortBy);
-    const goalieStats = getGoalieStats(players, results, selectedSeason, selectedCompetition);
+    const goalieStats = getGoalieStats(players, results, selectedSeason, selectedCompetition, sortBy);
 
 
   return (
@@ -225,7 +236,7 @@ export default function PlayerStatsTable({ selectedSeason, selectedPosition, sel
                     </div>
                     <div className="flex items-center justify-center">
                       <span className="text-sm font-medium text-red-700 bg-red-50 px-3 py-1 rounded-lg shadow-sm">
-                        {(goalie.gaa * goalie.games).toFixed(0)}
+                        {goalie.goalsAgainst}
                       </span>
                     </div>
                   </div>
@@ -249,7 +260,7 @@ export default function PlayerStatsTable({ selectedSeason, selectedPosition, sel
                     </div>
                     <div className="flex gap-4 text-xs text-gray-600">
                       <div>GP: <span className="font-bold">{goalie.games}</span></div>
-                      <div>GA: <span className="font-bold">{(goalie.gaa * goalie.games).toFixed(0)}</span></div>
+                      <div>GA: <span className="font-bold">{goalie.goalsAgainst}</span></div>
                     </div>
                   </div>
                 ))}

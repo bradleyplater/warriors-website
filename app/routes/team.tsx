@@ -88,21 +88,21 @@ export default function Team() {
       <div className="max-w-7xl mx-auto px-4 -mt-8 relative z-10">
         <div className="bg-white/90 backdrop-blur-lg rounded-2xl shadow-xl border border-gray-200">
           <div className="p-2">
-            <nav role="tablist" aria-label="Team sections" className="flex gap-2">
+            <nav role="tablist" aria-label="Team sections" className="grid grid-cols-2 gap-2 md:flex md:gap-2">
               <button
                 id="team-tab"
                 role="tab"
                 aria-selected={activeSection === 'team'}
                 onClick={() => setActiveSection('team')}
-                className={`flex-1 flex items-center justify-center gap-3 px-6 py-4 text-sm md:text-base font-semibold rounded-xl transition-all duration-300 ${
+                className={`w-full flex items-center justify-center px-4 py-3 text-sm md:px-6 md:py-4 md:text-base font-semibold rounded-xl transition-all duration-300 ${
                   activeSection === 'team'
                     ? 'bg-gradient-to-r from-gray-800 to-gray-900 text-white shadow-lg transform scale-[1.02]'
                     : 'text-gray-700 hover:text-black hover:bg-gray-100'
                 }`}
               >
-                <div className="text-left">
+                <div className="text-center md:text-left">
                   <div className="font-bold">Team Analytics</div>
-                  <div className="text-xs opacity-80">Performance & Records</div>
+                  <div className="hidden sm:block text-xs opacity-80">Performance & Records</div>
                 </div>
               </button>
               <button
@@ -110,15 +110,15 @@ export default function Team() {
                 role="tab"
                 aria-selected={activeSection === 'players'}
                 onClick={() => setActiveSection('players')}
-                className={`flex-1 flex items-center justify-center gap-3 px-6 py-4 text-sm md:text-base font-semibold rounded-xl transition-all duration-300 ${
+                className={`w-full flex items-center justify-center px-4 py-3 text-sm md:px-6 md:py-4 md:text-base font-semibold rounded-xl transition-all duration-300 ${
                   activeSection === 'players'
                     ? 'bg-gradient-to-r from-gray-800 to-gray-900 text-white shadow-lg transform scale-[1.02]'
                     : 'text-gray-700 hover:text-black hover:bg-gray-100'
                 }`}
               >
-                <div className="text-left">
+                <div className="text-center md:text-left">
                   <div className="font-bold">Player Statistics</div>
-                  <div className="text-xs opacity-80">Individual Performance</div>
+                  <div className="hidden sm:block text-xs opacity-80">Individual Performance</div>
                 </div>
               </button>
               <button
@@ -126,15 +126,15 @@ export default function Team() {
                 role="tab"
                 aria-selected={activeSection === 'goalies'}
                 onClick={() => setActiveSection('goalies')}
-                className={`flex-1 flex items-center justify-center gap-3 px-6 py-4 text-sm md:text-base font-semibold rounded-xl transition-all duration-300 ${
+                className={`w-full flex items-center justify-center px-4 py-3 text-sm md:px-6 md:py-4 md:text-base font-semibold rounded-xl transition-all duration-300 ${
                   activeSection === 'goalies'
                     ? 'bg-gradient-to-r from-gray-800 to-gray-900 text-white shadow-lg transform scale-[1.02]'
                     : 'text-gray-700 hover:text-black hover:bg-gray-100'
                 }`}
               >
-                <div className="text-left">
+                <div className="text-center md:text-left">
                   <div className="font-bold">Goalie Statistics</div>
-                  <div className="text-xs opacity-80">Netminder Performance</div>
+                  <div className="hidden sm:block text-xs opacity-80">Netminder Performance</div>
                 </div>
               </button>
               <button
@@ -142,15 +142,15 @@ export default function Team() {
                 role="tab"
                 aria-selected={activeSection === 'charts'}
                 onClick={() => setActiveSection('charts')}
-                className={`flex-1 flex items-center justify-center gap-3 px-6 py-4 text-sm md:text-base font-semibold rounded-xl transition-all duration-300 ${
+                className={`w-full flex items-center justify-center px-4 py-3 text-sm md:px-6 md:py-4 md:text-base font-semibold rounded-xl transition-all duration-300 ${
                   activeSection === 'charts'
                     ? 'bg-gradient-to-r from-gray-800 to-gray-900 text-white shadow-lg transform scale-[1.02]'
                     : 'text-gray-700 hover:text-black hover:bg-gray-100'
                 }`}
               >
-                <div className="text-left">
+                <div className="text-center md:text-left">
                   <div className="font-bold">Statistics Charts</div>
-                  <div className="text-xs opacity-80">Visual Performance Data</div>
+                  <div className="hidden sm:block text-xs opacity-80">Visual Performance Data</div>
                 </div>
               </button>
             </nav>

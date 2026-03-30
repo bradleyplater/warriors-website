@@ -64,6 +64,20 @@ function calculateStreak(games: GameStats[], predicate: (game: GameStats) => boo
   return maxStreak;
 }
 
+function calculateCurrentStreak(games: GameStats[], predicate: (game: GameStats) => boolean) {
+  let currentStreak = 0;
+
+  for (let i = games.length - 1; i >= 0; i--) {
+    if (predicate(games[i])) {
+      currentStreak++;
+    } else {
+      break;
+    }
+  }
+
+  return currentStreak;
+}
+
 export default function PlayerRecordsTab({ playerId }: PlayerRecordsTabProps) {
   const { data } = useData();
   const playerGames = getPlayerGames(data.results, playerId);
@@ -79,6 +93,14 @@ export default function PlayerRecordsTab({ playerId }: PlayerRecordsTabProps) {
     pimStreak: calculateStreak(playerGames, g => g.pims > 0),
     winStreak: calculateStreak(playerGames, g => g.isWin),
     lossStreak: calculateStreak(playerGames, g => g.isLoss),
+    currentGoalStreak: calculateCurrentStreak(playerGames, g => g.goals > 0),
+    currentAssistStreak: calculateCurrentStreak(playerGames, g => g.assists > 0),
+    currentPointStreak: calculateCurrentStreak(playerGames, g => g.points > 0),
+    currentPimStreak: calculateCurrentStreak(playerGames, g => g.pims > 0),
+    currentWinStreak: calculateCurrentStreak(playerGames, g => g.isWin),
+    currentLossStreak: calculateCurrentStreak(playerGames, g => g.isLoss),
+    unbeatenStreak: calculateStreak(playerGames, g => !g.isLoss),
+    currentUnbeatenStreak: calculateCurrentStreak(playerGames, g => !g.isLoss),
   };
 
   return (
@@ -126,36 +148,49 @@ export default function PlayerRecordsTab({ playerId }: PlayerRecordsTabProps) {
             title="Goal Streak" 
             value={records.goalStreak} 
             suffix="Games"
+            subValue={`Current: ${records.currentGoalStreak} Games`}
             colorClass="bg-green-50 text-green-700 border-green-200"
           />
           <RecordCard 
             title="Assist Streak" 
             value={records.assistStreak} 
             suffix="Games"
+            subValue={`Current: ${records.currentAssistStreak} Games`}
             colorClass="bg-blue-50 text-blue-700 border-blue-200"
           />
           <RecordCard 
             title="Point Streak" 
             value={records.pointStreak} 
             suffix="Games"
+            subValue={`Current: ${records.currentPointStreak} Games`}
             colorClass="bg-purple-50 text-purple-700 border-purple-200"
           />
           <RecordCard 
             title="PIM Streak" 
             value={records.pimStreak} 
             suffix="Games"
+            subValue={`Current: ${records.currentPimStreak} Games`}
             colorClass="bg-orange-50 text-orange-700 border-orange-200"
           />
           <RecordCard 
             title="Winning Streak" 
             value={records.winStreak} 
             suffix="Games"
+            subValue={`Current: ${records.currentWinStreak} Games`}
             colorClass="bg-indigo-50 text-indigo-700 border-indigo-200"
+          />
+          <RecordCard 
+            title="Unbeaten Streak" 
+            value={records.unbeatenStreak} 
+            suffix="Games"
+            subValue={`Current: ${records.currentUnbeatenStreak} Games`}
+            colorClass="bg-emerald-50 text-emerald-700 border-emerald-200"
           />
           <RecordCard 
             title="Losing Streak" 
             value={records.lossStreak} 
             suffix="Games"
+            subValue={`Current: ${records.currentLossStreak} Games`}
             colorClass="bg-red-50 text-red-700 border-red-200"
           />
         </div>
@@ -170,7 +205,8 @@ function RecordCard({
   icon, 
   suffix, 
   colorClass,
-  gameDate
+  gameDate,
+  subValue
 }: { 
   title: string; 
   value: number; 
@@ -178,6 +214,7 @@ function RecordCard({
   suffix?: string;
   colorClass: string;
   gameDate?: string | null;
+  subValue?: string;
 }) {
   const content = (
     <>
@@ -189,6 +226,11 @@ function RecordCard({
         <span className="text-3xl font-bold">{value}</span>
         {suffix && <span className="text-sm opacity-80">{suffix}</span>}
       </div>
+      {subValue && (
+        <div className="mt-2 text-xs font-medium opacity-80">
+          {subValue}
+        </div>
+      )}
     </>
   );
 

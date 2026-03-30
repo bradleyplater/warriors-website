@@ -19,7 +19,7 @@ export default function PlayerStatsRedirect() {
 
 export type Position = 'all' | 'forward' | 'defence' | 'goaltender';
 export type Competition = 'all' | 'LLIHC' | 'BOTBC' | 'Challenge';
-export type SortBy = 'points' | 'goals' | 'assists' | 'games' | 'pointsPerGame' | 'motm' | 'wotg';
+export type SortBy = 'points' | 'goals' | 'assists' | 'games' | 'pointsPerGame' | 'motm' | 'wotg' | 'gaa' | 'goalsAgainst';
 
 const positionOptions: FilterOption<Position>[] = [
   { value: 'all', label: 'All Positions' },

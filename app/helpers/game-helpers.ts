@@ -99,3 +99,23 @@ export function getGameAwards(game: Result, players: Player[]): GameAwards {
     wotgName: wotgPlayer ? wotgPlayer.name : null,
   };
 }
+
+export function getGameWinningGoalScorerId(game: Result): string | null {
+  if (game.score.warriorsScore <= game.score.opponentScore) return null;
+
+  const requiredGoalNumber = game.score.opponentScore + 1;
+  if (requiredGoalNumber <= 0) return null;
+
+  const goalsWithPeriod = [
+    ...game.score.period.one.goals.map(goal => ({ ...goal, period: 1 })),
+    ...game.score.period.two.goals.map(goal => ({ ...goal, period: 2 })),
+    ...game.score.period.three.goals.map(goal => ({ ...goal, period: 3 })),
+  ].sort((a, b) => {
+    if (a.period !== b.period) return a.period - b.period;
+    if (a.minute !== b.minute) return a.minute - b.minute;
+    return a.second - b.second;
+  });
+
+  const gwgGoal = goalsWithPeriod[requiredGoalNumber - 1];
+  return gwgGoal?.playerId ?? null;
+}
