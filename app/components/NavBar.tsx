@@ -1,14 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router";
 import { Drawer, OverlayContainer, Text } from "@wonderflow/react-components";
 
+type ThemeMode = "light" | "dark";
+
 export function NavBar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [theme, setTheme] = useState<ThemeMode>("light");
 
   const navLinks = [
     { name: "Home", to: "/", end: true },
     { name: "Club", to: "/club", end: true },
   ];
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem("theme-mode");
+    const nextTheme: ThemeMode =
+      savedTheme === "dark" || savedTheme === "light" ? savedTheme : "light";
+
+    setTheme(nextTheme);
+    document.documentElement.setAttribute("data-theme", nextTheme);
+  }, []);
+
+  function toggleTheme() {
+    const nextTheme: ThemeMode = theme === "light" ? "dark" : "light";
+    setTheme(nextTheme);
+    document.documentElement.setAttribute("data-theme", nextTheme);
+    window.localStorage.setItem("theme-mode", nextTheme);
+  }
 
   return (
     <>
@@ -17,9 +36,13 @@ export function NavBar() {
           <Link to="/" className="navbar-brand" aria-label="Warriors home">
             <span className="navbar-logo-badge">
               <img
-                src="/images/warriors-logo-black.png"
+                src={
+                  theme === "dark"
+                    ? "/images/warriors-logo-white.png"
+                    : "/images/warriors-logo-black.png"
+                }
                 alt="Warriors logo"
-                className="navbar-logo"
+                className={theme === "dark" ? "navbar-logo navbar-logo-dark" : "navbar-logo"}
               />
             </span>
             <span className="navbar-brand-copy">
@@ -67,11 +90,20 @@ export function NavBar() {
         {isMobileOpen && (
           <Drawer
             className="navbar-drawer"
+            theme={theme}
             title={
               <img
-                src="/images/warriors-logo-black.png"
+                src={
+                  theme === "dark"
+                    ? "/images/warriors-logo-white.png"
+                    : "/images/warriors-logo-black.png"
+                }
                 alt="Warriors"
-                className="navbar-drawer-logo"
+                className={
+                  theme === "dark"
+                    ? "navbar-drawer-logo navbar-drawer-logo-dark"
+                    : "navbar-drawer-logo"
+                }
               />
             }
             side="right"
@@ -104,6 +136,33 @@ export function NavBar() {
                 </NavLink>
               ))}
             </nav>
+            <div className="navbar-theme-toggle-wrap">
+              <button
+                type="button"
+                className="navbar-theme-toggle"
+                onClick={toggleTheme}
+                aria-pressed={theme === "dark"}
+              >
+                <span className="navbar-theme-toggle-copy">
+                  <Text variant="body-1" className="navbar-theme-toggle-title">
+                    Dark mode
+                  </Text>
+                  <Text variant="body-2" className="navbar-theme-toggle-subtitle">
+                    Switch the site appearance
+                  </Text>
+                </span>
+                <span
+                  className={
+                    theme === "dark"
+                      ? "navbar-theme-toggle-track navbar-theme-toggle-track-active"
+                      : "navbar-theme-toggle-track"
+                  }
+                  aria-hidden="true"
+                >
+                  <span className="navbar-theme-toggle-thumb" />
+                </span>
+              </button>
+            </div>
           </Drawer>
         )}
       </OverlayContainer>

@@ -1,0 +1,231 @@
+/* ── Design tokens — dark (default) ──────────────────────────────────────── */
+:root,
+:root[data-theme="dark"] {
+  --ng-card-bg:        #0f1013;
+  --ng-card-border:    #30353f;
+  --ng-glow:           rgba(224, 0, 0, 0.18);
+  --ng-row-bg:         #1f2227;
+  --ng-row-bg-hover:   #30353f;
+  --ng-row-divider:    #30353f;
+  --ng-logo-bg:        #1f2227;
+  --ng-logo-border:    #30353f;
+  --ng-opponent-color: #f8f9fa;
+  --ng-label-color:    #717888;
+  --ng-value-color:    #e3e6ec;
+  --ng-title-color:    #f8f9fa;
+  --ng-summary-color:  #717888;
+  --ng-shadow:         0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+/* ── Design tokens — light ────────────────────────────────────────────────── */
+:root[data-theme="light"] {
+  --ng-card-bg:        #ffffff;
+  --ng-card-border:    #d2d6de;
+  --ng-glow:           rgba(224, 0, 0, 0.08);
+  --ng-row-bg:         #f8f9fa;
+  --ng-row-bg-hover:   #e3e6ec;
+  --ng-row-divider:    #d2d6de;
+  --ng-logo-bg:        #f8f9fa;
+  --ng-logo-border:    #d2d6de;
+  --ng-opponent-color: #0f1013;
+  --ng-label-color:    #838a9a;
+  --ng-value-color:    #30353f;
+  --ng-title-color:    #0f1013;
+  --ng-summary-color:  #838a9a;
+  --ng-shadow:         0 1px 3px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Shell ────────────────────────────────────────────────────────────────── */
+.next-game-shell {
+  container-type: inline-size;
+  width: 100%;
+}
+
+/* ── Card ─────────────────────────────────────────────────────────────────── */
+.next-game-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 32px 28px 28px;
+  border-radius: 16px;
+  background: var(--ng-card-bg);
+  border: 1px solid var(--ng-card-border);
+  overflow: hidden;
+  box-shadow: var(--ng-shadow);
+  transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+/* Red accent glow — top-right corner */
+.next-game-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 60% 40% at 85% 0%,
+    var(--ng-glow) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  transition: background 200ms ease;
+}
+
+/* ── Kicker ───────────────────────────────────────────────────────────────── */
+.next-game-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(224, 0, 0, 0.10);
+  border: 1px solid rgba(224, 0, 0, 0.30);
+  color: #e00000;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Pulsing dot */
+.next-game-kicker::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e00000;
+  animation: ng-pulse 2s ease-in-out infinite;
+}
+
+@keyframes ng-pulse {
+  0%, 100% { opacity: 1;   transform: scale(1);    }
+  50%       { opacity: 0.4; transform: scale(0.75); }
+}
+
+/* ── Logo + Opponent ──────────────────────────────────────────────────────── */
+.next-game-header-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.next-game-logo-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--ng-logo-bg);
+  border: 2px solid var(--ng-logo-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 0 0 4px rgba(224, 0, 0, 0.10);
+  transition: background 200ms ease, border-color 200ms ease;
+}
+
+.next-game-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.next-game-opponent-name {
+  color: var(--ng-opponent-color) !important;
+  text-align: center;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+  transition: color 200ms ease;
+}
+
+/* ── Meta list ────────────────────────────────────────────────────────────── */
+.next-game-meta {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--ng-card-border);
+  transition: border-color 200ms ease;
+}
+
+.next-game-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 11px 16px;
+  background: var(--ng-row-bg);
+  transition: background 150ms ease;
+}
+
+.next-game-meta-row:not(:last-child) {
+  border-bottom: 1px solid var(--ng-row-divider);
+}
+
+.next-game-meta-row:hover {
+  background: var(--ng-row-bg-hover);
+}
+
+.next-game-meta-row dt {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ng-label-color);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 200ms ease;
+}
+
+.next-game-meta-row dd {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ng-value-color);
+  text-align: right;
+  transition: color 200ms ease;
+}
+
+/* ── Empty state ──────────────────────────────────────────────────────────── */
+.next-game-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  padding: 8px 0;
+}
+
+.next-game-title {
+  color: var(--ng-title-color) !important;
+  margin: 0 !important;
+}
+
+.next-game-summary {
+  color: var(--ng-summary-color) !important;
+  margin: 0 !important;
+  max-width: 28ch;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@container (min-width: 400px) {
+  .next-game-card {
+    padding: 36px 32px 32px;
+  }
+
+  .next-game-logo-wrap {
+    width: 88px;
+    height: 88px;
+  }
+
+  .next-game-logo {
+    width: 60px;
+    height: 60px;
+  }
+}
