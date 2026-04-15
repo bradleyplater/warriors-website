@@ -1,4 +1,4 @@
-import type { Season } from "~/components/season-filter/season-filter";
+import type { Season } from "~/types/season";
 import type { Player, Result } from "~/contexts/DataContext";
 
 export const getPlayer = (players: Player[], playerId: string) => {
