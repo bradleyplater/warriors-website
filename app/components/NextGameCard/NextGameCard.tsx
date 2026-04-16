@@ -43,6 +43,7 @@ export function NextGameCard() {
       <section className="next-game-card" aria-labelledby="next-game-heading">
         {nextGame ? (
           <>
+            <div className="next-game-left-col">
             <span className="next-game-kicker">Next Game</span>
 
             <div className="next-game-header-centered">
@@ -62,6 +63,7 @@ export function NextGameCard() {
               >
                 {nextGame.opponentTeam}
               </Text>
+            </div>
             </div>
 
             <dl className="next-game-meta">
