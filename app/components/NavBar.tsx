@@ -11,6 +11,7 @@ export function NavBar() {
   const navLinks = [
     { name: "Home", to: "/", end: true },
     { name: "Schedule", to: "/schedule", end: true },
+    { name: "Roster", to: "/roster", end: true },
   ];
 
   useEffect(() => {
