@@ -1,0 +1,275 @@
+/* ── Design tokens — dark (default) ──────────────────────────────────────── */
+:root,
+:root[data-theme="dark"] {
+  --sl-card-bg:       #0f1013;
+  --sl-card-border:   #30353f;
+  --sl-glow:          rgba(26, 86, 219, 0.18);
+  --sl-row-bg:        #1f2227;
+  --sl-row-bg-hover:  #30353f;
+  --sl-row-divider:   #30353f;
+  --sl-label-color:   #717888;
+  --sl-value-color:   #e3e6ec;
+  --sl-name-color:    #f8f9fa;
+  --sl-rank-color:    #717888;
+  --sl-number-color:  #c2c7d4;
+  --sl-stat-color:    #f8f9fa;
+  --sl-empty-color:   #717888;
+  --sl-avatar-bg:     #1f2227;
+  --sl-avatar-border: #30353f;
+  --sl-shadow:        0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+/* ── Design tokens — light ────────────────────────────────────────────────── */
+:root[data-theme="light"] {
+  --sl-card-bg:       #ffffff;
+  --sl-card-border:   #d2d6de;
+  --sl-glow:          rgba(26, 86, 219, 0.08);
+  --sl-row-bg:        #f8f9fa;
+  --sl-row-bg-hover:  #e3e6ec;
+  --sl-row-divider:   #d2d6de;
+  --sl-label-color:   #838a9a;
+  --sl-value-color:   #30353f;
+  --sl-name-color:    #0f1013;
+  --sl-rank-color:    #838a9a;
+  --sl-number-color:  #5a6278;
+  --sl-stat-color:    #0f1013;
+  --sl-empty-color:   #838a9a;
+  --sl-avatar-bg:     #f8f9fa;
+  --sl-avatar-border: #d2d6de;
+  --sl-shadow:        0 1px 3px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Shell ────────────────────────────────────────────────────────────────── */
+.sl-shell {
+  width: 100%;
+  padding: 0 1rem;
+  margin-top: 1.5rem;
+}
+
+/* ── Grid: stacked on mobile, 3-col on desktop ───────────────────────────── */
+.sl-grid {
+  max-width: 80rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 900px) {
+  .sl-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ── Panel ────────────────────────────────────────────────────────────────── */
+.sl-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px 24px 20px;
+  border-radius: 16px;
+  background: var(--sl-card-bg);
+  border: 1px solid var(--sl-card-border);
+  overflow: hidden;
+  box-shadow: var(--sl-shadow);
+  transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+/* Blue accent glow — top-right corner */
+.sl-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 60% 40% at 85% 0%,
+    var(--sl-glow) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  transition: background 200ms ease;
+}
+
+/* ── Kicker ───────────────────────────────────────────────────────────────── */
+.sl-kicker {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(26, 86, 219, 0.10);
+  border: 1px solid rgba(26, 86, 219, 0.30);
+  color: #1a56db;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── Hero (top player) ────────────────────────────────────────────────────── */
+.sl-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0 4px;
+}
+
+.sl-hero-avatar-wrap {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--sl-avatar-bg);
+  border: 3px solid rgba(26, 86, 219, 0.40);
+  box-shadow: 0 0 0 5px rgba(26, 86, 219, 0.10), var(--sl-shadow);
+  flex-shrink: 0;
+  transition: background 200ms ease, border-color 200ms ease;
+}
+
+.sl-hero-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.sl-hero-stat {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--sl-stat-color);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  transition: color 200ms ease;
+}
+
+.sl-hero-stat-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sl-label-color);
+  margin-top: -4px;
+  transition: color 200ms ease;
+}
+
+.sl-hero-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--sl-name-color);
+  text-align: center;
+  transition: color 200ms ease;
+}
+
+.sl-hero-number {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sl-number-color);
+  transition: color 200ms ease;
+}
+
+/* ── Rest of the list (positions 2–5) ────────────────────────────────────── */
+.sl-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--sl-card-border);
+  transition: border-color 200ms ease;
+}
+
+.sl-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--sl-row-bg);
+  transition: background 150ms ease;
+}
+
+.sl-row:not(:last-child) {
+  border-bottom: 1px solid var(--sl-row-divider);
+}
+
+.sl-row:hover {
+  background: var(--sl-row-bg-hover);
+}
+
+/* ── Rank ─────────────────────────────────────────────────────────────────── */
+.sl-rank {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sl-rank-color);
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+  transition: color 200ms ease;
+}
+
+/* ── Player info ──────────────────────────────────────────────────────────── */
+.sl-player-info {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.sl-player-number {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--sl-number-color);
+  flex-shrink: 0;
+  transition: color 200ms ease;
+}
+
+.sl-player-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--sl-name-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 200ms ease;
+}
+
+/* ── Stat value + label ───────────────────────────────────────────────────── */
+.sl-stat-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--sl-stat-color);
+  flex-shrink: 0;
+  transition: color 200ms ease;
+}
+
+.sl-stat-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sl-label-color);
+  flex-shrink: 0;
+  width: 36px;
+  transition: color 200ms ease;
+}
+
+/* ── Empty state ──────────────────────────────────────────────────────────── */
+.sl-empty {
+  font-size: 13px;
+  color: var(--sl-empty-color);
+  margin: 0;
+  text-align: center;
+  padding: 16px 0;
+}
+
+/* ── Mobile shell padding ─────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .sl-shell {
+    padding: 0 0.75rem;
+  }
+}

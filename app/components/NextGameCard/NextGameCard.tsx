@@ -1,5 +1,7 @@
 import { Text } from "@wonderflow/react-components";
 import upcomingGames from "../../../public/data/upcoming-games.json";
+import results from "../../../public/data/results.json";
+import { TeamLogo } from "../TeamLogo/TeamLogo";
 import "./NextGameCard.css";
 
 
@@ -11,6 +13,17 @@ type UpcomingGame = {
   date: string;
   time: string;
   location: string;
+};
+
+type Result = {
+  opponentTeam: string;
+  logoImage: string;
+  date: string;
+  competition: string;
+  score: {
+    warriorsScore: number;
+    opponentScore: number;
+  };
 };
 
 function parseGameDate(dateString: string) {
@@ -27,6 +40,12 @@ function formatGameDate(dateString: string) {
   });
 }
 
+function getResultOutcome(warriorsScore: number, opponentScore: number): "W" | "L" | "D" {
+  if (warriorsScore > opponentScore) return "W";
+  if (warriorsScore < opponentScore) return "L";
+  return "D";
+}
+
 export function NextGameCard() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -38,6 +57,17 @@ export function NextGameCard() {
     )
     .find((game) => parseGameDate(game.date).getTime() >= today.getTime());
 
+  const recentResults = nextGame
+    ? [...(results as Result[])]
+        .filter(
+          (r) =>
+            r.opponentTeam === nextGame.opponentTeam &&
+            new Date(r.date).getTime() < today.getTime()
+        )
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        .slice(0, 3)
+    : [];
+
   return (
     <div className="next-game-shell">
       <section className="next-game-card" aria-labelledby="next-game-heading">
@@ -47,13 +77,10 @@ export function NextGameCard() {
             <span className="next-game-kicker">Next Game</span>
 
             <div className="next-game-header-centered">
-              <div className="next-game-logo-wrap">
-                <img
-                  src={`/images/team-logos/${nextGame.logoImage}`}
-                  alt={`${nextGame.opponentTeam} logo`}
-                  className="next-game-logo"
-                />
-              </div>
+              <TeamLogo
+                src={`/images/team-logos/${nextGame.logoImage}`}
+                teamName={nextGame.opponentTeam}
+              />
 
               <Text
                 as="h2"
@@ -103,6 +130,33 @@ export function NextGameCard() {
               The upcoming schedule will appear here once new matches are
               published.
             </Text>
+          </div>
+        )}
+
+        {recentResults.length > 0 && (
+          <div className="ng-recent-results">
+            <span className="ng-recent-results-label">Previous Meetings</span>
+            <ul className="ng-recent-results-list">
+              {recentResults.map((result, i) => {
+                const outcome = getResultOutcome(result.score.warriorsScore, result.score.opponentScore);
+                const dateStr = new Date(result.date).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                });
+                return (
+                  <li key={i} className="ng-result-row">
+                    <span className="ng-result-date">{dateStr}</span>
+                    <span className="ng-result-score">
+                      {result.score.warriorsScore}–{result.score.opponentScore}
+                    </span>
+                    <span className={`ng-result-badge ng-result-badge--${outcome.toLowerCase()}`}>
+                      {outcome}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         )}
       </section>

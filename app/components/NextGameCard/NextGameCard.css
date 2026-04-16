@@ -3,7 +3,7 @@
 :root[data-theme="dark"] {
   --ng-card-bg:        #0f1013;
   --ng-card-border:    #30353f;
-  --ng-glow:           rgba(224, 0, 0, 0.18);
+  --ng-glow:           rgba(26, 86, 219, 0.18);
   --ng-row-bg:         #1f2227;
   --ng-row-bg-hover:   #30353f;
   --ng-row-divider:    #30353f;
@@ -21,7 +21,7 @@
 :root[data-theme="light"] {
   --ng-card-bg:        #ffffff;
   --ng-card-border:    #d2d6de;
-  --ng-glow:           rgba(224, 0, 0, 0.08);
+  --ng-glow:           rgba(26, 86, 219, 0.08);
   --ng-row-bg:         #f8f9fa;
   --ng-row-bg-hover:   #e3e6ec;
   --ng-row-divider:    #d2d6de;
@@ -57,7 +57,7 @@
   transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 }
 
-/* Red accent glow — top-right corner */
+/* Blue accent glow — top-right corner */
 .next-game-card::before {
   content: "";
   position: absolute;
@@ -78,9 +78,9 @@
   gap: 6px;
   padding: 4px 10px;
   border-radius: 999px;
-  background: rgba(224, 0, 0, 0.10);
-  border: 1px solid rgba(224, 0, 0, 0.30);
-  color: #e00000;
+  background: rgba(26, 86, 219, 0.10);
+  border: 1px solid rgba(26, 86, 219, 0.30);
+  color: #1a56db;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -94,7 +94,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #e00000;
+  background: #1a56db;
   animation: ng-pulse 2s ease-in-out infinite;
 }
 
@@ -131,7 +131,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  box-shadow: 0 0 0 4px rgba(224, 0, 0, 0.10);
+  box-shadow: 0 0 0 4px rgba(26, 86, 219, 0.10);
   transition: background 200ms ease, border-color 200ms ease;
 }
 
@@ -223,6 +223,99 @@
   max-width: 28ch;
 }
 
+/* ── Recent Results ───────────────────────────────────────────────────────── */
+.ng-recent-results {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 20px;
+  border-top: 1px solid var(--ng-row-divider);
+}
+
+.ng-recent-results-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ng-label-color);
+}
+
+.ng-recent-results-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--ng-card-border);
+}
+
+.ng-result-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  background: var(--ng-row-bg);
+  transition: background 150ms ease;
+}
+
+.ng-result-row:not(:last-child) {
+  border-bottom: 1px solid var(--ng-row-divider);
+}
+
+.ng-result-row:hover {
+  background: var(--ng-row-bg-hover);
+}
+
+.ng-result-date {
+  flex: 1;
+  font-size: 11px;
+  color: var(--ng-label-color);
+  white-space: nowrap;
+}
+
+.ng-result-score {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ng-value-color);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ng-result-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+.ng-result-badge--w {
+  background: rgba(34, 197, 94, 0.12);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.ng-result-badge--l {
+  background: rgba(26, 86, 219, 0.10);
+  color: #1a56db;
+  border: 1px solid rgba(26, 86, 219, 0.25);
+}
+
+.ng-result-badge--d {
+  background: rgba(113, 120, 136, 0.12);
+  color: var(--ng-label-color);
+  border: 1px solid rgba(113, 120, 136, 0.25);
+}
+
 /* ── Responsive — medium mobile ──────────────────────────────────────────── */
 @container (min-width: 400px) {
   .next-game-card {
@@ -244,7 +337,7 @@
 @container (min-width: 580px) {
   .next-game-card {
     flex-direction: row;
-    align-items: center;
+    align-items: stretch;
     gap: 32px;
     padding: 36px 32px;
   }
@@ -268,5 +361,16 @@
   .next-game-meta {
     flex: 1;
     width: auto;
+    min-width: 0;
+    align-self: flex-start;
+  }
+
+  .ng-recent-results {
+    flex-shrink: 0;
+    width: 220px;
+    padding-top: 0;
+    border-top: none;
+    border-left: 1px solid var(--ng-row-divider);
+    padding-left: 28px;
   }
 }

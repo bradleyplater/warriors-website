@@ -10,7 +10,7 @@ export function NavBar() {
 
   const navLinks = [
     { name: "Home", to: "/", end: true },
-    { name: "Club", to: "/club", end: true },
+    { name: "Schedule", to: "/schedule", end: true },
   ];
 
   useEffect(() => {

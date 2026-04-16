@@ -3,7 +3,7 @@
 :root[data-theme="dark"] {
   --lr-card-bg:        #0f1013;
   --lr-card-border:    #30353f;
-  --lr-glow:           rgba(224, 0, 0, 0.18);
+  --lr-glow:           rgba(26, 86, 219, 0.18);
   --lr-row-bg:         #1f2227;
   --lr-row-bg-hover:   #30353f;
   --lr-row-divider:    #30353f;
@@ -22,7 +22,7 @@
 :root[data-theme="light"] {
   --lr-card-bg:        #ffffff;
   --lr-card-border:    #d2d6de;
-  --lr-glow:           rgba(224, 0, 0, 0.08);
+  --lr-glow:           rgba(26, 86, 219, 0.08);
   --lr-row-bg:         #f8f9fa;
   --lr-row-bg-hover:   #e3e6ec;
   --lr-row-divider:    #d2d6de;
@@ -62,7 +62,7 @@
   transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 }
 
-/* Red accent glow — top-right corner */
+/* Blue accent glow — top-right corner */
 .lr-card::before {
   content: "";
   position: absolute;
@@ -83,9 +83,9 @@
   gap: 6px;
   padding: 4px 10px;
   border-radius: 999px;
-  background: rgba(224, 0, 0, 0.10);
-  border: 1px solid rgba(224, 0, 0, 0.30);
-  color: #e00000;
+  background: rgba(26, 86, 219, 0.10);
+  border: 1px solid rgba(26, 86, 219, 0.30);
+  color: #1a56db;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -120,7 +120,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  box-shadow: 0 0 0 4px rgba(224, 0, 0, 0.10);
+  box-shadow: 0 0 0 4px rgba(26, 86, 219, 0.10);
   transition: background 200ms ease, border-color 200ms ease;
 }
 
@@ -175,9 +175,9 @@
 }
 
 .lr-outcome--l {
-  background: rgba(224, 0, 0, 0.12);
-  border: 1px solid rgba(224, 0, 0, 0.35);
-  color: #e00000;
+  background: rgba(26, 86, 219, 0.12);
+  border: 1px solid rgba(26, 86, 219, 0.35);
+  color: #1a56db;
 }
 
 .lr-outcome--d {

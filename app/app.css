@@ -101,17 +101,32 @@ body {
 .home-hero-kicker {
   display: inline-flex;
   align-items: center;
+  gap: 6px;
   margin-bottom: 1rem;
-  padding: 0.45rem 0.8rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border: 1px solid rgba(99, 158, 255, 0.45);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.75rem;
+  background: rgba(26, 86, 219, 0.22);
+  color: #93bbff;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  backdrop-filter: blur(10px);
+}
+
+.home-hero-kicker::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #93bbff;
+  animation: hero-pulse 2s ease-in-out infinite;
+}
+
+@keyframes hero-pulse {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.75); }
 }
 
 .home-hero-title {
