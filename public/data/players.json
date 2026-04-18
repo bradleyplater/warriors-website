@@ -31,11 +31,11 @@
       },
       {
         "season": "25/26",
-        "games": 7,
+        "games": 8,
         "goals": 6,
-        "assists": 4,
-        "pims": 8,
-        "points": 10,
+        "assists": 6,
+        "pims": 10,
+        "points": 12,
         "warriorOfTheGame": 1,
         "manOfTheMatch": 1
       }
@@ -234,7 +234,7 @@
       },
       {
         "season": "25/26",
-        "games": 7,
+        "games": 8,
         "goals": 1,
         "assists": 3,
         "pims": 2,
@@ -267,7 +267,7 @@
       },
       {
         "season": "25/26",
-        "games": 10,
+        "games": 11,
         "goals": 3,
         "assists": 3,
         "pims": 2,
@@ -413,7 +413,7 @@
       },
       {
         "season": "25/26",
-        "games": 9,
+        "games": 10,
         "goals": 0,
         "assists": 1,
         "pims": 0,
@@ -646,7 +646,7 @@
       },
       {
         "season": "25/26",
-        "games": 8,
+        "games": 9,
         "goals": 1,
         "assists": 2,
         "pims": 6,
@@ -895,7 +895,7 @@
       },
       {
         "season": "25/26",
-        "games": 4,
+        "games": 5,
         "goals": 1,
         "assists": 1,
         "pims": 0,
@@ -983,7 +983,7 @@
       },
       {
         "season": "25/26",
-        "games": 4,
+        "games": 5,
         "goals": 1,
         "assists": 2,
         "pims": 2,
@@ -1020,6 +1020,16 @@
         "assists": 1,
         "pims": 6,
         "points": 2
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0,
+        "warriorOfTheGame": 0,
+        "manOfTheMatch": 0
       }
     ]
   },
@@ -1087,10 +1097,10 @@
       },
       {
         "season": "25/26",
-        "games": 2,
+        "games": 3,
         "goals": 1,
         "assists": 0,
-        "pims": 0,
+        "pims": 2,
         "points": 1
       }
     ]
@@ -1239,7 +1249,7 @@
       },
       {
         "season": "25/26",
-        "games": 6,
+        "games": 7,
         "goals": 12,
         "assists": 4,
         "pims": 4,
@@ -1264,7 +1274,7 @@
       },
       {
         "season": "25/26",
-        "games": 2,
+        "games": 3,
         "goals": 1,
         "assists": 0,
         "pims": 0,
@@ -1432,7 +1442,7 @@
       },
       {
         "season": "25/26",
-        "games": 4,
+        "games": 5,
         "goals": 4,
         "assists": 2,
         "pims": 0,
@@ -1456,7 +1466,7 @@
       },
       {
         "season": "25/26",
-        "games": 10,
+        "games": 11,
         "goals": 5,
         "assists": 7,
         "pims": 0,
@@ -1582,7 +1592,7 @@
   {
     "id": "PLR850188",
     "name": "Laura Broadley",
-    "number": 17,
+    "number": 170,
     "position": "Forward",
     "stats": [
       {
@@ -1830,7 +1840,7 @@
   {
     "id": "PLR477581",
     "name": "Jay Belham",
-    "number": 25,
+    "number": 250,
     "position": "Forward",
     "stats": [
       {
@@ -1915,11 +1925,12 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 7,
-        "goals": 0,
+        "games": 8,
+        "goals": 2,
         "assists": 0,
         "pims": 13,
-        "points": 0
+        "points": 2,
+        "manOfTheMatch": 1
       }
     ]
   },
@@ -2008,12 +2019,12 @@
   {
     "id": "PLR007346",
     "name": "Ashton Barker",
-    "number": 223,
+    "number": 2,
     "position": "Forward",
     "stats": [
       {
         "season": "25/26",
-        "games": 2,
+        "games": 3,
         "goals": 0,
         "assists": 0,
         "pims": 2,
@@ -2042,6 +2053,42 @@
     "id": "PLR504745",
     "name": "Krists Kless",
     "number": 333,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0,
+        "warriorOfTheGame": 0,
+        "manOfTheMatch": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR195110",
+    "name": "Lewis Bundy",
+    "number": 25,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0,
+        "warriorOfTheGame": 1,
+        "manOfTheMatch": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR302643",
+    "name": "Pete Bird",
+    "number": 17,
     "position": "Forward",
     "stats": [
       {

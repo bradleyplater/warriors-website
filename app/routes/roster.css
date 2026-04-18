@@ -164,6 +164,11 @@
 }
 
 /* ── Player card ──────────────────────────────────────────────────────────── */
+a.roster-card {
+  text-decoration: none;
+  color: inherit;
+}
+
 .roster-card {
   position: relative;
   border-radius: 1.25rem;

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router";
 import type { Route } from "./+types/roster";
 import playersData from "../../public/data/players.json";
 import resultsData from "../../public/data/results.json";
@@ -152,7 +153,7 @@ function SkaterCard({ player, showDualBadge }: { player: Player; showDualBadge?:
   const dual = showDualBadge && isDualRole(player);
 
   return (
-    <div className="roster-card">
+    <Link to={`/roster/${player.id}`} className="roster-card">
       <div className="roster-card-photo">
         {hasImage ? (
           <img src={`/images/players/${player.id}.jpg`} alt={player.name} loading="lazy" />
@@ -183,7 +184,7 @@ function SkaterCard({ player, showDualBadge }: { player: Player; showDualBadge?:
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -198,7 +199,7 @@ function GoalieCard({ player, showDualBadge }: { player: Player; showDualBadge?:
   }
 
   return (
-    <div className="roster-card roster-card-goalie">
+    <Link to={`/roster/${player.id}`} className="roster-card roster-card-goalie">
       <div className="roster-card-photo">
         {hasImage ? (
           <img src={`/images/players/${player.id}.jpg`} alt={player.name} loading="lazy" />
@@ -225,7 +226,7 @@ function GoalieCard({ player, showDualBadge }: { player: Player; showDualBadge?:
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "mcp__Claude_Preview__preview_start",
-      "Bash(node -e ':*)"
+      "Bash(node -e ':*)",
+      "Bash(node -e \"const d = require\\('./public/data/players.json'\\); d.slice\\(0,5\\).forEach\\(p => console.log\\(p.id, p.name\\)\\)\")",
+      "Bash(node -e \"import\\('./public/data/players.json', {assert:{type:'json'}}\\).then\\(m => m.default.slice\\(0,5\\).forEach\\(p => console.log\\(p.id, p.name\\)\\)\\)\")"
     ]
   }
 }
