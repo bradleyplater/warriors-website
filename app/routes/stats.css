@@ -1,0 +1,396 @@
+/* ── Design tokens ────────────────────────────────────────────────────────── */
+:root,
+:root[data-theme="dark"] {
+  --stats-header-bg: #1a1d23;
+  --stats-row-alt: rgba(255, 255, 255, 0.025);
+  --stats-border: rgba(255, 255, 255, 0.07);
+  --stats-select-bg: #1f2227;
+  --stats-select-border: rgba(255, 255, 255, 0.12);
+  --stats-tab-bg: rgba(255, 255, 255, 0.05);
+}
+
+:root[data-theme="light"] {
+  --stats-header-bg: #e8eaed;
+  --stats-row-alt: rgba(0, 0, 0, 0.025);
+  --stats-border: rgba(0, 0, 0, 0.08);
+  --stats-select-bg: #f0f2f5;
+  --stats-select-border: rgba(0, 0, 0, 0.12);
+  --stats-tab-bg: rgba(0, 0, 0, 0.05);
+}
+
+/* ── Page ─────────────────────────────────────────────────────────────────── */
+.stats-page {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────────── */
+.stats-hero {
+  position: relative;
+  padding: 1.25rem 1rem 0;
+}
+
+.stats-hero-inner {
+  position: relative;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2rem 2.5rem 2.5rem;
+  border-radius: 2rem;
+  background: var(--ng-card-bg);
+  border: 1px solid var(--ng-card-border);
+  box-shadow: var(--ng-shadow);
+  overflow: hidden;
+}
+
+.stats-hero-inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 55% 50% at 92% 0%, var(--ng-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.stats-kicker {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1a56db;
+  background: rgba(26, 86, 219, 0.12);
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+}
+
+.stats-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0 0 0.5rem;
+  color: var(--ng-text-primary);
+}
+
+.stats-subtitle {
+  font-size: 1rem;
+  color: var(--ng-text-secondary);
+  margin: 0;
+}
+
+/* ── Body ─────────────────────────────────────────────────────────────────── */
+.stats-body {
+  padding: 1.25rem 1rem 3rem;
+}
+
+.stats-frame {
+  max-width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ── Tabs ─────────────────────────────────────────────────────────────────── */
+.stats-tabs {
+  display: flex;
+  gap: 0.25rem;
+  background: var(--stats-tab-bg);
+  border-radius: 0.75rem;
+  padding: 0.25rem;
+  width: fit-content;
+}
+
+.stats-tab {
+  padding: 0.5rem 1.25rem;
+  border: none;
+  background: transparent;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ng-text-secondary);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.stats-tab-active {
+  background: #1a56db;
+  color: #fff;
+}
+
+.stats-tab:not(.stats-tab-active):hover {
+  background: rgba(26, 86, 219, 0.1);
+  color: #1a56db;
+}
+
+/* ── Filters ─────────────────────────────────────────────────────────────── */
+.stats-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  align-items: flex-end;
+}
+
+.stats-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.stats-filter-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ng-text-secondary);
+}
+
+.stats-select {
+  appearance: none;
+  background: var(--stats-select-bg);
+  border: 1px solid var(--stats-select-border);
+  border-radius: 0.5rem;
+  padding: 0.45rem 2rem 0.45rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ng-text-primary);
+  cursor: pointer;
+  min-width: 10rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23888' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.65rem center;
+  transition: border-color 0.15s;
+}
+
+.stats-select:focus {
+  outline: none;
+  border-color: #1a56db;
+}
+
+/* ── Table ────────────────────────────────────────────────────────────────── */
+.stats-table-wrap {
+  overflow-x: auto;
+  border-radius: 1rem;
+  border: 1px solid var(--stats-border);
+}
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.stats-th {
+  background: var(--stats-header-bg);
+  padding: 0;
+  text-align: center;
+  border-bottom: 1px solid var(--stats-border);
+  white-space: nowrap;
+}
+
+.stats-th-name {
+  text-align: left;
+  min-width: 12rem;
+}
+
+.stats-th-rank {
+  width: 2.75rem;
+  min-width: 2.75rem;
+}
+
+.stats-sort-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ng-text-secondary);
+  justify-content: center;
+  transition: color 0.15s;
+}
+
+.stats-th-name .stats-sort-btn {
+  justify-content: flex-start;
+}
+
+.stats-sort-btn:hover {
+  color: #1a56db;
+}
+
+.stats-sort-icon {
+  font-size: 0.65rem;
+  opacity: 0.4;
+  font-style: normal;
+}
+
+.stats-sort-icon-on {
+  opacity: 1;
+  color: #1a56db;
+}
+
+/* ── Rows ─────────────────────────────────────────────────────────────────── */
+.stats-row {
+  border-bottom: 1px solid var(--stats-border);
+  transition: background 0.1s;
+}
+
+.stats-row:last-child {
+  border-bottom: none;
+}
+
+.stats-row:hover {
+  background: rgba(26, 86, 219, 0.04);
+}
+
+.stats-row-alt {
+  background: var(--stats-row-alt);
+}
+
+.stats-row-alt:hover {
+  background: rgba(26, 86, 219, 0.06);
+}
+
+.stats-td {
+  padding: 0.6rem 0.75rem;
+  text-align: center;
+  color: var(--ng-text-primary);
+  vertical-align: middle;
+}
+
+.stats-td-rank {
+  color: var(--ng-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.stats-td-name {
+  text-align: left;
+}
+
+.stats-td-hi {
+  font-weight: 700;
+  color: #1a56db;
+}
+
+/* ── Player name cell ─────────────────────────────────────────────────────── */
+.stats-player-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.stats-player-link:hover .stats-player-name {
+  color: #1a56db;
+  text-decoration: underline;
+}
+
+.stats-player-num {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ng-text-secondary);
+  min-width: 2rem;
+}
+
+.stats-player-name {
+  font-weight: 600;
+  transition: color 0.15s;
+}
+
+.stats-player-pos {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(26, 86, 219, 0.9);
+  background: rgba(26, 86, 219, 0.1);
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  white-space: nowrap;
+}
+
+/* ── Charts tab ───────────────────────────────────────────────────────────── */
+.stats-charts {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stats-chart-card {
+  border-radius: 1rem;
+  border: 1px solid var(--stats-border);
+  overflow: hidden;
+  background: var(--ng-card-bg);
+}
+
+.stats-chart-card-full {
+  width: 100%;
+}
+
+/* ── X-axis toggle ────────────────────────────────────────────────────────── */
+.stats-toggle {
+  display: flex;
+  border: 1px solid var(--stats-select-border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.stats-toggle-btn {
+  padding: 0.45rem 1rem;
+  background: var(--stats-select-bg);
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ng-text-secondary);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.stats-toggle-btn + .stats-toggle-btn {
+  border-left: 1px solid var(--stats-select-border);
+}
+
+.stats-toggle-btn-active {
+  background: #1a56db;
+  color: #fff;
+}
+
+.stats-toggle-btn:not(.stats-toggle-btn-active):hover {
+  background: rgba(26, 86, 219, 0.1);
+  color: #1a56db;
+}
+
+/* ── Player count badge ───────────────────────────────────────────────────── */
+.stats-chart-count {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ng-text-secondary);
+  align-self: flex-end;
+  padding-bottom: 0.5rem;
+}
+
+/* ── End-of-line chart labels ─────────────────────────────────────────────── */
+.stats-chart-end-label {
+  position: absolute;
+  transform: translateY(-50%);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  pointer-events: none;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* ── Empty state ──────────────────────────────────────────────────────────── */
+.stats-empty {
+  text-align: center;
+  color: var(--ng-text-secondary);
+  padding: 2.5rem;
+  font-style: italic;
+  font-size: 0.9rem;
+}
