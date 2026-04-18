@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import type { Season } from '~/components/season-filter/season-filter';
+import type { Season } from '~/types/season';
 
 export interface TeamStat {
   season: Season;

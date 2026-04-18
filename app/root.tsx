@@ -1,16 +1,19 @@
 import {
-  isRouteErrorResponse,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
 } from "react-router";
+import { Text } from "@wonderflow/react-components";
+import "@wonderflow/react-components/core.css";
+import "@wonderflow/themes";
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import NavBar from "./components/nav-bar/nav-bar";
+
 import { DataProvider } from "./contexts/DataContext";
+import { NavBar } from "./components/NavBar";
 
 export const links: Route.LinksFunction = () => [
   { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
@@ -20,24 +23,22 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.gstatic.com",
     crossOrigin: "anonymous",
   },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&display=swap",
-  },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
-      <body className="bg-gray-50">
+
+      <body className="min-h-screen bg-gray-50 flex flex-col">
         <NavBar />
-        {children}
+        <main className="flex-grow">{children}</main>
+
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -54,30 +55,12 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
-  let stack: string | undefined;
-
-  if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
-    details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message;
-    stack = error.stack;
-  }
-
   return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
-    </main>
+    <Layout>
+      <div className="pt-16 p-4 container mx-auto">
+        <Text variant="heading-1">Error</Text>
+        <Text variant="body-1" className="mt-2 mb-4">Something went wrong.</Text>
+      </div>
+    </Layout>
   );
 }

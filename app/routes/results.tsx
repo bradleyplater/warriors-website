@@ -1,263 +1,281 @@
-import { useState } from 'react';
-import { useData } from '../contexts/DataContext';
-import type { Result } from '../contexts/DataContext';
-import type { Route } from '../+types/root';
-import { Link } from 'react-router';
-import { getGameAwards } from '~/helpers/game-helpers';
+import { useState } from "react";
+import { Link } from "react-router";
+import type { Route } from "./+types/results";
+import resultsData from "../../public/data/results.json";
+import playersData from "../../public/data/players.json";
+import "./results.css";
 
 export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "Results - Warriors" },
-    { name: 'description', content: 'View all game results for the Warriors hockey team' },
+  return [{ title: "Results — Peterborough Warriors" }];
+}
+
+type Goal = {
+  playerId: string;
+  assists: string[];
+};
+
+type Period = {
+  goals?: Goal[];
+};
+
+type Result = {
+  season: string;
+  opponentTeam: string;
+  logoImage: string;
+  date: string;
+  competition: string;
+  location: string;
+  manOfTheMatchPlayerId: string;
+  warriorOfTheGamePlayerId: string;
+  score: {
+    warriorsScore: number;
+    opponentScore: number;
+    period?: {
+      one?: Period;
+      two?: Period;
+      three?: Period;
+    };
+  };
+};
+
+type PlayerStat = {
+  id: string;
+  name: string;
+  goals: number;
+  assists: number;
+  points: number;
+};
+
+const playerMap = new Map(
+  (playersData as { id: string; name: string }[]).map((p) => [p.id, p.name])
+);
+
+function getTopPerformers(result: Result): PlayerStat[] {
+  const statMap = new Map<string, { goals: number; assists: number }>();
+  const periods = result.score.period ?? {};
+  const allGoals: Goal[] = [
+    ...(periods.one?.goals ?? []),
+    ...(periods.two?.goals ?? []),
+    ...(periods.three?.goals ?? []),
   ];
+
+  for (const goal of allGoals) {
+    const scorer = statMap.get(goal.playerId) ?? { goals: 0, assists: 0 };
+    statMap.set(goal.playerId, { ...scorer, goals: scorer.goals + 1 });
+    for (const assistId of goal.assists) {
+      const assister = statMap.get(assistId) ?? { goals: 0, assists: 0 };
+      statMap.set(assistId, { ...assister, assists: assister.assists + 1 });
+    }
+  }
+
+  return Array.from(statMap.entries())
+    .map(([id, { goals, assists }]) => ({
+      id,
+      name: playerMap.get(id) ?? id,
+      goals,
+      assists,
+      points: goals + assists,
+    }))
+    .sort((a, b) => b.points - a.points || b.goals - a.goals)
+    .slice(0, 3);
 }
 
-interface GameCardProps {
-  game: Result;
+function getOutcome(ws: number, os: number): "W" | "L" | "D" {
+  if (ws > os) return "W";
+  if (ws < os) return "L";
+  return "D";
 }
 
-function GameCard({ game }: GameCardProps) {
-  const { data } = useData();
-  const gameDate = new Date(game.date);
-  const isWin = game.score.warriorsScore > game.score.opponentScore;
-  const isDraw = game.score.warriorsScore === game.score.opponentScore;
-  const isLoss = game.score.warriorsScore < game.score.opponentScore;
-  const awards = getGameAwards(game, data.players);
-  
-  // For now, assume all games are away games since we don't have home/away data
-  // This can be enhanced later when home/away data is available
+function formatDate(dateString: string) {
+  return new Date(dateString).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
 
-  console.log("location: ", game.location)
-  const isHomeGame = game.location === "HOME";
-  
-  const resultColor = isWin ? 'text-green-600' : isDraw ? 'text-yellow-600' : 'text-red-600';
-  const resultBg = isWin ? 'bg-green-50' : isDraw ? 'bg-yellow-50' : 'bg-red-50';
-  const resultBorder = isWin ? 'border-green-200' : isDraw ? 'border-yellow-200' : 'border-red-200';
+const allResults = (resultsData as Result[])
+  .filter((r) => new Date(r.date).getTime() < Date.now())
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
+const uniqueSeasons = Array.from(new Set(allResults.map((r) => r.season)));
+const seasons = ["All", ...uniqueSeasons];
+
+function ResultLogo({ logoImage, opponentTeam }: { logoImage: string; opponentTeam: string }) {
+  const [failed, setFailed] = useState(false);
   return (
-    <Link 
-      to={`/game/${encodeURIComponent(game.date)}`}
-      className={`bg-white rounded-lg shadow-sm border ${resultBorder} hover:shadow-md transition-shadow duration-200 block`}
-    >
-      <div className="p-4 md:p-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          {/* Game Info */}
-          <div className="flex items-center gap-4">
-            <div className="flex-shrink-0">
-              <img 
-                src={`/images/team-logos/${game.logoImage}`}
-                alt={`${game.opponentTeam} logo`}
-                className="w-12 h-12 md:w-16 md:h-16 object-contain rounded-lg"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.style.display = 'none';
-                }}
-              />
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-1">
-                <h3 className="text-lg md:text-xl font-semibold text-gray-900">
-                  Warriors vs {game.opponentTeam}
-                </h3>
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                  isHomeGame ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
-                }`}>
-                  {isHomeGame ? 'HOME' : 'AWAY'}
-                </span>
-              </div>
-              <p className="text-sm md:text-base text-gray-600">
-                {gameDate.toLocaleDateString('en-US', {
-                  weekday: 'long',
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </p>
-            </div>
-          </div>
-
-          {/* Score */}
-          <div className={`flex items-center justify-center md:justify-end gap-2 md:gap-4 p-4 rounded-lg ${resultBg}`}>
-            <div className="text-center w-20 md:w-24">
-              <div className="text-xs md:text-sm text-gray-600 mb-1 truncate" title="Warriors">Warriors</div>
-              <div className={`text-2xl md:text-3xl font-bold ${resultColor}`}>
-                {game.score.warriorsScore}
-              </div>
-            </div>
-            <div className="text-2xl md:text-3xl font-bold text-gray-400 flex-shrink-0">-</div>
-            <div className="text-center w-20 md:w-24">
-              <div className="text-xs md:text-sm text-gray-600 mb-1 truncate" title={game.opponentTeam}>{game.opponentTeam}</div>
-              <div className={`text-2xl md:text-3xl font-bold ${resultColor}`}>
-                {game.score.opponentScore}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Result Badge */}
-        <div className="mt-4 flex justify-center md:justify-start">
-          <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-            isWin ? 'bg-green-100 text-green-800' : 
-            isDraw ? 'bg-yellow-100 text-yellow-800' : 
-            'bg-red-100 text-red-800'
-          }`}>
-            {isWin ? 'WIN' : isDraw ? 'DRAW' : 'LOSS'}
-          </span>
-        </div>
-
-        {(awards.motmName || awards.wotgName) && (
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
-            {awards.motmName && (
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-medium text-gray-600">Man of the Match</span>
-                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-800 border border-blue-200">
-                  {awards.motmId ? (
-                    <Link to={`/player/${awards.motmId}`} className="hover:underline hover:text-blue-600">
-                      {awards.motmName}
-                    </Link>
-                  ) : (
-                    awards.motmName
-                  )}
-                </span>
-              </div>
-            )}
-            {awards.wotgName && (
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-medium text-gray-600">Warrior of the Game</span>
-                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-50 text-indigo-800 border border-indigo-200">
-                  {awards.wotgId ? (
-                    <Link to={`/player/${awards.wotgId}`} className="hover:underline hover:text-blue-600">
-                      {awards.wotgName}
-                    </Link>
-                  ) : (
-                    awards.wotgName
-                  )}
-                </span>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    </Link>
+    <div className="results-logo-wrap">
+      <span className="results-logo-fallback" aria-hidden="true">
+        {opponentTeam.charAt(0)}
+      </span>
+      {!failed && (
+        <img
+          src={`/images/team-logos/${logoImage}`}
+          alt={opponentTeam}
+          className="results-logo"
+          onError={() => setFailed(true)}
+        />
+      )}
+    </div>
   );
 }
 
-function SeasonDivider({ season }: { season: string }) {
+function ResultRow({ result }: { result: Result }) {
+  const outcome = getOutcome(result.score.warriorsScore, result.score.opponentScore);
+  const motm =
+    result.manOfTheMatchPlayerId && result.manOfTheMatchPlayerId !== "MISSING"
+      ? playerMap.get(result.manOfTheMatchPlayerId)
+      : null;
+  const wotg =
+    result.warriorOfTheGamePlayerId && result.warriorOfTheGamePlayerId !== "MISSING"
+      ? playerMap.get(result.warriorOfTheGamePlayerId)
+      : null;
+  const hasAwards = motm || wotg;
+  const topPerformers = getTopPerformers(result);
+  const location =
+    result.location === "HOME" || result.location === "AWAY"
+      ? result.location
+      : null;
+  const gameHref = `/results/${encodeURIComponent(result.date)}`;
+
   return (
-    <div className="relative my-8">
-      <div className="absolute inset-0 flex items-center">
-        <div className="w-full border-t-2 border-gray-300"></div>
-      </div>
-      <div className="relative flex justify-center">
-        <span className="bg-gray-50 px-6 py-2 text-lg md:text-xl font-bold text-gray-700 rounded-full border-2 border-gray-300">
-          Season {season}
+    <div className="results-row">
+      <Link to={gameHref} className="results-row-main results-row-link">
+        <span className={`results-outcome results-outcome--${outcome.toLowerCase()}`}>
+          {outcome}
         </span>
-      </div>
+
+        <div className="results-opponent">
+          <ResultLogo logoImage={result.logoImage} opponentTeam={result.opponentTeam} />
+          <span className="results-opponent-name">{result.opponentTeam}</span>
+        </div>
+
+        <div className="results-right">
+          <span className="results-score">
+            {result.score.warriorsScore} – {result.score.opponentScore}
+          </span>
+          {location && (
+            <span
+              className={`results-location results-location--${location.toLowerCase()}`}
+            >
+              {location === "HOME" ? "Home" : "Away"}
+            </span>
+          )}
+          <span className="results-competition">{result.competition}</span>
+          <span className="results-date">{formatDate(result.date)}</span>
+        </div>
+      </Link>
+
+      {hasAwards && (
+        <div className="results-row-awards">
+          {motm && (
+            <span className="results-award">
+              <span className="results-award-label">MOTM</span>
+              <span className="results-award-name">{motm}</span>
+            </span>
+          )}
+          {wotg && (
+            <span className="results-award">
+              <span className="results-award-label">WOTG</span>
+              <span className="results-award-name">{wotg}</span>
+            </span>
+          )}
+        </div>
+      )}
+
+      {topPerformers.length > 0 && (
+        <div className="results-row-performers">
+          <span className="results-performers-label">Top Performers</span>
+          <div className="results-performers-list">
+            {topPerformers.map((p) => (
+              <div key={p.id} className="results-performer">
+                <span className="results-performer-name">{p.name}</span>
+                <div className="results-performer-stats">
+                  <span className="results-performer-stat">
+                    <span className="results-performer-stat-value">{p.goals}</span>
+                    <span className="results-performer-stat-label">G</span>
+                  </span>
+                  <span className="results-performer-stat">
+                    <span className="results-performer-stat-value">{p.assists}</span>
+                    <span className="results-performer-stat-label">A</span>
+                  </span>
+                  <span className="results-performer-stat">
+                    <span className="results-performer-stat-value">{p.points}</span>
+                    <span className="results-performer-stat-label">PTS</span>
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 export default function Results() {
-  const { data, loading, error } = useData();
+  const [activeSeason, setActiveSeason] = useState(uniqueSeasons[0] ?? "All");
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading results...</p>
-        </div>
-      </div>
-    );
-  }
+  const filtered =
+    activeSeason === "All"
+      ? allResults
+      : allResults.filter((r) => r.season === activeSeason);
 
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-600 mb-4">Error loading games: {error}</p>
-          <button 
-            onClick={() => window.location.reload()} 
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Retry
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // Sort games by date (most recent first) and group by season
-  const sortedResults = [...data.results].sort((a, b) => 
-    new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
-
-  // Group games by season
-  const gamesBySeason = sortedResults.reduce((acc, game) => {
-    const season = game.seasonId;
-    if (!acc[season]) {
-      acc[season] = [];
-    }
-    acc[season].push(game);
-    return acc;
-  }, {} as Record<string, Result[]>);
-
-  // Sort seasons by first number in descending order (e.g., 24/25 > 23/24 > 22/23)
-  const seasons = Object.keys(gamesBySeason).sort((a, b) => {
-    // Extract first number from each season (e.g., '24' from '24/25')
-    const firstNumberA = parseInt(a.split('/')[0], 10);
-    const firstNumberB = parseInt(b.split('/')[0], 10);
-    
-    // Sort in descending order (highest first)
-    return firstNumberB - firstNumberA;
-  });
+  const wins = filtered.filter(
+    (r) => getOutcome(r.score.warriorsScore, r.score.opponentScore) === "W"
+  ).length;
+  const losses = filtered.filter(
+    (r) => getOutcome(r.score.warriorsScore, r.score.opponentScore) === "L"
+  ).length;
+  const draws = filtered.filter(
+    (r) => getOutcome(r.score.warriorsScore, r.score.opponentScore) === "D"
+  ).length;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Header */}
-      <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
-          <div className="text-center">
-            <h1 className="text-2xl md:text-3xl font-bold mb-2">
-              Results
-            </h1>
-            <p className="text-sm md:text-base opacity-90">
-              Complete history of Warriors games and results
-            </p>
+    <div className="results-page">
+      <header className="results-hero">
+        <div className="results-hero-inner">
+          <span className="results-hero-kicker">Peterborough Warriors</span>
+          <h1 className="results-hero-title">Results</h1>
+          <p className="results-hero-subtitle">
+            Full history of match results for the Warriors
+          </p>
+        </div>
+      </header>
+
+      <div className="results-body">
+        <div className="results-controls">
+          <div className="results-tabs">
+            {seasons.map((s) => (
+              <button
+                key={s}
+                type="button"
+                className={
+                  activeSeason === s
+                    ? "results-tab results-tab-active"
+                    : "results-tab"
+                }
+                onClick={() => setActiveSeason(s)}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+          <div className="results-record">
+            <span className="results-record-item results-record-w">{wins}W</span>
+            <span className="results-record-sep">·</span>
+            <span className="results-record-item results-record-d">{draws}D</span>
+            <span className="results-record-sep">·</span>
+            <span className="results-record-item results-record-l">{losses}L</span>
           </div>
         </div>
-      </div>
 
-      {/* Games Content */}
-      <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
-        {seasons.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-600 text-lg">No results found.</p>
-          </div>
+        {filtered.length === 0 ? (
+          <p className="results-empty">No results for this season.</p>
         ) : (
-          <div className="space-y-6">
-            {seasons.map((season, seasonIndex) => (
-              <div key={season}>
-                <SeasonDivider season={season} />
-                <div className="space-y-4">
-                  {gamesBySeason[season].map((game, gameIndex) => (
-                    <GameCard key={`${season}-${gameIndex}`} game={game} />
-                  ))}
-                </div>
-                {/* Add divider after last season */}
-                {seasonIndex === seasons.length - 1 && (
-                  <div className="relative my-8">
-                    <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t-2 border-gray-300"></div>
-                    </div>
-                    <div className="relative flex justify-center">
-                      <span className="bg-gray-50 px-6 py-2 text-sm font-medium text-gray-500 rounded-full border border-gray-300">
-                        End of Records
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
+          <div className="results-list">
+            {filtered.map((result) => (
+              <ResultRow key={`${result.date}-${result.opponentTeam}`} result={result} />
             ))}
           </div>
         )}

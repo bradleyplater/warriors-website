@@ -1,0 +1,284 @@
+/* ── Design tokens ────────────────────────────────────────────────────────── */
+:root,
+:root[data-theme="dark"] {
+  --rec-border: rgba(255, 255, 255, 0.07);
+  --rec-card-bg: #16181d;
+  --rec-card-divider: rgba(255, 255, 255, 0.06);
+  --rec-tab-bg: rgba(255, 255, 255, 0.05);
+  --rec-holder-bg: rgba(255, 255, 255, 0.03);
+}
+
+:root[data-theme="light"] {
+  --rec-border: rgba(0, 0, 0, 0.08);
+  --rec-card-bg: #f8f9fb;
+  --rec-card-divider: rgba(0, 0, 0, 0.07);
+  --rec-tab-bg: rgba(0, 0, 0, 0.05);
+  --rec-holder-bg: rgba(0, 0, 0, 0.02);
+}
+
+/* ── Page ─────────────────────────────────────────────────────────────────── */
+.rec-page {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────────── */
+.rec-hero {
+  position: relative;
+  padding: 1.25rem 1rem 0;
+}
+
+.rec-hero-inner {
+  position: relative;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2rem 2.5rem 2.5rem;
+  border-radius: 2rem;
+  background: var(--ng-card-bg);
+  border: 1px solid var(--ng-card-border);
+  box-shadow: var(--ng-shadow);
+  overflow: hidden;
+}
+
+.rec-hero-inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 55% 50% at 92% 0%, var(--ng-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.rec-kicker {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1a56db;
+  background: rgba(26, 86, 219, 0.12);
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+}
+
+.rec-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0 0 0.5rem;
+  color: var(--ng-text-primary);
+}
+
+.rec-subtitle {
+  font-size: 1rem;
+  color: var(--ng-text-secondary);
+  margin: 0;
+}
+
+/* ── Body ─────────────────────────────────────────────────────────────────── */
+.rec-body {
+  padding: 1.25rem 1rem 3rem;
+}
+
+.rec-frame {
+  max-width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Tabs ─────────────────────────────────────────────────────────────────── */
+.rec-tabs {
+  display: flex;
+  gap: 0.25rem;
+  background: var(--rec-tab-bg);
+  border-radius: 0.75rem;
+  padding: 0.25rem;
+  width: fit-content;
+}
+
+.rec-tab {
+  padding: 0.5rem 1.25rem;
+  border: none;
+  background: transparent;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ng-text-secondary);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.rec-tab-active {
+  background: #1a56db;
+  color: #fff;
+}
+
+.rec-tab:not(.rec-tab-active):hover {
+  background: rgba(26, 86, 219, 0.1);
+  color: #1a56db;
+}
+
+/* ── Record grid ──────────────────────────────────────────────────────────── */
+.rec-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .rec-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .rec-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Record card ──────────────────────────────────────────────────────────── */
+.rec-card {
+  background: var(--rec-card-bg);
+  border: 1px solid var(--rec-border);
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+
+.rec-card:hover {
+  border-color: rgba(26, 86, 219, 0.3);
+}
+
+/* Subtle left accent per category */
+.rec-card-goals     { border-left: 3px solid #1a56db; }
+.rec-card-assists   { border-left: 3px solid #10b981; }
+.rec-card-points    { border-left: 3px solid #8b5cf6; }
+.rec-card-performance { border-left: 3px solid #f97316; }
+
+.rec-card-top {
+  padding: 1.25rem 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* ── Category badge ───────────────────────────────────────────────────────── */
+.rec-category {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  margin-bottom: 0.25rem;
+  width: fit-content;
+}
+
+.rec-category-goals {
+  color: #1a56db;
+  background: rgba(26, 86, 219, 0.12);
+}
+
+.rec-category-assists {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+}
+
+.rec-category-points {
+  color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.12);
+}
+
+.rec-category-performance {
+  color: #f97316;
+  background: rgba(249, 115, 22, 0.12);
+}
+
+/* ── Value & title ────────────────────────────────────────────────────────── */
+.rec-record-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.rec-card-goals     .rec-record-value { color: #1a56db; }
+.rec-card-assists   .rec-record-value { color: #10b981; }
+.rec-card-points    .rec-record-value { color: #8b5cf6; }
+.rec-card-performance .rec-record-value { color: #f97316; }
+
+.rec-record-title {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--ng-text-primary);
+  margin: 0.2rem 0 0;
+  line-height: 1.3;
+}
+
+.rec-record-desc {
+  font-size: 0.75rem;
+  color: var(--ng-text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ── Divider ──────────────────────────────────────────────────────────────── */
+.rec-card-divider {
+  height: 1px;
+  background: var(--rec-card-divider);
+  margin: 0;
+}
+
+/* ── Holders section ──────────────────────────────────────────────────────── */
+.rec-card-holders {
+  padding: 0.875rem 1.25rem 1.125rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  flex: 1;
+}
+
+.rec-holder {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  background: var(--rec-holder-bg);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.625rem;
+}
+
+.rec-holder-name {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--ng-text-primary);
+}
+
+.rec-holder-meta {
+  font-size: 0.72rem;
+  color: var(--ng-text-secondary);
+  line-height: 1.4;
+}
+
+/* ── Overflow badge ───────────────────────────────────────────────────────── */
+.rec-overflow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ng-text-secondary);
+  padding: 0.2rem 0;
+}
+
+/* ── No data ──────────────────────────────────────────────────────────────── */
+.rec-no-data {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--ng-text-secondary);
+  margin: 0;
+}

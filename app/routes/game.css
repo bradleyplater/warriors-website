@@ -1,0 +1,598 @@
+/* ── Design tokens ────────────────────────────────────────────────────────── */
+:root,
+:root[data-theme="dark"] {
+  --game-section-bg: #1f2227;
+  --game-section-border: #30353f;
+  --game-section-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 8px 32px rgba(0,0,0,0.35);
+  --game-table-header-bg: #181b20;
+  --game-table-border: rgba(255,255,255,0.07);
+  --game-table-row-alt: rgba(255,255,255,0.025);
+  --game-goal-warriors-bg: rgba(26, 86, 219, 0.06);
+  --game-goal-warriors-border: rgba(26, 86, 219, 0.18);
+  --game-goal-opponent-bg: rgba(113, 120, 136, 0.06);
+  --game-goal-opponent-border: rgba(113, 120, 136, 0.18);
+  --game-roster-card-bg: #1f2227;
+  --game-roster-card-border: #30353f;
+  --game-roster-card-hover: #282d34;
+}
+
+:root[data-theme="light"] {
+  --game-section-bg: #ffffff;
+  --game-section-border: #bec4cf;
+  --game-section-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.08);
+  --game-table-header-bg: #e8eaed;
+  --game-table-border: rgba(0,0,0,0.08);
+  --game-table-row-alt: rgba(0,0,0,0.025);
+  --game-goal-warriors-bg: rgba(26, 86, 219, 0.05);
+  --game-goal-warriors-border: rgba(26, 86, 219, 0.20);
+  --game-goal-opponent-bg: rgba(113, 120, 136, 0.05);
+  --game-goal-opponent-border: rgba(113, 120, 136, 0.20);
+  --game-roster-card-bg: #ffffff;
+  --game-roster-card-border: #bec4cf;
+  --game-roster-card-hover: #f4f6f9;
+}
+
+/* ── Page ─────────────────────────────────────────────────────────────────── */
+.game-page {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────────── */
+.game-hero {
+  position: relative;
+  padding: 1.25rem 1rem 0;
+}
+
+.game-hero-inner {
+  position: relative;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2rem 2.5rem 2.5rem;
+  border-radius: 2rem;
+  background: var(--ng-card-bg);
+  border: 1px solid var(--ng-card-border);
+  box-shadow: var(--ng-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.game-hero-inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 55% 50% at 92% 0%,
+    var(--ng-glow) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ── Back link ────────────────────────────────────────────────────────────── */
+.game-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a56db;
+  text-decoration: none;
+  width: fit-content;
+  transition: opacity 0.15s;
+}
+
+.game-back-link:hover {
+  opacity: 0.75;
+}
+
+/* ── Hero content ─────────────────────────────────────────────────────────── */
+.game-hero-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.game-hero-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.game-hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(26, 86, 219, 0.10);
+  border: 1px solid rgba(26, 86, 219, 0.30);
+  color: #1a56db;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.game-hero-title {
+  margin: 0;
+  color: var(--ng-opponent-color);
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.game-hero-info {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.game-hero-pill {
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.game-hero-pill--comp {
+  background: rgba(26, 86, 219, 0.08);
+  border: 1px solid rgba(26, 86, 219, 0.20);
+  color: #1a56db;
+}
+
+.game-hero-pill--home {
+  background: rgba(34, 197, 94, 0.10);
+  border: 1px solid rgba(34, 197, 94, 0.30);
+  color: #22c55e;
+}
+
+.game-hero-pill--away {
+  background: rgba(113, 120, 136, 0.10);
+  border: 1px solid rgba(113, 120, 136, 0.30);
+  color: #717888;
+}
+
+.game-hero-date {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ng-label-color);
+}
+
+/* ── Score block ──────────────────────────────────────────────────────────── */
+.game-hero-score-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.game-hero-outcome {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.game-hero-outcome--w {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.40);
+  color: #22c55e;
+}
+
+.game-hero-outcome--l {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #ef4444;
+}
+
+.game-hero-outcome--d {
+  background: rgba(113, 120, 136, 0.15);
+  border: 1px solid rgba(113, 120, 136, 0.35);
+  color: #717888;
+}
+
+.game-hero-score {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.game-hero-score-num {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--ng-opponent-color);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.game-hero-score-sep {
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--ng-label-color);
+  line-height: 1;
+}
+
+.game-hero-score-teams {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ng-label-color);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ── Body ─────────────────────────────────────────────────────────────────── */
+.game-body {
+  padding: 1.5rem 1rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 80rem;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Sections ─────────────────────────────────────────────────────────────── */
+.game-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.game-section-title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ng-label-color);
+}
+
+/* ── Period scores table ──────────────────────────────────────────────────── */
+.game-periods {
+  border-radius: 1rem;
+  border: 1px solid var(--game-section-border);
+  box-shadow: var(--game-section-shadow);
+  overflow: hidden;
+}
+
+.game-periods-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.game-periods-table th,
+.game-periods-table td {
+  padding: 0.75rem 1.25rem;
+  text-align: center;
+  border-bottom: 1px solid var(--game-table-border);
+}
+
+.game-periods-table th {
+  background: var(--game-table-header-bg);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ng-label-color);
+}
+
+.game-periods-table tbody tr {
+  background: var(--game-section-bg);
+}
+
+.game-periods-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.game-periods-table tbody tr:nth-child(even) td {
+  background: var(--game-table-row-alt);
+}
+
+.game-periods-team-col {
+  text-align: left !important;
+  font-weight: 600;
+  color: var(--ng-opponent-color);
+  white-space: nowrap;
+}
+
+.game-periods-total {
+  font-weight: 800 !important;
+  color: var(--ng-opponent-color) !important;
+}
+
+/* ── Goals list ───────────────────────────────────────────────────────────── */
+.game-goals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-radius: 1rem;
+  border: 1px solid var(--game-section-border);
+  box-shadow: var(--game-section-shadow);
+  overflow: hidden;
+}
+
+.game-goal {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1.25rem;
+  border-bottom: 1px solid var(--game-table-border);
+}
+
+.game-goal:last-child {
+  border-bottom: none;
+}
+
+.game-goal--warriors {
+  background: var(--game-goal-warriors-bg);
+  border-left: 3px solid #1a56db;
+}
+
+.game-goal--opponent {
+  background: var(--game-goal-opponent-bg);
+  border-left: 3px solid #717888;
+}
+
+/* Time column */
+.game-goal-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 44px;
+  flex-shrink: 0;
+}
+
+.game-goal-period {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--ng-label-color);
+  text-transform: uppercase;
+}
+
+.game-goal-clock {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ng-opponent-color);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Body */
+.game-goal-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.game-goal-scorer-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.game-goal-scorer {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ng-opponent-color);
+}
+
+.game-goal-team-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ng-label-color);
+  margin-left: auto;
+}
+
+.game-goal-assists {
+  font-size: 12px;
+  color: var(--ng-label-color);
+}
+
+/* Type badges */
+.game-goal-type {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+
+.game-goal-type--pp {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #f59e0b;
+}
+
+.game-goal-type--sh {
+  background: rgba(20, 184, 166, 0.15);
+  border: 1px solid rgba(20, 184, 166, 0.35);
+  color: #14b8a6;
+}
+
+.game-goal-type--gwg {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  color: #22c55e;
+}
+
+/* Running score */
+.game-goal-score {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ng-opponent-color);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Roster grid ──────────────────────────────────────────────────────────── */
+.game-roster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.75rem;
+}
+
+.game-roster-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0.875rem 1rem;
+  background: var(--game-roster-card-bg);
+  border: 1px solid var(--game-roster-card-border);
+  border-radius: 0.875rem;
+  text-decoration: none;
+  transition: background 0.12s, border-color 0.12s, transform 0.12s;
+}
+
+.game-roster-card:hover {
+  background: var(--game-roster-card-hover);
+  border-color: rgba(26, 86, 219, 0.35);
+  transform: translateY(-1px);
+}
+
+.game-roster-number {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1a56db;
+  letter-spacing: 0.04em;
+}
+
+.game-roster-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ng-opponent-color);
+  line-height: 1.2;
+}
+
+.game-roster-position {
+  font-size: 11px;
+  color: var(--ng-label-color);
+  font-weight: 500;
+}
+
+.game-roster-badges {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.game-roster-badge {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.game-roster-badge--nm {
+  background: rgba(113, 120, 136, 0.15);
+  border: 1px solid rgba(113, 120, 136, 0.30);
+  color: #717888;
+}
+
+.game-roster-badge--motm {
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.30);
+  color: #a855f7;
+}
+
+.game-roster-badge--wotg {
+  background: rgba(236, 72, 153, 0.15);
+  border: 1px solid rgba(236, 72, 153, 0.30);
+  color: #ec4899;
+}
+
+/* ── Empty / not found ────────────────────────────────────────────────────── */
+.game-empty {
+  color: var(--ng-label-color);
+  font-size: 14px;
+  margin: 0;
+}
+
+.game-not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 4rem 1rem;
+  color: var(--ng-label-color);
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .game-hero {
+    padding: 0.75rem 0.75rem 0;
+  }
+
+  .game-hero-inner {
+    padding: 1.5rem 1.25rem 1.75rem;
+    border-radius: 1.5rem;
+    gap: 1.25rem;
+  }
+
+  .game-hero-content {
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .game-hero-score-wrap {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .game-hero-score-teams {
+    flex-direction: column;
+    gap: 2px;
+    text-align: center;
+  }
+
+  .game-body {
+    padding: 1.25rem 0.75rem 3rem;
+  }
+
+  .game-periods-table th,
+  .game-periods-table td {
+    padding: 0.625rem 0.75rem;
+  }
+
+  .game-goal {
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .game-roster-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+}

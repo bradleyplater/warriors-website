@@ -1,0 +1,113 @@
+/* ── Page wrapper ─────────────────────────────────────────────────────────── */
+.schedule-page {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Hero header ──────────────────────────────────────────────────────────── */
+.schedule-hero {
+  position: relative;
+  padding: 1.25rem 1rem 0;
+}
+
+.schedule-hero-inner {
+  position: relative;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2.5rem 2.5rem 2.25rem;
+  border-radius: 2rem;
+  background: var(--ng-card-bg);
+  border: 1px solid var(--ng-card-border);
+  box-shadow: var(--ng-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Blue accent glow — top-right, matching NextGameCard */
+.schedule-hero-inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 55% 50% at 92% 0%,
+    var(--ng-glow) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.schedule-hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(26, 86, 219, 0.10);
+  border: 1px solid rgba(26, 86, 219, 0.30);
+  color: #1a56db;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.schedule-hero-title {
+  margin: 0;
+  color: var(--ng-opponent-color);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.schedule-hero-subtitle {
+  margin: 0;
+  color: var(--ng-label-color);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* ── Game list ────────────────────────────────────────────────────────────── */
+.schedule-body {
+  padding: 1.5rem 1rem 4rem;
+}
+
+.schedule-list {
+  max-width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.schedule-empty {
+  max-width: 80rem;
+  margin: 0 auto;
+  color: var(--ng-label-color);
+  font-size: 14px;
+}
+
+/* ── Remove redundant shell padding from ScheduleGameCard ─────────────────── */
+.schedule-list .next-game-shell {
+  padding: 0;
+}
+
+@media (max-width: 640px) {
+  .schedule-hero {
+    padding: 0.75rem 0.75rem 0;
+  }
+
+  .schedule-hero-inner {
+    padding: 1.75rem 1.5rem 1.5rem;
+    border-radius: 1.5rem;
+    gap: 8px;
+  }
+
+  .schedule-body {
+    padding: 1.25rem 0.75rem 3rem;
+  }
+}
