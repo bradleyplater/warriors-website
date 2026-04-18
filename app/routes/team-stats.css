@@ -1,0 +1,337 @@
+/* ── Design tokens ────────────────────────────────────────────────────────── */
+:root,
+:root[data-theme="dark"] {
+  --ts-border: rgba(255, 255, 255, 0.07);
+  --ts-select-bg: #1f2227;
+  --ts-select-border: rgba(255, 255, 255, 0.12);
+  --ts-card-bg: #16181d;
+  --ts-streak-divider: rgba(255, 255, 255, 0.06);
+}
+
+:root[data-theme="light"] {
+  --ts-border: rgba(0, 0, 0, 0.08);
+  --ts-select-bg: #f0f2f5;
+  --ts-select-border: rgba(0, 0, 0, 0.12);
+  --ts-card-bg: #f8f9fb;
+  --ts-streak-divider: rgba(0, 0, 0, 0.07);
+}
+
+/* ── Page ─────────────────────────────────────────────────────────────────── */
+.ts-page {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────────── */
+.ts-hero {
+  position: relative;
+  padding: 1.25rem 1rem 0;
+}
+
+.ts-hero-inner {
+  position: relative;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2rem 2.5rem 2.5rem;
+  border-radius: 2rem;
+  background: var(--ng-card-bg);
+  border: 1px solid var(--ng-card-border);
+  box-shadow: var(--ng-shadow);
+  overflow: hidden;
+}
+
+.ts-hero-inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 55% 50% at 92% 0%, var(--ng-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.ts-kicker {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1a56db;
+  background: rgba(26, 86, 219, 0.12);
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+}
+
+.ts-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0 0 0.5rem;
+  color: var(--ng-text-primary);
+}
+
+.ts-subtitle {
+  font-size: 1rem;
+  color: var(--ng-text-secondary);
+  margin: 0;
+}
+
+/* ── Body ─────────────────────────────────────────────────────────────────── */
+.ts-body {
+  padding: 1.25rem 1rem 3rem;
+}
+
+.ts-frame {
+  max-width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ── Season selector ──────────────────────────────────────────────────────── */
+.ts-season-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.ts-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.ts-filter-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ng-text-secondary);
+}
+
+.ts-select {
+  appearance: none;
+  background: var(--ts-select-bg);
+  border: 1px solid var(--ts-select-border);
+  border-radius: 0.5rem;
+  padding: 0.45rem 2rem 0.45rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ng-text-primary);
+  cursor: pointer;
+  min-width: 10rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23888' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.65rem center;
+  transition: border-color 0.15s;
+}
+
+.ts-select:focus {
+  outline: none;
+  border-color: #1a56db;
+}
+
+/* ── Section title ────────────────────────────────────────────────────────── */
+.ts-section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ng-text-secondary);
+  margin: 0 0 0.75rem;
+}
+
+/* ── Stats grid ───────────────────────────────────────────────────────────── */
+.ts-stats-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.ts-stats-grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.ts-stats-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 720px) {
+  .ts-stats-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .ts-stats-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Stat card ────────────────────────────────────────────────────────────── */
+.ts-stat-card {
+  background: var(--ts-card-bg);
+  border: 1px solid var(--ts-border);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.ts-stat-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ng-text-secondary);
+}
+
+.ts-stat-value {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--ng-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.ts-stat-value-hi {
+  color: #1a56db;
+}
+
+.ts-stat-value-pos {
+  color: #10b981;
+}
+
+.ts-stat-value-neg {
+  color: #ef4444;
+}
+
+.ts-stat-sub {
+  font-size: 0.75rem;
+  color: var(--ng-text-secondary);
+  margin-top: 0.3rem;
+}
+
+/* ── Current Form card ────────────────────────────────────────────────────── */
+.ts-form-card {
+  background: var(--ts-card-bg);
+  border: 1px solid var(--ts-border);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.ts-form-meta {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ng-text-secondary);
+  margin: 0;
+}
+
+.ts-form-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.ts-form-badge {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.875rem;
+}
+
+.ts-form-w {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.ts-form-d {
+  background: rgba(156, 163, 175, 0.12);
+  color: #9ca3af;
+  border: 1px solid rgba(156, 163, 175, 0.2);
+}
+
+.ts-form-l {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* ── Streak grid ──────────────────────────────────────────────────────────── */
+.ts-streak-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+@media (max-width: 580px) {
+  .ts-streak-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Streak card ──────────────────────────────────────────────────────────── */
+.ts-streak-card {
+  background: var(--ts-card-bg);
+  border: 1px solid var(--ts-border);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.ts-streak-location {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ng-text-secondary);
+}
+
+.ts-streak-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.ts-streak-label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ng-text-secondary);
+}
+
+.ts-streak-value {
+  font-size: 2rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.ts-streak-value-win {
+  color: #1a56db;
+}
+
+.ts-streak-value-unbeaten {
+  color: #10b981;
+}
+
+.ts-streak-divider {
+  height: 1px;
+  background: var(--ts-streak-divider);
+}
+
+/* ── Empty state ──────────────────────────────────────────────────────────── */
+.ts-empty {
+  color: var(--ng-text-secondary);
+  font-style: italic;
+  font-size: 0.9rem;
+}

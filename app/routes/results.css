@@ -387,6 +387,75 @@
   line-height: 1;
 }
 
+/* ── Top performers sub-row ───────────────────────────────────────────────── */
+.results-row-performers {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1.25rem 0.875rem;
+  padding-left: calc(1.25rem + 28px + 0.875rem);
+  flex-wrap: wrap;
+}
+
+.results-performers-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ng-label-color);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.results-performers-list {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.results-performer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 4px 10px;
+  background: var(--results-row-bg-hover);
+  border: 1px solid var(--results-row-border);
+  border-radius: 999px;
+}
+
+.results-performer-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ng-opponent-color);
+  white-space: nowrap;
+}
+
+.results-performer-stats {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.results-performer-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.results-performer-stat-value {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ng-opponent-color);
+  font-variant-numeric: tabular-nums;
+}
+
+.results-performer-stat-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ng-label-color);
+}
+
 /* ── Empty state ──────────────────────────────────────────────────────────── */
 .results-empty {
   color: var(--ng-label-color);

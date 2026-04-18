@@ -9,6 +9,15 @@ export function meta({}: Route.MetaArgs) {
   return [{ title: "Results — Peterborough Warriors" }];
 }
 
+type Goal = {
+  playerId: string;
+  assists: string[];
+};
+
+type Period = {
+  goals?: Goal[];
+};
+
 type Result = {
   season: string;
   opponentTeam: string;
@@ -21,12 +30,55 @@ type Result = {
   score: {
     warriorsScore: number;
     opponentScore: number;
+    period?: {
+      one?: Period;
+      two?: Period;
+      three?: Period;
+    };
   };
+};
+
+type PlayerStat = {
+  id: string;
+  name: string;
+  goals: number;
+  assists: number;
+  points: number;
 };
 
 const playerMap = new Map(
   (playersData as { id: string; name: string }[]).map((p) => [p.id, p.name])
 );
+
+function getTopPerformers(result: Result): PlayerStat[] {
+  const statMap = new Map<string, { goals: number; assists: number }>();
+  const periods = result.score.period ?? {};
+  const allGoals: Goal[] = [
+    ...(periods.one?.goals ?? []),
+    ...(periods.two?.goals ?? []),
+    ...(periods.three?.goals ?? []),
+  ];
+
+  for (const goal of allGoals) {
+    const scorer = statMap.get(goal.playerId) ?? { goals: 0, assists: 0 };
+    statMap.set(goal.playerId, { ...scorer, goals: scorer.goals + 1 });
+    for (const assistId of goal.assists) {
+      const assister = statMap.get(assistId) ?? { goals: 0, assists: 0 };
+      statMap.set(assistId, { ...assister, assists: assister.assists + 1 });
+    }
+  }
+
+  return Array.from(statMap.entries())
+    .map(([id, { goals, assists }]) => ({
+      id,
+      name: playerMap.get(id) ?? id,
+      goals,
+      assists,
+      points: goals + assists,
+    }))
+    .sort((a, b) => b.points - a.points || b.goals - a.goals)
+    .slice(0, 3);
+}
 
 function getOutcome(ws: number, os: number): "W" | "L" | "D" {
   if (ws > os) return "W";
@@ -79,6 +131,7 @@ function ResultRow({ result }: { result: Result }) {
       ? playerMap.get(result.warriorOfTheGamePlayerId)
       : null;
   const hasAwards = motm || wotg;
+  const topPerformers = getTopPerformers(result);
   const location =
     result.location === "HOME" || result.location === "AWAY"
       ? result.location
@@ -127,6 +180,33 @@ function ResultRow({ result }: { result: Result }) {
               <span className="results-award-name">{wotg}</span>
             </span>
           )}
+        </div>
+      )}
+
+      {topPerformers.length > 0 && (
+        <div className="results-row-performers">
+          <span className="results-performers-label">Top Performers</span>
+          <div className="results-performers-list">
+            {topPerformers.map((p) => (
+              <div key={p.id} className="results-performer">
+                <span className="results-performer-name">{p.name}</span>
+                <div className="results-performer-stats">
+                  <span className="results-performer-stat">
+                    <span className="results-performer-stat-value">{p.goals}</span>
+                    <span className="results-performer-stat-label">G</span>
+                  </span>
+                  <span className="results-performer-stat">
+                    <span className="results-performer-stat-value">{p.assists}</span>
+                    <span className="results-performer-stat-label">A</span>
+                  </span>
+                  <span className="results-performer-stat">
+                    <span className="results-performer-stat-value">{p.points}</span>
+                    <span className="results-performer-stat-label">PTS</span>
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

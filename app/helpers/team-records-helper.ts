@@ -1042,12 +1042,317 @@ const getCareerGamesPlayedLeader = (players: Player[]): AllTimeRecord => {
     };
 };
 
-export { 
+// ── New: Game Records ─────────────────────────────────────────────────────────
+
+const getMostPenaltyMinutesInAGame = (results: Result[], players: Player[]): TeamRecord => {
+    let maxPIMs = 0;
+    let recordHolders: Array<{ playerId: string; gameData: Result }> = [];
+
+    results.forEach(result => {
+        const allPeriods = [result.score.period.one, result.score.period.two, result.score.period.three];
+        const gamePIMsByPlayer: Record<string, number> = {};
+
+        allPeriods.forEach(periodData => {
+            periodData.penalties.forEach(penalty => {
+                const playerId = penalty.offender;
+                gamePIMsByPlayer[playerId] = (gamePIMsByPlayer[playerId] || 0) + penalty.duration;
+            });
+        });
+
+        Object.entries(gamePIMsByPlayer).forEach(([playerId, pims]) => {
+            if (pims > maxPIMs) {
+                maxPIMs = pims;
+                recordHolders = [{ playerId, gameData: result }];
+            } else if (pims === maxPIMs && pims > 0) {
+                const alreadyExists = recordHolders.some(
+                    h => h.playerId === playerId && h.gameData.date === result.date
+                );
+                if (!alreadyExists) recordHolders.push({ playerId, gameData: result });
+            }
+        });
+    });
+
+    return {
+        title: 'Most Penalty Minutes in a Game',
+        description: 'Most PIMs accumulated by one player in a single game',
+        value: `${maxPIMs} min${maxPIMs !== 1 ? 's' : ''}`,
+        category: 'performance',
+        holders: recordHolders.map(h => ({
+            playerName: getPlayerName(h.playerId, players),
+            playerId: h.playerId,
+            gameInfo: {
+                opponent: h.gameData.opponentTeam,
+                date: formatDate(h.gameData.date),
+                result: getGameResult(h.gameData)
+            }
+        }))
+    };
+};
+
+// ── New: Season Records ───────────────────────────────────────────────────────
+
+const getMostShutoutsInASeason = (results: Result[], players: Player[]): SeasonRecord => {
+    let mostShutouts = 0;
+    const playerSeasonShutouts: Record<string, { playerId: string; season: string; shutouts: number }> = {};
+    let recordHolders: SeasonRecordHolder[] = [];
+
+    const resultsBySeason: Record<string, Result[]> = {};
+    results.forEach(result => {
+        if (!resultsBySeason[result.seasonId]) resultsBySeason[result.seasonId] = [];
+        resultsBySeason[result.seasonId].push(result);
+    });
+
+    Object.entries(resultsBySeason).forEach(([season, seasonResults]) => {
+        const shutoutsByGoalie: Record<string, number> = {};
+        seasonResults.forEach(result => {
+            const net = result.netminderPlayerId;
+            if (net && net !== 'MISSING' && result.score.opponentScore === 0) {
+                shutoutsByGoalie[net] = (shutoutsByGoalie[net] || 0) + 1;
+            }
+        });
+        Object.entries(shutoutsByGoalie).forEach(([playerId, shutouts]) => {
+            playerSeasonShutouts[`${playerId}-${season}`] = { playerId, season, shutouts };
+        });
+    });
+
+    Object.values(playerSeasonShutouts).forEach(ps => {
+        if (ps.shutouts > mostShutouts) {
+            mostShutouts = ps.shutouts;
+            recordHolders = [{ playerName: getPlayerName(ps.playerId, players), playerId: ps.playerId, season: ps.season }];
+        } else if (ps.shutouts === mostShutouts && ps.shutouts > 0) {
+            recordHolders.push({ playerName: getPlayerName(ps.playerId, players), playerId: ps.playerId, season: ps.season });
+        }
+    });
+
+    return {
+        title: 'Most Shutouts in a Season',
+        description: 'Goalie with the most shutouts in a single season',
+        value: `${mostShutouts} shutout${mostShutouts !== 1 ? 's' : ''}`,
+        category: 'performance',
+        holders: recordHolders
+    };
+};
+
+const getMostPIMsInASeason = (players: Player[]): SeasonRecord => {
+    let mostPIMs = 0;
+    const playerSeasonPIMs: Record<string, { playerId: string; season: string; pims: number }> = {};
+    let recordHolders: SeasonRecordHolder[] = [];
+
+    players.forEach(player => {
+        player.stats.forEach(stat => {
+            const key = `${player.id}-${stat.season}`;
+            if (!playerSeasonPIMs[key]) playerSeasonPIMs[key] = { playerId: player.id, season: stat.season, pims: 0 };
+            playerSeasonPIMs[key].pims += stat.pims;
+        });
+    });
+
+    Object.values(playerSeasonPIMs).forEach(ps => {
+        if (ps.pims > mostPIMs) {
+            mostPIMs = ps.pims;
+            recordHolders = [{ playerName: getPlayerName(ps.playerId, players), playerId: ps.playerId, season: ps.season }];
+        } else if (ps.pims === mostPIMs && ps.pims > 0) {
+            recordHolders.push({ playerName: getPlayerName(ps.playerId, players), playerId: ps.playerId, season: ps.season });
+        }
+    });
+
+    return {
+        title: 'Most Penalty Minutes in a Season',
+        description: 'Player with most PIMs in a single season',
+        value: `${mostPIMs} min${mostPIMs !== 1 ? 's' : ''}`,
+        category: 'performance',
+        holders: recordHolders
+    };
+};
+
+const getMostMOTMInASeason = (players: Player[]): SeasonRecord => {
+    let mostMOTM = 0;
+    const playerSeasonMOTM: Record<string, { playerId: string; season: string; motm: number }> = {};
+    let recordHolders: SeasonRecordHolder[] = [];
+
+    players.forEach(player => {
+        player.stats.forEach(stat => {
+            const val = stat.manOfTheMatch ?? 0;
+            if (val === 0) return;
+            const key = `${player.id}-${stat.season}`;
+            if (!playerSeasonMOTM[key]) playerSeasonMOTM[key] = { playerId: player.id, season: stat.season, motm: 0 };
+            playerSeasonMOTM[key].motm += val;
+        });
+    });
+
+    Object.values(playerSeasonMOTM).forEach(ps => {
+        if (ps.motm > mostMOTM) {
+            mostMOTM = ps.motm;
+            recordHolders = [{ playerName: getPlayerName(ps.playerId, players), playerId: ps.playerId, season: ps.season }];
+        } else if (ps.motm === mostMOTM && ps.motm > 0) {
+            recordHolders.push({ playerName: getPlayerName(ps.playerId, players), playerId: ps.playerId, season: ps.season });
+        }
+    });
+
+    return {
+        title: 'Most Man of the Match Awards in a Season',
+        description: 'Player with most MOTM awards in a single season',
+        value: `${mostMOTM} award${mostMOTM !== 1 ? 's' : ''}`,
+        category: 'performance',
+        holders: recordHolders
+    };
+};
+
+const getMostWOTGInASeason = (players: Player[]): SeasonRecord => {
+    let mostWOTG = 0;
+    const playerSeasonWOTG: Record<string, { playerId: string; season: string; wotg: number }> = {};
+    let recordHolders: SeasonRecordHolder[] = [];
+
+    players.forEach(player => {
+        player.stats.forEach(stat => {
+            const val = stat.warriorOfTheGame ?? 0;
+            if (val === 0) return;
+            const key = `${player.id}-${stat.season}`;
+            if (!playerSeasonWOTG[key]) playerSeasonWOTG[key] = { playerId: player.id, season: stat.season, wotg: 0 };
+            playerSeasonWOTG[key].wotg += val;
+        });
+    });
+
+    Object.values(playerSeasonWOTG).forEach(ps => {
+        if (ps.wotg > mostWOTG) {
+            mostWOTG = ps.wotg;
+            recordHolders = [{ playerName: getPlayerName(ps.playerId, players), playerId: ps.playerId, season: ps.season }];
+        } else if (ps.wotg === mostWOTG && ps.wotg > 0) {
+            recordHolders.push({ playerName: getPlayerName(ps.playerId, players), playerId: ps.playerId, season: ps.season });
+        }
+    });
+
+    return {
+        title: 'Most Warrior of the Game Awards in a Season',
+        description: 'Player with most WOTG awards in a single season',
+        value: `${mostWOTG} award${mostWOTG !== 1 ? 's' : ''}`,
+        category: 'performance',
+        holders: recordHolders
+    };
+};
+
+// ── New: All-Time Records ─────────────────────────────────────────────────────
+
+const getMostShutoutsAllTime = (results: Result[], players: Player[]): AllTimeRecord => {
+    let mostShutouts = 0;
+    const goalieShutouts: Record<string, number> = {};
+    let recordHolders: AllTimeRecordHolder[] = [];
+
+    results.forEach(result => {
+        const net = result.netminderPlayerId;
+        if (net && net !== 'MISSING' && result.score.opponentScore === 0) {
+            goalieShutouts[net] = (goalieShutouts[net] || 0) + 1;
+        }
+    });
+
+    Object.entries(goalieShutouts).forEach(([playerId, shutouts]) => {
+        if (shutouts > mostShutouts) {
+            mostShutouts = shutouts;
+            recordHolders = [{ playerName: getPlayerName(playerId, players), playerId }];
+        } else if (shutouts === mostShutouts) {
+            recordHolders.push({ playerName: getPlayerName(playerId, players), playerId });
+        }
+    });
+
+    return {
+        title: 'Most Career Shutouts',
+        description: 'Goalie with the most shutouts all-time',
+        value: `${mostShutouts} shutout${mostShutouts !== 1 ? 's' : ''}`,
+        category: 'performance',
+        holders: recordHolders
+    };
+};
+
+const getMostCareerPenaltyMinutes = (players: Player[]): AllTimeRecord => {
+    let mostPIMs = 0;
+    const playerPIMs: Record<string, number> = {};
+    let recordHolders: AllTimeRecordHolder[] = [];
+
+    players.forEach(player => {
+        const total = player.stats.reduce((s, stat) => s + (stat.pims || 0), 0);
+        if (total > 0) playerPIMs[player.id] = total;
+    });
+
+    Object.entries(playerPIMs).forEach(([playerId, pims]) => {
+        if (pims > mostPIMs) {
+            mostPIMs = pims;
+            recordHolders = [{ playerName: getPlayerName(playerId, players), playerId }];
+        } else if (pims === mostPIMs) {
+            recordHolders.push({ playerName: getPlayerName(playerId, players), playerId });
+        }
+    });
+
+    return {
+        title: 'Most Career Penalty Minutes',
+        description: 'Player with most career PIMs all-time',
+        value: `${mostPIMs} min${mostPIMs !== 1 ? 's' : ''}`,
+        category: 'performance',
+        holders: recordHolders
+    };
+};
+
+const getMostCareerMOTM = (players: Player[]): AllTimeRecord => {
+    let mostMOTM = 0;
+    const playerMOTM: Record<string, number> = {};
+    let recordHolders: AllTimeRecordHolder[] = [];
+
+    players.forEach(player => {
+        const total = player.stats.reduce((s, stat) => s + (stat.manOfTheMatch ?? 0), 0);
+        if (total > 0) playerMOTM[player.id] = total;
+    });
+
+    Object.entries(playerMOTM).forEach(([playerId, count]) => {
+        if (count > mostMOTM) {
+            mostMOTM = count;
+            recordHolders = [{ playerName: getPlayerName(playerId, players), playerId }];
+        } else if (count === mostMOTM) {
+            recordHolders.push({ playerName: getPlayerName(playerId, players), playerId });
+        }
+    });
+
+    return {
+        title: 'Most Career Man of the Match Awards',
+        description: 'Player with most MOTM awards all-time',
+        value: `${mostMOTM} award${mostMOTM !== 1 ? 's' : ''}`,
+        category: 'performance',
+        holders: recordHolders
+    };
+};
+
+const getMostCareerWOTG = (players: Player[]): AllTimeRecord => {
+    let mostWOTG = 0;
+    const playerWOTG: Record<string, number> = {};
+    let recordHolders: AllTimeRecordHolder[] = [];
+
+    players.forEach(player => {
+        const total = player.stats.reduce((s, stat) => s + (stat.warriorOfTheGame ?? 0), 0);
+        if (total > 0) playerWOTG[player.id] = total;
+    });
+
+    Object.entries(playerWOTG).forEach(([playerId, count]) => {
+        if (count > mostWOTG) {
+            mostWOTG = count;
+            recordHolders = [{ playerName: getPlayerName(playerId, players), playerId }];
+        } else if (count === mostWOTG) {
+            recordHolders.push({ playerName: getPlayerName(playerId, players), playerId });
+        }
+    });
+
+    return {
+        title: 'Most Career Warrior of the Game Awards',
+        description: 'Player with most WOTG awards all-time',
+        value: `${mostWOTG} award${mostWOTG !== 1 ? 's' : ''}`,
+        category: 'performance',
+        holders: recordHolders
+    };
+};
+
+export {
     getMostGoals,
     getMostAssists,
     getMostPoints,
     getQuickestGoal,
     getQuickestHattrick,
+    getMostPenaltyMinutesInAGame,
     getMostGoalsInASeason,
     getMostAssistsInASeason,
     getMostPointsInASeason,
@@ -1055,12 +1360,20 @@ export {
     getMostPowerPlayGoalsInASeason,
     getMostShortHandedGoalsInASeason,
     getMostGameWinningGoalsInASeason,
+    getMostShutoutsInASeason,
+    getMostPIMsInASeason,
+    getMostMOTMInASeason,
+    getMostWOTGInASeason,
     getMostPowerPlayGoalsAllTime,
     getMostShortHandedGoalsAllTime,
     getMostGameWinningGoalsAllTime,
+    getMostShutoutsAllTime,
     getCareerGoalsLeader,
     getCareerAssistsLeader,
     getCareerPointsLeader,
-    getCareerGamesPlayedLeader
+    getCareerGamesPlayedLeader,
+    getMostCareerPenaltyMinutes,
+    getMostCareerMOTM,
+    getMostCareerWOTG
 };
 export type { TeamRecord, RecordHolder, GameInfo, SeasonRecord, SeasonRecordHolder, AllTimeRecord, AllTimeRecordHolder };

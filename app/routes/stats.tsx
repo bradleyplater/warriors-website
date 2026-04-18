@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
-import { LineChart } from "@wonderflow/charts";
+import { LinePath } from "@visx/shape";
+import { scaleLinear } from "@visx/scale";
+import { AxisBottom, AxisLeft } from "@visx/axis";
+import { GridRows } from "@visx/grid";
+import { Group } from "@visx/group";
+import { curveMonotoneX } from "@visx/curve";
 import playersData from "../../public/data/players.json";
 import resultsData from "../../public/data/results.json";
 import "./stats.css";
@@ -61,6 +66,7 @@ type GoalieStatRow = {
 type PlayerSortField = "name" | "number" | "gp" | "goals" | "assists" | "points" | "ppg" | "pims" | "motm" | "wotg";
 type GoalieSortField = "name" | "number" | "gp" | "ga" | "gaa";
 type SortDir = "asc" | "desc";
+type StatType = "goals" | "assists" | "points" | "pims";
 
 // ── Static data ───────────────────────────────────────────────────────────────
 
@@ -134,6 +140,23 @@ const sortedSeasons = Array.from(allSeasons).sort(
 );
 const sortedCompetitions = Array.from(allCompetitions).sort();
 
+// ── Chart constants ───────────────────────────────────────────────────────────
+
+const PALETTE = [
+  "#3b82f6", "#f59e0b", "#10b981", "#ef4444", "#8b5cf6",
+  "#f97316", "#06b6d4", "#ec4899", "#84cc16", "#6366f1",
+  "#14b8a6", "#f43f5e", "#a78bfa", "#34d399", "#fb923c",
+];
+const CHART_MARGIN = { top: 20, right: 155, bottom: 48, left: 52 };
+const CHART_TOTAL_H = 480;
+
+const STAT_OPTIONS: { value: StatType; label: string; axisLabel: string }[] = [
+  { value: "goals",   label: "Goals",   axisLabel: "Goals" },
+  { value: "assists", label: "Assists", axisLabel: "Assists" },
+  { value: "points",  label: "Points",  axisLabel: "Points" },
+  { value: "pims",    label: "PIMs",    axisLabel: "Penalty Mins" },
+];
+
 // ── Aggregation helpers ───────────────────────────────────────────────────────
 
 function aggregatePlayer(playerId: string, season: string, comp: string): StatEntry {
@@ -184,8 +207,8 @@ type CumulativeChartResult = {
   xTickLabel: (v: number) => string;
 };
 
-/** Cumulative goals per player, one data point per season. X axis is numeric (0 = origin). */
-function buildSeasonCumulative(minGP: number): CumulativeChartResult {
+/** Cumulative stat per player, one data point per season. X axis is numeric (0 = origin). */
+function buildSeasonCumulative(minGP: number, stat: StatType = "goals"): CumulativeChartResult {
   const seasons = sortedSeasons.slice().reverse(); // chronological: oldest first
 
   const eligible = Object.keys(playerStats)
@@ -208,7 +231,12 @@ function buildSeasonCumulative(minGP: number): CumulativeChartResult {
     const row: Record<string, number> = { season: i + 1 };
     for (const p of eligible) {
       const s = aggregatePlayer(p.id, season, "All");
-      cum[p.id] = (cum[p.id] ?? 0) + s.goals;
+      const value =
+        stat === "goals"   ? s.goals :
+        stat === "assists"  ? s.assists :
+        stat === "points"   ? s.goals + s.assists :
+        /* pims */            s.pims;
+      cum[p.id] = (cum[p.id] ?? 0) + value;
       row[p.name] = cum[p.id];
     }
     return row;
@@ -226,11 +254,15 @@ function buildSeasonCumulative(minGP: number): CumulativeChartResult {
   };
 }
 
-/** Cumulative goals per player, one data point per club game. X axis is numeric (0 = origin). */
-function buildGameCumulative(minGP: number): CumulativeChartResult {
-  // First pass: count skater GP per player
+/** Cumulative stat per player, one data point per club game. X axis is numeric (0 = origin). */
+function buildGameCumulative(minGP: number, season: string = "All", stat: StatType = "goals"): CumulativeChartResult {
+  const filteredResults = season === "All"
+    ? chronologicalResults
+    : chronologicalResults.filter((r) => r.season === season);
+
+  // Count skater GP within the filtered games to determine eligibility
   const gpCount: Record<string, number> = {};
-  for (const result of chronologicalResults) {
+  for (const result of filteredResults) {
     const net = result.netminderPlayerId;
     for (const id of result.roster) {
       if (net && net !== "MISSING" && id === net) continue;
@@ -247,7 +279,7 @@ function buildGameCumulative(minGP: number): CumulativeChartResult {
   for (const p of eligible) zeroRow[p.name] = 0;
 
   const cum: Record<string, number> = {};
-  const dataRows = chronologicalResults.map((result, i) => {
+  const dataRows = filteredResults.map((result, i) => {
     const row: Record<string, number> = { game: i + 1 };
     const net = result.netminderPlayerId;
     const periods = [result.score.period.one, result.score.period.two, result.score.period.three];
@@ -257,11 +289,24 @@ function buildGameCumulative(minGP: number): CumulativeChartResult {
         result.roster.includes(p.id) &&
         !(net && net !== "MISSING" && p.id === net);
       if (isSkater) {
-        const goals = periods.reduce(
-          (s, pd) => s + pd.goals.filter((g) => g.playerId === p.id).length,
-          0
-        );
-        cum[p.id] = (cum[p.id] ?? 0) + goals;
+        let value = 0;
+        if (stat === "goals" || stat === "points") {
+          value += periods.reduce(
+            (s, pd) => s + pd.goals.filter((g) => g.playerId === p.id).length, 0
+          );
+        }
+        if (stat === "assists" || stat === "points") {
+          value += periods.reduce(
+            (s, pd) => s + pd.goals.filter((g) => g.assists.includes(p.id)).length, 0
+          );
+        }
+        if (stat === "pims") {
+          value = periods
+            .flatMap((pd) => pd.penalties)
+            .filter((pen) => pen.offender === p.id)
+            .reduce((s, pen) => s + pen.duration, 0);
+        }
+        cum[p.id] = (cum[p.id] ?? 0) + value;
       }
       row[p.name] = cum[p.id] ?? 0;
     }
@@ -271,9 +316,154 @@ function buildGameCumulative(minGP: number): CumulativeChartResult {
   return {
     data: [zeroRow, ...dataRows],
     players: eligible.map((p) => p.name),
-    xMax: chronologicalResults.length,
+    xMax: filteredResults.length,
     xTickLabel: (v) => (v === 0 ? "" : String(v)),
   };
+}
+
+// ── Reusable cumulative chart ─────────────────────────────────────────────────
+
+type CumulativeChartProps = {
+  lineData: Record<string, number>[];
+  linePlayers: string[];
+  xMax: number;
+  xTickLabel: (v: number) => string;
+  xKey: string;
+  title: string;
+  subtitle: string;
+  axisLabel: string;
+  chartAxisMode: "season" | "game";
+  chartWidth: number;
+  chartTheme: "light" | "dark";
+  hoveredPlayer: string | null;
+  setHoveredPlayer: (p: string | null) => void;
+};
+
+function CumulativeChart({
+  lineData, linePlayers, xMax, xTickLabel, xKey,
+  title, subtitle, axisLabel, chartAxisMode,
+  chartWidth, chartTheme,
+  hoveredPlayer, setHoveredPlayer,
+}: CumulativeChartProps) {
+  const innerW = Math.max(10, chartWidth - CHART_MARGIN.left - CHART_MARGIN.right);
+  const innerH = CHART_TOTAL_H - CHART_MARGIN.top - CHART_MARGIN.bottom;
+
+  const xScale = scaleLinear({ domain: [0, xMax], range: [0, innerW] });
+  const yPeak = Math.max(1, ...lineData.flatMap((row) => linePlayers.map((p) => (row[p] as number) ?? 0)));
+  const yScale = scaleLinear({ domain: [0, yPeak], range: [innerH, 0], nice: true });
+
+  const lastDataRow = lineData[lineData.length - 1] ?? {};
+  const endLabels = linePlayers
+    .map((name, i) => ({ name, color: PALETTE[i % PALETTE.length], y: yScale((lastDataRow[name] as number) ?? 0) }))
+    .sort((a, b) => a.y - b.y);
+  const MIN_LABEL_GAP = 13;
+  for (let i = 1; i < endLabels.length; i++) {
+    if (endLabels[i].y - endLabels[i - 1].y < MIN_LABEL_GAP) {
+      endLabels[i].y = endLabels[i - 1].y + MIN_LABEL_GAP;
+    }
+  }
+
+  const playerColorMap: Record<string, string> = {};
+  linePlayers.forEach((name, i) => { playerColorMap[name] = PALETTE[i % PALETTE.length]; });
+
+  const renderOrder = hoveredPlayer
+    ? [...linePlayers.filter((p) => p !== hoveredPlayer), hoveredPlayer]
+    : linePlayers;
+
+  const isDark = chartTheme === "dark";
+  const axisStroke = isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.2)";
+  const tickFill   = isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.5)";
+  const gridStroke = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.06)";
+
+  return (
+    <div className="stats-chart-card stats-chart-card-full">
+      <div className="stats-chart-header">
+        <p className="stats-chart-title">{title}</p>
+        <p className="stats-chart-subtitle">{subtitle}</p>
+      </div>
+      <div className="stats-chart-scroll">
+        <div style={{ width: "100%", minWidth: "600px" }}>
+          <svg width={chartWidth} height={CHART_TOTAL_H} style={{ display: "block", overflow: "visible" }}>
+            <Group left={CHART_MARGIN.left} top={CHART_MARGIN.top}>
+              <GridRows scale={yScale} width={innerW} stroke={gridStroke} strokeWidth={1} />
+
+              {renderOrder.map((player) => {
+                const color = playerColorMap[player];
+                const isHovered = hoveredPlayer === player;
+                const isDimmed = hoveredPlayer !== null && !isHovered;
+                return (
+                  <g key={player}>
+                    <LinePath<Record<string, number>>
+                      data={lineData as Record<string, number>[]}
+                      x={(d) => xScale(d[xKey] ?? 0)}
+                      y={(d) => yScale(d[player] ?? 0)}
+                      stroke={color}
+                      strokeWidth={isHovered ? 3 : 2}
+                      strokeOpacity={isDimmed ? 0.12 : 1}
+                      curve={curveMonotoneX}
+                      style={{ transition: "stroke-opacity 0.15s, stroke-width 0.15s", pointerEvents: "none" }}
+                    />
+                    <LinePath<Record<string, number>>
+                      data={lineData as Record<string, number>[]}
+                      x={(d) => xScale(d[xKey] ?? 0)}
+                      y={(d) => yScale(d[player] ?? 0)}
+                      stroke="transparent"
+                      strokeWidth={16}
+                      fill="none"
+                      curve={curveMonotoneX}
+                      style={{ cursor: "pointer" }}
+                      onMouseEnter={() => setHoveredPlayer(player)}
+                      onMouseLeave={() => setHoveredPlayer(null)}
+                    />
+                  </g>
+                );
+              })}
+
+              {endLabels.map((lbl) => {
+                const isHovered = hoveredPlayer === lbl.name;
+                const isDimmed = hoveredPlayer !== null && !isHovered;
+                return (
+                  <text
+                    key={lbl.name}
+                    x={innerW + 6}
+                    y={lbl.y}
+                    fill={lbl.color}
+                    fontSize={isHovered ? 12 : 11}
+                    fontWeight={isHovered ? 700 : 600}
+                    dominantBaseline="middle"
+                    opacity={isDimmed ? 0.2 : 1}
+                    style={{ fontFamily: "inherit", transition: "opacity 0.15s" }}
+                  >
+                    {lbl.name}
+                  </text>
+                );
+              })}
+
+              <AxisBottom
+                scale={xScale}
+                top={innerH}
+                stroke={axisStroke}
+                tickStroke={axisStroke}
+                numTicks={chartAxisMode === "season" ? xMax + 1 : undefined}
+                tickFormat={(v) => xTickLabel(Number(v))}
+                label={chartAxisMode === "season" ? "Season" : "Game #"}
+                tickLabelProps={() => ({ fill: tickFill, fontSize: 11, textAnchor: "middle", fontFamily: "inherit" })}
+                labelProps={{ fill: tickFill, fontSize: 12, textAnchor: "middle", fontFamily: "inherit" }}
+              />
+              <AxisLeft
+                scale={yScale}
+                stroke={axisStroke}
+                tickStroke={axisStroke}
+                label={axisLabel}
+                tickLabelProps={() => ({ fill: tickFill, fontSize: 11, textAnchor: "end", dy: "0.33em", fontFamily: "inherit" })}
+                labelProps={{ fill: tickFill, fontSize: 12, textAnchor: "middle", fontFamily: "inherit" }}
+              />
+            </Group>
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 // ── Sort icon helper ──────────────────────────────────────────────────────────
@@ -291,6 +481,8 @@ export default function Stats() {
   const [chartTheme, setChartTheme] = useState<"light" | "dark">("dark");
   const [chartAxisMode, setChartAxisMode] = useState<"season" | "game">("season");
   const [chartMinGP, setChartMinGP] = useState(5);
+  const [chartSeason, setChartSeason] = useState("All");
+  const [hoveredPlayer, setHoveredPlayer] = useState<string | null>(null);
 
   useEffect(() => {
     const getTheme = (): "light" | "dark" =>
@@ -301,92 +493,32 @@ export default function Stats() {
     return () => observer.disconnect();
   }, []);
 
-  const { data: lineData, players: linePlayers, xMax, xTickLabel } = useMemo(
-    () => chartAxisMode === "season" ? buildSeasonCumulative(chartMinGP) : buildGameCumulative(chartMinGP),
-    [chartAxisMode, chartMinGP]
+  const allChartData = useMemo(
+    () => STAT_OPTIONS.map(({ value: stat }) =>
+      chartAxisMode === "season"
+        ? buildSeasonCumulative(chartMinGP, stat)
+        : buildGameCumulative(chartMinGP, chartSeason, stat)
+    ),
+    [chartAxisMode, chartMinGP, chartSeason]
   );
+  // All stat datasets share the same eligible players (GP-filtered, stat-independent)
+  const linePlayers = allChartData[0]?.players ?? [];
 
-  // ── End-of-line labels ─────────────────────────────────────────────────────
-  const wrapRef = useRef<HTMLDivElement>(null);
-  type EndLabel = { name: string; xPx: number; yPx: number; color: string };
-  const [endLabels, setEndLabels] = useState<EndLabel[]>([]);
+  // ── Responsive chart width ─────────────────────────────────────────────────
+  const chartContainerRef = useRef<HTMLDivElement>(null);
+  const [chartWidth, setChartWidth] = useState(900);
 
   useEffect(() => {
-    if (tab !== "charts" || linePlayers.length === 0) {
-      setEndLabels([]);
-      return;
-    }
-
-    // Give the chart time to finish painting
-    const tid = setTimeout(() => {
-      const wrap = wrapRef.current;
-      if (!wrap) return;
-      const svg = wrap.querySelector<SVGSVGElement>("svg");
-      if (!svg) return;
-
-      // Data line paths: no fill, contain cubic bezier 'C' commands
-      const dataPaths = Array.from(svg.querySelectorAll<SVGPathElement>("path")).filter((p) => {
-        const d = p.getAttribute("d") ?? "";
-        const fill = (p.getAttribute("fill") ?? p.style.fill).trim().toLowerCase();
-        return d.includes("C") && (fill === "none" || fill === "");
-      });
-
-      if (dataPaths.length === 0) return;
-
-      const wrapRect = wrap.getBoundingClientRect();
-
-      // Convert an SVG-user-unit point to wrapper-relative px
-      function toWrapperPx(path: SVGPathElement, svgPt: DOMPoint): { x: number; y: number } {
-        const ctm = path.getScreenCTM();
-        if (!ctm) return { x: svgPt.x, y: svgPt.y };
-        const screen = svgPt.matrixTransform(ctm);
-        return { x: screen.x - wrapRect.left, y: screen.y - wrapRect.top };
-      }
-
-      // Get rightmost point of each data path
-      const pathInfo = dataPaths.map((path) => {
-        const len = path.getTotalLength();
-        const ep = path.getPointAtLength(len);
-        const pt = svg.createSVGPoint();
-        pt.x = ep.x;
-        pt.y = ep.y;
-        const { x: xPx, y: yPx } = toWrapperPx(path, pt);
-        const color = path.getAttribute("stroke") ?? "#888";
-        return { xPx, yPx, color };
-      });
-
-      // Sort paths: ascending y (lower y = higher on screen = more goals)
-      pathInfo.sort((a, b) => a.yPx - b.yPx);
-
-      // Sort players: descending cumulative goals
-      const lastRow = lineData[lineData.length - 1] ?? {};
-      const playersByGoals = linePlayers
-        .map((name) => ({ name, goals: (lastRow[name] as number) ?? 0 }))
-        .sort((a, b) => b.goals - a.goals);
-
-      // Pair top path → top scorer
-      const count = Math.min(pathInfo.length, playersByGoals.length);
-      const raw: EndLabel[] = Array.from({ length: count }, (_, i) => ({
-        name: playersByGoals[i].name,
-        xPx: pathInfo[i].xPx,
-        yPx: pathInfo[i].yPx,
-        color: pathInfo[i].color,
-      }));
-
-      // Collision avoidance: sort by y, push down if labels overlap
-      const MIN_GAP = 14;
-      raw.sort((a, b) => a.yPx - b.yPx);
-      for (let i = 1; i < raw.length; i++) {
-        if (raw[i].yPx - raw[i - 1].yPx < MIN_GAP) {
-          raw[i].yPx = raw[i - 1].yPx + MIN_GAP;
-        }
-      }
-
-      setEndLabels(raw);
-    }, 350);
-
-    return () => clearTimeout(tid);
-  }, [tab, linePlayers, lineData, chartAxisMode, chartMinGP, chartTheme]);
+    if (tab !== "charts") return;
+    const el = chartContainerRef.current;
+    if (!el) return;
+    setChartWidth(Math.floor(el.getBoundingClientRect().width) || 900);
+    const ro = new ResizeObserver(([entry]) =>
+      setChartWidth(Math.floor(entry.contentRect.width))
+    );
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [tab]);
 
   const [pSeason, setPSeason] = useState("All");
   const [pComp, setPComp] = useState("All");
@@ -481,6 +613,8 @@ export default function Stats() {
       setGDir(field === "name" || field === "number" ? "asc" : field === "gaa" ? "asc" : "desc");
     }
   }
+
+  const xKey = chartAxisMode === "season" ? "season" : "game";
 
   return (
     <div className="stats-page">
@@ -725,6 +859,15 @@ export default function Stats() {
                     </button>
                   </div>
                 </div>
+                {chartAxisMode === "game" && (
+                  <div className="stats-filter-group">
+                    <label className="stats-filter-label" htmlFor="chart-season">Season</label>
+                    <select id="chart-season" className="stats-select" value={chartSeason} onChange={(e) => setChartSeason(e.target.value)}>
+                      <option value="All">All Seasons</option>
+                      {sortedSeasons.map((s) => <option key={s} value={s}>{s}</option>)}
+                    </select>
+                  </div>
+                )}
                 <div className="stats-filter-group">
                   <label className="stats-filter-label" htmlFor="chart-mingp">Min. Games Played</label>
                   <select id="chart-mingp" className="stats-select" value={chartMinGP} onChange={(e) => setChartMinGP(Number(e.target.value))}>
@@ -738,50 +881,36 @@ export default function Stats() {
                 <span className="stats-chart-count">{linePlayers.length} players</span>
               </div>
 
+              {/* Invisible width gauge — ResizeObserver reads this */}
+              <div ref={chartContainerRef} style={{ width: "100%", height: 0, overflow: "hidden" }} />
+
               {linePlayers.length === 0 ? (
                 <p className="stats-empty">No players match the selected filters.</p>
               ) : (
-                <div className="stats-chart-card stats-chart-card-full">
-                  <div ref={wrapRef} style={{ position: "relative" }}>
-                    <LineChart
-                      key={chartAxisMode}
-                      title="Cumulative Goals"
+                <>
+                  {STAT_OPTIONS.map(({ value: stat, label, axisLabel }, i) => (
+                    <CumulativeChart
+                      key={stat}
+                      lineData={allChartData[i].data}
+                      linePlayers={allChartData[i].players}
+                      xMax={allChartData[i].xMax}
+                      xTickLabel={allChartData[i].xTickLabel}
+                      xKey={xKey}
+                      title={`Cumulative ${label}`}
                       subtitle={
                         chartAxisMode === "season"
                           ? "Running total per player at the end of each season"
                           : "Running total per player after each club game"
                       }
-                      theme={chartTheme}
-                      renderAs="curves"
-                      data={lineData}
-                      index={{
-                        dataKey: chartAxisMode === "season" ? "season" : "game",
-                        scaleType: "linear",
-                        domain: [0, xMax],
-                        label: chartAxisMode === "season" ? "Season" : "Game",
-                        tickFormat: (v: any) => xTickLabel(Number(v)),
-                        numTicks: chartAxisMode === "season" ? xMax + 1 : undefined,
-                      }}
-                      series={{
-                        dataKey: linePlayers,
-                        label: "Goals",
-                      }}
-                      showMarker={chartAxisMode === "season"}
-                      hidePadding
-                      height={520}
-                      margin={{ top: 24, right: 130, bottom: 64, left: 72 }}
+                      axisLabel={axisLabel}
+                      chartAxisMode={chartAxisMode}
+                      chartWidth={chartWidth}
+                      chartTheme={chartTheme}
+                      hoveredPlayer={hoveredPlayer}
+                      setHoveredPlayer={setHoveredPlayer}
                     />
-                    {endLabels.map((lbl) => (
-                      <span
-                        key={lbl.name}
-                        className="stats-chart-end-label"
-                        style={{ left: lbl.xPx + 8, top: lbl.yPx, color: lbl.color }}
-                      >
-                        {lbl.name}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                  ))}
+                </>
               )}
             </div>
           )}

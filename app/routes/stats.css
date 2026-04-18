@@ -170,6 +170,7 @@
 /* ── Table ────────────────────────────────────────────────────────────────── */
 .stats-table-wrap {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border-radius: 1rem;
   border: 1px solid var(--stats-border);
 }
@@ -375,15 +376,28 @@
   padding-bottom: 0.5rem;
 }
 
-/* ── End-of-line chart labels ─────────────────────────────────────────────── */
-.stats-chart-end-label {
-  position: absolute;
-  transform: translateY(-50%);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  pointer-events: none;
-  white-space: nowrap;
-  line-height: 1;
+/* ── Chart scroll wrapper ─────────────────────────────────────────────────── */
+.stats-chart-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Chart header ─────────────────────────────────────────────────────────── */
+.stats-chart-header {
+  padding: 1.25rem 1.5rem 0.5rem;
+}
+
+.stats-chart-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ng-text-primary);
+  margin: 0 0 0.2rem;
+}
+
+.stats-chart-subtitle {
+  font-size: 0.8125rem;
+  color: var(--ng-text-secondary);
+  margin: 0;
 }
 
 /* ── Empty state ──────────────────────────────────────────────────────────── */

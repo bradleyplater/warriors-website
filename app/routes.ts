@@ -8,4 +8,6 @@ export default [
   route("roster/:playerId", "routes/player.tsx"),
   route("results/:gameId", "routes/game.tsx"),
   route("stats", "routes/stats.tsx"),
+  route("team-stats", "routes/team-stats.tsx"),
+  route("records", "routes/records.tsx"),
 ] satisfies RouteConfig;

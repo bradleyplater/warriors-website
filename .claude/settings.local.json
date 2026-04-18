@@ -4,7 +4,15 @@
       "mcp__Claude_Preview__preview_start",
       "Bash(node -e ':*)",
       "Bash(node -e \"const d = require\\('./public/data/players.json'\\); d.slice\\(0,5\\).forEach\\(p => console.log\\(p.id, p.name\\)\\)\")",
-      "Bash(node -e \"import\\('./public/data/players.json', {assert:{type:'json'}}\\).then\\(m => m.default.slice\\(0,5\\).forEach\\(p => console.log\\(p.id, p.name\\)\\)\\)\")"
+      "Bash(node -e \"import\\('./public/data/players.json', {assert:{type:'json'}}\\).then\\(m => m.default.slice\\(0,5\\).forEach\\(p => console.log\\(p.id, p.name\\)\\)\\)\")",
+      "Bash(node -e \"console.log\\(Object.keys\\(require\\('D:/Projects/warriors-website/node_modules/@visx/shape'\\)\\)\\)\")",
+      "Bash(node -e \"console.log\\(Object.keys\\(require\\('D:/Projects/warriors-website/node_modules/@visx/scale'\\)\\)\\)\")",
+      "Bash(node -e \"console.log\\(Object.keys\\(require\\('D:/Projects/warriors-website/node_modules/@visx/axis'\\)\\)\\)\")",
+      "Bash(node -e \"console.log\\(Object.keys\\(require\\('D:/Projects/warriors-website/node_modules/@visx/curve'\\)\\)\\)\")",
+      "Bash(node -e \"console.log\\(Object.keys\\(require\\('D:/Projects/warriors-website/node_modules/@visx/grid'\\)\\)\\)\")",
+      "Bash(node -e \"const {scaleLinear} = require\\('D:/Projects/warriors-website/node_modules/@visx/scale'\\); const s = scaleLinear\\({domain:[0,10],range:[0,100],nice:true}\\); console.log\\(s\\(10\\)\\)\")",
+      "Bash(node -e \"const {AxisBottom} = require\\('D:/Projects/warriors-website/node_modules/@visx/axis'\\); console.log\\(typeof AxisBottom\\)\")",
+      "Bash(npx tsc *)"
     ]
   }
 }
