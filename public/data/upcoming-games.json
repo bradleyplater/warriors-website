@@ -1,12 +1,4 @@
 [
-{
-        "opponentTeam": "Beighton Bombers",
-        "logoImage": "beighton-bombers.jpg",
-        "gameType": "Challenge",
-        "date": "2026-04-18",
-        "time": "9:00 PM",
-        "location": "Planet Ice Peterborough"
-    },
     {
         "opponentTeam": "Leeds Warriors",
         "logoImage": "leeds-warriors.jpg",
@@ -16,8 +8,8 @@
         "location": "Planet Ice Leeds"
     },
     {
-        "opponentTeam": "Sheffield Mavericks",
-        "logoImage": "sheffield-mavericks.jpg",
+        "opponentTeam": "Peterborough Predators",
+        "logoImage": "peterborough-predators.jpg",
         "gameType": "LLIHC",
         "date": "2026-05-10",
         "time": "7:45 PM",

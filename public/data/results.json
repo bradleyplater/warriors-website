@@ -16185,5 +16185,236 @@
         }
       }
     }
+  },
+  {
+    "season": "25/26",
+    "opponentTeam": "Beighton Bombers",
+    "logoImage": "beighton-bombers.jpg",
+    "date": "2026-04-18T19:00:00.000Z",
+    "seasonId": "25/26",
+    "roster": [
+      "PLR941511",
+      "PLR502819",
+      "PLR297690",
+      "PLR302643",
+      "PLR106345",
+      "PLR226199",
+      "PLR434650",
+      "PLR883828",
+      "PLR644758",
+      "PLR123881",
+      "PLR030348",
+      "PLR348214",
+      "PLR491823",
+      "PLR241136",
+      "PLR271434",
+      "PLR604611"
+    ],
+    "manOfTheMatchPlayerId": "MISSING",
+    "warriorOfTheGamePlayerId": "MISSING",
+    "netminderPlayerId": "MISSING",
+    "competition": "Challenge",
+    "location": "HOME",
+    "score": {
+      "warriorsScore": 12,
+      "opponentScore": 2,
+      "period": {
+        "one": {
+          "warriorsScore": 5,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR644758",
+              "assists": [
+                "PLR271434"
+              ],
+              "minute": 2,
+              "second": 9,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR348214",
+              "assists": [
+                "PLR226199"
+              ],
+              "minute": 6,
+              "second": 0,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR941511",
+              "assists": [
+                "PLR271434"
+              ],
+              "minute": 8,
+              "second": 7,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR271434",
+              "assists": [
+                "PLR941511"
+              ],
+              "minute": 8,
+              "second": 33,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR502819",
+              "assists": [],
+              "minute": 10,
+              "second": 46,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [
+            {
+              "type": "HIST",
+              "minute": 11,
+              "second": 1,
+              "duration": 2,
+              "offender": "PLR241136"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "TRIP",
+              "minute": 16,
+              "second": 0,
+              "duration": 2,
+              "offender": "Alex Denning"
+            }
+          ]
+        },
+        "two": {
+          "warriorsScore": 4,
+          "opponentScore": 2,
+          "goals": [
+            {
+              "playerId": "PLR941511",
+              "assists": [
+                "PLR271434",
+                "PLR106345"
+              ],
+              "minute": 22,
+              "second": 45,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR604611",
+              "assists": [
+                "PLR226199"
+              ],
+              "minute": 28,
+              "second": 5,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR106345",
+              "assists": [
+                "PLR502819"
+              ],
+              "minute": 29,
+              "second": 2,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR241136",
+              "assists": [
+                "PLR502819"
+              ],
+              "minute": 32,
+              "second": 8,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Leon Larcombe Loftus",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 30,
+              "second": 40,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "Ben Gilbert",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 38,
+              "second": 24,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": []
+        },
+        "three": {
+          "warriorsScore": 3,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR226199",
+              "assists": [
+                "PLR491823"
+              ],
+              "minute": 43,
+              "second": 34,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR348214",
+              "assists": [
+                "PLR302643",
+                "PLR106345"
+              ],
+              "minute": 53,
+              "second": 56,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR644758",
+              "assists": [
+                "PLR941511",
+                "PLR241136"
+              ],
+              "minute": 56,
+              "second": 2,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [],
+          "opponentPenalties": [
+            {
+              "type": "CHECK",
+              "minute": 49,
+              "second": 31,
+              "duration": 2,
+              "offender": "Lloyd Lemons"
+            },
+            {
+              "type": "CHECK",
+              "minute": 51,
+              "second": 35,
+              "duration": 2,
+              "offender": "Leon Larcombe Loftus"
+            },
+            {
+              "type": "KNEE",
+              "minute": 57,
+              "second": 13,
+              "duration": 2,
+              "offender": "James Nelson"
+            }
+          ]
+        }
+      }
+    }
   }
 ]

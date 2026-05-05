@@ -31,11 +31,11 @@
       },
       {
         "season": "25/26",
-        "games": 8,
-        "goals": 6,
-        "assists": 6,
+        "games": 9,
+        "goals": 7,
+        "assists": 8,
         "pims": 10,
-        "points": 12,
+        "points": 15,
         "warriorOfTheGame": 1,
         "manOfTheMatch": 1
       }
@@ -65,7 +65,7 @@
       },
       {
         "season": "25/26",
-        "games": 4,
+        "games": 5,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -341,7 +341,7 @@
       },
       {
         "season": "25/26",
-        "games": 7,
+        "games": 8,
         "goals": 1,
         "assists": 0,
         "pims": 6,
@@ -413,7 +413,7 @@
       },
       {
         "season": "25/26",
-        "games": 10,
+        "games": 11,
         "goals": 0,
         "assists": 1,
         "pims": 0,
@@ -726,11 +726,11 @@
       },
       {
         "season": "25/26",
-        "games": 6,
-        "goals": 2,
-        "assists": 3,
-        "pims": 2,
-        "points": 5,
+        "games": 7,
+        "goals": 3,
+        "assists": 4,
+        "pims": 4,
+        "points": 7,
         "manOfTheMatch": 2
       }
     ]
@@ -895,7 +895,7 @@
       },
       {
         "season": "25/26",
-        "games": 5,
+        "games": 6,
         "goals": 1,
         "assists": 1,
         "pims": 0,
@@ -1023,11 +1023,11 @@
       },
       {
         "season": "25/26",
-        "games": 1,
-        "goals": 0,
+        "games": 2,
+        "goals": 2,
         "assists": 0,
         "pims": 0,
-        "points": 0,
+        "points": 2,
         "warriorOfTheGame": 0,
         "manOfTheMatch": 0
       }
@@ -1097,7 +1097,7 @@
       },
       {
         "season": "25/26",
-        "games": 3,
+        "games": 4,
         "goals": 1,
         "assists": 0,
         "pims": 2,
@@ -1129,11 +1129,11 @@
       },
       {
         "season": "25/26",
-        "games": 1,
+        "games": 2,
         "goals": 0,
-        "assists": 1,
+        "assists": 2,
         "pims": 0,
-        "points": 1
+        "points": 2
       }
     ]
   },
@@ -1311,6 +1311,16 @@
         "assists": 0,
         "pims": 6,
         "points": 0
+      },
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 2,
+        "assists": 0,
+        "pims": 0,
+        "points": 2,
+        "warriorOfTheGame": 0,
+        "manOfTheMatch": 0
       }
     ]
   },
@@ -1442,11 +1452,11 @@
       },
       {
         "season": "25/26",
-        "games": 5,
-        "goals": 4,
-        "assists": 2,
+        "games": 6,
+        "goals": 6,
+        "assists": 4,
         "pims": 0,
-        "points": 6
+        "points": 10
       }
     ]
   },
@@ -1466,11 +1476,11 @@
       },
       {
         "season": "25/26",
-        "games": 11,
-        "goals": 5,
-        "assists": 7,
+        "games": 12,
+        "goals": 6,
+        "assists": 10,
         "pims": 0,
-        "points": 12,
+        "points": 16,
         "warriorOfTheGame": 3,
         "manOfTheMatch": 1
       }
@@ -1925,11 +1935,11 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 8,
-        "goals": 2,
-        "assists": 0,
+        "games": 9,
+        "goals": 3,
+        "assists": 2,
         "pims": 13,
-        "points": 2,
+        "points": 5,
         "manOfTheMatch": 1
       }
     ]
@@ -2008,11 +2018,11 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 1,
-        "goals": 0,
+        "games": 2,
+        "goals": 1,
         "assists": 0,
         "pims": 0,
-        "points": 0
+        "points": 1
       }
     ]
   },
@@ -2041,11 +2051,11 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 6,
-        "goals": 2,
-        "assists": 3,
+        "games": 7,
+        "goals": 3,
+        "assists": 5,
         "pims": 2,
-        "points": 5
+        "points": 8
       }
     ]
   },
@@ -2093,11 +2103,11 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 1,
+        "games": 2,
         "goals": 0,
-        "assists": 0,
+        "assists": 1,
         "pims": 0,
-        "points": 0,
+        "points": 1,
         "warriorOfTheGame": 0,
         "manOfTheMatch": 0
       }
