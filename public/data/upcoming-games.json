@@ -1,21 +1,5 @@
 [
     {
-        "opponentTeam": "Leeds Warriors",
-        "logoImage": "leeds-warriors.jpg",
-        "gameType": "BOTB",
-        "date": "2026-05-9",
-        "time": "8:45 PM",
-        "location": "Planet Ice Leeds"
-    },
-    {
-        "opponentTeam": "Peterborough Predators",
-        "logoImage": "peterborough-predators.jpg",
-        "gameType": "LLIHC",
-        "date": "2026-05-10",
-        "time": "7:45 PM",
-        "location": "Planet Ice Peterborough"
-    },
-    {
         "opponentTeam": "Bradford Ice Wolves",
         "logoImage": "bradford-ice-wolves.jpg",
         "gameType": "BOTB",

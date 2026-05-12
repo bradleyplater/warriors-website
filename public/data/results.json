@@ -16416,5 +16416,416 @@
         }
       }
     }
+  },
+  {
+    "season": "25/26",
+    "opponentTeam": "Leeds Warriors",
+    "logoImage": "leeds-warriors.jpg",
+    "date": "2026-05-09T19:00:00.000Z",
+    "seasonId": "25/26",
+    "roster": [
+      "PLR007346",
+      "PLR941511",
+      "PLR708075",
+      "PLR930189",
+      "PLR434650",
+      "PLR925453",
+      "PLR491823",
+      "PLR575853",
+      "PLR839247",
+      "PLR195110",
+      "PLR047622",
+      "PLR604611",
+      "PLR899328",
+      "PLR302643"
+    ],
+    "manOfTheMatchPlayerId": "PLR941511",
+    "warriorOfTheGamePlayerId": "PLR925453",
+    "netminderPlayerId": "PLR604611",
+    "competition": "BOTBC",
+    "location": "AWAY",
+    "score": {
+      "warriorsScore": 4,
+      "opponentScore": 2,
+      "period": {
+        "one": {
+          "warriorsScore": 0,
+          "opponentScore": 2,
+          "goals": [],
+          "opponentGoals": [
+            {
+              "playerId": "Josh Moss",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 9,
+              "second": 33,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "Ash Davies",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 16,
+              "second": 38,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": []
+        },
+        "two": {
+          "warriorsScore": 1,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR839247",
+              "assists": [
+                "PLR708075"
+              ],
+              "minute": 31,
+              "second": 37,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [],
+          "opponentPenalties": [
+            {
+              "type": "INTRF",
+              "minute": 25,
+              "second": 3,
+              "duration": 2,
+              "offender": "Josh Moss"
+            }
+          ]
+        },
+        "three": {
+          "warriorsScore": 3,
+          "opponentScore": 0,
+          "goals": [
+            {
+              "playerId": "PLR941511",
+              "assists": [
+                "PLR839247",
+                "PLR925453"
+              ],
+              "minute": 59,
+              "second": 44,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [],
+          "penalties": [
+            {
+              "type": "INTRF",
+              "minute": 48,
+              "second": 45,
+              "duration": 2,
+              "offender": "PLR925453"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "HOOK",
+              "minute": 42,
+              "second": 55,
+              "duration": 2,
+              "offender": "Paul Eaglestone"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "season": "25/26",
+    "opponentTeam": "Peterborough Predators",
+    "logoImage": "peterborough-predators.jpg",
+    "date": "2026-05-10T19:00:00.000Z",
+    "seasonId": "25/26",
+    "roster": [
+      "PLR186348",
+      "PLR930189",
+      "PLR502819",
+      "PLR030348",
+      "PLR208841",
+      "PLR397024",
+      "PLR646257",
+      "PLR123881",
+      "PLR271434",
+      "PLR813692",
+      "PLR357060",
+      "PLR629413",
+      "PLR106345",
+      "PLR006500",
+      "PLR109219",
+      "PLR991178"
+    ],
+    "manOfTheMatchPlayerId": "PLR930189",
+    "warriorOfTheGamePlayerId": "PLR123881",
+    "netminderPlayerId": "PLR991178",
+    "competition": "Challenge",
+    "location": "HOME",
+    "score": {
+      "warriorsScore": 10,
+      "opponentScore": 3,
+      "period": {
+        "one": {
+          "warriorsScore": 4,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR502819",
+              "assists": [
+                "PLR106345"
+              ],
+              "minute": 7,
+              "second": 22,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR646257",
+              "assists": [
+                "PLR813692",
+                "PLR006500"
+              ],
+              "minute": 12,
+              "second": 39,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR502819",
+              "assists": [
+                "PLR930189"
+              ],
+              "minute": 16,
+              "second": 45,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR123881",
+              "assists": [
+                "PLR208841"
+              ],
+              "minute": 18,
+              "second": 18,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Sam Dean",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 17,
+              "second": 5,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": []
+        },
+        "two": {
+          "warriorsScore": 3,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR006500",
+              "assists": [],
+              "minute": 24,
+              "second": 19,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR106345",
+              "assists": [
+                "PLR502819"
+              ],
+              "minute": 31,
+              "second": 2,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR106345",
+              "assists": [
+                "PLR502819"
+              ],
+              "minute": 38,
+              "second": 28,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Sam Dean",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 33,
+              "second": 1,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "TRIP",
+              "minute": 26,
+              "second": 54,
+              "duration": 2,
+              "offender": "PLR930189"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "TRIP",
+              "minute": 27,
+              "second": 30,
+              "duration": 2,
+              "offender": "Abi Tiernan"
+            },
+            {
+              "type": "CROSS",
+              "minute": 28,
+              "second": 18,
+              "duration": 2,
+              "offender": "Liam Rumsey"
+            }
+          ]
+        },
+        "three": {
+          "warriorsScore": 3,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR502819",
+              "assists": [
+                "PLR109219"
+              ],
+              "minute": 41,
+              "second": 4,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR109219",
+              "assists": [
+                "PLR502819"
+              ],
+              "minute": 44,
+              "second": 52,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR813692",
+              "assists": [
+                "PLR930189"
+              ],
+              "minute": 57,
+              "second": 6,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Andy Dean",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 49,
+              "second": 5,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "CROSS",
+              "minute": 50,
+              "second": 55,
+              "duration": 2,
+              "offender": "PLR813692"
+            },
+            {
+              "type": "CHECK",
+              "minute": 52,
+              "second": 0,
+              "duration": 2,
+              "offender": "PLR123881"
+            },
+            {
+              "type": "FIGHT",
+              "minute": 55,
+              "second": 4,
+              "duration": 5,
+              "offender": "PLR502819"
+            },
+            {
+              "type": "MATCH",
+              "minute": 55,
+              "second": 4,
+              "duration": 20,
+              "offender": "PLR502819"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "TRIP",
+              "minute": 51,
+              "second": 33,
+              "duration": 2,
+              "offender": "Unknown"
+            },
+            {
+              "type": "CHECK",
+              "minute": 52,
+              "second": 0,
+              "duration": 2,
+              "offender": "Sam Dean"
+            },
+            {
+              "type": "FIGHT",
+              "minute": 55,
+              "second": 4,
+              "duration": 2,
+              "offender": "Jonny Clements"
+            },
+            {
+              "type": "MATCH",
+              "minute": 55,
+              "second": 4,
+              "duration": 20,
+              "offender": "Jonny Clements"
+            },
+            {
+              "type": "CHECK",
+              "minute": 57,
+              "second": 50,
+              "duration": 2,
+              "offender": "Jon Tiernan"
+            },
+            {
+              "type": "CHECK",
+              "minute": 59,
+              "second": 40,
+              "duration": 2,
+              "offender": "Liam Rumsey"
+            },
+            {
+              "type": "FIGHT",
+              "minute": 55,
+              "second": 4,
+              "duration": 2,
+              "offender": "Jonny Clements"
+            }
+          ]
+        }
+      }
+    }
   }
 ]
