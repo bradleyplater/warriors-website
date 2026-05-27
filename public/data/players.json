@@ -2,6 +2,7 @@
   {
     "id": "PLR502819",
     "name": "Bradley Plater",
+    "nickname": "White-Bread",
     "number": 4,
     "position": "Forward",
     "stats": [
@@ -44,6 +45,7 @@
   {
     "id": "PLR297690",
     "name": "Matthew Heaton",
+    "nickname": "BUDDY",
     "number": 5,
     "position": "Defence",
     "stats": [
@@ -246,6 +248,7 @@
   {
     "id": "PLR646257",
     "name": "Nick Mcfarlane",
+    "nickname": "McFarScore",
     "number": 42,
     "position": "Forward",
     "stats": [
@@ -1143,6 +1146,7 @@
   {
     "id": "PLR902411",
     "name": "Jacques Dickinson",
+    "nickname": "JJ",
     "number": 84,
     "position": "Forward",
     "stats": [
@@ -1477,6 +1481,7 @@
   {
     "id": "PLR271434",
     "name": "Harry Fitzjohn",
+    "nickname": "KitzGone",
     "number": 96,
     "position": "Forward",
     "stats": [
@@ -1977,6 +1982,7 @@
   {
     "id": "PLR991178",
     "name": "Vincent Graziano",
+    "nickname": "Winnie",
     "number": 34,
     "position": "Goaltender",
     "stats": [
@@ -2130,6 +2136,7 @@
   {
     "id": "PLR047622",
     "name": "Libberty Gibson",
+    "nickname": "Gibbo",
     "number": 15,
     "position": "Forward",
     "stats": [

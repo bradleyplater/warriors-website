@@ -166,6 +166,15 @@
   letter-spacing: -0.02em;
 }
 
+.player-nickname {
+  color: var(--ng-label-color);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
 .player-position {
   color: var(--ng-label-color);
   font-size: 14px;

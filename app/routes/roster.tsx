@@ -22,6 +22,7 @@ type PlayerStat = {
 type Player = {
   id: string;
   name: string;
+  nickname?: string;
   number: number;
   position: string;
   stats: PlayerStat[];
@@ -165,6 +166,9 @@ function SkaterCard({ player, showDualBadge }: { player: Player; showDualBadge?:
       </div>
       <div className="roster-card-info">
         <div className="roster-card-name">{player.name}</div>
+        {player.nickname && (
+          <div className="roster-card-nickname">"{player.nickname}"</div>
+        )}
         <div className="roster-card-stats">
           <div className="roster-card-stat">
             <span className="roster-card-stat-value">{career.games}</span>
@@ -211,6 +215,9 @@ function GoalieCard({ player, showDualBadge }: { player: Player; showDualBadge?:
       </div>
       <div className="roster-card-info">
         <div className="roster-card-name">{player.name}</div>
+        {player.nickname && (
+          <div className="roster-card-nickname">"{player.nickname}"</div>
+        )}
         <div className="roster-card-stats roster-card-stats-goalie">
           <div className="roster-card-stat">
             <span className="roster-card-stat-value">{goalie.games}</span>

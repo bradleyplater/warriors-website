@@ -33,6 +33,7 @@ type PlayerStat = {
 type Player = {
   id: string;
   name: string;
+  nickname?: string;
   number: number;
   position: string;
   stats: PlayerStat[];
@@ -583,6 +584,9 @@ export default function PlayerPage() {
             <div className="player-info">
               <span className="player-kicker">Peterborough Warriors</span>
               <h1 className="player-name">{player.name}</h1>
+              {player.nickname && (
+                <div className="player-nickname">"{player.nickname}"</div>
+              )}
               <div className="player-position">{player.position}</div>
             </div>
           </div>

@@ -272,6 +272,17 @@ a.roster-card {
   text-overflow: ellipsis;
 }
 
+.roster-card-nickname {
+  font-size: 11px;
+  font-style: italic;
+  color: var(--ng-label-color);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
 /* Stats row */
 .roster-card-stats {
   display: grid;
