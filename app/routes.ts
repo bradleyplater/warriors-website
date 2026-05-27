@@ -10,4 +10,5 @@ export default [
   route("stats", "routes/stats.tsx"),
   route("team-stats", "routes/team-stats.tsx"),
   route("records", "routes/records.tsx"),
+  route("awards", "routes/awards.tsx"),
 ] satisfies RouteConfig;
