@@ -32,13 +32,13 @@
     },
     {
       "season": "25/26",
-      "games": 15,
+      "games": 16,
       "goalsFor": 84,
-      "pims": 106,
-      "goalsAgainst": 44,
+      "pims": 118,
+      "goalsAgainst": 49,
       "wins": 12,
       "draws": 2,
-      "losses": 1
+      "losses": 2
     }
   ]
 }

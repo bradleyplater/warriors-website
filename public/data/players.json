@@ -414,7 +414,7 @@
       },
       {
         "season": "25/26",
-        "games": 12,
+        "games": 13,
         "goals": 0,
         "assists": 1,
         "pims": 0,
@@ -687,10 +687,10 @@
       },
       {
         "season": "25/26",
-        "games": 11,
+        "games": 12,
         "goals": 2,
         "assists": 5,
-        "pims": 8,
+        "pims": 12,
         "points": 7,
         "manOfTheMatch": 1
       }
@@ -728,7 +728,7 @@
       },
       {
         "season": "25/26",
-        "games": 7,
+        "games": 8,
         "goals": 3,
         "assists": 4,
         "pims": 4,
@@ -897,7 +897,7 @@
       },
       {
         "season": "25/26",
-        "games": 7,
+        "games": 8,
         "goals": 1,
         "assists": 1,
         "pims": 0,
@@ -986,7 +986,7 @@
       },
       {
         "season": "25/26",
-        "games": 6,
+        "games": 7,
         "goals": 1,
         "assists": 3,
         "pims": 2,
@@ -1399,10 +1399,10 @@
       },
       {
         "season": "25/26",
-        "games": 1,
+        "games": 2,
         "goals": 2,
         "assists": 1,
-        "pims": 0,
+        "pims": 2,
         "points": 3,
         "warriorOfTheGame": 0,
         "manOfTheMatch": 0
@@ -1465,12 +1465,12 @@
       },
       {
         "season": "25/26",
-        "games": 7,
+        "games": 8,
         "goals": 7,
         "assists": 4,
         "pims": 0,
         "points": 11,
-        "manOfTheMatch": 1
+        "manOfTheMatch": 2
       }
     ]
   },
@@ -1490,10 +1490,10 @@
       },
       {
         "season": "25/26",
-        "games": 13,
+        "games": 14,
         "goals": 6,
         "assists": 10,
-        "pims": 0,
+        "pims": 2,
         "points": 16,
         "warriorOfTheGame": 3,
         "manOfTheMatch": 1
@@ -1776,7 +1776,7 @@
   {
     "id": "PLR339883",
     "name": "Alex Pelan",
-    "number": 14,
+    "number": 114,
     "position": "Forward",
     "stats": [
       {
@@ -2010,12 +2010,12 @@
   {
     "id": "PLR575853",
     "name": "Kayla Simmonds",
-    "number": 222,
+    "number": 27,
     "position": "Forward",
     "stats": [
       {
         "season": "25/26",
-        "games": 3,
+        "games": 4,
         "goals": 1,
         "assists": 0,
         "pims": 0,
@@ -2048,7 +2048,7 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 4,
+        "games": 5,
         "goals": 0,
         "assists": 0,
         "pims": 2,
@@ -2117,7 +2117,7 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 3,
+        "games": 4,
         "goals": 0,
         "assists": 1,
         "pims": 0,
@@ -2130,6 +2130,42 @@
   {
     "id": "PLR047622",
     "name": "Libberty Gibson",
+    "number": 15,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "25/26",
+        "games": 2,
+        "goals": 0,
+        "assists": 0,
+        "pims": 2,
+        "points": 0,
+        "warriorOfTheGame": 0,
+        "manOfTheMatch": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR585238",
+    "name": "Liberty Malachowski",
+    "number": 14,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 2,
+        "points": 0,
+        "warriorOfTheGame": 1,
+        "manOfTheMatch": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR443867",
+    "name": "Louis Coulby-Mills",
     "number": 900,
     "position": "Forward",
     "stats": [

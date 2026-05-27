@@ -16827,5 +16827,189 @@
         }
       }
     }
+  },
+  {
+    "season": "25/26",
+    "opponentTeam": "Bradford Ice Wolves",
+    "logoImage": "bradford-ice-wolves.jpg",
+    "date": "2026-05-16T19:00:00.000Z",
+    "seasonId": "25/26",
+    "roster": [
+      "PLR007346",
+      "PLR941511",
+      "PLR708075",
+      "PLR585238",
+      "PLR047622",
+      "PLR302643",
+      "PLR434650",
+      "PLR930189",
+      "PLR030348",
+      "PLR241136",
+      "PLR839247",
+      "PLR271434",
+      "PLR575853",
+      "PLR443867"
+    ],
+    "manOfTheMatchPlayerId": "PLR941511",
+    "warriorOfTheGamePlayerId": "PLR585238",
+    "netminderPlayerId": "PLR030348",
+    "competition": "BOTBC",
+    "location": "AWAY",
+    "score": {
+      "warriorsScore": 0,
+      "opponentScore": 5,
+      "period": {
+        "one": {
+          "warriorsScore": 0,
+          "opponentScore": 1,
+          "goals": [],
+          "opponentGoals": [
+            {
+              "playerId": "A. Parker-Smith",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 1,
+              "second": 7,
+              "type": "PP"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "TRIP",
+              "minute": 0,
+              "second": 45,
+              "duration": 2,
+              "offender": "PLR930189"
+            },
+            {
+              "type": "TRIP",
+              "minute": 3,
+              "second": 10,
+              "duration": 2,
+              "offender": "PLR047622"
+            },
+            {
+              "type": "TOOM",
+              "minute": 2,
+              "second": 18,
+              "duration": 2,
+              "offender": "BENCH"
+            },
+            {
+              "type": "TRIP",
+              "minute": 7,
+              "second": 56,
+              "duration": 2,
+              "offender": "PLR930189"
+            },
+            {
+              "type": "DELAY",
+              "minute": 16,
+              "second": 29,
+              "duration": 2,
+              "offender": "PLR839247"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "ELBOW",
+              "minute": 11,
+              "second": 9,
+              "duration": 2,
+              "offender": "S Wring"
+            },
+            {
+              "type": "TRIP",
+              "minute": 12,
+              "second": 43,
+              "duration": 2,
+              "offender": "J Stevens"
+            },
+            {
+              "type": "TRIP",
+              "minute": 17,
+              "second": 11,
+              "duration": 2,
+              "offender": "Unknown"
+            }
+          ]
+        },
+        "two": {
+          "warriorsScore": 0,
+          "opponentScore": 2,
+          "goals": [],
+          "opponentGoals": [
+            {
+              "playerId": "A. Parker-Smith",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 21,
+              "second": 4,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "A. Parker-Smith",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 32,
+              "second": 36,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": []
+        },
+        "three": {
+          "warriorsScore": 0,
+          "opponentScore": 2,
+          "goals": [],
+          "opponentGoals": [
+            {
+              "playerId": "J. Stevens",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 42,
+              "second": 13,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "S Wring",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 55,
+              "second": 14,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "INTRF",
+              "minute": 53,
+              "second": 13,
+              "duration": 2,
+              "offender": "PLR585238"
+            },
+            {
+              "type": "BOARD",
+              "minute": 57,
+              "second": 9,
+              "duration": 2,
+              "offender": "PLR271434"
+            }
+          ],
+          "opponentPenalties": []
+        }
+      }
+    }
   }
 ]
