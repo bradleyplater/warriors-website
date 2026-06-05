@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import resultsData from "../../public/data/results.json";
 import "./team-stats.css";
 
@@ -19,6 +19,7 @@ type RawResult = {
   seasonId: string;
   date: string;
   location: string;
+  competition: string;
   score: {
     warriorsScore: number;
     opponentScore: number;
@@ -222,14 +223,34 @@ function StreakCard({
 
 export default function TeamStats() {
   const [season, setSeason] = useState<string>("All");
+  const [competition, setCompetition] = useState<string>("All");
 
-  const filteredResults = useMemo(
+  const seasonFilteredResults = useMemo(
     () =>
       season === "All"
         ? allResults
         : allResults.filter((r) => r.seasonId === season),
     [season]
   );
+
+  const availableCompetitions = useMemo(
+    () =>
+      Array.from(new Set(seasonFilteredResults.map((r) => r.competition))).sort(),
+    [seasonFilteredResults]
+  );
+
+  useEffect(() => {
+    if (competition !== "All" && !availableCompetitions.includes(competition)) {
+      setCompetition("All");
+    }
+  }, [availableCompetitions, competition]);
+
+  const filteredResults = useMemo(() => {
+    if (competition === "All" || !availableCompetitions.includes(competition)) {
+      return seasonFilteredResults;
+    }
+    return seasonFilteredResults.filter((r) => r.competition === competition);
+  }, [seasonFilteredResults, competition, availableCompetitions]);
 
   const stats = useMemo(() => computeStats(filteredResults), [filteredResults]);
 
@@ -251,7 +272,7 @@ export default function TeamStats() {
       <section className="ts-body">
         <div className="ts-frame">
 
-          {/* Season selector */}
+          {/* Season + Competition selectors */}
           <div className="ts-season-bar">
             <div className="ts-filter-group">
               <label className="ts-filter-label" htmlFor="ts-season">
@@ -267,6 +288,24 @@ export default function TeamStats() {
                 {allSeasons.map((s) => (
                   <option key={s} value={s}>
                     {s}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="ts-filter-group">
+              <label className="ts-filter-label" htmlFor="ts-competition">
+                Competition
+              </label>
+              <select
+                id="ts-competition"
+                className="ts-select"
+                value={competition}
+                onChange={(e) => setCompetition(e.target.value)}
+              >
+                <option value="All">All Competitions</option>
+                {availableCompetitions.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
                   </option>
                 ))}
               </select>

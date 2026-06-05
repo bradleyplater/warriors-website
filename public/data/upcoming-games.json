@@ -1,21 +1,5 @@
 [
     {
-        "opponentTeam": "Bradford Ice Wolves",
-        "logoImage": "bradford-ice-wolves.jpg",
-        "gameType": "BOTB",
-        "date": "2026-05-16",
-        "time": "10:30 PM",
-        "location": "Bradford Ice Rink"
-    },
-    {
-        "opponentTeam": "Cleveland Comets",
-        "logoImage": "cleveland-comets.jpg",
-        "gameType": "BOTB",
-        "date": "2026-05-30",
-        "time": "5:30 PM",
-        "location": "Planet Ice Peterborough"
-    },
-    {
         "opponentTeam": "Blackburn Renegades",
         "logoImage": "blackburn-renegades.jpg",
         "gameType": "LLIHC",

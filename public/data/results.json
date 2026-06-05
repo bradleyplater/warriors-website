@@ -16212,7 +16212,7 @@
     ],
     "manOfTheMatchPlayerId": "MISSING",
     "warriorOfTheGamePlayerId": "MISSING",
-    "netminderPlayerId": "MISSING",
+    "netminderPlayerId": "PLR030348",
     "competition": "Challenge",
     "location": "HOME",
     "score": {
@@ -16516,6 +16516,20 @@
               "minute": 59,
               "second": 44,
               "type": "EVEN"
+            },
+            {
+              "playerId": "PLR839247",
+              "assists": [],
+              "minute": 60,
+              "second": 0,
+              "type": "SO"
+            },
+            {
+              "playerId": "PLR930189",
+              "assists": [],
+              "minute": 60,
+              "second": 0,
+              "type": "SO"
             }
           ],
           "opponentGoals": [],
@@ -17008,6 +17022,186 @@
             }
           ],
           "opponentPenalties": []
+        }
+      }
+    }
+  },
+  {
+    "season": "25/26",
+    "opponentTeam": "Clevland Comets",
+    "logoImage": "clevland-comets.jpg",
+    "date": "2026-05-30T19:00:00.000Z",
+    "seasonId": "25/26",
+    "roster": [
+      "PLR186348",
+      "PLR007346",
+      "PLR030348",
+      "PLR241136",
+      "PLR434650",
+      "PLR491823",
+      "PLR575853",
+      "PLR195110",
+      "PLR047622",
+      "PLR941511",
+      "PLR297690",
+      "PLR899328",
+      "PLR957597",
+      "PLR109219",
+      "PLR708075",
+      "PLR644758"
+    ],
+    "manOfTheMatchPlayerId": "PLR047622",
+    "warriorOfTheGamePlayerId": "PLR195110",
+    "netminderPlayerId": "PLR030348",
+    "competition": "BOTBC",
+    "location": "HOME",
+    "score": {
+      "warriorsScore": 5,
+      "opponentScore": 4,
+      "period": {
+        "one": {
+          "warriorsScore": 0,
+          "opponentScore": 0,
+          "goals": [],
+          "opponentGoals": [],
+          "penalties": [
+            {
+              "type": "HOOK",
+              "minute": 2,
+              "second": 40,
+              "duration": 2,
+              "offender": "PLR575853"
+            }
+          ],
+          "opponentPenalties": []
+        },
+        "two": {
+          "warriorsScore": 1,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR941511",
+              "assists": [
+                "PLR241136",
+                "PLR007346"
+              ],
+              "minute": 25,
+              "second": 21,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Unknown",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 28,
+              "second": 44,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "TRIP",
+              "minute": 38,
+              "second": 41,
+              "duration": 2,
+              "offender": "PLR241136"
+            }
+          ],
+          "opponentPenalties": []
+        },
+        "three": {
+          "warriorsScore": 4,
+          "opponentScore": 3,
+          "goals": [
+            {
+              "playerId": "PLR491823",
+              "assists": [
+                "PLR241136",
+                "PLR297690"
+              ],
+              "minute": 49,
+              "second": 25,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR644758",
+              "assists": [
+                "PLR007346",
+                "PLR941511"
+              ],
+              "minute": 53,
+              "second": 48,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR941511",
+              "assists": [],
+              "minute": 60,
+              "second": 0,
+              "type": "SO"
+            },
+            {
+              "playerId": "PLR109219",
+              "assists": [],
+              "minute": 60,
+              "second": 0,
+              "type": "SO"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Unknown",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 58,
+              "second": 42,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "Unknown",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 58,
+              "second": 58,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "Unknown",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 60,
+              "second": 0,
+              "type": "SO"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "TRIP",
+              "minute": 57,
+              "second": 3,
+              "duration": 2,
+              "offender": "PLR941511"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "HOLD",
+              "minute": 57,
+              "second": 3,
+              "duration": 2,
+              "offender": "Unknown"
+            }
+          ]
         }
       }
     }

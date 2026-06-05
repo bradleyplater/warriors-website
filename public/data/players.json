@@ -67,11 +67,11 @@
       },
       {
         "season": "25/26",
-        "games": 5,
+        "games": 6,
         "goals": 0,
-        "assists": 0,
+        "assists": 1,
         "pims": 0,
-        "points": 0
+        "points": 1
       }
     ]
   },
@@ -312,7 +312,7 @@
       },
       {
         "season": "25/26",
-        "games": 7,
+        "games": 8,
         "goals": 1,
         "assists": 0,
         "pims": 4,
@@ -417,7 +417,7 @@
       },
       {
         "season": "25/26",
-        "games": 13,
+        "games": 14,
         "goals": 0,
         "assists": 1,
         "pims": 0,
@@ -595,18 +595,18 @@
       {
         "season": "23/24",
         "games": 12,
-        "goals": 4,
+        "goals": 3,
         "assists": 2,
         "pims": 0,
-        "points": 6
+        "points": 5
       },
       {
         "season": "22/23",
         "games": 11,
-        "goals": 6,
+        "goals": 7,
         "assists": 2,
         "pims": 2,
-        "points": 8
+        "points": 9
       },
       {
         "season": "25/26",
@@ -731,11 +731,11 @@
       },
       {
         "season": "25/26",
-        "games": 8,
+        "games": 9,
         "goals": 3,
-        "assists": 4,
-        "pims": 4,
-        "points": 7,
+        "assists": 6,
+        "pims": 6,
+        "points": 9,
         "manOfTheMatch": 2
       }
     ]
@@ -900,7 +900,7 @@
       },
       {
         "season": "25/26",
-        "games": 8,
+        "games": 9,
         "goals": 1,
         "assists": 1,
         "pims": 0,
@@ -989,7 +989,7 @@
       },
       {
         "season": "25/26",
-        "games": 7,
+        "games": 8,
         "goals": 1,
         "assists": 3,
         "pims": 2,
@@ -1029,11 +1029,11 @@
       },
       {
         "season": "25/26",
-        "games": 2,
-        "goals": 2,
+        "games": 3,
+        "goals": 3,
         "assists": 0,
         "pims": 0,
-        "points": 2,
+        "points": 3,
         "warriorOfTheGame": 0,
         "manOfTheMatch": 0
       }
@@ -1135,11 +1135,11 @@
       },
       {
         "season": "25/26",
-        "games": 3,
-        "goals": 0,
+        "games": 4,
+        "goals": 1,
         "assists": 2,
         "pims": 0,
-        "points": 2
+        "points": 3
       }
     ]
   },
@@ -1445,7 +1445,7 @@
       },
       {
         "season": "25/26",
-        "games": 3,
+        "games": 4,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -1469,11 +1469,11 @@
       },
       {
         "season": "25/26",
-        "games": 8,
-        "goals": 7,
-        "assists": 4,
-        "pims": 0,
-        "points": 11,
+        "games": 9,
+        "goals": 9,
+        "assists": 5,
+        "pims": 2,
+        "points": 14,
         "manOfTheMatch": 2
       }
     ]
@@ -2005,11 +2005,11 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 5,
-        "goals": 2,
+        "games": 6,
+        "goals": 3,
         "assists": 1,
         "pims": 0,
-        "points": 3
+        "points": 4
       }
     ]
   },
@@ -2021,10 +2021,10 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 4,
+        "games": 5,
         "goals": 1,
         "assists": 0,
-        "pims": 0,
+        "pims": 2,
         "points": 1,
         "warriorOfTheGame": 1
       }
@@ -2054,11 +2054,11 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 5,
+        "games": 6,
         "goals": 0,
-        "assists": 0,
+        "assists": 2,
         "pims": 2,
-        "points": 0,
+        "points": 2,
         "warriorOfTheGame": 1
       }
     ]
@@ -2105,12 +2105,12 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 2,
+        "games": 3,
         "goals": 0,
         "assists": 0,
         "pims": 0,
         "points": 0,
-        "warriorOfTheGame": 1,
+        "warriorOfTheGame": 2,
         "manOfTheMatch": 0
       }
     ]
@@ -2142,13 +2142,13 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 2,
+        "games": 3,
         "goals": 0,
         "assists": 0,
         "pims": 2,
         "points": 0,
         "warriorOfTheGame": 0,
-        "manOfTheMatch": 0
+        "manOfTheMatch": 1
       }
     ]
   },
@@ -2174,6 +2174,24 @@
     "id": "PLR443867",
     "name": "Louis Coulby-Mills",
     "number": 900,
+    "position": "Forward",
+    "stats": [
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 0,
+        "pims": 0,
+        "points": 0,
+        "warriorOfTheGame": 0,
+        "manOfTheMatch": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR957597",
+    "name": "Nathan Eves",
+    "number": 43,
     "position": "Forward",
     "stats": [
       {
