@@ -17205,5 +17205,204 @@
         }
       }
     }
+  },
+  {
+    "season": "25/26",
+    "opponentTeam": "Blackburn Renegades",
+    "logoImage": "blackburn-renegades.jpg",
+    "date": "2026-06-13T19:00:00.000Z",
+    "seasonId": "25/26",
+    "roster": [
+      "PLR502819",
+      "PLR357060",
+      "PLR208841",
+      "PLR585238",
+      "PLR226199",
+      "PLR813692",
+      "PLR810070",
+      "PLR991178",
+      "PLR006500",
+      "PLR646257",
+      "PLR123881",
+      "PLR930189",
+      "PLR030348",
+      "PLR629413",
+      "PLR615530",
+      "PLR397024",
+      "PLR271434"
+    ],
+    "manOfTheMatchPlayerId": "PLR502819",
+    "warriorOfTheGamePlayerId": "PLR615530",
+    "netminderPlayerId": "PLR991178",
+    "competition": "LLIHC",
+    "location": "HOME",
+    "score": {
+      "warriorsScore": 5,
+      "opponentScore": 4,
+      "period": {
+        "one": {
+          "warriorsScore": 0,
+          "opponentScore": 1,
+          "goals": [],
+          "opponentGoals": [
+            {
+              "playerId": "Kieron Hardman",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 10,
+              "second": 23,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": [
+            {
+              "type": "CROSS",
+              "minute": 19,
+              "second": 23,
+              "duration": 2,
+              "offender": "Keiron Hardman"
+            }
+          ]
+        },
+        "two": {
+          "warriorsScore": 2,
+          "opponentScore": 2,
+          "goals": [
+            {
+              "playerId": "PLR006500",
+              "assists": [
+                "PLR813692"
+              ],
+              "minute": 22,
+              "second": 44,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR813692",
+              "assists": [
+                "PLR271434",
+                "PLR502819"
+              ],
+              "minute": 23,
+              "second": 25,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Harry Mercer",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 21,
+              "second": 13,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "Adam Fleet",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 33,
+              "second": 26,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "TOOM",
+              "minute": 28,
+              "second": 3,
+              "duration": 2,
+              "offender": "BENCH"
+            },
+            {
+              "type": "SLASH",
+              "minute": 30,
+              "second": 36,
+              "duration": 2,
+              "offender": "PLR813692"
+            }
+          ],
+          "opponentPenalties": [
+            {
+              "type": "CROSS",
+              "minute": 26,
+              "second": 58,
+              "duration": 2,
+              "offender": "Oliver Cunningham"
+            },
+            {
+              "type": "UNSP",
+              "minute": 30,
+              "second": 36,
+              "duration": 2,
+              "offender": "Kieron Hardman"
+            }
+          ]
+        },
+        "three": {
+          "warriorsScore": 3,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR357060",
+              "assists": [
+                "PLR502819",
+                "PLR271434"
+              ],
+              "minute": 42,
+              "second": 41,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR271434",
+              "assists": [
+                "PLR502819"
+              ],
+              "minute": 55,
+              "second": 29,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR813692",
+              "assists": [
+                "PLR615530"
+              ],
+              "minute": 59,
+              "second": 35,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Adam Fleet",
+              "assists": [
+                null,
+                null
+              ],
+              "minute": 48,
+              "second": 35,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [
+            {
+              "type": "SLASH",
+              "minute": 52,
+              "second": 30,
+              "duration": 2,
+              "offender": "PLR271434"
+            }
+          ],
+          "opponentPenalties": []
+        }
+      }
+    }
   }
 ]

@@ -32,13 +32,13 @@
       },
       {
         "season": "25/26",
-        "games": 10,
+        "games": 11,
         "goals": 10,
-        "assists": 11,
+        "assists": 14,
         "pims": 35,
-        "points": 21,
+        "points": 24,
         "warriorOfTheGame": 1,
-        "manOfTheMatch": 1
+        "manOfTheMatch": 2
       }
     ]
   },
@@ -107,11 +107,11 @@
       },
       {
         "season": "25/26",
-        "games": 7,
-        "goals": 1,
+        "games": 8,
+        "goals": 2,
         "assists": 0,
         "pims": 6,
-        "points": 1,
+        "points": 2,
         "warriorOfTheGame": 0
       }
     ]
@@ -236,11 +236,11 @@
       },
       {
         "season": "25/26",
-        "games": 9,
-        "goals": 2,
+        "games": 10,
+        "goals": 3,
         "assists": 4,
         "pims": 2,
-        "points": 6,
+        "points": 7,
         "manOfTheMatch": 2
       }
     ]
@@ -270,7 +270,7 @@
       },
       {
         "season": "25/26",
-        "games": 12,
+        "games": 13,
         "goals": 4,
         "assists": 3,
         "pims": 2,
@@ -344,7 +344,7 @@
       },
       {
         "season": "25/26",
-        "games": 9,
+        "games": 10,
         "goals": 2,
         "assists": 0,
         "pims": 8,
@@ -417,7 +417,7 @@
       },
       {
         "season": "25/26",
-        "games": 14,
+        "games": 15,
         "goals": 0,
         "assists": 1,
         "pims": 0,
@@ -537,7 +537,7 @@
       },
       {
         "season": "25/26",
-        "games": 6,
+        "games": 7,
         "goals": 2,
         "assists": 3,
         "pims": 0,
@@ -610,7 +610,7 @@
       },
       {
         "season": "25/26",
-        "games": 4,
+        "games": 5,
         "goals": 0,
         "assists": 1,
         "pims": 0,
@@ -650,7 +650,7 @@
       },
       {
         "season": "25/26",
-        "games": 9,
+        "games": 10,
         "goals": 1,
         "assists": 2,
         "pims": 6,
@@ -690,7 +690,7 @@
       },
       {
         "season": "25/26",
-        "games": 12,
+        "games": 13,
         "goals": 2,
         "assists": 5,
         "pims": 12,
@@ -1256,11 +1256,11 @@
       },
       {
         "season": "25/26",
-        "games": 8,
-        "goals": 13,
-        "assists": 5,
-        "pims": 6,
-        "points": 18,
+        "games": 9,
+        "goals": 15,
+        "assists": 6,
+        "pims": 8,
+        "points": 21,
         "manOfTheMatch": 1
       }
     ]
@@ -1495,11 +1495,11 @@
       },
       {
         "season": "25/26",
-        "games": 14,
-        "goals": 6,
-        "assists": 10,
-        "pims": 2,
-        "points": 16,
+        "games": 15,
+        "goals": 7,
+        "assists": 12,
+        "pims": 4,
+        "points": 19,
         "warriorOfTheGame": 3,
         "manOfTheMatch": 1
       }
@@ -1971,7 +1971,7 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 7,
+        "games": 8,
         "goals": 3,
         "assists": 0,
         "pims": 2,
@@ -1988,7 +1988,7 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 8,
+        "games": 9,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -2071,7 +2071,7 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 7,
+        "games": 8,
         "goals": 3,
         "assists": 5,
         "pims": 2,
@@ -2160,7 +2160,7 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 1,
+        "games": 2,
         "goals": 0,
         "assists": 0,
         "pims": 2,
@@ -2202,6 +2202,24 @@
         "pims": 0,
         "points": 0,
         "warriorOfTheGame": 0,
+        "manOfTheMatch": 0
+      }
+    ]
+  },
+  {
+    "id": "PLR615530",
+    "name": "Tyler Bradley",
+    "number": 81,
+    "position": "Defence",
+    "stats": [
+      {
+        "season": "25/26",
+        "games": 1,
+        "goals": 0,
+        "assists": 1,
+        "pims": 0,
+        "points": 1,
+        "warriorOfTheGame": 1,
         "manOfTheMatch": 0
       }
     ]
