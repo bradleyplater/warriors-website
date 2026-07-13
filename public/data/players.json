@@ -270,7 +270,7 @@
       },
       {
         "season": "25/26",
-        "games": 13,
+        "games": 14,
         "goals": 4,
         "assists": 3,
         "pims": 2,
@@ -417,7 +417,7 @@
       },
       {
         "season": "25/26",
-        "games": 15,
+        "games": 18,
         "goals": 0,
         "assists": 1,
         "pims": 0,
@@ -690,10 +690,10 @@
       },
       {
         "season": "25/26",
-        "games": 13,
+        "games": 15,
         "goals": 2,
         "assists": 5,
-        "pims": 12,
+        "pims": 14,
         "points": 7,
         "manOfTheMatch": 1
       }
@@ -731,11 +731,11 @@
       },
       {
         "season": "25/26",
-        "games": 9,
-        "goals": 3,
-        "assists": 6,
-        "pims": 6,
-        "points": 9,
+        "games": 12,
+        "goals": 4,
+        "assists": 7,
+        "pims": 8,
+        "points": 11,
         "manOfTheMatch": 2
       }
     ]
@@ -860,7 +860,7 @@
       },
       {
         "season": "25/26",
-        "games": 1,
+        "games": 2,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -900,11 +900,12 @@
       },
       {
         "season": "25/26",
-        "games": 9,
+        "games": 10,
         "goals": 1,
         "assists": 1,
         "pims": 0,
-        "points": 2
+        "points": 2,
+        "manOfTheMatch": 1
       }
     ]
   },
@@ -924,7 +925,7 @@
       },
       {
         "season": "25/26",
-        "games": 2,
+        "games": 3,
         "goals": 0,
         "assists": 1,
         "pims": 2,
@@ -989,7 +990,7 @@
       },
       {
         "season": "25/26",
-        "games": 8,
+        "games": 10,
         "goals": 1,
         "assists": 3,
         "pims": 2,
@@ -1103,11 +1104,11 @@
       },
       {
         "season": "25/26",
-        "games": 4,
-        "goals": 1,
+        "games": 6,
+        "goals": 2,
         "assists": 0,
-        "pims": 2,
-        "points": 1
+        "pims": 4,
+        "points": 2
       }
     ]
   },
@@ -1321,10 +1322,10 @@
       },
       {
         "season": "25/26",
-        "games": 1,
+        "games": 2,
         "goals": 2,
         "assists": 0,
-        "pims": 0,
+        "pims": 2,
         "points": 2,
         "warriorOfTheGame": 0,
         "manOfTheMatch": 0
@@ -1403,11 +1404,11 @@
       },
       {
         "season": "25/26",
-        "games": 2,
+        "games": 4,
         "goals": 2,
-        "assists": 1,
+        "assists": 2,
         "pims": 2,
-        "points": 3,
+        "points": 4,
         "warriorOfTheGame": 0,
         "manOfTheMatch": 0
       }
@@ -1445,10 +1446,10 @@
       },
       {
         "season": "25/26",
-        "games": 4,
+        "games": 7,
         "goals": 0,
         "assists": 0,
-        "pims": 0,
+        "pims": 2,
         "points": 0
       }
     ]
@@ -1469,11 +1470,11 @@
       },
       {
         "season": "25/26",
-        "games": 9,
-        "goals": 9,
+        "games": 12,
+        "goals": 12,
         "assists": 5,
-        "pims": 2,
-        "points": 14,
+        "pims": 6,
+        "points": 17,
         "manOfTheMatch": 2
       }
     ]
@@ -2021,12 +2022,12 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 5,
+        "games": 7,
         "goals": 1,
         "assists": 0,
         "pims": 2,
         "points": 1,
-        "warriorOfTheGame": 1
+        "warriorOfTheGame": 2
       }
     ]
   },
@@ -2054,7 +2055,7 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 6,
+        "games": 8,
         "goals": 0,
         "assists": 2,
         "pims": 2,
@@ -2105,12 +2106,12 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 3,
+        "games": 5,
         "goals": 0,
         "assists": 0,
         "pims": 0,
         "points": 0,
-        "warriorOfTheGame": 2,
+        "warriorOfTheGame": 3,
         "manOfTheMatch": 0
       }
     ]
@@ -2123,11 +2124,11 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 4,
+        "games": 7,
         "goals": 0,
-        "assists": 1,
+        "assists": 2,
         "pims": 0,
-        "points": 1,
+        "points": 2,
         "warriorOfTheGame": 0,
         "manOfTheMatch": 0
       }
@@ -2142,13 +2143,13 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 3,
+        "games": 6,
         "goals": 0,
         "assists": 0,
         "pims": 2,
         "points": 0,
         "warriorOfTheGame": 0,
-        "manOfTheMatch": 1
+        "manOfTheMatch": 2
       }
     ]
   },
@@ -2160,10 +2161,10 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 2,
+        "games": 5,
         "goals": 0,
         "assists": 0,
-        "pims": 2,
+        "pims": 4,
         "points": 0,
         "warriorOfTheGame": 1,
         "manOfTheMatch": 0
@@ -2178,7 +2179,7 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 1,
+        "games": 2,
         "goals": 0,
         "assists": 0,
         "pims": 0,
@@ -2196,7 +2197,7 @@
     "stats": [
       {
         "season": "25/26",
-        "games": 1,
+        "games": 4,
         "goals": 0,
         "assists": 0,
         "pims": 0,
