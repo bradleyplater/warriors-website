@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./TeamLogo.css";
 
-function getInitials(teamName: string): string {
+export function getInitials(teamName: string): string {
   return teamName
     .split(" ")
     .filter(Boolean)

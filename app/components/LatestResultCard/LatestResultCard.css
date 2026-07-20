@@ -131,6 +131,11 @@
   border-radius: 50%;
 }
 
+.lr-logo-fallback {
+  width: 100%;
+  height: 100%;
+}
+
 .lr-opponent-name {
   color: var(--lr-opponent-color) !important;
   text-align: center;
