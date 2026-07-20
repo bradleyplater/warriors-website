@@ -15928,5 +15928,128 @@
         }
       }
     }
+  },
+  {
+    "season": "25/26",
+    "opponentTeam": "Peterborough Predators",
+    "logoImage": "peterborough-predators.jpg",
+    "date": "2026-07-18T19:00:00.000Z",
+    "seasonId": "25/26",
+    "roster": [
+      "PLR930189",
+      "PLR502819",
+      "PLR615530",
+      "PLR226199",
+      "PLR208841",
+      "PLR271434",
+      "PLR357060",
+      "PLR629413",
+      "PLR575853",
+      "PLR585238",
+      "PLR646257",
+      "PLR106345",
+      "PLR123881",
+      "PLR006500",
+      "PLR810070",
+      "PLR708075"
+    ],
+    "manOfTheMatchPlayerId": "PLR585238",
+    "warriorOfTheGamePlayerId": "PLR575853",
+    "netminderPlayerId": "PLR810070",
+    "competition": "Challenge",
+    "location": "AWAY",
+    "score": {
+      "warriorsScore": 4,
+      "opponentScore": 3,
+      "period": {
+        "one": {
+          "warriorsScore": 1,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR208841",
+              "assists": ["PLR930189"],
+              "minute": 5,
+              "second": 9,
+              "type": "PP"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Shaun Mcleavy",
+              "assists": [null, null],
+              "minute": 15,
+              "second": 15,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": [
+            {
+              "type": "TOOM",
+              "minute": 4,
+              "second": 19,
+              "duration": 2,
+              "offender": "BENCH"
+            }
+          ]
+        },
+        "two": {
+          "warriorsScore": 2,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR646257",
+              "assists": ["PLR226199"],
+              "minute": 32,
+              "second": 24,
+              "type": "EVEN"
+            },
+            {
+              "playerId": "PLR629413",
+              "assists": ["PLR575853"],
+              "minute": 32,
+              "second": 50,
+              "type": "EVEN"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "Ash Cotton",
+              "assists": [null, null],
+              "minute": 39,
+              "second": 40,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": []
+        },
+        "three": {
+          "warriorsScore": 1,
+          "opponentScore": 1,
+          "goals": [
+            {
+              "playerId": "PLR502819",
+              "assists": ["PLR123881"],
+              "minute": 49,
+              "second": 5,
+              "type": "PP"
+            }
+          ],
+          "opponentGoals": [
+            {
+              "playerId": "James Astill",
+              "assists": [null, null],
+              "minute": 56,
+              "second": 38,
+              "type": "EVEN"
+            }
+          ],
+          "penalties": [],
+          "opponentPenalties": []
+        }
+      }
+    }
   }
 ]
