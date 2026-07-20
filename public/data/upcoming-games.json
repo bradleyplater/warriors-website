@@ -1,34 +1,18 @@
 [
-    {
-        "opponentTeam": "Blackburn Renegades",
-        "logoImage": "blackburn-renegades.jpg",
-        "gameType": "LLIHC",
-        "date": "2026-06-13",
-        "time": "4:30 PM",
-        "location": "Planet Ice Peterborough"
-    },
-        {
-        "opponentTeam": "Blackburn Renegades",
-        "logoImage": "blackburn-renegades.jpg",
-        "gameType": "BOTB",
-        "date": "2026-06-13",
-        "time": "4:30 PM",
-        "location": "Planet Ice Peterborough"
-    },
-        {
-        "opponentTeam": "Cleveland Comets",
-        "logoImage": "cleveland-comets.jpg",
-        "gameType": "BOTB",
-        "date": "2026-06-27",
-        "time": "7:00 PM",
-        "location": "Billingham"
-    },
-    {
-        "opponentTeam": "Peterborough Predators",
-        "logoImage": "peterborough-predators.jpg",
-        "gameType": "Challenge",
-        "date": "2026-07-18",
-        "time": "5:30 PM",
-        "location": "Planet Ice Peterborough"
-    }
+  {
+    "opponentTeam": "Grimsby Trawlers",
+    "logoImage": "grimsby-trawlers.jpg",
+    "gameType": "BOTB",
+    "date": "2026-08-01",
+    "time": "7:00 PM",
+    "location": "Planet Ice Peterborough"
+  },
+  {
+    "opponentTeam": "Sheffield Mavericks",
+    "logoImage": "sheffield-mavericks.jpg",
+    "gameType": "LLIHC",
+    "date": "2026-08-08",
+    "time": "4:00 PM",
+    "location": "Planet Ice Peterborough"
+  }
 ]
