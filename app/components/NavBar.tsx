@@ -17,6 +17,7 @@ export function NavBar() {
     { name: "Team Stats", to: "/team-stats", end: true },
     { name: "Records", to: "/records", end: true },
     { name: "Awards", to: "/awards", end: true },
+    { name: "Live", to: "/live", end: true },
   ];
 
   useEffect(() => {
