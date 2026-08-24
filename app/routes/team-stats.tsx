@@ -1,9 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
-import resultsData from "../../public/data/results.json";
+import type { Route } from "./+types/team-stats";
+import { getResults } from "~/data/client";
 import "./team-stats.css";
 
 export function meta() {
   return [{ title: "Team Stats — Peterborough Warriors" }];
+}
+
+export async function clientLoader() {
+  const results = await getResults<unknown[]>();
+  return { results };
 }
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -26,16 +32,6 @@ type RawResult = {
     period: { one: PeriodScore; two: PeriodScore; three: PeriodScore };
   };
 };
-
-// ── Static data ───────────────────────────────────────────────────────────────
-
-const allResults = (resultsData as unknown as RawResult[]).filter(
-  (r) => r.score !== undefined
-);
-
-const allSeasons = Array.from(new Set(allResults.map((r) => r.seasonId))).sort(
-  (a, b) => parseInt(b.split("/")[0], 10) - parseInt(a.split("/")[0], 10)
-);
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -221,7 +217,19 @@ function StreakCard({
 
 // ── Page component ────────────────────────────────────────────────────────────
 
-export default function TeamStats() {
+export default function TeamStats({ loaderData }: Route.ComponentProps) {
+  const allResults = useMemo(
+    () => (loaderData.results as RawResult[]).filter((r) => r.score !== undefined),
+    [loaderData.results]
+  );
+  const allSeasons = useMemo(
+    () =>
+      Array.from(new Set(allResults.map((r) => r.seasonId))).sort(
+        (a, b) => parseInt(b.split("/")[0], 10) - parseInt(a.split("/")[0], 10)
+      ),
+    [allResults]
+  );
+
   const [season, setSeason] = useState<string>("All");
   const [competition, setCompetition] = useState<string>("All");
 
@@ -230,7 +238,7 @@ export default function TeamStats() {
       season === "All"
         ? allResults
         : allResults.filter((r) => r.seasonId === season),
-    [season]
+    [allResults, season]
   );
 
   const availableCompetitions = useMemo(

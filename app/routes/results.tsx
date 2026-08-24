@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router";
 import type { Route } from "./+types/results";
-import resultsData from "../../public/data/results.json";
-import playersData from "../../public/data/players.json";
+import { getPlayers, getResults } from "~/data/client";
 import "./results.css";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Results — Peterborough Warriors" }];
+}
+
+export async function clientLoader() {
+  const [players, results] = await Promise.all([
+    getPlayers<unknown[]>(),
+    getResults<unknown[]>(),
+  ]);
+  return { players, results };
 }
 
 type Goal = {
@@ -46,11 +53,7 @@ type PlayerStat = {
   points: number;
 };
 
-const playerMap = new Map(
-  (playersData as { id: string; name: string }[]).map((p) => [p.id, p.name])
-);
-
-function getTopPerformers(result: Result): PlayerStat[] {
+function getTopPerformers(result: Result, playerMap: Map<string, string>): PlayerStat[] {
   const statMap = new Map<string, { goals: number; assists: number }>();
   const periods = result.score.period ?? {};
   const allGoals: Goal[] = [
@@ -94,13 +97,6 @@ function formatDate(dateString: string) {
   });
 }
 
-const allResults = (resultsData as Result[])
-  .filter((r) => new Date(r.date).getTime() < Date.now())
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-const uniqueSeasons = Array.from(new Set(allResults.map((r) => r.season)));
-const seasons = ["All", ...uniqueSeasons];
-
 function ResultLogo({ logoImage, opponentTeam }: { logoImage: string; opponentTeam: string }) {
   const [failed, setFailed] = useState(false);
   return (
@@ -120,7 +116,7 @@ function ResultLogo({ logoImage, opponentTeam }: { logoImage: string; opponentTe
   );
 }
 
-function ResultRow({ result }: { result: Result }) {
+function ResultRow({ result, playerMap }: { result: Result; playerMap: Map<string, string> }) {
   const outcome = getOutcome(result.score.warriorsScore, result.score.opponentScore);
   const motm =
     result.manOfTheMatchPlayerId && result.manOfTheMatchPlayerId !== "MISSING"
@@ -131,7 +127,7 @@ function ResultRow({ result }: { result: Result }) {
       ? playerMap.get(result.warriorOfTheGamePlayerId)
       : null;
   const hasAwards = motm || wotg;
-  const topPerformers = getTopPerformers(result);
+  const topPerformers = getTopPerformers(result, playerMap);
   const location =
     result.location === "HOME" || result.location === "AWAY"
       ? result.location
@@ -213,7 +209,22 @@ function ResultRow({ result }: { result: Result }) {
   );
 }
 
-export default function Results() {
+export default function Results({ loaderData }: Route.ComponentProps) {
+  const players = loaderData.players as { id: string; name: string }[];
+  const allResults = useMemo(
+    () =>
+      (loaderData.results as Result[])
+        .filter((r) => new Date(r.date).getTime() < Date.now())
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
+    [loaderData.results]
+  );
+  const playerMap = useMemo(() => new Map(players.map((p) => [p.id, p.name])), [players]);
+  const uniqueSeasons = useMemo(
+    () => Array.from(new Set(allResults.map((r) => r.season))),
+    [allResults]
+  );
+  const seasons = useMemo(() => ["All", ...uniqueSeasons], [uniqueSeasons]);
+
   const [activeSeason, setActiveSeason] = useState(uniqueSeasons[0] ?? "All");
 
   const filtered =
@@ -275,7 +286,11 @@ export default function Results() {
         ) : (
           <div className="results-list">
             {filtered.map((result) => (
-              <ResultRow key={`${result.date}-${result.opponentTeam}`} result={result} />
+              <ResultRow
+                key={`${result.date}-${result.opponentTeam}`}
+                result={result}
+                playerMap={playerMap}
+              />
             ))}
           </div>
         )}

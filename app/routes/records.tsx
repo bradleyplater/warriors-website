@@ -1,7 +1,7 @@
-import { useState } from "react";
-import resultsData from "../../public/data/results.json";
-import playersData from "../../public/data/players.json";
-import type { Result, Player } from "~/contexts/DataContext";
+import { useState, useMemo } from "react";
+import type { Route } from "./+types/records";
+import { getPlayers, getResults } from "~/data/client";
+import type { Result, Player } from "~/data/types";
 import {
   getMostGoals, getMostAssists, getMostPoints, getQuickestGoal,
   getQuickestHattrick, getMostPenaltyMinutesInAGame,
@@ -23,49 +23,13 @@ export function meta() {
   return [{ title: "Records — Peterborough Warriors" }];
 }
 
-// ── Static data ───────────────────────────────────────────────────────────────
-
-const allResults = resultsData as unknown as Result[];
-const allPlayers = playersData as unknown as Player[];
-
-// ── Pre-compute all records (outside component) ───────────────────────────────
-
-const gameRecords: TeamRecord[] = [
-  getMostGoals(allResults, allPlayers),
-  getMostAssists(allResults, allPlayers),
-  getMostPoints(allResults, allPlayers),
-  getQuickestGoal(allResults, allPlayers),
-  getQuickestHattrick(allResults, allPlayers),
-  getMostPenaltyMinutesInAGame(allResults, allPlayers),
-];
-
-const seasonalRecords: SeasonRecord[] = [
-  getMostGoalsInASeason(allPlayers),
-  getMostAssistsInASeason(allPlayers),
-  getMostPointsInASeason(allPlayers),
-  getMostHattricksInASeason(allResults, allPlayers),
-  getMostPowerPlayGoalsInASeason(allResults, allPlayers),
-  getMostShortHandedGoalsInASeason(allResults, allPlayers),
-  getMostGameWinningGoalsInASeason(allResults, allPlayers),
-  getMostShutoutsInASeason(allResults, allPlayers),
-  getMostPIMsInASeason(allPlayers),
-  getMostMOTMInASeason(allPlayers),
-  getMostWOTGInASeason(allPlayers),
-];
-
-const allTimeRecords: AllTimeRecord[] = [
-  getCareerGamesPlayedLeader(allPlayers),
-  getCareerGoalsLeader(allPlayers),
-  getCareerAssistsLeader(allPlayers),
-  getCareerPointsLeader(allPlayers),
-  getMostPowerPlayGoalsAllTime(allResults, allPlayers),
-  getMostShortHandedGoalsAllTime(allResults, allPlayers),
-  getMostGameWinningGoalsAllTime(allResults, allPlayers),
-  getMostShutoutsAllTime(allResults, allPlayers),
-  getMostCareerPenaltyMinutes(allPlayers),
-  getMostCareerMOTM(allPlayers),
-  getMostCareerWOTG(allPlayers),
-];
+export async function clientLoader() {
+  const [players, results] = await Promise.all([
+    getPlayers<unknown[]>(),
+    getResults<unknown[]>(),
+  ]);
+  return { players, results };
+}
 
 // ── Category badge ────────────────────────────────────────────────────────────
 
@@ -189,8 +153,57 @@ function AllTimeRecordCard({ record }: { record: AllTimeRecord }) {
 
 type Tab = "game" | "season" | "alltime";
 
-export default function Records() {
+export default function Records({ loaderData }: Route.ComponentProps) {
   const [tab, setTab] = useState<Tab>("game");
+
+  const allResults = loaderData.results as Result[];
+  const allPlayers = loaderData.players as Player[];
+
+  const gameRecords: TeamRecord[] = useMemo(
+    () => [
+      getMostGoals(allResults, allPlayers),
+      getMostAssists(allResults, allPlayers),
+      getMostPoints(allResults, allPlayers),
+      getQuickestGoal(allResults, allPlayers),
+      getQuickestHattrick(allResults, allPlayers),
+      getMostPenaltyMinutesInAGame(allResults, allPlayers),
+    ],
+    [allResults, allPlayers]
+  );
+
+  const seasonalRecords: SeasonRecord[] = useMemo(
+    () => [
+      getMostGoalsInASeason(allPlayers),
+      getMostAssistsInASeason(allPlayers),
+      getMostPointsInASeason(allPlayers),
+      getMostHattricksInASeason(allResults, allPlayers),
+      getMostPowerPlayGoalsInASeason(allResults, allPlayers),
+      getMostShortHandedGoalsInASeason(allResults, allPlayers),
+      getMostGameWinningGoalsInASeason(allResults, allPlayers),
+      getMostShutoutsInASeason(allResults, allPlayers),
+      getMostPIMsInASeason(allPlayers),
+      getMostMOTMInASeason(allPlayers),
+      getMostWOTGInASeason(allPlayers),
+    ],
+    [allResults, allPlayers]
+  );
+
+  const allTimeRecords: AllTimeRecord[] = useMemo(
+    () => [
+      getCareerGamesPlayedLeader(allPlayers),
+      getCareerGoalsLeader(allPlayers),
+      getCareerAssistsLeader(allPlayers),
+      getCareerPointsLeader(allPlayers),
+      getMostPowerPlayGoalsAllTime(allResults, allPlayers),
+      getMostShortHandedGoalsAllTime(allResults, allPlayers),
+      getMostGameWinningGoalsAllTime(allResults, allPlayers),
+      getMostShutoutsAllTime(allResults, allPlayers),
+      getMostCareerPenaltyMinutes(allPlayers),
+      getMostCareerMOTM(allPlayers),
+      getMostCareerWOTG(allPlayers),
+    ],
+    [allResults, allPlayers]
+  );
 
   return (
     <div className="rec-page">

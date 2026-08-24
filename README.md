@@ -78,6 +78,20 @@ Make sure to deploy the output of `npm run build`
 │   └── server/    # Server-side code
 ```
 
+## Data
+
+Player, results, roster-config, and team stats are published by the
+[Warriors Admin Portal](../warriors-admin-portal) to an S3 bucket behind
+CloudFront and fetched at runtime — see `app/data/client.ts` for the base
+URL and the routes' `clientLoader`s for what each page fetches. There's no
+local fallback: `npm run dev` needs network access to that CDN, since
+`public/data/players.json`, `results.json`, `roster-config.json`, and
+`team.json` are no longer checked into this repo.
+
+`public/data/awards.json`, `upcoming-games.json`, and `team-config.json`
+remain static, checked-in files — the admin portal doesn't publish those
+yet.
+
 ## Styling
 
 This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.

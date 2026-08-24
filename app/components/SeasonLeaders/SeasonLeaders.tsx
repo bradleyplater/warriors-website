@@ -1,4 +1,3 @@
-import players from "../../../public/data/players.json";
 import "./SeasonLeaders.css";
 
 const CURRENT_SEASON = "25/26";
@@ -27,9 +26,10 @@ type LeaderEntry = {
 };
 
 function getLeaders(
+  players: Player[],
   statKey: keyof Pick<SeasonStat, "goals" | "assists" | "pims">
 ): LeaderEntry[] {
-  return (players as Player[])
+  return players
     .flatMap((player) => {
       const season = player.stats.find((s) => s.season === CURRENT_SEASON);
       if (!season) return [];
@@ -94,10 +94,11 @@ function LeaderPanel({ title, label, entries }: PanelProps) {
   );
 }
 
-export function SeasonLeaders() {
-  const goalLeaders = getLeaders("goals");
-  const assistLeaders = getLeaders("assists");
-  const pimsLeaders = getLeaders("pims");
+export function SeasonLeaders({ players: rawPlayers }: { players: unknown[] }) {
+  const players = rawPlayers as Player[];
+  const goalLeaders = getLeaders(players, "goals");
+  const assistLeaders = getLeaders(players, "assists");
+  const pimsLeaders = getLeaders(players, "pims");
 
   return (
     <div className="sl-shell">

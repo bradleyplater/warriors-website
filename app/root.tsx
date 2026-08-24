@@ -12,8 +12,8 @@ import "@wonderflow/themes";
 import type { Route } from "./+types/root";
 import "./app.css";
 
-import { DataProvider } from "./contexts/DataContext";
 import { NavBar } from "./components/NavBar";
+import { RouteLoadingFallback } from "./components/RouteLoadingFallback/RouteLoadingFallback";
 
 export const links: Route.LinksFunction = () => [
   { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
@@ -47,11 +47,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return (
-    <DataProvider>
-      <Outlet />
-    </DataProvider>
-  );
+  return <Outlet />;
+}
+
+export function HydrateFallback() {
+  return <RouteLoadingFallback />;
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

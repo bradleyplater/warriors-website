@@ -1,10 +1,16 @@
 import type { Route } from "./+types/schedule";
 import upcomingGames from "../../public/data/upcoming-games.json";
 import { ScheduleGameCard } from "../components/ScheduleGameCard/ScheduleGameCard";
+import { getResults } from "~/data/client";
 import "./schedule.css";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Schedule — Peterborough Warriors" }];
+}
+
+export async function clientLoader() {
+  const results = await getResults<unknown[]>();
+  return { results };
 }
 
 type UpcomingGame = {
@@ -21,7 +27,8 @@ function parseGameDate(dateString: string) {
   return new Date(year, (month || 1) - 1, day || 1);
 }
 
-export default function Schedule() {
+export default function Schedule({ loaderData }: Route.ComponentProps) {
+  const { results } = loaderData;
   const sorted = [...(upcomingGames as UpcomingGame[])].sort(
     (a, b) => parseGameDate(a.date).getTime() - parseGameDate(b.date).getTime()
   );
@@ -44,7 +51,7 @@ export default function Schedule() {
         ) : (
           <div className="schedule-list">
             {sorted.map((game, i) => (
-              <ScheduleGameCard key={i} game={game} />
+              <ScheduleGameCard key={i} game={game} results={results} />
             ))}
           </div>
         )}

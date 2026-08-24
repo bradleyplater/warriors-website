@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link, useParams } from "react-router";
-import playersData from "../../public/data/players.json";
-import resultsData from "../../public/data/results.json";
+import type { Route } from "./+types/player";
+import { getPlayers, getResults } from "~/data/client";
 import {
   getNumberOfGWGoalsForPlayer,
   getNumberOfPPGoalsForPlayer,
@@ -15,7 +15,7 @@ import {
   getPlayerMilestones,
   type PlayerMilestones,
 } from "~/helpers/game-helpers";
-import type { Result } from "~/contexts/DataContext";
+import type { Result } from "~/data/types";
 import type { Season } from "~/types/season";
 import "./player.css";
 
@@ -39,9 +39,6 @@ type Player = {
   stats: PlayerStat[];
 };
 
-const allPlayers = playersData as Player[];
-const allResults = resultsData as Result[];
-
 const playerImageModules = import.meta.glob("/public/images/players/*.jpg", {
   eager: true,
 });
@@ -51,8 +48,9 @@ const PLAYER_IMAGE_IDS = new Set(
   )
 );
 
-export function meta({ params }: { params: { playerId?: string } }) {
-  const player = allPlayers.find((p) => p.id === params.playerId);
+export function meta({ params, data }: Route.MetaArgs) {
+  const players = data?.players as Player[] | undefined;
+  const player = players?.find((p) => p.id === params.playerId);
   return [
     {
       title: player
@@ -60,6 +58,14 @@ export function meta({ params }: { params: { playerId?: string } }) {
         : "Player — Peterborough Warriors",
     },
   ];
+}
+
+export async function clientLoader() {
+  const [players, results] = await Promise.all([
+    getPlayers<unknown[]>(),
+    getResults<unknown[]>(),
+  ]);
+  return { players, results };
 }
 
 // ── Career stat calculation ───────────────────────────────────────────────────
@@ -78,7 +84,7 @@ type StatTotals = {
   pointsPerGame: string;
 };
 
-function getCareerTotals(player: Player): StatTotals {
+function getCareerTotals(player: Player, allResults: Result[]): StatTotals {
   const base = player.stats.reduce(
     (acc, s) => ({
       games: acc.games + (s.games ?? 0),
@@ -116,7 +122,7 @@ type SeasonRow = {
   wotg: number;
 };
 
-function getSeasonRows(player: Player): SeasonRow[] {
+function getSeasonRows(player: Player, allResults: Result[]): SeasonRow[] {
   const rows = player.stats.map((s) => {
     const season = s.season as Season;
     const games = s.games ?? 0;
@@ -170,7 +176,7 @@ function getAllGoalsInGame(game: Result, playerId: string) {
   ].filter((g) => g.playerId === playerId);
 }
 
-function getRecentGames(playerId: string, count = 5): GameRow[] {
+function getRecentGames(playerId: string, allResults: Result[], count = 5): GameRow[] {
   const playerGames = allResults
     .filter((r) => Array.isArray(r.roster) && r.roster.includes(playerId))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
@@ -528,9 +534,12 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "records", label: "Records" },
 ];
 
-export default function PlayerPage() {
+export default function PlayerPage({ loaderData }: Route.ComponentProps) {
   const { playerId } = useParams();
   const [activeTab, setActiveTab] = useState<Tab>("career");
+
+  const allPlayers = loaderData.players as Player[];
+  const allResults = loaderData.results as Result[];
 
   const player = allPlayers.find((p) => p.id === playerId);
 
@@ -548,13 +557,13 @@ export default function PlayerPage() {
   }
 
   const hasImage = PLAYER_IMAGE_IDS.has(player.id);
-  const career = getCareerTotals(player);
-  const seasonRows = getSeasonRows(player);
-  const recentGames = getRecentGames(player.id);
+  const career = getCareerTotals(player, allResults);
+  const seasonRows = getSeasonRows(player, allResults);
+  const recentGames = getRecentGames(player.id, allResults);
   const recentTotals = getRecentTotals(recentGames);
   const recentWins = recentGames.filter((g) => g.result === "W").length;
   const recentLosses = recentGames.filter((g) => g.result === "L").length;
-  const allGames = getRecentGames(player.id, Infinity);
+  const allGames = getRecentGames(player.id, allResults, Infinity);
   const allGameTotals = getRecentTotals(allGames);
   const allWins = allGames.filter((g) => g.result === "W").length;
   const allLosses = allGames.filter((g) => g.result === "L").length;

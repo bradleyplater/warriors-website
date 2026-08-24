@@ -1,18 +1,23 @@
 import { Link, useParams } from "react-router";
-import resultsData from "../../public/data/results.json";
-import playersData from "../../public/data/players.json";
-import type { Result } from "~/contexts/DataContext";
+import type { Route } from "./+types/game";
+import { getPlayers, getResults } from "~/data/client";
+import type { Result } from "~/data/types";
 import "./game.css";
 
 type Player = { id: string; name: string; number: number; position: string };
 
-const allResults = resultsData as Result[];
-const allPlayers = playersData as Player[];
-const playerMap = new Map(allPlayers.map((p) => [p.id, p]));
+export async function clientLoader() {
+  const [players, results] = await Promise.all([
+    getPlayers<unknown[]>(),
+    getResults<unknown[]>(),
+  ]);
+  return { players, results };
+}
 
-export function meta({ params }: { params: { gameId?: string } }) {
+export function meta({ params, data }: Route.MetaArgs) {
+  const allResults = data?.results as Result[] | undefined;
   const date = decodeURIComponent(params.gameId ?? "");
-  const game = allResults.find((r) => r.date === date);
+  const game = allResults?.find((r) => r.date === date);
   const title = game
     ? `vs ${game.opponentTeam} — Peterborough Warriors`
     : "Game — Peterborough Warriors";
@@ -52,7 +57,7 @@ type GoalEntry = {
   isGWG: boolean;
 };
 
-function buildGoalTimeline(game: Result): GoalEntry[] {
+function buildGoalTimeline(game: Result, playerMap: Map<string, Player>): GoalEntry[] {
   const periods = [
     { data: game.score.period.one, num: 1 },
     { data: game.score.period.two, num: 2 },
@@ -140,11 +145,13 @@ function RosterCard({
   isMotm,
   isWotg,
   isNetminder,
+  playerMap,
 }: {
   playerId: string;
   isMotm: boolean;
   isWotg: boolean;
   isNetminder: boolean;
+  playerMap: Map<string, Player>;
 }) {
   const player = playerMap.get(playerId);
   if (!player) return null;
@@ -164,8 +171,12 @@ function RosterCard({
   );
 }
 
-export default function Game() {
+export default function Game({ loaderData }: Route.ComponentProps) {
   const { gameId } = useParams();
+  const allResults = loaderData.results as Result[];
+  const allPlayers = loaderData.players as Player[];
+  const playerMap = new Map(allPlayers.map((p) => [p.id, p]));
+
   const date = decodeURIComponent(gameId ?? "");
   const game = allResults.find((r) => r.date === date);
 
@@ -181,7 +192,7 @@ export default function Game() {
   }
 
   const outcome = getOutcome(game.score.warriorsScore, game.score.opponentScore);
-  const goals = buildGoalTimeline(game);
+  const goals = buildGoalTimeline(game, playerMap);
   const p = game.score.period;
 
   const motmId = game.manOfTheMatchPlayerId !== "MISSING" ? game.manOfTheMatchPlayerId : null;
@@ -319,6 +330,7 @@ export default function Game() {
                   isMotm={id === motmId}
                   isWotg={id === wotgId}
                   isNetminder={id === nmId}
+                  playerMap={playerMap}
                 />
               ))}
             </div>

@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Text } from "@wonderflow/react-components";
-import results from "../../../public/data/results.json";
-import players from "../../../public/data/players.json";
 import { getInitials } from "../TeamLogo/TeamLogo";
 import "./LatestResultCard.css";
 
@@ -37,6 +35,11 @@ type PlayerStat = {
   goals: number;
   assists: number;
   points: number;
+};
+
+type PlayerName = {
+  id: string;
+  name: string;
 };
 
 function formatResultDate(dateString: string) {
@@ -109,7 +112,7 @@ function getOutcome(warriorsScore: number, opponentScore: number) {
   return "D";
 }
 
-function getTopPerformers(result: Result): PlayerStat[] {
+function getTopPerformers(result: Result, players: PlayerName[]): PlayerStat[] {
   const statMap = new Map<string, { goals: number; assists: number }>();
 
   const periods = result.score.period ?? {};
@@ -143,14 +146,22 @@ function getTopPerformers(result: Result): PlayerStat[] {
     .slice(0, 3);
 }
 
-export function LatestResultCard() {
+export function LatestResultCard({
+  results: rawResults,
+  players: rawPlayers,
+}: {
+  results: unknown[];
+  players: unknown[];
+}) {
+  const results = rawResults as Result[];
+  const players = rawPlayers as PlayerName[];
   const today = new Date();
 
-  const latestResult = [...(results as Result[])]
+  const latestResult = [...results]
     .filter((r) => new Date(r.date).getTime() < today.getTime())
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
 
-  const topPerformers = latestResult ? getTopPerformers(latestResult) : [];
+  const topPerformers = latestResult ? getTopPerformers(latestResult, players) : [];
 
   return (
     <div className="lr-shell">

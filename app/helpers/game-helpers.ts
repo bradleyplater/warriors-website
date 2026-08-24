@@ -1,5 +1,4 @@
-import type { Result } from "~/contexts/DataContext";
-import type { Player } from "~/contexts/DataContext";
+import type { Result, Player } from "~/data/types";
 
 export function getGoalsForOneGame(game: Result, playerId: string) {
   const periodOneGoals = game.score.period.one.goals.filter(goal => goal.playerId === playerId).length;
