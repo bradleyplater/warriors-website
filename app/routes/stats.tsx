@@ -6,12 +6,25 @@ import { AxisBottom, AxisLeft } from "@visx/axis";
 import { GridRows } from "@visx/grid";
 import { Group } from "@visx/group";
 import { curveMonotoneX } from "@visx/curve";
-import playersData from "../../public/data/players.json";
-import resultsData from "../../public/data/results.json";
+import type { Route } from "./+types/stats";
+import { getPlayers, getResults } from "~/data/client";
+import { RouteLoadingFallback } from "~/components/RouteLoadingFallback/RouteLoadingFallback";
 import "./stats.css";
 
 export function meta() {
   return [{ title: "Stats — Peterborough Warriors" }];
+}
+
+export async function clientLoader() {
+  const [players, results] = await Promise.all([
+    getPlayers<unknown[]>(),
+    getResults<unknown[]>(),
+  ]);
+  return { players, results };
+}
+
+export function HydrateFallback() {
+  return <RouteLoadingFallback />;
 }
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -68,23 +81,28 @@ type GoalieSortField = "name" | "number" | "gp" | "ga" | "gaa";
 type SortDir = "asc" | "desc";
 type StatType = "goals" | "assists" | "points" | "pims";
 
-// ── Static data ───────────────────────────────────────────────────────────────
-
-const allResults = resultsData as unknown as RawResult[];
-const playerInfoMap = new Map<string, PlayerInfo>(
-  (playersData as PlayerInfo[]).map((p) => [p.id, p])
-);
-
-// ── Build stats maps from results ─────────────────────────────────────────────
+// ── Derived stats data (computed once per loaded results/players pair) ────────
 // playerStats[playerId][season][competition] = StatEntry (skater, excludes netminder games)
 // goalieStats[playerId][season][competition] = GoalieEntry
 
-const playerStats: Record<string, Record<string, Record<string, StatEntry>>> = {};
-const goalieStats: Record<string, Record<string, Record<string, GoalieEntry>>> = {};
-const allSeasons = new Set<string>();
-const allCompetitions = new Set<string>();
+type StatsData = {
+  playerInfoMap: Map<string, PlayerInfo>;
+  playerStats: Record<string, Record<string, Record<string, StatEntry>>>;
+  goalieStats: Record<string, Record<string, Record<string, GoalieEntry>>>;
+  sortedSeasons: string[];
+  sortedCompetitions: string[];
+  chronologicalResults: (RawResult & { date: string })[];
+};
 
-for (const result of allResults) {
+function computeStatsData(allResults: RawResult[], players: PlayerInfo[]): StatsData {
+  const playerInfoMap = new Map<string, PlayerInfo>(players.map((p) => [p.id, p]));
+
+  const playerStats: Record<string, Record<string, Record<string, StatEntry>>> = {};
+  const goalieStats: Record<string, Record<string, Record<string, GoalieEntry>>> = {};
+  const allSeasons = new Set<string>();
+  const allCompetitions = new Set<string>();
+
+  for (const result of allResults) {
   const season = result.season || "Unknown";
   const competition = result.competition || "Unknown";
   const netminder = result.netminderPlayerId;
@@ -135,10 +153,24 @@ for (const result of allResults) {
   }
 }
 
-const sortedSeasons = Array.from(allSeasons).sort(
-  (a, b) => parseInt(b.split("/")[0], 10) - parseInt(a.split("/")[0], 10)
-);
-const sortedCompetitions = Array.from(allCompetitions).sort();
+  const sortedSeasons = Array.from(allSeasons).sort(
+    (a, b) => parseInt(b.split("/")[0], 10) - parseInt(a.split("/")[0], 10)
+  );
+  const sortedCompetitions = Array.from(allCompetitions).sort();
+
+  const chronologicalResults = (allResults as (RawResult & { date: string })[])
+    .filter((r) => Array.isArray(r.roster) && r.roster.length > 0)
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  return {
+    playerInfoMap,
+    playerStats,
+    goalieStats,
+    sortedSeasons,
+    sortedCompetitions,
+    chronologicalResults,
+  };
+}
 
 // ── Chart constants ───────────────────────────────────────────────────────────
 
@@ -159,7 +191,12 @@ const STAT_OPTIONS: { value: StatType; label: string; axisLabel: string }[] = [
 
 // ── Aggregation helpers ───────────────────────────────────────────────────────
 
-function aggregatePlayer(playerId: string, season: string, comp: string): StatEntry {
+function aggregatePlayer(
+  playerStats: StatsData["playerStats"],
+  playerId: string,
+  season: string,
+  comp: string
+): StatEntry {
   const out: StatEntry = { gp: 0, goals: 0, assists: 0, pims: 0, motm: 0, wotg: 0 };
   const bySeasons = playerStats[playerId];
   if (!bySeasons) return out;
@@ -178,7 +215,12 @@ function aggregatePlayer(playerId: string, season: string, comp: string): StatEn
   return out;
 }
 
-function aggregateGoalie(playerId: string, season: string, comp: string): GoalieEntry {
+function aggregateGoalie(
+  goalieStats: StatsData["goalieStats"],
+  playerId: string,
+  season: string,
+  comp: string
+): GoalieEntry {
   const out: GoalieEntry = { gp: 0, ga: 0 };
   const bySeasons = goalieStats[playerId];
   if (!bySeasons) return out;
@@ -195,11 +237,6 @@ function aggregateGoalie(playerId: string, season: string, comp: string): Goalie
 
 // ── Chart helpers ─────────────────────────────────────────────────────────────
 
-// Results sorted oldest → newest for the "by game" cumulative walk
-const chronologicalResults = (allResults as (RawResult & { date: string })[])
-  .filter((r) => Array.isArray(r.roster) && r.roster.length > 0)
-  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
 type CumulativeChartResult = {
   data: Record<string, number>[];
   players: string[];
@@ -208,7 +245,8 @@ type CumulativeChartResult = {
 };
 
 /** Cumulative stat per player, one data point per season. X axis is numeric (0 = origin). */
-function buildSeasonCumulative(minGP: number, stat: StatType = "goals"): CumulativeChartResult {
+function buildSeasonCumulative(data: StatsData, minGP: number, stat: StatType = "goals"): CumulativeChartResult {
+  const { playerStats, playerInfoMap, sortedSeasons } = data;
   const seasons = sortedSeasons.slice().reverse(); // chronological: oldest first
 
   const eligible = Object.keys(playerStats)
@@ -230,7 +268,7 @@ function buildSeasonCumulative(minGP: number, stat: StatType = "goals"): Cumulat
   const dataRows = seasons.map((season, i) => {
     const row: Record<string, number> = { season: i + 1 };
     for (const p of eligible) {
-      const s = aggregatePlayer(p.id, season, "All");
+      const s = aggregatePlayer(playerStats, p.id, season, "All");
       const value =
         stat === "goals"   ? s.goals :
         stat === "assists"  ? s.assists :
@@ -255,7 +293,13 @@ function buildSeasonCumulative(minGP: number, stat: StatType = "goals"): Cumulat
 }
 
 /** Cumulative stat per player, one data point per club game. X axis is numeric (0 = origin). */
-function buildGameCumulative(minGP: number, season: string = "All", stat: StatType = "goals"): CumulativeChartResult {
+function buildGameCumulative(
+  data: StatsData,
+  minGP: number,
+  season: string = "All",
+  stat: StatType = "goals"
+): CumulativeChartResult {
+  const { chronologicalResults, playerInfoMap } = data;
   const filteredResults = season === "All"
     ? chronologicalResults
     : chronologicalResults.filter((r) => r.season === season);
@@ -475,7 +519,13 @@ function SortIcon({ field, active, dir }: { field: string; active: string; dir: 
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-export default function Stats() {
+export default function Stats({ loaderData }: Route.ComponentProps) {
+  const statsData = useMemo(
+    () => computeStatsData(loaderData.results as RawResult[], loaderData.players as PlayerInfo[]),
+    [loaderData.results, loaderData.players]
+  );
+  const { playerStats, goalieStats, playerInfoMap, sortedSeasons, sortedCompetitions } = statsData;
+
   const [tab, setTab] = useState<"players" | "goalies" | "charts">("players");
 
   const [chartTheme, setChartTheme] = useState<"light" | "dark">("dark");
@@ -496,10 +546,10 @@ export default function Stats() {
   const allChartData = useMemo(
     () => STAT_OPTIONS.map(({ value: stat }) =>
       chartAxisMode === "season"
-        ? buildSeasonCumulative(chartMinGP, stat)
-        : buildGameCumulative(chartMinGP, chartSeason, stat)
+        ? buildSeasonCumulative(statsData, chartMinGP, stat)
+        : buildGameCumulative(statsData, chartMinGP, chartSeason, stat)
     ),
-    [chartAxisMode, chartMinGP, chartSeason]
+    [statsData, chartAxisMode, chartMinGP, chartSeason]
   );
   // All stat datasets share the same eligible players (GP-filtered, stat-independent)
   const linePlayers = allChartData[0]?.players ?? [];
@@ -538,7 +588,7 @@ export default function Stats() {
       if (!info) continue;
       if (pPos !== "All" && info.position !== pPos) continue;
 
-      const s = aggregatePlayer(playerId, pSeason, pComp);
+      const s = aggregatePlayer(playerStats, playerId, pSeason, pComp);
       if (s.gp === 0) continue;
 
       rows.push({
@@ -565,7 +615,7 @@ export default function Stats() {
     });
 
     return rows;
-  }, [pSeason, pComp, pPos, pSort, pDir]);
+  }, [playerStats, playerInfoMap, pSeason, pComp, pPos, pSort, pDir]);
 
   const goalieRows = useMemo<GoalieStatRow[]>(() => {
     const rows: GoalieStatRow[] = [];
@@ -573,7 +623,7 @@ export default function Stats() {
       const info = playerInfoMap.get(playerId);
       if (!info) continue;
 
-      const s = aggregateGoalie(playerId, gSeason, gComp);
+      const s = aggregateGoalie(goalieStats, playerId, gSeason, gComp);
       if (s.gp === 0) continue;
 
       rows.push({
@@ -594,7 +644,7 @@ export default function Stats() {
     });
 
     return rows;
-  }, [gSeason, gComp, gSort, gDir]);
+  }, [goalieStats, playerInfoMap, gSeason, gComp, gSort, gDir]);
 
   function handlePlayerSort(field: PlayerSortField) {
     if (field === pSort) {
