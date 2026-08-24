@@ -12,7 +12,6 @@ import "@wonderflow/themes";
 import type { Route } from "./+types/root";
 import "./app.css";
 
-import { DataProvider } from "./contexts/DataContext";
 import { NavBar } from "./components/NavBar";
 
 export const links: Route.LinksFunction = () => [
@@ -47,11 +46,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return (
-    <DataProvider>
-      <Outlet />
-    </DataProvider>
-  );
+  return <Outlet />;
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
