@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router";
 import type { Route } from "./+types/roster";
-import playersData from "../../public/data/players.json";
-import resultsData from "../../public/data/results.json";
-import rosterConfig from "../../public/data/roster-config.json";
+import { getPlayers, getResults, getRosterConfig } from "~/data/client";
+import { RouteLoadingFallback } from "~/components/RouteLoadingFallback/RouteLoadingFallback";
 import "./roster.css";
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Roster — Peterborough Warriors" }];
+}
+
+export async function clientLoader() {
+  const [players, results, rosterConfig] = await Promise.all([
+    getPlayers<unknown[]>(),
+    getResults<unknown[]>(),
+    getRosterConfig<{ activePlayers: string[] }>(),
+  ]);
+  return { players, results, rosterConfig };
+}
+
+export function HydrateFallback() {
+  return <RouteLoadingFallback />;
 }
 
 type PlayerStat = {
@@ -39,9 +51,9 @@ type GoalieStatsMap = Record<string, Record<string, GoalieSeasonStat>>;
 
 // ── Build goalie stats from results ─────────────────────────────────────────
 
-function buildGoalieStatsMap(): GoalieStatsMap {
+export function buildGoalieStatsMap(results: ResultGame[]): GoalieStatsMap {
   const map: GoalieStatsMap = {};
-  for (const game of resultsData as ResultGame[]) {
+  for (const game of results) {
     const id = game.netminderPlayerId;
     if (!id || id === "MISSING") continue;
     if (!map[id]) map[id] = {};
@@ -53,10 +65,8 @@ function buildGoalieStatsMap(): GoalieStatsMap {
   return map;
 }
 
-const GOALIE_STATS_MAP = buildGoalieStatsMap();
-
-function getCareerGoalieStats(playerId: string) {
-  const seasons = GOALIE_STATS_MAP[playerId];
+function getCareerGoalieStats(playerId: string, goalieStatsMap: GoalieStatsMap) {
+  const seasons = goalieStatsMap[playerId];
   if (!seasons) return null;
   let games = 0;
   let goalsAgainst = 0;
@@ -68,8 +78,8 @@ function getCareerGoalieStats(playerId: string) {
   return { games, goalsAgainst, gaa };
 }
 
-function getTotalGoalieGames(playerId: string): number {
-  const seasons = GOALIE_STATS_MAP[playerId];
+function getTotalGoalieGames(playerId: string, goalieStatsMap: GoalieStatsMap): number {
+  const seasons = goalieStatsMap[playerId];
   if (!seasons) return 0;
   return Object.values(seasons).reduce((sum, s) => sum + s.games, 0);
 }
@@ -84,7 +94,7 @@ type CareerTotals = {
   pims: number;
 };
 
-function getSkaterCareerTotals(player: Player): CareerTotals {
+function getSkaterCareerTotals(player: Player, goalieStatsMap: GoalieStatsMap): CareerTotals {
   const totals = player.stats.reduce(
     (acc, s) => ({
       games: acc.games + (s.games ?? 0),
@@ -96,7 +106,7 @@ function getSkaterCareerTotals(player: Player): CareerTotals {
     { games: 0, goals: 0, assists: 0, points: 0, pims: 0 }
   );
   // Subtract games spent in goal so skater GP is accurate
-  const goalieGames = getTotalGoalieGames(player.id);
+  const goalieGames = getTotalGoalieGames(player.id, goalieStatsMap);
   return { ...totals, games: Math.max(0, totals.games - goalieGames) };
 }
 
@@ -119,9 +129,6 @@ const isDualRole = (p: Player) =>
 
 // ── Static data ──────────────────────────────────────────────────────────────
 
-const ACTIVE_IDS = new Set(rosterConfig.activePlayers);
-const allPlayers = playersData as Player[];
-
 const playerImageModules = import.meta.glob("/public/images/players/*.jpg", { eager: true });
 const PLAYER_IMAGE_IDS = new Set(
   Object.keys(playerImageModules).map((path) => path.split("/").pop()!.replace(".jpg", ""))
@@ -129,9 +136,9 @@ const PLAYER_IMAGE_IDS = new Set(
 
 type Tab = "active" | "previous" | "all";
 
-function filterByTab(players: Player[], tab: Tab): Player[] {
-  if (tab === "active") return players.filter((p) => ACTIVE_IDS.has(p.id));
-  if (tab === "previous") return players.filter((p) => !ACTIVE_IDS.has(p.id));
+function filterByTab(players: Player[], tab: Tab, activeIds: Set<string>): Player[] {
+  if (tab === "active") return players.filter((p) => activeIds.has(p.id));
+  if (tab === "previous") return players.filter((p) => !activeIds.has(p.id));
   return players;
 }
 
@@ -148,8 +155,16 @@ function SilhouetteFallback() {
   );
 }
 
-function SkaterCard({ player, showDualBadge }: { player: Player; showDualBadge?: boolean }) {
-  const career = getSkaterCareerTotals(player);
+function SkaterCard({
+  player,
+  showDualBadge,
+  goalieStatsMap,
+}: {
+  player: Player;
+  showDualBadge?: boolean;
+  goalieStatsMap: GoalieStatsMap;
+}) {
+  const career = getSkaterCareerTotals(player, goalieStatsMap);
   const hasImage = PLAYER_IMAGE_IDS.has(player.id);
   const dual = showDualBadge && isDualRole(player);
 
@@ -192,14 +207,24 @@ function SkaterCard({ player, showDualBadge }: { player: Player; showDualBadge?:
   );
 }
 
-function GoalieCard({ player, showDualBadge }: { player: Player; showDualBadge?: boolean }) {
-  const goalie = getCareerGoalieStats(player.id);
+function GoalieCard({
+  player,
+  showDualBadge,
+  goalieStatsMap,
+}: {
+  player: Player;
+  showDualBadge?: boolean;
+  goalieStatsMap: GoalieStatsMap;
+}) {
+  const goalie = getCareerGoalieStats(player.id, goalieStatsMap);
   const hasImage = PLAYER_IMAGE_IDS.has(player.id);
   const dual = showDualBadge && isDualRole(player);
 
   // No goalie game data recorded yet — fall back to skater-style display
   if (!goalie) {
-    return <SkaterCard player={player} showDualBadge={showDualBadge} />;
+    return (
+      <SkaterCard player={player} showDualBadge={showDualBadge} goalieStatsMap={goalieStatsMap} />
+    );
   }
 
   return (
@@ -241,10 +266,12 @@ function RosterSection({
   title,
   players,
   variant = "skater",
+  goalieStatsMap,
 }: {
   title: string;
   players: Player[];
   variant?: "skater" | "goalie";
+  goalieStatsMap: GoalieStatsMap;
 }) {
   if (players.length === 0) return null;
 
@@ -257,9 +284,9 @@ function RosterSection({
       <div className="roster-grid">
         {players.map((player) =>
           variant === "goalie" ? (
-            <GoalieCard key={player.id} player={player} showDualBadge />
+            <GoalieCard key={player.id} player={player} showDualBadge goalieStatsMap={goalieStatsMap} />
           ) : (
-            <SkaterCard key={player.id} player={player} showDualBadge />
+            <SkaterCard key={player.id} player={player} showDualBadge goalieStatsMap={goalieStatsMap} />
           )
         )}
       </div>
@@ -269,10 +296,20 @@ function RosterSection({
 
 // ── Page ─────────────────────────────────────────────────────────────────────
 
-export default function Roster() {
+export default function Roster({ loaderData }: Route.ComponentProps) {
+  const allPlayers = loaderData.players as Player[];
+  const activeIds = useMemo(
+    () => new Set(loaderData.rosterConfig.activePlayers),
+    [loaderData.rosterConfig]
+  );
+  const goalieStatsMap = useMemo(
+    () => buildGoalieStatsMap(loaderData.results as ResultGame[]),
+    [loaderData.results]
+  );
+
   const [activeTab, setActiveTab] = useState<Tab>("active");
 
-  const filtered = filterByTab(allPlayers, activeTab);
+  const filtered = filterByTab(allPlayers, activeTab, activeIds);
   const forwards = filtered.filter(isForward).sort((a, b) => a.number - b.number);
   const defence = filtered.filter(isDefence).sort((a, b) => a.number - b.number);
   const goalies = filtered.filter(isGoalie).sort((a, b) => a.number - b.number);
@@ -309,9 +346,9 @@ export default function Roster() {
           ))}
         </div>
 
-        <RosterSection title="Forwards" players={forwards} variant="skater" />
-        <RosterSection title="Defence" players={defence} variant="skater" />
-        <RosterSection title="Goalies" players={goalies} variant="goalie" />
+        <RosterSection title="Forwards" players={forwards} variant="skater" goalieStatsMap={goalieStatsMap} />
+        <RosterSection title="Defence" players={defence} variant="skater" goalieStatsMap={goalieStatsMap} />
+        <RosterSection title="Goalies" players={goalies} variant="goalie" goalieStatsMap={goalieStatsMap} />
       </div>
     </div>
   );
