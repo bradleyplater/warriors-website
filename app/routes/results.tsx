@@ -2,7 +2,6 @@ import { useState, useMemo } from "react";
 import { Link } from "react-router";
 import type { Route } from "./+types/results";
 import { getPlayers, getResults } from "~/data/client";
-import { RouteLoadingFallback } from "~/components/RouteLoadingFallback/RouteLoadingFallback";
 import "./results.css";
 
 export function meta({}: Route.MetaArgs) {
@@ -15,10 +14,6 @@ export async function clientLoader() {
     getResults<unknown[]>(),
   ]);
   return { players, results };
-}
-
-export function HydrateFallback() {
-  return <RouteLoadingFallback />;
 }
 
 type Goal = {

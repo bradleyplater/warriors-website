@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import type { Route } from "./+types/team-stats";
 import { getResults } from "~/data/client";
-import { RouteLoadingFallback } from "~/components/RouteLoadingFallback/RouteLoadingFallback";
 import "./team-stats.css";
 
 export function meta() {
@@ -11,10 +10,6 @@ export function meta() {
 export async function clientLoader() {
   const results = await getResults<unknown[]>();
   return { results };
-}
-
-export function HydrateFallback() {
-  return <RouteLoadingFallback />;
 }
 
 // ── Types ─────────────────────────────────────────────────────────────────────

@@ -2,7 +2,6 @@ import { useState, useMemo } from "react";
 import { Link, useParams } from "react-router";
 import type { Route } from "./+types/player";
 import { getPlayers, getResults } from "~/data/client";
-import { RouteLoadingFallback } from "~/components/RouteLoadingFallback/RouteLoadingFallback";
 import {
   getNumberOfGWGoalsForPlayer,
   getNumberOfPPGoalsForPlayer,
@@ -67,10 +66,6 @@ export async function clientLoader() {
     getResults<unknown[]>(),
   ]);
   return { players, results };
-}
-
-export function HydrateFallback() {
-  return <RouteLoadingFallback />;
 }
 
 // ── Career stat calculation ───────────────────────────────────────────────────

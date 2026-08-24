@@ -1,7 +1,6 @@
 import { Link, useParams } from "react-router";
 import type { Route } from "./+types/game";
 import { getPlayers, getResults } from "~/data/client";
-import { RouteLoadingFallback } from "~/components/RouteLoadingFallback/RouteLoadingFallback";
 import type { Result } from "~/data/types";
 import "./game.css";
 
@@ -13,10 +12,6 @@ export async function clientLoader() {
     getResults<unknown[]>(),
   ]);
   return { players, results };
-}
-
-export function HydrateFallback() {
-  return <RouteLoadingFallback />;
 }
 
 export function meta({ params, data }: Route.MetaArgs) {

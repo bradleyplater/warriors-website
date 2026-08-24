@@ -3,7 +3,6 @@ import { HeroBanner } from "../components/HeroBanner";
 import { NextGameCard } from "../components/NextGameCard/NextGameCard";
 import { LatestResultCard } from "~/components/LatestResultCard/LatestResultCard";
 import { SeasonLeaders } from "~/components/SeasonLeaders/SeasonLeaders";
-import { RouteLoadingFallback } from "~/components/RouteLoadingFallback/RouteLoadingFallback";
 import { getPlayers, getResults } from "~/data/client";
 
 export function meta({}: Route.MetaArgs) {
@@ -16,10 +15,6 @@ export async function clientLoader() {
     getResults<unknown[]>(),
   ]);
   return { players, results };
-}
-
-export function HydrateFallback() {
-  return <RouteLoadingFallback />;
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {

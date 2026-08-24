@@ -1,7 +1,6 @@
 import { useState, useMemo } from "react";
 import type { Route } from "./+types/records";
 import { getPlayers, getResults } from "~/data/client";
-import { RouteLoadingFallback } from "~/components/RouteLoadingFallback/RouteLoadingFallback";
 import type { Result, Player } from "~/data/types";
 import {
   getMostGoals, getMostAssists, getMostPoints, getQuickestGoal,
@@ -30,10 +29,6 @@ export async function clientLoader() {
     getResults<unknown[]>(),
   ]);
   return { players, results };
-}
-
-export function HydrateFallback() {
-  return <RouteLoadingFallback />;
 }
 
 // ── Category badge ────────────────────────────────────────────────────────────

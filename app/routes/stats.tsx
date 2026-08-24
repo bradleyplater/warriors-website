@@ -8,7 +8,6 @@ import { Group } from "@visx/group";
 import { curveMonotoneX } from "@visx/curve";
 import type { Route } from "./+types/stats";
 import { getPlayers, getResults } from "~/data/client";
-import { RouteLoadingFallback } from "~/components/RouteLoadingFallback/RouteLoadingFallback";
 import "./stats.css";
 
 export function meta() {
@@ -21,10 +20,6 @@ export async function clientLoader() {
     getResults<unknown[]>(),
   ]);
   return { players, results };
-}
-
-export function HydrateFallback() {
-  return <RouteLoadingFallback />;
 }
 
 // ── Types ─────────────────────────────────────────────────────────────────────

@@ -2,7 +2,6 @@ import { useState, useMemo } from "react";
 import { Link } from "react-router";
 import type { Route } from "./+types/roster";
 import { getPlayers, getResults, getRosterConfig } from "~/data/client";
-import { RouteLoadingFallback } from "~/components/RouteLoadingFallback/RouteLoadingFallback";
 import "./roster.css";
 
 export function meta({}: Route.MetaArgs) {
@@ -16,10 +15,6 @@ export async function clientLoader() {
     getRosterConfig<{ activePlayers: string[] }>(),
   ]);
   return { players, results, rosterConfig };
-}
-
-export function HydrateFallback() {
-  return <RouteLoadingFallback />;
 }
 
 type PlayerStat = {

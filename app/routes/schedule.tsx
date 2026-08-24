@@ -1,7 +1,6 @@
 import type { Route } from "./+types/schedule";
 import upcomingGames from "../../public/data/upcoming-games.json";
 import { ScheduleGameCard } from "../components/ScheduleGameCard/ScheduleGameCard";
-import { RouteLoadingFallback } from "~/components/RouteLoadingFallback/RouteLoadingFallback";
 import { getResults } from "~/data/client";
 import "./schedule.css";
 
@@ -12,10 +11,6 @@ export function meta({}: Route.MetaArgs) {
 export async function clientLoader() {
   const results = await getResults<unknown[]>();
   return { results };
-}
-
-export function HydrateFallback() {
-  return <RouteLoadingFallback />;
 }
 
 type UpcomingGame = {
