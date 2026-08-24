@@ -28,6 +28,15 @@ export interface Goal {
   assists: string[];
 }
 
+/** Opponent scorers/assisters are free text and may be unrecorded (null). */
+export interface OpponentGoal {
+  playerId: string;
+  minute: number;
+  second: number;
+  type: "EVEN" | "PP" | "SH";
+  assists: (string | null)[];
+}
+
 export interface Penalty {
   offender: string;
   minute: number;
@@ -40,7 +49,7 @@ export interface PeriodScore {
   warriorsScore: number;
   opponentScore: number;
   goals: Goal[];
-  opponentGoals: Goal[];
+  opponentGoals: OpponentGoal[];
   penalties: Penalty[];
   opponentPenalties: Penalty[];
 }

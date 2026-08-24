@@ -1,6 +1,5 @@
 import { Text } from "@wonderflow/react-components";
 import upcomingGames from "../../../public/data/upcoming-games.json";
-import results from "../../../public/data/results.json";
 import { TeamLogo } from "../TeamLogo/TeamLogo";
 import "./NextGameCard.css";
 
@@ -46,7 +45,8 @@ function getResultOutcome(warriorsScore: number, opponentScore: number): "W" | "
   return "D";
 }
 
-export function NextGameCard() {
+export function NextGameCard({ results: rawResults }: { results: unknown[] }) {
+  const results = rawResults as Result[];
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -58,7 +58,7 @@ export function NextGameCard() {
     .find((game) => parseGameDate(game.date).getTime() >= today.getTime());
 
   const recentResults = nextGame
-    ? [...(results as Result[])]
+    ? [...results]
         .filter(
           (r) =>
             r.opponentTeam === nextGame.opponentTeam &&
