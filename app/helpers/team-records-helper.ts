@@ -1,4 +1,4 @@
-import type { Player, Result } from "~/contexts/DataContext"
+import type { Player, Result } from "~/data/types"
 import { getNumberOfPPGoalsForPlayer, getNumberOfSHGoalsForPlayer, getNumberOfGWGoalsForPlayer } from "./data-helpers";
 
 interface GameInfo {
