@@ -1,5 +1,5 @@
 import type { Season } from "~/types/season";
-import type { Player, Result } from "~/contexts/DataContext";
+import type { Player, Result } from "~/data/types";
 
 export const getPlayer = (players: Player[], playerId: string) => {
   return players.find(player => player.id === playerId);
