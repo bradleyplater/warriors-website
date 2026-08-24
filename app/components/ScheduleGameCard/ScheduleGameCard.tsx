@@ -1,5 +1,4 @@
 import { Text } from "@wonderflow/react-components";
-import results from "../../../public/data/results.json";
 import { TeamLogo } from "../TeamLogo/TeamLogo";
 import "../NextGameCard/NextGameCard.css";
 
@@ -39,10 +38,17 @@ function getResultOutcome(warriorsScore: number, opponentScore: number): "W" | "
   return "D";
 }
 
-export function ScheduleGameCard({ game }: { game: UpcomingGame }) {
+export function ScheduleGameCard({
+  game,
+  results: rawResults,
+}: {
+  game: UpcomingGame;
+  results: unknown[];
+}) {
+  const results = rawResults as Result[];
   const gameDate = new Date(game.date).getTime();
 
-  const previousMeetings = [...(results as Result[])]
+  const previousMeetings = [...results]
     .filter(
       (r) =>
         r.opponentTeam === game.opponentTeam &&
