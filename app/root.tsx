@@ -51,11 +51,7 @@ export default function App() {
 }
 
 export function HydrateFallback() {
-  return (
-    <Layout>
-      <RouteLoadingFallback />
-    </Layout>
-  );
+  return <RouteLoadingFallback />;
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
