@@ -1,383 +1,85 @@
-/* ── Design tokens ────────────────────────────────────────────────────────── */
-:root,
-:root[data-theme="dark"] {
-  --aw-card-bg: #16181d;
-  --aw-card-border: rgba(255, 255, 255, 0.07);
-  --aw-tab-bg: rgba(255, 255, 255, 0.05);
-  --aw-trophy-color: #f5a623;
-  --aw-tier1-color: #f5a623;
-  --aw-tier2-color: #818cf8;
-  --aw-tier3-color: #38bdf8;
-  --aw-tier4-color: #34d399;
-  --aw-tier5-color: rgba(255, 255, 255, 0.35);
-  --aw-divider: rgba(255, 255, 255, 0.07);
-}
+.aw-page { display: flex; flex-direction: column; }
 
-:root[data-theme="light"] {
-  --aw-card-bg: #f8f9fb;
-  --aw-card-border: rgba(0, 0, 0, 0.08);
-  --aw-tab-bg: rgba(0, 0, 0, 0.05);
-  --aw-trophy-color: #d48a00;
-  --aw-tier1-color: #d48a00;
-  --aw-tier2-color: #4f46e5;
-  --aw-tier3-color: #0284c7;
-  --aw-tier4-color: #059669;
-  --aw-tier5-color: rgba(0, 0, 0, 0.35);
-  --aw-divider: rgba(0, 0, 0, 0.07);
-}
-
-/* ── Page ─────────────────────────────────────────────────────────────────── */
-.aw-page {
-  display: flex;
-  flex-direction: column;
-}
-
-/* ── Hero ─────────────────────────────────────────────────────────────────── */
-.aw-hero {
-  position: relative;
-  padding: 1.25rem 1rem 0;
-}
-
-.aw-hero-inner {
-  position: relative;
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 2rem 2.5rem 2.5rem;
-  border-radius: 2rem;
-  background: var(--ng-card-bg);
-  border: 1px solid var(--ng-card-border);
-  box-shadow: var(--ng-shadow);
-  overflow: hidden;
-}
-
-.aw-hero-inner::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 55% 50% at 92% 0%, var(--ng-glow) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.aw-kicker {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #1a56db;
-  background: rgba(26, 86, 219, 0.12);
-  padding: 0.25rem 0.625rem;
-  border-radius: 999px;
-  margin-bottom: 0.75rem;
-}
-
+.aw-hero { padding: var(--wr-space-12) var(--wr-space-5) var(--wr-space-4); }
+.aw-hero-inner { max-width: var(--wr-container); margin: 0 auto; }
+.aw-kicker { color: var(--fg-secondary); display: block; margin-bottom: var(--wr-space-2); }
 .aw-title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  margin: 0 0 0.5rem;
-  color: var(--ng-text-primary);
+  font-family: var(--wr-font-display);
+  font-variation-settings: 'wdth' var(--wr-w-expanded), 'wght' 900;
+  text-transform: uppercase;
+  font-size: var(--wr-text-h1);
+  margin: 0 0 var(--wr-space-2);
 }
+.aw-subtitle { color: var(--fg-secondary); margin: 0; }
 
-.aw-subtitle {
-  font-size: 1rem;
-  color: var(--ng-text-secondary);
-  margin: 0;
-}
+.aw-body { padding: var(--wr-space-6) var(--wr-space-5) var(--wr-space-16); }
+.aw-frame { max-width: var(--wr-container); margin: 0 auto; }
 
-/* ── Body ─────────────────────────────────────────────────────────────────── */
-.aw-body {
-  padding: 1.5rem 1rem 4rem;
-}
-
-.aw-frame {
-  max-width: 80rem;
-  margin: 0 auto;
-}
-
-/* ── Tabs ─────────────────────────────────────────────────────────────────── */
-.aw-tabs {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-}
-
+.aw-tabs { display: flex; gap: var(--wr-space-2); margin-bottom: var(--wr-space-8); flex-wrap: wrap; }
 .aw-tab {
-  padding: 0.5rem 1.25rem;
-  border-radius: 999px;
-  border: 1px solid var(--aw-card-border);
-  background: var(--aw-tab-bg);
-  color: var(--ng-text-secondary);
-  font-size: 0.875rem;
-  font-weight: 600;
+  padding: var(--wr-space-2) var(--wr-space-4);
+  border-radius: var(--wr-radius-sm);
+  border: var(--wr-bw-hair) solid var(--border-functional);
+  background: transparent;
+  color: var(--fg-secondary);
+  font-family: var(--wr-font-mono);
+  font-size: var(--wr-text-sm);
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
+.aw-tab:hover { background: var(--bg-hover); color: var(--fg-primary); }
+.aw-tab-active { background: var(--fg-primary); color: var(--bg-page); border-color: var(--fg-primary); }
 
-.aw-tab:hover {
-  background: rgba(26, 86, 219, 0.08);
-  color: #1a56db;
-  border-color: rgba(26, 86, 219, 0.25);
-}
-
-.aw-tab-active {
-  background: rgba(26, 86, 219, 0.15);
-  color: #1a56db;
-  border-color: rgba(26, 86, 219, 0.4);
-}
-
-/* ── Evening section ──────────────────────────────────────────────────────── */
 .aw-evening-title {
+  font-family: var(--wr-font-display);
+  font-variation-settings: 'wdth' var(--wr-w-expanded), 'wght' 700;
   font-size: clamp(1.25rem, 2.5vw, 1.75rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--ng-text-primary);
-  margin: 0 0 2rem;
-}
-
-.aw-empty {
-  color: var(--ng-text-secondary);
-  font-size: 0.9375rem;
-  margin: 0;
-}
-
-/* ── Pyramid layout ───────────────────────────────────────────────────────── */
-.aw-pyramid {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-}
-
-/* Each tier is full-width but its inner grid is width-constrained */
-.aw-tier {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 2rem;
-  margin-bottom: 0.5rem;
-  border-bottom: 1px solid var(--aw-divider);
-}
-
-.aw-tier:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-/* ── Tier labels ──────────────────────────────────────────────────────────── */
-.aw-tier-label {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-  margin-bottom: 1.25rem;
-}
-
-.aw-tier-label::before,
-.aw-tier-label::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--aw-divider);
-}
-
-.aw-tier-badge {
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 0.25rem 0.75rem;
-  border-radius: 999px;
-  white-space: nowrap;
-  border: 1px solid;
-  flex-shrink: 0;
+  margin: 0 0 var(--wr-space-8);
 }
 
-.aw-tier-badge-1 {
-  color: var(--aw-tier1-color);
-  border-color: var(--aw-tier1-color);
-  background: color-mix(in srgb, var(--aw-tier1-color) 10%, transparent);
-}
+.aw-empty { color: var(--fg-secondary); margin: 0; }
 
-.aw-tier-badge-2 {
-  color: var(--aw-tier2-color);
-  border-color: var(--aw-tier2-color);
-  background: color-mix(in srgb, var(--aw-tier2-color) 10%, transparent);
-}
+.aw-pyramid { display: flex; flex-direction: column; align-items: center; gap: 0; }
 
-.aw-tier-badge-3 {
-  color: var(--aw-tier3-color);
-  border-color: var(--aw-tier3-color);
-  background: color-mix(in srgb, var(--aw-tier3-color) 10%, transparent);
-}
+.aw-tier { width: 100%; display: flex; flex-direction: column; align-items: center; padding-bottom: var(--wr-space-8); margin-bottom: var(--wr-space-2); border-bottom: var(--wr-bw-hair) solid var(--border-hairline); }
+.aw-tier:last-child { border-bottom: none; padding-bottom: 0; }
 
-.aw-tier-badge-4 {
-  color: var(--aw-tier4-color);
-  border-color: var(--aw-tier4-color);
-  background: color-mix(in srgb, var(--aw-tier4-color) 10%, transparent);
-}
+.aw-tier-label { display: flex; align-items: center; gap: var(--wr-space-4); width: 100%; margin-bottom: var(--wr-space-5); }
+.aw-tier-label::before, .aw-tier-label::after { content: ""; flex: 1; height: var(--wr-bw-hair); background: var(--border-hairline); }
 
-.aw-tier-badge-5 {
-  color: var(--aw-tier5-color);
-  border-color: var(--aw-tier5-color);
-  background: color-mix(in srgb, var(--aw-tier5-color) 6%, transparent);
-}
+.aw-tier-badge { font-size: var(--wr-text-micro); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: var(--wr-space-1) var(--wr-space-3); border-radius: var(--wr-radius-xs); white-space: nowrap; border: var(--wr-bw-hair) solid; flex-shrink: 0; }
+.aw-tier-badge-1 { color: var(--st-warning-fg); border-color: var(--st-warning-border); background: var(--st-warning-surface); }
+.aw-tier-badge-2 { color: var(--st-info-fg); border-color: var(--st-info-border); background: var(--st-info-surface); }
+.aw-tier-badge-3 { color: var(--st-success-fg); border-color: var(--st-success-border); background: var(--st-success-surface); }
+.aw-tier-badge-4 { color: var(--fg-primary); border-color: var(--border-strong); background: var(--bg-sunken); }
+.aw-tier-badge-5 { color: var(--fg-secondary); border-color: var(--border-functional); background: var(--bg-sunken); }
 
-/* ── Tier grids — narrower at top, wider at bottom (pyramid) ─────────────── */
-.aw-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  width: 100%;
-}
+.aw-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--wr-space-4); width: 100%; }
+.aw-grid-1 { max-width: 22rem; } .aw-grid-1 .aw-card { flex: 1 1 240px; max-width: 360px; }
+.aw-grid-2 { max-width: 52rem; } .aw-grid-2 .aw-card { flex: 1 1 190px; max-width: 260px; }
+.aw-grid-3 { max-width: 68rem; } .aw-grid-3 .aw-card { flex: 1 1 175px; max-width: 230px; }
+.aw-grid-4 { max-width: 76rem; } .aw-grid-4 .aw-card { flex: 1 1 175px; max-width: 230px; }
+.aw-grid-5 { max-width: 100%; } .aw-grid-5 .aw-card { flex: 1 1 155px; max-width: 210px; }
 
-/* Tier 1 — narrow peak: ~1 card */
-.aw-grid-1 { max-width: 22rem; }
-.aw-grid-1 .aw-card { flex: 1 1 240px; max-width: 360px; }
+.aw-card { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--wr-space-2); padding: var(--wr-space-5) var(--wr-space-4); border-radius: var(--wr-radius-md); background: var(--e1-bg); border: var(--wr-bw-hair) solid var(--border-hairline); }
+.aw-card-featured { padding: var(--wr-space-8) var(--wr-space-6); border-color: var(--st-warning-border); box-shadow: var(--e2); }
 
-/* Tier 2 — mid: ~3 cards */
-.aw-grid-2 { max-width: 52rem; }
-.aw-grid-2 .aw-card { flex: 1 1 190px; max-width: 260px; }
+.aw-avatar { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; object-position: top; border: var(--wr-bw-thick) solid var(--border-hairline); margin-bottom: var(--wr-space-1); flex-shrink: 0; }
+.aw-avatar-featured { width: 100px; height: 100px; border-color: var(--st-warning-border); }
+.aw-avatar-fallback { display: flex; align-items: center; justify-content: center; background: var(--bg-sunken); color: var(--fg-secondary); }
+.aw-avatar-fallback svg { width: 44px; height: 44px; }
+.aw-avatar-featured.aw-avatar-fallback svg { width: 58px; height: 58px; }
 
-/* Tier 3 — wider: ~4–5 cards */
-.aw-grid-3 { max-width: 68rem; }
-.aw-grid-3 .aw-card { flex: 1 1 175px; max-width: 230px; }
+.aw-trophy-icon { width: 1.25rem; height: 1.25rem; color: var(--st-warning-icon); flex-shrink: 0; }
+.aw-trophy-icon-featured { width: 2rem; height: 2rem; }
 
-/* Tier 4 — improved: ~4–5 cards */
-.aw-grid-4 { max-width: 76rem; }
-.aw-grid-4 .aw-card { flex: 1 1 175px; max-width: 230px; }
+.aw-card-category { margin: 0; font-size: var(--wr-text-micro); font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--fg-secondary); line-height: 1.4; }
+.aw-card-featured .aw-card-category { font-size: var(--wr-text-label); color: var(--st-warning-fg); }
+.aw-card-winner { margin: 0; font-weight: 700; font-size: var(--wr-text-body-sm); line-height: 1.3; }
+.aw-card-featured .aw-card-winner { font-size: 1.2rem; }
 
-/* Tier 5 — full base: as many as fit */
-.aw-grid-5 { max-width: 100%; }
-.aw-grid-5 .aw-card { flex: 1 1 155px; max-width: 210px; }
-
-/* ── Award cards ──────────────────────────────────────────────────────────── */
-.aw-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 0.5rem;
-  padding: 1.25rem 1rem;
-  border-radius: 1rem;
-  background: var(--aw-card-bg);
-  border: 1px solid var(--aw-card-border);
-}
-
-/* Tier 1 card — larger, prominent */
-.aw-card-featured {
-  padding: 2rem 1.5rem;
-  border-color: color-mix(in srgb, var(--aw-tier1-color) 30%, transparent);
-  box-shadow: 0 0 24px color-mix(in srgb, var(--aw-tier1-color) 12%, transparent);
-}
-
-/* ── Player avatars ───────────────────────────────────────────────────────── */
-.aw-avatar {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: top;
-  border: 2px solid var(--aw-card-border);
-  margin-bottom: 0.25rem;
-  flex-shrink: 0;
-}
-
-.aw-avatar-featured {
-  width: 100px;
-  height: 100px;
-  border-color: color-mix(in srgb, var(--aw-tier1-color) 40%, transparent);
-}
-
-.aw-avatar-fallback {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--aw-tab-bg);
-  color: var(--ng-text-secondary);
-  opacity: 0.5;
-}
-
-.aw-avatar-fallback svg {
-  width: 44px;
-  height: 44px;
-}
-
-.aw-avatar-featured.aw-avatar-fallback svg {
-  width: 58px;
-  height: 58px;
-}
-
-/* ── Trophy icon ──────────────────────────────────────────────────────────── */
-.aw-trophy-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: var(--aw-trophy-color);
-  flex-shrink: 0;
-}
-
-.aw-trophy-icon-featured {
-  width: 2rem;
-  height: 2rem;
-}
-
-/* ── Card text ────────────────────────────────────────────────────────────── */
-.aw-card-category {
-  margin: 0;
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--ng-text-secondary);
-  line-height: 1.4;
-}
-
-.aw-card-featured .aw-card-category {
-  font-size: 0.75rem;
-  color: var(--aw-tier1-color);
-}
-
-.aw-card-winner {
-  margin: 0;
-  font-size: 0.9375rem;
-  font-weight: 700;
-  color: var(--ng-text-primary);
-  line-height: 1.3;
-}
-
-.aw-card-featured .aw-card-winner {
-  font-size: 1.2rem;
-}
-
-/* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 640px) {
-  .aw-hero {
-    padding: 0.75rem 0.75rem 0;
-  }
-
-  .aw-hero-inner {
-    padding: 1.75rem 1.5rem 1.5rem;
-    border-radius: 1.5rem;
-  }
-
-  .aw-body {
-    padding: 1.25rem 0.75rem 3rem;
-  }
-
-  .aw-grid-1 { max-width: 100%; }
-  .aw-grid-2 { max-width: 100%; }
-  .aw-grid-3 { max-width: 100%; }
-  .aw-grid-4 { max-width: 100%; }
-
-  .aw-grid-1,
-  .aw-grid-2,
-  .aw-grid-3,
-  .aw-grid-4,
-  .aw-grid-5 {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  }
+  .aw-grid-1, .aw-grid-2, .aw-grid-3, .aw-grid-4 { max-width: 100%; }
+  .aw-grid-1, .aw-grid-2, .aw-grid-3, .aw-grid-4, .aw-grid-5 { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
 }

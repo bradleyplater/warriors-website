@@ -373,7 +373,7 @@ type CumulativeChartProps = {
   axisLabel: string;
   chartAxisMode: "season" | "game";
   chartWidth: number;
-  chartTheme: "light" | "dark";
+  chartTheme: "home" | "away";
   hoveredPlayer: string | null;
   setHoveredPlayer: (p: string | null) => void;
 };
@@ -409,7 +409,7 @@ function CumulativeChart({
     ? [...linePlayers.filter((p) => p !== hoveredPlayer), hoveredPlayer]
     : linePlayers;
 
-  const isDark = chartTheme === "dark";
+  const isDark = chartTheme === "home";
   const axisStroke = isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.2)";
   const tickFill   = isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.5)";
   const gridStroke = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.06)";
@@ -523,15 +523,15 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
 
   const [tab, setTab] = useState<"players" | "goalies" | "charts">("players");
 
-  const [chartTheme, setChartTheme] = useState<"light" | "dark">("dark");
+  const [chartTheme, setChartTheme] = useState<"home" | "away">("home");
   const [chartAxisMode, setChartAxisMode] = useState<"season" | "game">("season");
   const [chartMinGP, setChartMinGP] = useState(5);
   const [chartSeason, setChartSeason] = useState("All");
   const [hoveredPlayer, setHoveredPlayer] = useState<string | null>(null);
 
   useEffect(() => {
-    const getTheme = (): "light" | "dark" =>
-      document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
+    const getTheme = (): "home" | "away" =>
+      document.documentElement.getAttribute("data-theme") === "away" ? "away" : "home";
     setChartTheme(getTheme());
     const observer = new MutationObserver(() => setChartTheme(getTheme()));
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });

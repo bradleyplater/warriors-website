@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Link } from "react-router";
 import type { Route } from "./+types/roster";
 import { getPlayers, getResults, getRosterConfig } from "~/data/client";
+import { SectionHead } from "~/components/ds/SectionHead";
 import "./roster.css";
 
 export function meta({}: Route.MetaArgs) {
@@ -117,8 +118,7 @@ function includesPosition(position: string, check: string): boolean {
 const isForward = (p: Player) => includesPosition(p.position, "forward");
 const isDefence = (p: Player) => includesPosition(p.position, "defence");
 const isGoalie = (p: Player) =>
-  includesPosition(p.position, "goaltender") ||
-  includesPosition(p.position, "goalie");
+  includesPosition(p.position, "goaltender") || includesPosition(p.position, "goalie");
 const isDualRole = (p: Player) =>
   p.position.toLowerCase().split(/[\s/,]+/).filter(Boolean).length > 1;
 
@@ -135,6 +135,19 @@ function filterByTab(players: Player[], tab: Tab, activeIds: Set<string>): Playe
   if (tab === "active") return players.filter((p) => activeIds.has(p.id));
   if (tab === "previous") return players.filter((p) => !activeIds.has(p.id));
   return players;
+}
+
+type SortKey = "Number" | "Points" | "Goals" | "Name";
+
+function sortPlayers(players: Player[], sort: SortKey, goalieStatsMap: GoalieStatsMap): Player[] {
+  const withTotals = players.map((p) => ({ p, career: getSkaterCareerTotals(p, goalieStatsMap) }));
+  withTotals.sort((a, b) => {
+    if (sort === "Name") return a.p.name.localeCompare(b.p.name);
+    if (sort === "Points") return b.career.points - a.career.points;
+    if (sort === "Goals") return b.career.goals - a.career.goals;
+    return a.p.number - b.p.number;
+  });
+  return withTotals.map((x) => x.p);
 }
 
 // ── Components ───────────────────────────────────────────────────────────────
@@ -176,9 +189,7 @@ function SkaterCard({
       </div>
       <div className="roster-card-info">
         <div className="roster-card-name">{player.name}</div>
-        {player.nickname && (
-          <div className="roster-card-nickname">"{player.nickname}"</div>
-        )}
+        {player.nickname && <div className="roster-card-nickname">"{player.nickname}"</div>}
         <div className="roster-card-stats">
           <div className="roster-card-stat">
             <span className="roster-card-stat-value">{career.games}</span>
@@ -215,11 +226,8 @@ function GoalieCard({
   const hasImage = PLAYER_IMAGE_IDS.has(player.id);
   const dual = showDualBadge && isDualRole(player);
 
-  // No goalie game data recorded yet — fall back to skater-style display
   if (!goalie) {
-    return (
-      <SkaterCard player={player} showDualBadge={showDualBadge} goalieStatsMap={goalieStatsMap} />
-    );
+    return <SkaterCard player={player} showDualBadge={showDualBadge} goalieStatsMap={goalieStatsMap} />;
   }
 
   return (
@@ -235,9 +243,7 @@ function GoalieCard({
       </div>
       <div className="roster-card-info">
         <div className="roster-card-name">{player.name}</div>
-        {player.nickname && (
-          <div className="roster-card-nickname">"{player.nickname}"</div>
-        )}
+        {player.nickname && <div className="roster-card-nickname">"{player.nickname}"</div>}
         <div className="roster-card-stats roster-card-stats-goalie">
           <div className="roster-card-stat">
             <span className="roster-card-stat-value">{goalie.games}</span>
@@ -247,7 +253,7 @@ function GoalieCard({
             <span className="roster-card-stat-value">{goalie.goalsAgainst}</span>
             <span className="roster-card-stat-label">GA</span>
           </div>
-          <div className="roster-card-stat roster-card-stat-wide">
+          <div className="roster-card-stat">
             <span className="roster-card-stat-value">{goalie.gaa.toFixed(2)}</span>
             <span className="roster-card-stat-label">GAA</span>
           </div>
@@ -273,8 +279,8 @@ function RosterSection({
   return (
     <section className="roster-section">
       <div className="roster-section-header">
-        <h2 className="roster-section-title">{title}</h2>
-        <span className="roster-section-count">{players.length}</span>
+        <h2 className="t-heading roster-section-title">{title}</h2>
+        <span className="t-label roster-section-count">{players.length} players</span>
       </div>
       <div className="roster-grid">
         {players.map((player) =>
@@ -293,21 +299,20 @@ function RosterSection({
 
 export default function Roster({ loaderData }: Route.ComponentProps) {
   const allPlayers = loaderData.players as Player[];
-  const activeIds = useMemo(
-    () => new Set(loaderData.rosterConfig.activePlayers),
-    [loaderData.rosterConfig]
-  );
-  const goalieStatsMap = useMemo(
-    () => buildGoalieStatsMap(loaderData.results as ResultGame[]),
-    [loaderData.results]
-  );
+  const activeIds = useMemo(() => new Set(loaderData.rosterConfig.activePlayers), [loaderData.rosterConfig]);
+  const goalieStatsMap = useMemo(() => buildGoalieStatsMap(loaderData.results as ResultGame[]), [loaderData.results]);
 
   const [activeTab, setActiveTab] = useState<Tab>("active");
+  const [sort, setSort] = useState<SortKey>("Number");
 
   const filtered = filterByTab(allPlayers, activeTab, activeIds);
-  const forwards = filtered.filter(isForward).sort((a, b) => a.number - b.number);
-  const defence = filtered.filter(isDefence).sort((a, b) => a.number - b.number);
+  const forwards = sortPlayers(filtered.filter(isForward), sort, goalieStatsMap);
+  const defence = sortPlayers(filtered.filter(isDefence), sort, goalieStatsMap);
   const goalies = filtered.filter(isGoalie).sort((a, b) => a.number - b.number);
+
+  const skaters = filtered.filter((p) => !isGoalie(p));
+  const totalGoals = skaters.reduce((n, p) => n + getSkaterCareerTotals(p, goalieStatsMap).goals, 0);
+  const totalAssists = skaters.reduce((n, p) => n + getSkaterCareerTotals(p, goalieStatsMap).assists, 0);
 
   const tabs: { id: Tab; label: string }[] = [
     { id: "active", label: "Active" },
@@ -317,33 +322,69 @@ export default function Roster({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="roster-page">
-      <header className="roster-hero">
-        <div className="roster-hero-inner">
-          <span className="roster-hero-kicker">Peterborough Warriors</span>
-          <h1 className="roster-hero-title">Roster</h1>
-          <p className="roster-hero-subtitle">
-            Career statistics for all Warriors players
-          </p>
+      <div className="roster-intro">
+        <SectionHead eyebrow="Peterborough Warriors" title="Roster">
+          Career statistics for all Warriors players. A player must be registered with England Ice Hockey before taking the ice.
+        </SectionHead>
+        <div className="roster-stat-strip">
+          <div>
+            <span className="roster-stat-value">{filtered.length}</span>
+            <div className="t-label muted">Players</div>
+          </div>
+          <div>
+            <span className="roster-stat-value">{skaters.length}</span>
+            <div className="t-label muted">Skaters</div>
+          </div>
+          <div>
+            <span className="roster-stat-value">{goalies.length}</span>
+            <div className="t-label muted">Goaltenders</div>
+          </div>
+          <div>
+            <span className="roster-stat-value">{totalGoals}</span>
+            <div className="t-label muted">Goals for</div>
+          </div>
+          <div>
+            <span className="roster-stat-value">{totalAssists}</span>
+            <div className="t-label muted">Assists</div>
+          </div>
         </div>
-      </header>
+      </div>
 
       <div className="roster-body">
-        <div className="roster-tabs">
+        <div className="roster-controls" role="group" aria-label="Roster filters">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               type="button"
-              className={activeTab === tab.id ? "roster-tab roster-tab-active" : "roster-tab"}
+              className="ds-chip t-label"
+              aria-pressed={activeTab === tab.id}
               onClick={() => setActiveTab(tab.id)}
             >
               {tab.label}
             </button>
           ))}
+          <span className="t-label roster-controls-label roster-controls-sep">Sort by</span>
+          {(["Number", "Points", "Goals", "Name"] as SortKey[]).map((s) => (
+            <button
+              key={s}
+              type="button"
+              className="ds-chip t-label"
+              aria-pressed={sort === s}
+              onClick={() => setSort(s)}
+            >
+              {s}
+            </button>
+          ))}
+          <span className="t-data roster-controls-count">{filtered.length} players</span>
         </div>
 
-        <RosterSection title="Forwards" players={forwards} variant="skater" goalieStatsMap={goalieStatsMap} />
+        <RosterSection title="Goaltenders" players={goalies} variant="goalie" goalieStatsMap={goalieStatsMap} />
         <RosterSection title="Defence" players={defence} variant="skater" goalieStatsMap={goalieStatsMap} />
-        <RosterSection title="Goalies" players={goalies} variant="goalie" goalieStatsMap={goalieStatsMap} />
+        <RosterSection title="Forwards" players={forwards} variant="skater" goalieStatsMap={goalieStatsMap} />
+
+        <div className="roster-footer-note">
+          <p>Select a player for their profile and season-by-season scoring. Squad numbers are held for the season.</p>
+        </div>
       </div>
     </div>
   );

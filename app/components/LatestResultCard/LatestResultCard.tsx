@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { Text } from "@wonderflow/react-components";
-import { getInitials } from "../TeamLogo/TeamLogo";
+import { Link } from "react-router";
+import { Badge } from "../ds/Badge";
 import "./LatestResultCard.css";
 
 type Goal = {
@@ -49,61 +48,6 @@ function formatResultDate(dateString: string) {
     month: "long",
     year: "numeric",
   });
-}
-
-function LatestResultLogo({ src, teamName }: { src: string; teamName: string }) {
-  const [failed, setFailed] = useState(false);
-  const initials = getInitials(teamName);
-
-  return (
-    <div className="lr-logo-wrap">
-      {failed ? (
-        <svg
-          className="lr-logo-fallback"
-          viewBox="0 0 72 72"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-label={teamName}
-          role="img"
-        >
-          <defs>
-            <linearGradient id={`lrlg-${initials}`} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#1e3a6e" />
-              <stop offset="100%" stopColor="#1a56db" />
-            </linearGradient>
-          </defs>
-          <path
-            d="M36 4 L62 14 L62 38 C62 54 50 64 36 68 C22 64 10 54 10 38 L10 14 Z"
-            fill={`url(#lrlg-${initials})`}
-          />
-          <path
-            d="M36 10 L56 18 L56 38 C56 51 46 59 36 63 C26 59 16 51 16 38 L16 18 Z"
-            fill="none"
-            stroke="rgba(255,255,255,0.12)"
-            strokeWidth="1"
-          />
-          <text
-            x="36"
-            y={initials.length >= 3 ? "42" : "44"}
-            textAnchor="middle"
-            fill="white"
-            fontFamily="system-ui, -apple-system, sans-serif"
-            fontWeight="800"
-            fontSize={initials.length >= 3 ? "16" : "20"}
-            letterSpacing="1"
-          >
-            {initials}
-          </text>
-        </svg>
-      ) : (
-        <img
-          src={src}
-          alt={`${teamName} logo`}
-          className="lr-logo"
-          onError={() => setFailed(true)}
-        />
-      )}
-    </div>
-  );
 }
 
 function getOutcome(warriorsScore: number, opponentScore: number) {
@@ -163,113 +107,83 @@ export function LatestResultCard({
 
   const topPerformers = latestResult ? getTopPerformers(latestResult, players) : [];
 
+  if (!latestResult) {
+    return (
+      <div className="lr-shell">
+        <div className="lr-copy">
+          <span className="t-label muted">Last result</span>
+          <h2 className="t-heading lr-title">No results yet</h2>
+          <p className="lr-summary">Match results will appear here once games have been played.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const outcome = getOutcome(latestResult.score.warriorsScore, latestResult.score.opponentScore);
+  const reportHref = `/results/${encodeURIComponent(latestResult.date)}`;
+
   return (
     <div className="lr-shell">
-      <section className="lr-card" aria-labelledby="lr-heading">
-        {latestResult ? (
-          <>
-            <div className="lr-left-col">
-              <span className="lr-kicker">Latest Result</span>
+      <div className="lr-heading-row">
+        <span className="t-label">Last result</span>
+        <Badge tone={outcome === "W" ? "success" : outcome === "L" ? "danger" : "neutral"}>
+          {outcome === "W" ? "Won" : outcome === "L" ? "Lost" : "Drew"}
+        </Badge>
+      </div>
 
-              <div className="lr-header-centered">
-                <LatestResultLogo
-                  src={`/images/team-logos/${latestResult.logoImage}`}
-                  teamName={latestResult.opponentTeam}
-                />
+      <div className="lr-scoreline">
+        <div className="lr-team-row">
+          <span className="lr-team-mark" aria-hidden="true">PW</span>
+          <span className="lr-team-name">Peterborough Warriors</span>
+          <span className="lr-team-score">{latestResult.score.warriorsScore}</span>
+        </div>
+        <div className="lr-team-row">
+          <span className="lr-team-mark lr-team-mark--opponent" aria-hidden="true">
+            {latestResult.opponentTeam.slice(0, 2).toUpperCase()}
+          </span>
+          <span className="lr-team-name lr-team-name--opponent">{latestResult.opponentTeam}</span>
+          <span className="lr-team-score lr-team-score--opponent">{latestResult.score.opponentScore}</span>
+        </div>
+      </div>
 
-                <Text
-                  as="h2"
-                  variant="heading-2"
-                  className="lr-opponent-name"
-                  id="lr-heading"
-                >
-                  {latestResult.opponentTeam}
-                </Text>
-              </div>
+      <dl className="lr-meta">
+        <div>
+          <dt className="t-label">Competition</dt>
+          <dd>{latestResult.competition}</dd>
+        </div>
+        <div>
+          <dt className="t-label">Date</dt>
+          <dd className="t-data">{formatResultDate(latestResult.date)}</dd>
+        </div>
+        <div>
+          <dt className="t-label">Venue</dt>
+          <dd>{latestResult.location === "HOME" ? "Home" : "Away"}</dd>
+        </div>
+      </dl>
 
-              <div className="lr-score-block">
-                <span
-                  className={`lr-outcome lr-outcome--${getOutcome(latestResult.score.warriorsScore, latestResult.score.opponentScore).toLowerCase()}`}
-                >
-                  {getOutcome(latestResult.score.warriorsScore, latestResult.score.opponentScore)}
+      {topPerformers.length > 0 && (
+        <div className="lr-performers">
+          <span className="t-label lr-performers-heading">Top performers</span>
+          <div className="lr-performers-list">
+            {topPerformers.map((p) => (
+              <div key={p.id} className="lr-performer">
+                <span className="lr-performer-name">{p.name}</span>
+                <span className="t-data">
+                  <span className="lr-performer-stat-value">{p.goals}</span>{" "}
+                  <span className="lr-performer-stat-label">G</span>{" · "}
+                  <span className="lr-performer-stat-value">{p.assists}</span>{" "}
+                  <span className="lr-performer-stat-label">A</span>
                 </span>
-                <span className="lr-score">
-                  {latestResult.score.warriorsScore} – {latestResult.score.opponentScore}
-                </span>
               </div>
-            </div>
-
-            <dl className="lr-meta">
-              <div className="lr-meta-row">
-                <dt>Date</dt>
-                <dd>{formatResultDate(latestResult.date)}</dd>
-              </div>
-
-              <div className="lr-meta-row">
-                <dt>Venue</dt>
-                <dd>{latestResult.location}</dd>
-              </div>
-
-              <div className="lr-meta-row">
-                <dt>Competition</dt>
-                <dd>{latestResult.competition}</dd>
-              </div>
-            </dl>
-
-            {topPerformers.length > 0 && (
-              <div className="lr-performers">
-                <span className="lr-performers-heading">Top Performers</span>
-                <div className="lr-performers-grid">
-                  {topPerformers.map((p, i) => (
-                    <div key={p.id} className="lr-performer-card">
-                      <div className="lr-performer-avatar-wrap">
-                        <img
-                          src={`/images/players/${p.id}.jpg`}
-                          alt={p.name}
-                          className="lr-performer-avatar"
-                          onError={(e) => {
-                            (e.currentTarget as HTMLImageElement).style.display = "none";
-                          }}
-                        />
-                      </div>
-                      <span className="lr-performer-name">{p.name}</span>
-                      <div className="lr-performer-stats">
-                        <div className="lr-performer-stat">
-                          <span className="lr-performer-stat-value">{p.goals}</span>
-                          <span className="lr-performer-stat-label">Goals</span>
-                        </div>
-                        <div className="lr-performer-stat">
-                          <span className="lr-performer-stat-value">{p.assists}</span>
-                          <span className="lr-performer-stat-label">Assists</span>
-                        </div>
-                        <div className="lr-performer-stat">
-                          <span className="lr-performer-stat-value">{p.points}</span>
-                          <span className="lr-performer-stat-label">Points</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="lr-copy">
-            <span className="lr-kicker">Latest Result</span>
-            <Text
-              as="h2"
-              variant="heading-3"
-              className="lr-title"
-              id="lr-heading"
-            >
-              No results yet
-            </Text>
-            <Text variant="body-1" className="lr-summary">
-              Match results will appear here once games have been played.
-            </Text>
+            ))}
           </div>
-        )}
-      </section>
+        </div>
+      )}
+
+      <div className="lr-links">
+        <Link to={reportHref} className="t-label">Match report</Link>
+        <Link to="/results" className="t-label">All results</Link>
+      </div>
     </div>
   );
 }
