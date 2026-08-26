@@ -1,12 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import { heroSlides as slides } from "./heroSlides";
 import "./HeroBanner.css";
 
-const slides = [
-  { image: "/images/team/charity-game.jpg", caption: "The Warriors at a club charity game" },
-  { image: "/images/team/LLIHC-Team-26.jpg", caption: "The 2025/26 squad" },
-  { image: "/images/team/tournament-win.jpg", caption: "Celebrating a tournament win" },
-  { image: "/images/team/tournament.jpg", caption: "On the ice at a club tournament" },
-];
 
 export function HeroBanner() {
   const [slide, setSlide] = useState(0);
@@ -50,13 +45,15 @@ export function HeroBanner() {
         <div className="hero-banner-viewport">
           <div className="hero-banner-track" style={{ transform: `translateX(-${slide * 100}%)` }}>
             {slides.map((s, i) => (
-              <div
-                key={s.image}
-                role="img"
-                aria-label={s.caption}
-                className="hero-banner-slide"
-                style={{ backgroundImage: `url(${s.image})` }}
-              />
+              <div key={s.image} className="hero-banner-slide">
+                <img
+                  src={s.image}
+                  alt={s.caption}
+                  className="hero-banner-image"
+                  loading={i === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                />
+              </div>
             ))}
           </div>
         </div>
