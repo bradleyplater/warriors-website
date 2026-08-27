@@ -1,15 +1,22 @@
 .roster-page { display: flex; flex-direction: column; }
 
-.roster-intro { padding: var(--wr-space-12) var(--wr-space-5) var(--wr-space-8); }
-.roster-stat-strip {
+/* The container lives on the intro so the SectionHead and the stat strip share
+   one measure. `width: 100%` because `margin: 0 auto` inside a column flex
+   container suppresses cross-axis stretching and leaves the box shrink-to-fit. */
+.roster-intro {
   max-width: var(--wr-container);
   margin: 0 auto;
+  width: 100%;
+  padding: var(--wr-space-12) var(--wr-space-5) var(--wr-space-8);
+}
+.roster-stat-strip {
   display: flex;
   flex-wrap: wrap;
   gap: var(--wr-space-8) var(--wr-space-12);
   border-top: var(--wr-bw-hair) solid var(--border-hairline);
   padding-top: var(--wr-space-5);
 }
+.roster-stat { display: flex; flex-direction: column; gap: var(--wr-space-1); }
 .roster-stat-value {
   font-family: var(--wr-font-mono);
   font-weight: 700;
@@ -19,9 +26,14 @@
   letter-spacing: -.03em;
 }
 
-.roster-body { max-width: var(--wr-container); margin: 0 auto; padding: var(--wr-space-10) var(--wr-space-5) var(--wr-space-8); }
+.roster-body {
+  max-width: var(--wr-container);
+  margin: 0 auto;
+  width: 100%;
+  padding: var(--wr-space-10) var(--wr-space-5) var(--wr-space-16);
+}
 
-.roster-controls { display: flex; flex-wrap: wrap; gap: var(--wr-space-2); align-items: center; margin-bottom: var(--wr-space-6); }
+.roster-controls { display: flex; flex-wrap: wrap; gap: var(--wr-space-2); align-items: center; margin-bottom: var(--wr-space-8); }
 .roster-controls-label { color: var(--fg-secondary); margin-right: var(--wr-space-2); }
 .roster-controls-sep { margin-left: var(--wr-space-6); }
 .roster-controls-count { color: var(--fg-secondary); margin-left: auto; }
@@ -40,47 +52,59 @@
 .roster-section-title { font-size: var(--wr-text-h3); text-transform: uppercase; margin: 0; }
 .roster-section-count { color: var(--fg-secondary); }
 
-.roster-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: var(--wr-space-4); }
+.roster-list { margin: 0; padding: 0; list-style: none; }
 
-a.roster-card { text-decoration: none; color: inherit; }
-.roster-card {
-  border: var(--wr-bw-hair) solid var(--border-hairline);
-  border-radius: var(--wr-radius-md);
-  background: var(--e1-bg);
-  overflow: hidden;
+/* Two halves — identity and stats — each spanning two tracks, so the row splits
+   left/right on desktop and stacks cleanly once a track drops below 200px. */
+.roster-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: var(--wr-space-3) var(--wr-space-5);
+  align-items: center;
+  padding: var(--wr-space-4) 0;
+  border-bottom: var(--wr-bw-hair) solid var(--border-hairline);
+}
+
+a.roster-row-main { text-decoration: none; color: inherit; }
+.roster-row-main {
+  grid-column: span 2;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: var(--wr-space-4);
+  min-width: 0;
+  /* Negative margin keeps the hover surface off the row's baseline grid. */
+  padding: var(--wr-space-2);
+  margin: calc(var(--wr-space-2) * -1);
+  border-radius: var(--wr-radius-sm);
   transition: background var(--wr-dur-fast) var(--wr-ease);
 }
-.roster-card:hover { background: var(--bg-hover); }
+.roster-row-main:hover { background: var(--bg-hover); }
 
-.roster-card-photo { position: relative; width: 100%; aspect-ratio: 3 / 4; background: var(--bg-sunken); overflow: hidden; }
-.roster-card-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
-.roster-card-photo-fallback { width: 100%; height: 100%; display: flex; align-items: flex-end; justify-content: center; color: var(--border-strong); }
-.roster-card-photo-fallback svg { width: 68%; height: auto; margin-bottom: -4%; }
-
-.roster-card-number {
-  position: absolute; top: var(--wr-space-2); left: var(--wr-space-2);
-  font-family: var(--wr-font-mono); font-weight: 700; font-size: var(--wr-text-xs);
-  padding: 2px var(--wr-space-2); border-radius: var(--wr-radius-xs);
-  background: rgb(0 0 0 / .65); color: #fff;
+.roster-row-number {
+  flex: none;
+  min-width: 2.6ch;
+  text-align: right;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  line-height: 1;
 }
-.roster-card-dual {
-  position: absolute; top: var(--wr-space-2); right: var(--wr-space-2);
-  font-size: var(--wr-text-micro); font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-  padding: 2px var(--wr-space-2); border-radius: var(--wr-radius-xs);
-  background: rgb(0 0 0 / .65); color: #fff;
+.roster-row-copy { display: flex; flex-direction: column; gap: var(--wr-space-1); min-width: 0; }
+.roster-row-name { font-size: 1.0625rem; text-transform: uppercase; overflow-wrap: break-word; }
+.roster-row-meta { color: var(--fg-secondary); }
+
+.roster-row-stats {
+  grid-column: span 2;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--wr-space-5);
+  justify-content: flex-end;
 }
+.roster-row-stat { display: flex; flex-direction: column-reverse; gap: 2px; min-width: 3.5ch; text-align: right; }
+.roster-row-stat-value { margin: 0; font-size: 1.0625rem; }
+.roster-row-stat-value[data-strong="true"] { font-weight: 700; }
+.roster-row-stat-label { color: var(--fg-secondary); font-size: var(--wr-text-micro); }
 
-.roster-card-info { padding: var(--wr-space-3); display: flex; flex-direction: column; gap: var(--wr-space-2); flex: 1; }
-.roster-card-name { font-size: var(--wr-text-xs); font-weight: 700; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.roster-card-nickname { font-size: var(--wr-text-micro); font-style: italic; color: var(--fg-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-.roster-card-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
-.roster-card-stats-goalie { grid-template-columns: 1fr 1fr 1.4fr; }
-.roster-card-stat { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 4px 2px; border-radius: var(--wr-radius-xs); background: var(--bg-sunken); }
-.roster-card-stat-value { font-family: var(--wr-font-mono); font-size: var(--wr-text-xs); font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; }
-.roster-card-stat-label { font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--fg-secondary); line-height: 1; }
+.roster-empty { color: var(--fg-secondary); }
 
 .roster-footer-note {
   border: var(--wr-bw-hair) solid var(--border-hairline);
@@ -93,4 +117,11 @@ a.roster-card { text-decoration: none; color: inherit; }
   align-items: center;
   margin-top: var(--wr-space-4);
 }
-.roster-footer-note p { margin: 0; color: var(--fg-secondary); font-size: var(--wr-text-body-sm); max-width: var(--wr-measure); }
+.roster-footer-note-text {
+  margin: 0;
+  color: var(--fg-secondary);
+  font-size: var(--wr-text-body-sm);
+  max-width: var(--wr-measure);
+  text-wrap: pretty;
+}
+.roster-footer-note-actions { display: flex; gap: var(--wr-space-3); flex-wrap: wrap; }

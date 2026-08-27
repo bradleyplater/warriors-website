@@ -54,12 +54,13 @@ export function ScheduleGameCard({ game, results: rawResults }: { game: Upcoming
       </div>
       <div className="fx-row-opponent">
         <div className="fx-row-opponent-line">
-          <Badge tone={isHome ? "info" : "neutral"}>{isHome ? "Home" : "Away"}</Badge>
+          <span className="t-label fx-row-opponent-ha">{isHome ? "H" : "A"}</span>
           <span className="fx-row-opponent-name">{game.opponentTeam}</span>
         </div>
         <span className="t-label fx-row-opponent-meta">{game.gameType} · {game.location}</span>
       </div>
       <div className="fx-row-action">
+        <span className="t-data fx-row-note">{isHome ? "Home" : "Away"}</span>
         <a className="t-label" href="#calendar">Add to calendar</a>
       </div>
 
@@ -90,3 +91,4 @@ export function ScheduleGameCard({ game, results: rawResults }: { game: Upcoming
     </li>
   );
 }
+

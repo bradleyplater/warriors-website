@@ -1,7 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Link, useParams } from "react-router";
 import type { Route } from "./+types/player";
 import { getPlayers, getResults } from "~/data/client";
+import { Badge } from "~/components/ds/Badge";
+import { Stripe } from "~/components/ds/Stripe";
 import {
   getNumberOfGWGoalsForPlayer,
   getNumberOfPPGoalsForPlayer,
@@ -107,6 +109,12 @@ function getCareerTotals(player: Player, allResults: Result[]): StatTotals {
   };
 }
 
+/** Career points, from the player's own season lines only — cheap enough to run
+    across the whole squad for the "leading scorer" badge. */
+function careerPoints(player: Player): number {
+  return player.stats.reduce((n, s) => n + (s.points ?? 0), 0);
+}
+
 type SeasonRow = {
   season: string;
   games: number;
@@ -155,6 +163,8 @@ function getSeasonRows(player: Player, allResults: Result[]): SeasonRow[] {
 type GameRow = {
   date: string;
   opponent: string;
+  location: "HOME" | "AWAY";
+  competition?: string;
   result: "W" | "L" | "D";
   score: string;
   goals: number;
@@ -212,6 +222,8 @@ function getRecentGames(playerId: string, allResults: Result[], count = 5): Game
     return {
       date: game.date,
       opponent: game.opponentTeam,
+      location: game.location,
+      competition: game.competition,
       result,
       score: `${warriorsScore}–${opponentScore}`,
       goals,
@@ -352,6 +364,48 @@ function getNoteTags(game: GameRow, milestones: PlayerMilestones): NoteTag[] {
   return tags;
 }
 
+// ── Formatting ────────────────────────────────────────────────────────────────
+
+function formatShortDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "2-digit",
+  });
+}
+
+const OUTCOME_WORD: Record<GameRow["result"], string> = {
+  W: "won",
+  L: "lost",
+  D: "drew",
+};
+
+/** "Home · 22 Aug 26 · won 4–2 (cup)" — the sub-line under an opponent name. */
+function gameMetaLine(game: GameRow): string {
+  const where = game.location === "HOME" ? "Home" : "Away";
+  const outcome = `${OUTCOME_WORD[game.result]} ${game.score}`;
+  const parts = [where, formatShortDate(game.date), outcome];
+  return game.competition ? `${parts.join(" · ")} (${game.competition})` : parts.join(" · ");
+}
+
+const ORDINALS = [
+  "",
+  "First",
+  "Second",
+  "Third",
+  "Fourth",
+  "Fifth",
+  "Sixth",
+  "Seventh",
+  "Eighth",
+  "Ninth",
+  "Tenth",
+];
+
+function seasonCountLabel(n: number): string {
+  return n > 0 && n < ORDINALS.length ? `${ORDINALS[n]} season` : `${n} seasons`;
+}
+
 // ── Components ────────────────────────────────────────────────────────────────
 
 function SilhouetteFallback() {
@@ -365,56 +419,35 @@ function SilhouetteFallback() {
   );
 }
 
-function StatCard({ label, value }: { label: string; value: number | string }) {
+type Stat = { label: string; value: number | string };
+
+function StatGrid({ stats, size }: { stats: Stat[]; size?: "lg" }) {
   return (
-    <div className="player-career-stat">
-      <span className="player-career-stat-value">{value}</span>
-      <span className="player-career-stat-label">{label}</span>
+    <div className="player-stat-grid" data-size={size}>
+      {stats.map((stat) => (
+        <div key={stat.label} className="player-stat">
+          <span className="player-stat-value">{stat.value}</span>
+          <span className="t-label player-stat-label">{stat.label}</span>
+        </div>
+      ))}
     </div>
   );
 }
 
-function CareerTotalsGrid({ totals }: { totals: StatTotals }) {
+function SectionHeader({ title, aside }: { title: string; aside?: string }) {
   return (
-    <div className="player-career-totals">
-      <StatCard label="PTS" value={totals.points} />
-      <StatCard label="G" value={totals.goals} />
-      <StatCard label="A" value={totals.assists} />
-      <StatCard label="GP" value={totals.games} />
-      <StatCard label="P/GP" value={totals.pointsPerGame} />
-      <StatCard label="PIM" value={totals.pims} />
-      <StatCard label="MOTM" value={totals.motm} />
-      <StatCard label="WOTG" value={totals.wotg} />
+    <div className="player-section-header">
+      <h2 className="t-heading player-section-title">{title}</h2>
+      {aside ? <span className="t-label player-section-aside">{aside}</span> : null}
     </div>
   );
-}
-
-function RecentTotalsGrid({ totals, wins, losses }: { totals: StatTotals; wins: number; losses: number }) {
-  return (
-    <div className="player-career-totals">
-      <StatCard label="PTS" value={totals.points} />
-      <StatCard label="G" value={totals.goals} />
-      <StatCard label="A" value={totals.assists} />
-      <StatCard label="P/GP" value={totals.pointsPerGame} />
-      <StatCard label="W" value={wins} />
-      <StatCard label="L" value={losses} />
-    </div>
-  );
-}
-
-function formatShortDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "2-digit",
-  });
 }
 
 function RecordCard({ label, value, sub }: { label: string; value: number; sub?: string }) {
   return (
     <div className="player-record-card">
       <span className="player-record-value">{value > 0 ? value : "–"}</span>
-      <span className="player-record-label">{label}</span>
+      <span className="t-label player-record-label">{label}</span>
       {value > 0 && sub && <span className="player-record-sub">{sub}</span>}
     </div>
   );
@@ -436,25 +469,25 @@ function RecordsTab({ games }: { games: GameRow[] }) {
   return (
     <>
       <section className="player-section">
-        <h2 className="player-section-title">Single Game Records</h2>
+        <SectionHeader title="Single game records" aside="Best in one game" />
         <div className="player-record-grid">
-          <RecordCard label="Most Goals" value={records.goals.value} sub={gameSub(records.goals)} />
-          <RecordCard label="Most Assists" value={records.assists.value} sub={gameSub(records.assists)} />
-          <RecordCard label="Most Points" value={records.points.value} sub={gameSub(records.points)} />
-          <RecordCard label="Most PIMs" value={records.pims.value} sub={gameSub(records.pims)} />
+          <RecordCard label="Most goals" value={records.goals.value} sub={gameSub(records.goals)} />
+          <RecordCard label="Most assists" value={records.assists.value} sub={gameSub(records.assists)} />
+          <RecordCard label="Most points" value={records.points.value} sub={gameSub(records.points)} />
+          <RecordCard label="Most PIM" value={records.pims.value} sub={gameSub(records.pims)} />
         </div>
       </section>
 
       <section className="player-section">
-        <h2 className="player-section-title">Longest Streaks</h2>
+        <SectionHeader title="Longest streaks" aside="Consecutive games" />
         <div className="player-record-grid">
-          <RecordCard label="Goal Streak" value={streaks.goal.length} sub={streakSub(streaks.goal)} />
-          <RecordCard label="Assist Streak" value={streaks.assist.length} sub={streakSub(streaks.assist)} />
-          <RecordCard label="Point Streak" value={streaks.point.length} sub={streakSub(streaks.point)} />
-          <RecordCard label="PIM Streak" value={streaks.pim.length} sub={streakSub(streaks.pim)} />
-          <RecordCard label="Winning Streak" value={streaks.winning.length} sub={streakSub(streaks.winning)} />
-          <RecordCard label="Unbeaten Streak" value={streaks.unbeaten.length} sub={streakSub(streaks.unbeaten)} />
-          <RecordCard label="Losing Streak" value={streaks.losing.length} sub={streakSub(streaks.losing)} />
+          <RecordCard label="Goal streak" value={streaks.goal.length} sub={streakSub(streaks.goal)} />
+          <RecordCard label="Assist streak" value={streaks.assist.length} sub={streakSub(streaks.assist)} />
+          <RecordCard label="Point streak" value={streaks.point.length} sub={streakSub(streaks.point)} />
+          <RecordCard label="PIM streak" value={streaks.pim.length} sub={streakSub(streaks.pim)} />
+          <RecordCard label="Winning streak" value={streaks.winning.length} sub={streakSub(streaks.winning)} />
+          <RecordCard label="Unbeaten streak" value={streaks.unbeaten.length} sub={streakSub(streaks.unbeaten)} />
+          <RecordCard label="Losing streak" value={streaks.losing.length} sub={streakSub(streaks.losing)} />
         </div>
       </section>
     </>
@@ -475,9 +508,9 @@ function GameLogTable({ games, milestones }: { games: GameRow[]; milestones: Pla
             <th title="Goals">G</th>
             <th title="Assists">A</th>
             <th title="Points">PTS</th>
-            <th title="Penalties in Minutes">PIM</th>
-            <th title="Power Play Goals">PPG</th>
-            <th title="Short Handed Goals">SHG</th>
+            <th title="Penalties in minutes">PIM</th>
+            <th title="Power play goals">PPG</th>
+            <th title="Short handed goals">SHG</th>
             <th className="col-notes">Notes</th>
           </tr>
         </thead>
@@ -486,13 +519,7 @@ function GameLogTable({ games, milestones }: { games: GameRow[]; milestones: Pla
             const tags = getNoteTags(game, milestones);
             return (
               <tr key={i}>
-                <td className="col-season">
-                  {new Date(game.date).toLocaleDateString("en-GB", {
-                    day: "numeric",
-                    month: "short",
-                    year: "2-digit",
-                  })}
-                </td>
+                <td className="col-season">{formatShortDate(game.date)}</td>
                 <td className="col-opponent">{game.opponent}</td>
                 <td>
                   <span className={`result-badge result-${game.result.toLowerCase()}`}>
@@ -523,14 +550,41 @@ function GameLogTable({ games, milestones }: { games: GameRow[]; milestones: Pla
   );
 }
 
+/** The design's "last five games" list — one row per game, result chip first. */
+function RecentGamesList({ games }: { games: GameRow[] }) {
+  if (games.length === 0) return <p className="player-empty">No games played yet.</p>;
+
+  return (
+    <ul className="player-game-list">
+      {games.map((game, i) => (
+        <li key={i} className="player-game-row">
+          <span
+            className="t-data player-game-result"
+            data-result={game.result.toLowerCase()}
+            aria-hidden="true"
+          >
+            {game.result}
+          </span>
+          <div className="player-game-copy">
+            <span className="player-game-opponent">{game.opponent}</span>
+            <span className="t-label player-game-meta">{gameMetaLine(game)}</span>
+          </div>
+          <span className="t-data player-game-line">
+            {game.goals} · {game.assists} · {game.pims}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
-type Tab = "career" | "recent" | "allgames" | "records";
+type Tab = "career" | "gamelog" | "records";
 
 const TABS: { id: Tab; label: string }[] = [
-  { id: "career", label: "Career Stats" },
-  { id: "recent", label: "Recent Form" },
-  { id: "allgames", label: "All Games" },
+  { id: "career", label: "Career" },
+  { id: "gamelog", label: "Game log" },
   { id: "records", label: "Records" },
 ];
 
@@ -548,8 +602,8 @@ export default function PlayerPage({ loaderData }: Route.ComponentProps) {
       <div className="player-page">
         <div className="player-not-found">
           <p>Player not found.</p>
-          <Link to="/roster" className="player-back-link">
-            ← Back to Roster
+          <Link to="/roster" className="t-label">
+            ← Full roster
           </Link>
         </div>
       </div>
@@ -561,58 +615,97 @@ export default function PlayerPage({ loaderData }: Route.ComponentProps) {
   const seasonRows = getSeasonRows(player, allResults);
   const recentGames = getRecentGames(player.id, allResults);
   const recentTotals = getRecentTotals(recentGames);
-  const recentWins = recentGames.filter((g) => g.result === "W").length;
-  const recentLosses = recentGames.filter((g) => g.result === "L").length;
   const allGames = getRecentGames(player.id, allResults, Infinity);
   const allGameTotals = getRecentTotals(allGames);
   const allWins = allGames.filter((g) => g.result === "W").length;
   const allLosses = allGames.filter((g) => g.result === "L").length;
   const milestones = getPlayerMilestones(allResults, player.id);
 
+  const seasons = player.stats.length;
+  const clubBestPoints = allPlayers.reduce((best, p) => Math.max(best, careerPoints(p)), 0);
+  const isLeadingScorer = career.points > 0 && career.points === clubBestPoints;
+
+  const heroMeta = [player.position, player.nickname ? `“${player.nickname}”` : null]
+    .filter(Boolean)
+    .join(" · ");
+
+  const careerStats: Stat[] = [
+    { label: "Seasons", value: seasons },
+    { label: "Games played", value: career.games },
+    { label: "Goals", value: career.goals },
+    { label: "Assists", value: career.assists },
+    { label: "Points", value: career.points },
+    { label: "Points / game", value: career.pointsPerGame },
+    { label: "PIM", value: career.pims },
+    { label: "MOTM", value: career.motm },
+    { label: "WOTG", value: career.wotg },
+  ];
+
   return (
     <div className="player-page">
+      <nav aria-label="Breadcrumb" className="player-breadcrumb">
+        <Link to="/roster" className="t-label">
+          ← Full roster
+        </Link>
+      </nav>
+
       {/* ── Hero ── */}
       <header className="player-hero">
-        <div className="player-hero-inner">
-          <Link to="/roster" className="player-back-link">
-            ← Back to Roster
-          </Link>
-          <div className="player-hero-content">
-            <div className="player-photo-wrap">
-              {hasImage ? (
-                <img
-                  src={`/images/players/${player.id}.jpg`}
-                  alt={player.name}
-                  className="player-photo"
-                />
-              ) : (
-                <SilhouetteFallback />
-              )}
-              <span className="player-number">#{player.number}</span>
+        <div className="player-hero-grid">
+          <div className="player-hero-identity">
+            <span aria-hidden="true" className="t-display player-hero-number">
+              {player.number}
+            </span>
+            <div className="player-hero-copy">
+              <h1 className="t-display player-hero-name">{player.name}</h1>
+              {heroMeta && <span className="t-label player-hero-meta">{heroMeta}</span>}
+              <div className="player-hero-badges">
+                {seasons > 0 && <Badge glyph={null}>{seasonCountLabel(seasons)}</Badge>}
+                {isLeadingScorer && (
+                  <Badge tone="success" glyph={null}>
+                    Leading scorer
+                  </Badge>
+                )}
+              </div>
             </div>
-            <div className="player-info">
-              <span className="player-kicker">Peterborough Warriors</span>
-              <h1 className="player-name">{player.name}</h1>
-              {player.nickname && (
-                <div className="player-nickname">"{player.nickname}"</div>
-              )}
-              <div className="player-position">{player.position}</div>
-            </div>
+          </div>
+
+          <div className="player-photo-wrap">
+            {hasImage ? (
+              <img
+                src={`/images/players/${player.id}.jpg`}
+                alt={player.name}
+                className="player-photo"
+              />
+            ) : (
+              <SilhouetteFallback />
+            )}
           </div>
         </div>
       </header>
 
+      {/* ── Career totals band ── */}
+      <section className="player-career-band" aria-label="Career totals">
+        <div className="player-career-band-inner">
+          <span className="t-label muted">
+            All time · {seasons === 1 ? "one season" : `${seasons} seasons`} with the club
+          </span>
+          <StatGrid stats={careerStats} size="lg" />
+        </div>
+      </section>
+
+      <Stripe />
+
       {/* ── Body ── */}
       <div className="player-body">
-        {/* Tab navigation */}
-        <div className="player-tabs">
+        <div className="player-tabs" role="group" aria-label="Player statistics view">
+          <span className="t-label player-tabs-label">Show</span>
           {TABS.map((tab) => (
             <button
               key={tab.id}
               type="button"
-              className={
-                activeTab === tab.id ? "player-tab player-tab-active" : "player-tab"
-              }
+              className="ds-chip t-label"
+              aria-pressed={activeTab === tab.id}
               onClick={() => setActiveTab(tab.id)}
             >
               {tab.label}
@@ -620,32 +713,27 @@ export default function PlayerPage({ loaderData }: Route.ComponentProps) {
           ))}
         </div>
 
-        {/* ── Career Stats tab ── */}
+        {/* ── Career tab ── */}
         {activeTab === "career" && (
           <>
             <section className="player-section">
-              <h2 className="player-section-title">Career Totals</h2>
-              <CareerTotalsGrid totals={career} />
-            </section>
-
-            <section className="player-section">
-              <h2 className="player-section-title">Season by Season</h2>
+              <SectionHeader title="Season by season" aside="All competitions" />
               <div className="season-table-wrap">
                 <table className="season-table">
                   <thead>
                     <tr>
                       <th className="col-season">Season</th>
-                      <th title="Games Played">GP</th>
+                      <th title="Games played">GP</th>
                       <th title="Goals">G</th>
                       <th title="Assists">A</th>
                       <th title="Points">PTS</th>
-                      <th title="Penalties in Minutes">PIM</th>
-                      <th title="Points per Game">P/GP</th>
-                      <th title="Power Play Goals">PPG</th>
-                      <th title="Short Handed Goals">SHG</th>
-                      <th title="Game Winning Goals">GWG</th>
-                      <th title="Man of the Match">MOTM</th>
-                      <th title="Warrior of the Game">WOTG</th>
+                      <th title="Points per game">P/GP</th>
+                      <th title="Penalties in minutes">PIM</th>
+                      <th title="Power play goals">PPG</th>
+                      <th title="Short handed goals">SHG</th>
+                      <th title="Game winning goals">GWG</th>
+                      <th title="Man of the match">MOTM</th>
+                      <th title="Warrior of the game">WOTG</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -656,8 +744,8 @@ export default function PlayerPage({ loaderData }: Route.ComponentProps) {
                         <td>{row.goals}</td>
                         <td>{row.assists}</td>
                         <td className="col-pts">{row.points}</td>
-                        <td>{row.pims}</td>
                         <td className="col-muted">{row.pointsPerGame}</td>
+                        <td>{row.pims}</td>
                         <td>{row.ppGoals}</td>
                         <td>{row.shGoals}</td>
                         <td>{row.gwGoals}</td>
@@ -666,41 +754,73 @@ export default function PlayerPage({ loaderData }: Route.ComponentProps) {
                       </tr>
                     ))}
                   </tbody>
+                  {seasonRows.length > 1 && (
+                    <tfoot>
+                      <tr>
+                        <td className="col-season">Total</td>
+                        <td>{career.games}</td>
+                        <td>{career.goals}</td>
+                        <td>{career.assists}</td>
+                        <td className="col-pts">{career.points}</td>
+                        <td className="col-muted">{career.pointsPerGame}</td>
+                        <td>{career.pims}</td>
+                        <td>{career.ppGoals}</td>
+                        <td>{career.shGoals}</td>
+                        <td>{career.gwGoals}</td>
+                        <td>{career.motm}</td>
+                        <td>{career.wotg}</td>
+                      </tr>
+                    </tfoot>
+                  )}
                 </table>
               </div>
+              <p className="t-label player-legend">
+                GP games played · G goals · A assists · PTS points · P/GP points per game · PIM
+                penalties in minutes · PPG power play goals · SHG short handed goals · GWG game
+                winning goals · MOTM man of the match · WOTG warrior of the game
+              </p>
+            </section>
+
+            <section className="player-section">
+              <SectionHeader
+                title={`Last ${recentGames.length === 1 ? "game" : `${recentGames.length} games`}`}
+                aside="G · A · PIM"
+              />
+              <RecentGamesList games={recentGames} />
+              {recentGames.length > 0 && (
+                <p className="t-label player-legend">
+                  {recentTotals.goals} G · {recentTotals.assists} A · {recentTotals.points} PTS ·{" "}
+                  {recentTotals.pims} PIM over these {recentGames.length}{" "}
+                  {recentGames.length === 1 ? "game" : "games"}
+                </p>
+              )}
             </section>
           </>
         )}
 
-        {/* ── Recent Form tab ── */}
-        {activeTab === "recent" && (
+        {/* ── Game log tab ── */}
+        {activeTab === "gamelog" && (
           <>
             <section className="player-section">
-              <h2 className="player-section-title">
-                Last {recentGames.length} Games — Totals
-              </h2>
-              <RecentTotalsGrid totals={recentTotals} wins={recentWins} losses={recentLosses} />
+              <SectionHeader
+                title={`All ${allGames.length} ${allGames.length === 1 ? "game" : "games"}`}
+                aside="Totals"
+              />
+              <StatGrid
+                stats={[
+                  { label: "Points", value: allGameTotals.points },
+                  { label: "Goals", value: allGameTotals.goals },
+                  { label: "Assists", value: allGameTotals.assists },
+                  { label: "Points / game", value: allGameTotals.pointsPerGame },
+                  { label: "PIM", value: allGameTotals.pims },
+                  { label: "Won", value: allWins },
+                  { label: "Lost", value: allLosses },
+                ]}
+              />
             </section>
 
             <section className="player-section">
-              <h2 className="player-section-title">Game by Game</h2>
-              <GameLogTable games={recentGames} milestones={milestones} />
-            </section>
-          </>
-        )}
-
-        {/* ── All Games tab ── */}
-        {activeTab === "allgames" && (
-          <>
-            <section className="player-section">
-              <h2 className="player-section-title">
-                All {allGames.length} Games — Totals
-              </h2>
-              <RecentTotalsGrid totals={allGameTotals} wins={allWins} losses={allLosses} />
-            </section>
-
-            <section className="player-section">
-              <h2 className="player-section-title">Game Log</h2>
+              <SectionHeader title="Game log" aside="Newest first" />
               <GameLogTable games={allGames} milestones={milestones} />
             </section>
           </>
@@ -708,7 +828,24 @@ export default function PlayerPage({ loaderData }: Route.ComponentProps) {
 
         {/* ── Records tab ── */}
         {activeTab === "records" && <RecordsTab games={allGames} />}
+
+        <div className="player-footer-note">
+          <p className="player-footer-note-text">
+            Scoring is taken from the official EIH game sheets. Corrections go through the club
+            secretary on Facebook.
+          </p>
+          <div className="player-footer-note-actions">
+            <Link to="/roster" className="ds-btn ds-btn-primary ds-btn-md">
+              Full roster
+            </Link>
+            <Link to="/stats" className="ds-btn ds-btn-secondary ds-btn-md">
+              Player statistics
+            </Link>
+          </div>
+        </div>
       </div>
+
+      <Stripe />
     </div>
   );
 }

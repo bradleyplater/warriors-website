@@ -1,13 +1,15 @@
 .results-page { display: flex; flex-direction: column; }
 
-.results-intro { padding: var(--wr-space-12) var(--wr-space-5) var(--wr-space-8); }
-.results-intro .wrap-inner {
+/* The container lives here so the SectionHead and the season row share one
+   measure. Previously only the season row was constrained, which left the
+   heading full-bleed while everything below it was centred. */
+.results-intro {
   max-width: var(--wr-container);
   margin: 0 auto;
+  width: 100%;
+  padding: var(--wr-space-12) var(--wr-space-5) var(--wr-space-8);
 }
 .results-season-row {
-  max-width: var(--wr-container);
-  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -20,9 +22,21 @@
 .results-season-standing { color: var(--fg-secondary); margin-left: auto; }
 
 .results-record-section { background: var(--bg-sunken); border-top: var(--wr-bw-hair) solid var(--border-hairline); border-bottom: var(--wr-bw-hair) solid var(--border-hairline); }
-.results-record-inner { max-width: var(--wr-container); margin: 0 auto; padding: var(--wr-space-8) var(--wr-space-5); display: grid; grid-template-columns: repeat(auto-fit, minmax(112px, 1fr)); gap: var(--wr-space-6); }
+.results-record-inner {
+  max-width: var(--wr-container); margin: 0 auto;
+  padding: var(--wr-space-8) var(--wr-space-5);
+  display: flex; flex-direction: column; gap: var(--wr-space-6);
+}
+/* The stat tiles get their own grid so the form row (which spans every track)
+   cannot keep empty tracks alive — with 6 tiles auto-fit collapses the spares
+   and the tiles stretch to fill the band. */
+.results-record-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 112px), 1fr));
+  gap: var(--wr-space-6);
+}
 .results-record-value { font-family: var(--wr-font-mono); font-weight: 700; font-variant-numeric: tabular-nums; font-size: clamp(2rem, 5vw, 2.75rem); line-height: 1; letter-spacing: -.03em; }
-.results-form-wrap { display: flex; flex-direction: column; gap: var(--wr-space-2); grid-column: 1 / -1; }
+.results-form-wrap { display: flex; flex-direction: column; gap: var(--wr-space-2); }
 .results-form-list { display: flex; gap: var(--wr-space-2); }
 .results-form-item {
   width: 30px; height: 30px; display: grid; place-items: center;
@@ -30,7 +44,10 @@
   border: var(--wr-bw-hair) solid;
 }
 
-.results-body { max-width: var(--wr-container); margin: 0 auto; padding: var(--wr-space-10) var(--wr-space-5) var(--wr-space-16); }
+/* width: 100% — .results-page is a column flex container, where `margin: 0 auto`
+   suppresses cross-axis stretching and leaves the box shrink-to-fit (it measured
+   711px instead of the 1120px container). */
+.results-body { max-width: var(--wr-container); margin: 0 auto; width: 100%; padding: var(--wr-space-10) var(--wr-space-5) var(--wr-space-16); }
 .results-filters { display: flex; flex-wrap: wrap; gap: var(--wr-space-2); margin-bottom: var(--wr-space-8); align-items: center; }
 .results-filters-count { color: var(--fg-secondary); margin-left: auto; }
 
@@ -59,5 +76,23 @@
 .rs-row-sub { display: flex; align-items: center; gap: var(--wr-space-4); flex-wrap: wrap; padding-top: var(--wr-space-3); margin-top: var(--wr-space-3); border-top: var(--wr-bw-hair) solid var(--border-hairline); }
 .rs-award { display: flex; align-items: center; gap: var(--wr-space-1); }
 .rs-award-label { color: var(--fg-secondary); }
+
+.results-note {
+  border: var(--wr-bw-hair) solid var(--border-hairline);
+  border-radius: var(--wr-radius-md);
+  padding: var(--wr-space-5);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--wr-space-4);
+  justify-content: space-between;
+  align-items: center;
+}
+.results-note-text {
+  margin: 0;
+  color: var(--fg-secondary);
+  font-size: var(--wr-text-body-sm);
+  max-width: var(--wr-measure);
+  text-wrap: pretty;
+}
 
 .results-empty { color: var(--fg-secondary); }

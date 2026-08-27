@@ -48,9 +48,9 @@
 .hero-banner-caption-copy { display: flex; flex-direction: column; gap: var(--wr-space-1); min-width: 240px; flex: 1 1 320px; }
 .hero-banner-caption-copy p { margin: 0; font-size: var(--wr-text-body-sm); line-height: var(--wr-lh-tight); color: var(--fg-primary); }
 
-.hero-banner-controls { display: flex; align-items: center; gap: var(--wr-space-4); flex: none; }
+.hero-banner-controls { display: flex; align-items: center; gap: var(--wr-space-3) var(--wr-space-4); flex: 0 1 auto; min-width: 0; flex-wrap: wrap; }
 
-.hero-banner-dots { display: flex; gap: var(--wr-space-2); align-items: center; }
+.hero-banner-dots { display: flex; gap: var(--wr-space-2); align-items: center; flex-wrap: wrap; min-width: 0; }
 .hero-banner-dot { height: 4px; border: 0; padding: 0; cursor: pointer; border-radius: var(--wr-radius-xs); background: var(--border-strong); width: 14px; }
 .hero-banner-dot[aria-selected="true"] { background: var(--fg-primary); width: 32px; }
 

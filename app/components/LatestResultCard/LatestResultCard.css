@@ -12,12 +12,25 @@
 .lr-scoreline { display: flex; flex-direction: column; }
 .lr-team-row { display: flex; align-items: center; gap: var(--wr-space-4); padding-bottom: var(--wr-space-2); }
 .lr-team-row:last-child { border-top: var(--wr-bw-hair) solid var(--border-hairline); padding-top: var(--wr-space-2); padding-bottom: 0; }
-.lr-team-mark {
-  width: 40px; height: 40px; flex: none; display: grid; place-items: center;
-  border: var(--wr-bw-hair) solid var(--border-strong); border-radius: var(--wr-radius-xs);
-  font-family: var(--wr-font-mono); font-weight: 700; font-size: .6875rem;
+/* One fixed-width slot for both rows so the team names stay aligned, even though
+   the Warriors mark is a wide wordmark and opponents use square crests. */
+.lr-team-mark { width: 84px; height: 40px; flex: none; display: grid; place-items: center; }
+
+/* --identity-logo swaps white/black artwork with the home/away kit. */
+.lr-team-mark--warriors {
+  background-image: var(--identity-logo);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
-.lr-team-mark--opponent { border-color: var(--border-functional); color: var(--fg-secondary); }
+
+.lr-team-logo { max-width: 40px; max-height: 40px; width: auto; height: auto; border-radius: var(--wr-radius-xs); }
+
+.lr-team-initials {
+  width: 40px; height: 40px; display: grid; place-items: center;
+  border: var(--wr-bw-hair) solid var(--border-functional); border-radius: var(--wr-radius-xs);
+  font-family: var(--wr-font-mono); font-weight: 700; font-size: .6875rem; color: var(--fg-secondary);
+}
 .lr-team-name {
   flex: 1; min-width: 0; font-family: var(--wr-font-display);
   font-variation-settings: 'wdth' var(--wr-w-expanded), 'wght' 700;
@@ -30,7 +43,7 @@
 }
 .lr-team-score--opponent { color: var(--fg-secondary); }
 
-.lr-meta { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: var(--wr-space-4); border-top: var(--wr-bw-hair) solid var(--border-hairline); padding-top: var(--wr-space-4); }
+.lr-meta { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); gap: var(--wr-space-4); border-top: var(--wr-bw-hair) solid var(--border-hairline); padding-top: var(--wr-space-4); }
 .lr-meta dt { color: var(--fg-secondary); margin-bottom: var(--wr-space-1); }
 .lr-meta dd { margin: 0; font-size: var(--wr-text-body-sm); }
 

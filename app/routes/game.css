@@ -1,110 +1,208 @@
 .game-page { display: flex; flex-direction: column; }
 
-.game-hero { padding: var(--wr-space-5) var(--wr-space-5) 0; }
-.game-hero-inner {
+/* Every band shares the container measure. .game-page is a column flex
+   container, so `margin: 0 auto` alone leaves the box shrink-to-fit — the
+   explicit width is what holds them all to 1120px. */
+.game-breadcrumb,
+.game-scoreboard,
+.game-panels,
+.game-lineup,
+.game-nextup {
   max-width: var(--wr-container);
   margin: 0 auto;
-  padding-bottom: var(--wr-space-6);
-  border-bottom: var(--wr-bw-hair) solid var(--border-hairline);
+  width: 100%;
+}
+
+.game-breadcrumb { padding: var(--wr-space-5) var(--wr-space-5) 0; }
+
+/* ── Scoreboard ── */
+.game-scoreboard { padding: var(--wr-space-6) var(--wr-space-5) var(--wr-space-10); }
+.game-scoreboard-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--wr-space-4);
+  margin-bottom: var(--wr-space-5);
+}
+.game-scoreboard-when { color: var(--fg-secondary); margin-left: auto; }
+
+.game-scoreboard-teams {
   display: flex;
   flex-direction: column;
-  gap: var(--wr-space-5);
-}
-
-.game-back-link { display: inline-flex; align-items: center; gap: 4px; width: fit-content; }
-
-.game-hero-content {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--wr-space-6);
-  flex-wrap: wrap;
   border-top: var(--wr-bw-thick) solid var(--stripe);
-  padding-top: var(--wr-space-5);
+  padding-top: var(--wr-space-4);
 }
 
-.game-hero-meta { display: flex; flex-direction: column; gap: var(--wr-space-3); }
-.game-hero-kicker { color: var(--fg-secondary); width: fit-content; }
-.game-hero-title {
-  margin: 0;
-  font-family: var(--wr-font-display);
-  font-variation-settings: 'wdth' var(--wr-w-expanded), 'wght' 700;
+.game-team-row {
+  display: flex;
+  align-items: center;
+  gap: var(--wr-space-4);
+  padding-bottom: var(--wr-space-3);
+}
+.game-team-row--opponent {
+  border-top: var(--wr-bw-hair) solid var(--border-hairline);
+  padding-top: var(--wr-space-3);
+  color: var(--fg-secondary);
+}
+
+.game-team-mark {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: var(--wr-bw-hair) solid var(--border-functional);
+  border-radius: var(--wr-radius-xs);
+  font-family: var(--wr-font-mono);
+  font-weight: 700;
+  font-size: .75rem;
+}
+.game-team-mark--warriors { border-color: var(--border-strong); color: var(--fg-primary); }
+
+.game-team-name {
+  flex: 1;
+  min-width: 0;
   font-size: clamp(1.125rem, 3vw, 1.625rem);
   text-transform: uppercase;
+  overflow-wrap: break-word;
 }
-.game-hero-info { display: flex; align-items: center; flex-wrap: wrap; gap: var(--wr-space-2); }
-.game-hero-pill { padding: 3px var(--wr-space-2); border-radius: var(--wr-radius-xs); font-size: var(--wr-text-micro); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; border: var(--wr-bw-hair) solid; }
-.game-hero-pill--comp { background: var(--st-info-surface); border-color: var(--st-info-border); color: var(--st-info-fg); }
-.game-hero-pill--home { background: var(--st-success-surface); border-color: var(--st-success-border); color: var(--st-success-fg); }
-.game-hero-pill--away { background: var(--bg-raised); border-color: var(--border-functional); color: var(--fg-secondary); }
-.game-hero-date { color: var(--fg-secondary); }
-
-.game-hero-score-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
-.game-hero-outcome {
-  display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px;
-  border-radius: var(--wr-radius-xs); font-family: var(--wr-font-mono); font-weight: 700; font-size: .75rem; border: var(--wr-bw-hair) solid;
+.game-team-score {
+  flex: none;
+  font-family: var(--wr-font-mono);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(3.5rem, 12vw, 6rem);
+  line-height: .95;
+  letter-spacing: -.04em;
 }
-.game-hero-outcome--w { background: var(--st-success-surface); border-color: var(--st-success-border); color: var(--st-success-fg); }
-.game-hero-outcome--l { background: var(--st-danger-surface); border-color: var(--st-danger-border); color: var(--st-danger-fg); }
-.game-hero-outcome--d { background: var(--bg-raised); border-color: var(--border-functional); color: var(--fg-secondary); }
 
-.game-hero-score { display: flex; align-items: center; gap: var(--wr-space-2); }
-.game-hero-score-num { font-family: var(--wr-font-mono); font-weight: 700; font-variant-numeric: tabular-nums; font-size: clamp(3.5rem, 12vw, 6rem); line-height: .95; letter-spacing: -.04em; }
-.game-hero-score-sep { font-size: 2rem; font-weight: 300; color: var(--fg-secondary); }
-.game-hero-score-teams { display: flex; gap: var(--wr-space-6); font-size: var(--wr-text-micro); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--fg-secondary); }
+.game-scoreboard-facts {
+  border-top: var(--wr-bw-hair) solid var(--border-hairline);
+  margin-top: var(--wr-space-4);
+  padding-top: var(--wr-space-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--wr-space-8);
+}
+.game-fact { display: flex; flex-direction: column; gap: var(--wr-space-2); }
+.game-fact-value { font-size: 1.125rem; }
+.game-fact-text { font-size: var(--wr-text-body-sm); }
+.game-fact-periods { display: flex; gap: var(--wr-space-6); }
+.game-fact-period { display: flex; flex-direction: column; gap: 2px; text-align: center; }
+.game-fact-period-line { font-weight: 700; font-size: 1.125rem; }
+.game-fact-period-label { font-size: var(--wr-text-micro); }
 
-.game-body { max-width: var(--wr-container); margin: 0 auto; padding: var(--wr-space-8) var(--wr-space-5) var(--wr-space-16); display: flex; flex-direction: column; gap: var(--wr-space-8); }
+/* ── Panel grid ── */
+/* Two columns rather than auto-fit: at 1120px auto-fit would fit three
+   300px tracks, and the goal/penalty rows (clock + name + offence + mins)
+   have nowhere to go at that width. */
+.game-panels {
+  padding: var(--wr-space-10) var(--wr-space-5) var(--wr-space-8);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--wr-space-10) var(--wr-space-12);
+}
+@media (max-width: 760px) {
+  .game-panels { grid-template-columns: 1fr; gap: var(--wr-space-8); }
+}
+.game-panel { min-width: 0; align-self: start; }
 
-.game-section { display: flex; flex-direction: column; gap: var(--wr-space-3); }
-.game-section-title { margin: 0; font-size: var(--wr-text-h3); text-transform: uppercase; font-family: var(--wr-font-display); font-variation-settings: 'wdth' var(--wr-w-expanded), 'wght' 700; padding-bottom: var(--wr-space-2); border-bottom: var(--wr-bw-thick) solid var(--stripe); }
+.game-panel-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--wr-space-3);
+  margin: 0 0 var(--wr-space-4);
+  padding-bottom: var(--wr-space-2);
+  border-bottom: var(--wr-bw-thick) solid var(--stripe);
+}
+.game-panel-title { font-size: var(--wr-text-h3); text-transform: uppercase; margin: 0; }
 
-.game-periods { border: var(--wr-bw-hair) solid var(--border-hairline); border-radius: var(--wr-radius-md); overflow: hidden; }
-.game-periods-table { width: 100%; border-collapse: collapse; font-size: var(--wr-text-sm); }
-.game-periods-table th, .game-periods-table td { padding: var(--wr-space-3) var(--wr-space-5); text-align: center; border-bottom: var(--wr-bw-hair) solid var(--border-hairline); font-family: var(--wr-font-mono); font-variant-numeric: tabular-nums; }
-.game-periods-table th { background: var(--bg-sunken); font-family: var(--wr-font-body); font-size: var(--wr-text-micro); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--fg-secondary); }
-.game-periods-table tbody tr:last-child td { border-bottom: none; }
-.game-periods-team-col { text-align: left !important; font-weight: 600; font-family: var(--wr-font-body) !important; white-space: nowrap; }
-.game-periods-total { font-weight: 700 !important; }
+.game-list { margin: 0; padding: 0; list-style: none; }
+.game-list-row {
+  display: flex;
+  gap: var(--wr-space-4);
+  padding: var(--wr-space-3) 0;
+  border-bottom: var(--wr-bw-hair) solid var(--border-hairline);
+  align-items: flex-start;
+}
+.game-list-clock { flex: none; width: 9ch; white-space: nowrap; }
+.game-list-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.game-list-primary { font-size: var(--wr-text-body-sm); font-weight: 600; overflow-wrap: break-word; }
+.game-list-score { flex: none; font-weight: 700; }
+.game-penalty-mins { flex: none; font-weight: 700; width: 4ch; text-align: right; }
 
-.game-goals-list { display: flex; flex-direction: column; border: var(--wr-bw-hair) solid var(--border-hairline); border-radius: var(--wr-radius-md); overflow: hidden; }
-.game-goal { display: flex; align-items: center; gap: var(--wr-space-4); padding: var(--wr-space-3) var(--wr-space-5); border-bottom: var(--wr-bw-hair) solid var(--border-hairline); }
-.game-goal:last-child { border-bottom: none; }
-.game-goal--warriors { border-left: var(--wr-bw-heavy) solid var(--identity-mark); }
-.game-goal--opponent { border-left: var(--wr-bw-heavy) solid var(--border-functional); }
+.game-table-scroll { overflow-x: auto; }
 
-.game-goal-time { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 44px; flex-shrink: 0; }
-.game-goal-period { font-size: var(--wr-text-micro); font-weight: 700; letter-spacing: .08em; color: var(--fg-secondary); text-transform: uppercase; }
-.game-goal-clock { font-family: var(--wr-font-mono); font-weight: 700; font-variant-numeric: tabular-nums; font-size: var(--wr-text-sm); }
+.game-star { align-items: center; }
+.game-star-rank { flex: none; font-size: 1.5rem; min-width: 2ch; }
+.game-star-name { font-size: 1rem; text-transform: uppercase; }
 
-.game-goal-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
-.game-goal-scorer-row { display: flex; align-items: center; gap: var(--wr-space-2); flex-wrap: wrap; }
-.game-goal-scorer { font-weight: 700; }
-.game-goal-team-label { color: var(--fg-secondary); margin-left: auto; font-size: var(--wr-text-xs); }
-.game-goal-assists { color: var(--fg-secondary); font-size: var(--wr-text-xs); }
-
-.game-goal-type { display: inline-flex; align-items: center; justify-content: center; padding: 2px 6px; border-radius: var(--wr-radius-xs); font-size: 10px; font-weight: 700; letter-spacing: .06em; flex-shrink: 0; border: var(--wr-bw-hair) solid; }
-.game-goal-type--pp { background: var(--st-warning-surface); border-color: var(--st-warning-border); color: var(--st-warning-fg); }
-.game-goal-type--sh { background: var(--st-info-surface); border-color: var(--st-info-border); color: var(--st-info-fg); }
-.game-goal-type--gwg { background: var(--st-success-surface); border-color: var(--st-success-border); color: var(--st-success-fg); }
-
-.game-goal-score { font-family: var(--wr-font-mono); font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; flex-shrink: 0; }
-
-.game-roster-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: var(--wr-space-3); }
+/* ── Lineup ── */
+.game-lineup { padding: 0 var(--wr-space-5) var(--wr-space-10); }
+.game-roster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr));
+  gap: var(--wr-space-3);
+}
 .game-roster-card {
-  display: flex; flex-direction: column; gap: 4px; padding: var(--wr-space-3) var(--wr-space-4);
-  background: var(--e1-bg); border: var(--wr-bw-hair) solid var(--border-hairline); border-radius: var(--wr-radius-sm);
-  text-decoration: none; color: inherit; transition: background var(--wr-dur-fast) var(--wr-ease);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--wr-space-3) var(--wr-space-4);
+  background: var(--e1-bg);
+  border: var(--wr-bw-hair) solid var(--border-hairline);
+  border-radius: var(--wr-radius-sm);
+  text-decoration: none;
+  color: inherit;
+  transition: background var(--wr-dur-fast) var(--wr-ease);
 }
-.game-roster-card:hover { background: var(--bg-hover); }
-.game-roster-number { font-family: var(--wr-font-mono); font-weight: 700; font-size: var(--wr-text-xs); color: var(--fg-secondary); }
+.game-roster-card:hover { background: var(--bg-hover); color: inherit; }
+.game-roster-number { color: var(--fg-secondary); font-size: var(--wr-text-xs); }
 .game-roster-name { font-weight: 700; font-size: var(--wr-text-sm); line-height: 1.2; }
-.game-roster-position { color: var(--fg-secondary); font-size: var(--wr-text-xs); }
 
 .game-roster-badges { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
-.game-roster-badge { padding: 2px 6px; border-radius: var(--wr-radius-xs); font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; border: var(--wr-bw-hair) solid; }
+.game-roster-badge {
+  padding: 2px 6px;
+  border-radius: var(--wr-radius-xs);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border: var(--wr-bw-hair) solid;
+}
 .game-roster-badge--nm { background: var(--bg-raised); border-color: var(--border-functional); color: var(--fg-secondary); }
 .game-roster-badge--motm { background: var(--st-info-surface); border-color: var(--st-info-border); color: var(--st-info-fg); }
 .game-roster-badge--wotg { background: var(--st-warning-surface); border-color: var(--st-warning-border); color: var(--st-warning-fg); }
 
+/* ── Next up ── */
+.game-nextup { padding: 0 var(--wr-space-5) var(--wr-space-16); }
+.game-nextup-card {
+  border: var(--wr-bw-hair) solid var(--border-hairline);
+  border-radius: var(--wr-radius-md);
+  padding: var(--wr-space-5);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--wr-space-4);
+  justify-content: space-between;
+  align-items: center;
+}
+.game-nextup-text {
+  margin: 0;
+  color: var(--fg-secondary);
+  font-size: var(--wr-text-body-sm);
+  max-width: var(--wr-measure);
+  text-wrap: pretty;
+}
+.game-nextup-actions { display: flex; gap: var(--wr-space-3); flex-wrap: wrap; }
+
 .game-empty { color: var(--fg-secondary); margin: 0; }
-.game-not-found { display: flex; flex-direction: column; align-items: center; gap: var(--wr-space-4); padding: var(--wr-space-16) var(--wr-space-4); color: var(--fg-secondary); }
+.game-not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--wr-space-4);
+  padding: var(--wr-space-16) var(--wr-space-4);
+  color: var(--fg-secondary);
+}

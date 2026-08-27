@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import type { Route } from "./+types/results";
 import { getPlayers, getResults } from "~/data/client";
 import { SectionHead } from "~/components/ds/SectionHead";
+import { Stripe } from "~/components/ds/Stripe";
 import "./results.css";
 
 export function meta({}: Route.MetaArgs) {
@@ -96,6 +97,8 @@ const OUTCOME_STYLE: Record<"W" | "L" | "D", { background: string; color: string
   D: { background: "var(--bg-raised)", color: "var(--fg-secondary)", borderColor: "var(--border-functional)" },
 };
 
+const BASE_FILTERS = ["All", "Home", "Away", "Wins"];
+
 function formatDate(dateString: string) {
   return new Date(dateString).toLocaleDateString("en-GB", {
     weekday: "short",
@@ -180,16 +183,35 @@ export default function Results({ loaderData }: Route.ComponentProps) {
   const seasons = useMemo(() => ["All", ...uniqueSeasons], [uniqueSeasons]);
 
   const [activeSeason, setActiveSeason] = useState(uniqueSeasons[0] ?? "All");
-  const [filter, setFilter] = useState<"All" | "Home" | "Away" | "Wins">("All");
+  const [filter, setFilter] = useState<string>("All");
 
   const bySeason = activeSeason === "All" ? allResults : allResults.filter((r) => r.season === activeSeason);
+
+  // The feed has no "Cup" competition, so the spec's Cup chip becomes a chip per
+  // competition actually played in the selected season.
+  const competitions = useMemo(
+    () => Array.from(new Set(bySeason.map((r) => r.competition).filter(Boolean))).sort(),
+    [bySeason]
+  );
+  const filters = useMemo(() => [...BASE_FILTERS, ...competitions], [competitions]);
+  // Changing season can retire the active chip; fall back rather than show nothing.
+  const activeFilter = filters.includes(filter) ? filter : "All";
+
   const filtered = bySeason.filter((r) => {
     const outcome = getOutcome(r.score.warriorsScore, r.score.opponentScore);
-    if (filter === "Home") return r.location === "HOME";
-    if (filter === "Away") return r.location === "AWAY";
-    if (filter === "Wins") return outcome === "W";
-    return true;
+    if (activeFilter === "Home") return r.location === "HOME";
+    if (activeFilter === "Away") return r.location === "AWAY";
+    if (activeFilter === "Wins") return outcome === "W";
+    if (activeFilter === "All") return true;
+    return r.competition === activeFilter;
   });
+
+  const seasonStanding =
+    activeSeason === "All"
+      ? `${uniqueSeasons.length} seasons`
+      : activeSeason === uniqueSeasons[0]
+        ? "Season in progress"
+        : "Final";
 
   const wins = bySeason.filter((r) => getOutcome(r.score.warriorsScore, r.score.opponentScore) === "W").length;
   const losses = bySeason.filter((r) => getOutcome(r.score.warriorsScore, r.score.opponentScore) === "L").length;
@@ -225,11 +247,13 @@ export default function Results({ loaderData }: Route.ComponentProps) {
               </button>
             ))}
           </div>
+          <span className="t-label results-season-standing">{seasonStanding}</span>
         </div>
       </div>
 
       <section className="results-record-section" aria-label="Season record">
         <div className="results-record-inner">
+          <div className="results-record-stats">
           <div>
             <span className="results-record-value">{bySeason.length}</span>
             <div className="t-label muted">Games played</div>
@@ -254,6 +278,7 @@ export default function Results({ loaderData }: Route.ComponentProps) {
             <span className="results-record-value">{ga}</span>
             <div className="t-label muted">Goals against</div>
           </div>
+          </div>
           {form.length > 0 && (
             <div className="results-form-wrap">
               <span className="t-label muted">Form — most recent last</span>
@@ -267,20 +292,24 @@ export default function Results({ loaderData }: Route.ComponentProps) {
         </div>
       </section>
 
+      <Stripe />
+
       <section className="results-body">
         <div className="results-filters" role="group" aria-label="Filter results">
-          {(["All", "Home", "Away", "Wins"] as const).map((f) => (
+          {filters.map((f) => (
             <button
               key={f}
               type="button"
               className="ds-chip t-label"
-              aria-pressed={filter === f}
+              aria-pressed={activeFilter === f}
               onClick={() => setFilter(f)}
             >
               {f}
             </button>
           ))}
-          <span className="t-data results-filters-count">{filtered.length} games shown</span>
+          <span className="t-data results-filters-count">
+            {filtered.length} {filtered.length === 1 ? "game" : "games"} shown
+          </span>
         </div>
 
         {filtered.length === 0 ? (
@@ -297,6 +326,13 @@ export default function Results({ loaderData }: Route.ComponentProps) {
             </div>
           ))
         )}
+
+        <div className="results-note">
+          <p className="results-note-text">
+            Game sheets from previous seasons are held by the club secretary. Individual scoring is
+            listed on the stats page.
+          </p>
+        </div>
       </section>
     </div>
   );

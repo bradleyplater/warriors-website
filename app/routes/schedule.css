@@ -1,6 +1,11 @@
 .schedule-page { display: flex; flex-direction: column; }
 
-.schedule-intro { padding: var(--wr-space-12) var(--wr-space-5) var(--wr-space-8); }
+.schedule-intro {
+  max-width: var(--wr-container);
+  margin: 0 auto;
+  width: 100%;
+  padding: var(--wr-space-12) var(--wr-space-5) var(--wr-space-8);
+}
 
 .schedule-next {
   background: var(--bg-sunken);
@@ -27,6 +32,7 @@
   margin: 0;
 }
 .schedule-next-meta { color: var(--fg-secondary); }
+.schedule-next-links { display: flex; gap: var(--wr-space-5); flex-wrap: wrap; }
 .schedule-next-countdown { flex: none; display: flex; gap: var(--wr-space-2); }
 .schedule-next-countdown-cell {
   min-width: 66px;
@@ -39,7 +45,7 @@
 .schedule-next-countdown-value { font-family: var(--wr-font-mono); font-weight: 700; font-variant-numeric: tabular-nums; font-size: clamp(1.5rem, 4vw, 2rem); line-height: 1; }
 .schedule-next-countdown-key { color: var(--fg-secondary); font-size: var(--wr-text-micro); margin-top: var(--wr-space-1); }
 
-.schedule-body { max-width: var(--wr-container); margin: 0 auto; padding: var(--wr-space-10) var(--wr-space-5) var(--wr-space-16); }
+.schedule-body { max-width: var(--wr-container); margin: 0 auto; width: 100%; padding: var(--wr-space-10) var(--wr-space-5) var(--wr-space-16); }
 
 .schedule-filters { display: flex; flex-wrap: wrap; gap: var(--wr-space-2); margin-bottom: var(--wr-space-8); align-items: center; }
 .schedule-filters-count { color: var(--fg-secondary); margin-left: auto; }

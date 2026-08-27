@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router";
 import { Badge } from "../ds/Badge";
 import "./LatestResultCard.css";
@@ -90,6 +91,18 @@ function getTopPerformers(result: Result, players: PlayerName[]): PlayerStat[] {
     .slice(0, 3);
 }
 
+/**
+ * Crest filenames follow the team name as a slug ("Nottingham Outlaws" ->
+ * nottingham-outlaws.jpg). The results feed declares logoImage but currently
+ * ships it as null for every row, so prefer it when present and derive
+ * otherwise. Only some opponents have artwork; the card falls back to initials.
+ */
+function opponentCrestSrc(result: Result): string {
+  if (result.logoImage) return `/images/team-logos/${result.logoImage}`;
+  const slug = result.opponentTeam.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return `/images/team-logos/${slug}.jpg`;
+}
+
 export function LatestResultCard({
   results: rawResults,
   players: rawPlayers,
@@ -100,6 +113,8 @@ export function LatestResultCard({
   const results = rawResults as Result[];
   const players = rawPlayers as PlayerName[];
   const today = new Date();
+  // Not every opponent has a crest on disk; fall back to initials if it 404s.
+  const [logoFailed, setLogoFailed] = useState(false);
 
   const latestResult = [...results]
     .filter((r) => new Date(r.date).getTime() < today.getTime())
@@ -133,13 +148,24 @@ export function LatestResultCard({
 
       <div className="lr-scoreline">
         <div className="lr-team-row">
-          <span className="lr-team-mark" aria-hidden="true">PW</span>
+          <span className="lr-team-mark lr-team-mark--warriors" aria-hidden="true" />
           <span className="lr-team-name">Peterborough Warriors</span>
           <span className="lr-team-score">{latestResult.score.warriorsScore}</span>
         </div>
         <div className="lr-team-row">
-          <span className="lr-team-mark lr-team-mark--opponent" aria-hidden="true">
-            {latestResult.opponentTeam.slice(0, 2).toUpperCase()}
+          <span className="lr-team-mark" aria-hidden="true">
+            {!logoFailed ? (
+              <img
+                src={opponentCrestSrc(latestResult)}
+                alt=""
+                className="lr-team-logo"
+                onError={() => setLogoFailed(true)}
+              />
+            ) : (
+              <span className="lr-team-initials">
+                {latestResult.opponentTeam.slice(0, 2).toUpperCase()}
+              </span>
+            )}
           </span>
           <span className="lr-team-name lr-team-name--opponent">{latestResult.opponentTeam}</span>
           <span className="lr-team-score lr-team-score--opponent">{latestResult.score.opponentScore}</span>

@@ -25,20 +25,6 @@
   flex: none;
 }
 
-.navbar-monogram {
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
-  border: var(--wr-bw-thick) solid var(--identity-mark);
-  border-radius: var(--wr-radius-xs);
-  font-family: var(--wr-font-mono);
-  font-weight: 700;
-  font-size: .75rem;
-  letter-spacing: .02em;
-  color: var(--fg-primary);
-}
-
 .navbar-logo {
   height: 30px;
   width: auto;

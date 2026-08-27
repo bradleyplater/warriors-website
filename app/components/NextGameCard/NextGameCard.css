@@ -22,7 +22,7 @@
 .next-game-meta {
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 120px), 1fr));
   gap: var(--wr-space-4);
   border-top: var(--wr-bw-hair) solid var(--border-hairline);
   padding-top: var(--wr-space-4);

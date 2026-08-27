@@ -101,7 +101,7 @@
 .ds-table td[data-strong="true"] { font-variation-settings: 'wght' 700; }
 .ds-table tbody tr:hover { background: var(--bg-hover); }
 
-.ds-statgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: var(--wr-space-5); }
+.ds-statgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 120px), 1fr)); gap: var(--wr-space-5); }
 .ds-statgrid-item { display: flex; flex-direction: column; gap: var(--wr-space-1); }
 .ds-statgrid-value {
   font-family: var(--wr-font-display);
@@ -124,4 +124,56 @@
   background: var(--fg-primary);
   color: var(--bg-page);
   border-color: var(--fg-primary);
+}
+
+/* BarChart — one series stays monochrome in --series-1; charts sit on the
+   sunken surface at 6px radius. Figures stay off the bars (hover title only). */
+.ds-barchart {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--wr-space-3);
+  padding: var(--wr-space-4);
+  background: var(--bg-sunken);
+  border-radius: var(--wr-radius-md);
+}
+.ds-barchart-col {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--wr-space-2);
+}
+/* The bars size against this box rather than the column, so the label below
+   keeps its room however tall the tallest bar is. */
+.ds-barchart-plot {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--wr-space-1);
+}
+.ds-barchart-bar { flex: none; min-height: 2px; border-radius: var(--wr-radius-xs) var(--wr-radius-xs) 0 0; }
+.ds-barchart-value {
+  flex: none;
+  font-family: var(--wr-font-mono);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-size: .75rem;
+  line-height: 1;
+  text-align: center;
+}
+.ds-barchart-label {
+  font-family: var(--wr-font-body);
+  font-variation-settings: 'wdth' var(--wr-w-condensed), 'wght' 600;
+  font-size: .625rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--fg-secondary);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

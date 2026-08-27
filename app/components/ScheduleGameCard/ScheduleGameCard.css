@@ -13,6 +13,7 @@
 
 .fx-row-opponent { display: flex; flex-direction: column; gap: var(--wr-space-1); grid-column: span 2; min-width: 0; }
 .fx-row-opponent-line { display: flex; align-items: center; gap: var(--wr-space-3); flex-wrap: wrap; }
+.fx-row-opponent-ha { color: var(--fg-secondary); min-width: 2.5ch; }
 .fx-row-opponent-name {
   font-family: var(--wr-font-display);
   font-variation-settings: 'wdth' var(--wr-w-expanded), 'wght' 700;

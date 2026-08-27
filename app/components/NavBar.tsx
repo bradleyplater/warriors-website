@@ -57,7 +57,6 @@ export function NavBar() {
       <header className="navbar-shell">
         <div className="navbar-frame">
           <Link to="/" className="navbar-brand" aria-label="Peterborough Warriors — home">
-            <span className="navbar-monogram" aria-hidden="true">PW</span>
             <img src={logoSrc} alt="Peterborough Warriors" className="navbar-logo" />
           </Link>
 

@@ -95,6 +95,7 @@
   --border-strong: var(--wr-ink-600);
   --focus-ring: var(--wr-ink-100); --focus-halo: var(--wr-ink-1000);
   --identity-mark: var(--wr-kit-white);
+  --identity-logo: url("/images/warriors-logo-white.png");
   --stripe: var(--wr-ink-100); --stripe-mid: var(--wr-ink-600);
   --action-bg: var(--wr-navy-400); --action-fg: var(--wr-ink-1000);
   --action-hover: var(--wr-navy-300);
@@ -125,6 +126,7 @@
   --border-strong: var(--wr-ink-900);
   --focus-ring: var(--wr-ink-1000); --focus-halo: var(--wr-ink-50);
   --identity-mark: var(--wr-kit-black);
+  --identity-logo: url("/images/warriors-logo-black.png");
   --stripe: var(--wr-ink-950); --stripe-mid: var(--wr-ink-500);
   --action-bg: var(--wr-navy-900); --action-fg: var(--wr-kit-white);
   --action-hover: var(--wr-navy-800);

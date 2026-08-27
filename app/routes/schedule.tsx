@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import type { Route } from "./+types/schedule";
 import upcomingGames from "../../public/data/upcoming-games.json";
 import { ScheduleGameCard } from "../components/ScheduleGameCard/ScheduleGameCard";
+import { Badge } from "../components/ds/Badge";
 import { SectionHead } from "../components/ds/SectionHead";
+import { Stripe } from "../components/ds/Stripe";
 import { getResults } from "~/data/client";
 import "./schedule.css";
 
@@ -43,7 +45,13 @@ function pad(n: number) {
   return String(Math.max(0, n)).padStart(2, "0");
 }
 
-type Filter = "All" | "Home" | "Away";
+function isHomeGame(game: UpcomingGame) {
+  return game.location === "Planet Ice Peterborough";
+}
+
+type Filter = "All" | "Home" | "Away" | "Cup";
+
+const FILTERS: Filter[] = ["All", "Home", "Away", "Cup"];
 
 export default function Schedule({ loaderData }: Route.ComponentProps) {
   const { results } = loaderData;
@@ -64,8 +72,16 @@ export default function Schedule({ loaderData }: Route.ComponentProps) {
   }, [nextGame?.date, nextGame?.time]);
 
   const filtered = sorted.filter((g) => {
-    const isHome = g.location === "Planet Ice Peterborough";
-    return filter === "All" || (filter === "Home" && isHome) || (filter === "Away" && !isHome);
+    switch (filter) {
+      case "Home":
+        return isHomeGame(g);
+      case "Away":
+        return !isHomeGame(g);
+      case "Cup":
+        return g.gameType.toLowerCase().includes("cup");
+      default:
+        return true;
+    }
   });
 
   const months = new Map<string, UpcomingGame[]>();
@@ -86,13 +102,16 @@ export default function Schedule({ loaderData }: Route.ComponentProps) {
     ];
   }
 
+  const nextIsHome = nextGame ? isHomeGame(nextGame) : false;
+
   return (
     <div className="schedule-page">
-      <div className="schedule-intro">
-        <SectionHead eyebrow="2025/26 season" title="Fixtures">
-          Face-off times are confirmed the week before each game. Home games are at Planet Ice Peterborough.
+      <section className="schedule-intro">
+        <SectionHead title="Fixtures">
+          Home games are at Planet Ice Peterborough unless stated. Face-off times are confirmed by
+          the rink the week of the game and can change.
         </SectionHead>
-      </div>
+      </section>
 
       {nextGame && countdown && (
         <section className="schedule-next" aria-label="Next game">
@@ -100,11 +119,17 @@ export default function Schedule({ loaderData }: Route.ComponentProps) {
             <div className="schedule-next-copy">
               <div className="schedule-next-heading">
                 <span className="t-label muted">Next game</span>
+                <Badge tone="info" glyph={null}>{nextIsHome ? "Home" : "Away"}</Badge>
               </div>
-              <h2 className="schedule-next-title">{nextGame.opponentTeam}</h2>
+              <h2 className="schedule-next-title">
+                {nextIsHome ? "vs" : "at"} {nextGame.opponentTeam}
+              </h2>
               <span className="t-data schedule-next-meta">
                 {parseGameDate(nextGame.date).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" })} · face-off {nextGame.time} · {nextGame.location}
               </span>
+              <div className="schedule-next-links">
+                <a className="t-label" href="#calendar">Add to calendar</a>
+              </div>
             </div>
             <div className="schedule-next-countdown">
               {countdown.map((c) => (
@@ -118,9 +143,11 @@ export default function Schedule({ loaderData }: Route.ComponentProps) {
         </section>
       )}
 
+      <Stripe />
+
       <section className="schedule-body">
         <div className="schedule-filters" role="group" aria-label="Filter fixtures">
-          {(["All", "Home", "Away"] as Filter[]).map((f) => (
+          {FILTERS.map((f) => (
             <button
               key={f}
               type="button"
@@ -131,7 +158,9 @@ export default function Schedule({ loaderData }: Route.ComponentProps) {
               {f}
             </button>
           ))}
-          <span className="t-data schedule-filters-count">{filtered.length} games shown</span>
+          <span className="t-data schedule-filters-count">
+            {filtered.length} {filtered.length === 1 ? "game" : "games"} shown
+          </span>
         </div>
 
         {filtered.length === 0 ? (
@@ -139,7 +168,7 @@ export default function Schedule({ loaderData }: Route.ComponentProps) {
         ) : (
           Array.from(months.entries()).map(([month, games]) => (
             <div key={month} className="schedule-month">
-              <h3 className="t-heading schedule-month-heading">{month}</h3>
+              <h2 className="t-heading schedule-month-heading">{month}</h2>
               <ul className="schedule-month-list">
                 {games.map((game, i) => (
                   <ScheduleGameCard key={i} game={game} results={results} />

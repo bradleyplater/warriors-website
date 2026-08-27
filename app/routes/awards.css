@@ -81,5 +81,5 @@
 
 @media (max-width: 640px) {
   .aw-grid-1, .aw-grid-2, .aw-grid-3, .aw-grid-4 { max-width: 100%; }
-  .aw-grid-1, .aw-grid-2, .aw-grid-3, .aw-grid-4, .aw-grid-5 { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+  .aw-grid-1, .aw-grid-2, .aw-grid-3, .aw-grid-4, .aw-grid-5 { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 140px), 1fr)); }
 }

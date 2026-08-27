@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import type { Route } from "./+types/roster";
 import { getPlayers, getResults, getRosterConfig } from "~/data/client";
 import { SectionHead } from "~/components/ds/SectionHead";
+import { Stripe } from "~/components/ds/Stripe";
 import "./roster.css";
 
 export function meta({}: Route.MetaArgs) {
@@ -39,10 +40,16 @@ type Player = {
 type ResultGame = {
   season: string;
   netminderPlayerId: string;
-  score: { opponentScore: number };
+  score: { warriorsScore: number; opponentScore: number };
 };
 
-type GoalieSeasonStat = { games: number; goalsAgainst: number };
+type GoalieSeasonStat = {
+  games: number;
+  goalsAgainst: number;
+  wins: number;
+  losses: number;
+  draws: number;
+};
 type GoalieStatsMap = Record<string, Record<string, GoalieSeasonStat>>;
 
 // ── Build goalie stats from results ─────────────────────────────────────────
@@ -54,24 +61,41 @@ export function buildGoalieStatsMap(results: ResultGame[]): GoalieStatsMap {
     if (!id || id === "MISSING") continue;
     if (!map[id]) map[id] = {};
     const s = game.season;
-    if (!map[id][s]) map[id][s] = { games: 0, goalsAgainst: 0 };
-    map[id][s].games++;
-    map[id][s].goalsAgainst += game.score.opponentScore;
+    if (!map[id][s]) map[id][s] = { games: 0, goalsAgainst: 0, wins: 0, losses: 0, draws: 0 };
+    const season = map[id][s];
+    season.games++;
+    season.goalsAgainst += game.score.opponentScore;
+    if (game.score.warriorsScore > game.score.opponentScore) season.wins++;
+    else if (game.score.warriorsScore < game.score.opponentScore) season.losses++;
+    else season.draws++;
   }
   return map;
 }
 
-function getCareerGoalieStats(playerId: string, goalieStatsMap: GoalieStatsMap) {
+type GoalieCareer = {
+  games: number;
+  goalsAgainst: number;
+  wins: number;
+  losses: number;
+  draws: number;
+  gaa: number;
+};
+
+function getCareerGoalieStats(playerId: string, goalieStatsMap: GoalieStatsMap): GoalieCareer | null {
   const seasons = goalieStatsMap[playerId];
   if (!seasons) return null;
-  let games = 0;
-  let goalsAgainst = 0;
-  for (const s of Object.values(seasons)) {
-    games += s.games;
-    goalsAgainst += s.goalsAgainst;
-  }
-  const gaa = games > 0 ? goalsAgainst / games : 0;
-  return { games, goalsAgainst, gaa };
+  const totals = Object.values(seasons).reduce(
+    (acc, s) => ({
+      games: acc.games + s.games,
+      goalsAgainst: acc.goalsAgainst + s.goalsAgainst,
+      wins: acc.wins + s.wins,
+      losses: acc.losses + s.losses,
+      draws: acc.draws + s.draws,
+    }),
+    { games: 0, goalsAgainst: 0, wins: 0, losses: 0, draws: 0 }
+  );
+  const gaa = totals.games > 0 ? totals.goalsAgainst / totals.games : 0;
+  return { ...totals, gaa };
 }
 
 function getTotalGoalieGames(playerId: string, goalieStatsMap: GoalieStatsMap): number {
@@ -119,15 +143,6 @@ const isForward = (p: Player) => includesPosition(p.position, "forward");
 const isDefence = (p: Player) => includesPosition(p.position, "defence");
 const isGoalie = (p: Player) =>
   includesPosition(p.position, "goaltender") || includesPosition(p.position, "goalie");
-const isDualRole = (p: Player) =>
-  p.position.toLowerCase().split(/[\s/,]+/).filter(Boolean).length > 1;
-
-// ── Static data ──────────────────────────────────────────────────────────────
-
-const playerImageModules = import.meta.glob("/public/images/players/*.jpg", { eager: true });
-const PLAYER_IMAGE_IDS = new Set(
-  Object.keys(playerImageModules).map((path) => path.split("/").pop()!.replace(".jpg", ""))
-);
 
 type Tab = "active" | "previous" | "all";
 
@@ -139,7 +154,7 @@ function filterByTab(players: Player[], tab: Tab, activeIds: Set<string>): Playe
 
 type SortKey = "Number" | "Points" | "Goals" | "Name";
 
-function sortPlayers(players: Player[], sort: SortKey, goalieStatsMap: GoalieStatsMap): Player[] {
+function sortSkaters(players: Player[], sort: SortKey, goalieStatsMap: GoalieStatsMap): Player[] {
   const withTotals = players.map((p) => ({ p, career: getSkaterCareerTotals(p, goalieStatsMap) }));
   withTotals.sort((a, b) => {
     if (sort === "Name") return a.p.name.localeCompare(b.p.name);
@@ -150,116 +165,72 @@ function sortPlayers(players: Player[], sort: SortKey, goalieStatsMap: GoalieSta
   return withTotals.map((x) => x.p);
 }
 
-// ── Components ───────────────────────────────────────────────────────────────
-
-function SilhouetteFallback() {
-  return (
-    <div className="roster-card-photo-fallback">
-      <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="32" r="22" fill="currentColor" />
-        <path d="M10 120 C10 80 90 80 90 120Z" fill="currentColor" />
-      </svg>
-    </div>
-  );
+// Points and Goals mean nothing for a netminder, so those sorts fall back to
+// squad number — the order keepers are listed in on a game sheet.
+function sortGoalies(players: Player[], sort: SortKey): Player[] {
+  return players
+    .slice()
+    .sort((a, b) => (sort === "Name" ? a.name.localeCompare(b.name) : a.number - b.number));
 }
 
-function SkaterCard({
-  player,
-  showDualBadge,
-  goalieStatsMap,
-}: {
-  player: Player;
-  showDualBadge?: boolean;
-  goalieStatsMap: GoalieStatsMap;
-}) {
-  const career = getSkaterCareerTotals(player, goalieStatsMap);
-  const hasImage = PLAYER_IMAGE_IDS.has(player.id);
-  const dual = showDualBadge && isDualRole(player);
+// ── Row rendering ────────────────────────────────────────────────────────────
 
-  return (
-    <Link to={`/roster/${player.id}`} className="roster-card">
-      <div className="roster-card-photo">
-        {hasImage ? (
-          <img src={`/images/players/${player.id}.jpg`} alt={player.name} loading="lazy" />
-        ) : (
-          <SilhouetteFallback />
-        )}
-        <span className="roster-card-number">#{player.number}</span>
-        {dual && <span className="roster-card-dual">{player.position}</span>}
-      </div>
-      <div className="roster-card-info">
-        <div className="roster-card-name">{player.name}</div>
-        {player.nickname && <div className="roster-card-nickname">"{player.nickname}"</div>}
-        <div className="roster-card-stats">
-          <div className="roster-card-stat">
-            <span className="roster-card-stat-value">{career.games}</span>
-            <span className="roster-card-stat-label">GP</span>
-          </div>
-          <div className="roster-card-stat">
-            <span className="roster-card-stat-value">{career.goals}</span>
-            <span className="roster-card-stat-label">G</span>
-          </div>
-          <div className="roster-card-stat">
-            <span className="roster-card-stat-value">{career.assists}</span>
-            <span className="roster-card-stat-label">A</span>
-          </div>
-          <div className="roster-card-stat">
-            <span className="roster-card-stat-value">{career.points}</span>
-            <span className="roster-card-stat-label">PTS</span>
-          </div>
-        </div>
-      </div>
-    </Link>
-  );
+type StatCell = { k: string; v: string | number; strong?: boolean };
+
+const SKATER_LEGEND = "GP · G · A · PTS · PIM";
+const GOALIE_LEGEND = "GP · W · L · D · GAA";
+
+function skaterStatCells(career: CareerTotals): StatCell[] {
+  return [
+    { k: "GP", v: career.games },
+    { k: "G", v: career.goals },
+    { k: "A", v: career.assists },
+    { k: "PTS", v: career.points, strong: true },
+    { k: "PIM", v: career.pims },
+  ];
 }
 
-function GoalieCard({
-  player,
-  showDualBadge,
-  goalieStatsMap,
-}: {
-  player: Player;
-  showDualBadge?: boolean;
-  goalieStatsMap: GoalieStatsMap;
-}) {
-  const goalie = getCareerGoalieStats(player.id, goalieStatsMap);
-  const hasImage = PLAYER_IMAGE_IDS.has(player.id);
-  const dual = showDualBadge && isDualRole(player);
+function goalieStatCells(career: GoalieCareer): StatCell[] {
+  return [
+    { k: "GP", v: career.games },
+    { k: "W", v: career.wins },
+    { k: "L", v: career.losses },
+    { k: "D", v: career.draws },
+    { k: "GAA", v: career.gaa.toFixed(2), strong: true },
+  ];
+}
 
-  if (!goalie) {
-    return <SkaterCard player={player} showDualBadge={showDualBadge} goalieStatsMap={goalieStatsMap} />;
-  }
-
+function PlayerRow({ player, stats }: { player: Player; stats: StatCell[] }) {
   return (
-    <Link to={`/roster/${player.id}`} className="roster-card roster-card-goalie">
-      <div className="roster-card-photo">
-        {hasImage ? (
-          <img src={`/images/players/${player.id}.jpg`} alt={player.name} loading="lazy" />
-        ) : (
-          <SilhouetteFallback />
-        )}
-        <span className="roster-card-number">#{player.number}</span>
-        {dual && <span className="roster-card-dual">{player.position}</span>}
-      </div>
-      <div className="roster-card-info">
-        <div className="roster-card-name">{player.name}</div>
-        {player.nickname && <div className="roster-card-nickname">"{player.nickname}"</div>}
-        <div className="roster-card-stats roster-card-stats-goalie">
-          <div className="roster-card-stat">
-            <span className="roster-card-stat-value">{goalie.games}</span>
-            <span className="roster-card-stat-label">GP</span>
-          </div>
-          <div className="roster-card-stat">
-            <span className="roster-card-stat-value">{goalie.goalsAgainst}</span>
-            <span className="roster-card-stat-label">GA</span>
-          </div>
-          <div className="roster-card-stat">
-            <span className="roster-card-stat-value">{goalie.gaa.toFixed(2)}</span>
-            <span className="roster-card-stat-label">GAA</span>
-          </div>
+    <li className="roster-row">
+      <Link to={`/roster/${player.id}`} className="roster-row-main">
+        <span aria-hidden="true" className="t-display roster-row-number">
+          {player.number}
+        </span>
+        <div className="roster-row-copy">
+          <span className="t-heading roster-row-name">{player.name}</span>
+          <span className="t-label roster-row-meta">
+            #{player.number} · {player.position}
+            {player.nickname ? ` · “${player.nickname}”` : ""}
+          </span>
         </div>
-      </div>
-    </Link>
+      </Link>
+      {/* column-reverse in CSS puts the value above its label while keeping the
+          spec-required dt-before-dd order in the markup. */}
+      <dl className="roster-row-stats">
+        {stats.map((stat) => (
+          <div key={stat.k} className="roster-row-stat">
+            <dt className="t-label roster-row-stat-label">{stat.k}</dt>
+            <dd
+              className="t-data roster-row-stat-value"
+              data-strong={stat.strong ? "true" : undefined}
+            >
+              {stat.v}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </li>
   );
 }
 
@@ -280,17 +251,22 @@ function RosterSection({
     <section className="roster-section">
       <div className="roster-section-header">
         <h2 className="t-heading roster-section-title">{title}</h2>
-        <span className="t-label roster-section-count">{players.length} players</span>
+        <span className="t-label roster-section-count">
+          {players.length} {players.length === 1 ? "player" : "players"} ·{" "}
+          {variant === "goalie" ? GOALIE_LEGEND : SKATER_LEGEND}
+        </span>
       </div>
-      <div className="roster-grid">
-        {players.map((player) =>
-          variant === "goalie" ? (
-            <GoalieCard key={player.id} player={player} showDualBadge goalieStatsMap={goalieStatsMap} />
-          ) : (
-            <SkaterCard key={player.id} player={player} showDualBadge goalieStatsMap={goalieStatsMap} />
-          )
-        )}
-      </div>
+      <ul className="roster-list">
+        {players.map((player) => {
+          // A keeper with no recorded netminder appearances has nothing to show
+          // in the goalie columns, so fall back to their skater line.
+          const goalie = variant === "goalie" ? getCareerGoalieStats(player.id, goalieStatsMap) : null;
+          const stats = goalie
+            ? goalieStatCells(goalie)
+            : skaterStatCells(getSkaterCareerTotals(player, goalieStatsMap));
+          return <PlayerRow key={player.id} player={player} stats={stats} />;
+        })}
+      </ul>
     </section>
   );
 }
@@ -306,13 +282,24 @@ export default function Roster({ loaderData }: Route.ComponentProps) {
   const [sort, setSort] = useState<SortKey>("Number");
 
   const filtered = filterByTab(allPlayers, activeTab, activeIds);
-  const forwards = sortPlayers(filtered.filter(isForward), sort, goalieStatsMap);
-  const defence = sortPlayers(filtered.filter(isDefence), sort, goalieStatsMap);
-  const goalies = filtered.filter(isGoalie).sort((a, b) => a.number - b.number);
+  const forwards = sortSkaters(filtered.filter(isForward), sort, goalieStatsMap);
+  const defence = sortSkaters(filtered.filter(isDefence), sort, goalieStatsMap);
+  const goalies = sortGoalies(filtered.filter(isGoalie), sort);
 
   const skaters = filtered.filter((p) => !isGoalie(p));
-  const totalGoals = skaters.reduce((n, p) => n + getSkaterCareerTotals(p, goalieStatsMap).goals, 0);
-  const totalAssists = skaters.reduce((n, p) => n + getSkaterCareerTotals(p, goalieStatsMap).assists, 0);
+  const skaterCareers = skaters.map((p) => getSkaterCareerTotals(p, goalieStatsMap));
+  const totalGoals = skaterCareers.reduce((n, c) => n + c.goals, 0);
+  const totalAssists = skaterCareers.reduce((n, c) => n + c.assists, 0);
+  const totalPims = skaterCareers.reduce((n, c) => n + c.pims, 0);
+
+  const squadStats = [
+    { k: "Players", v: filtered.length },
+    { k: "Skaters", v: skaters.length },
+    { k: "Goaltenders", v: goalies.length },
+    { k: "Goals for", v: totalGoals },
+    { k: "Assists", v: totalAssists },
+    { k: "Penalty minutes", v: totalPims },
+  ];
 
   const tabs: { id: Tab; label: string }[] = [
     { id: "active", label: "Active" },
@@ -323,35 +310,25 @@ export default function Roster({ loaderData }: Route.ComponentProps) {
   return (
     <div className="roster-page">
       <div className="roster-intro">
-        <SectionHead eyebrow="Peterborough Warriors" title="Roster">
-          Career statistics for all Warriors players. A player must be registered with England Ice Hockey before taking the ice.
+        <SectionHead eyebrow="EIH Recreational League South, Div 2" title="Roster">
+          Career statistics for every player who has pulled on a Warriors shirt. A player must be
+          registered with England Ice Hockey before taking the ice.
         </SectionHead>
         <div className="roster-stat-strip">
-          <div>
-            <span className="roster-stat-value">{filtered.length}</span>
-            <div className="t-label muted">Players</div>
-          </div>
-          <div>
-            <span className="roster-stat-value">{skaters.length}</span>
-            <div className="t-label muted">Skaters</div>
-          </div>
-          <div>
-            <span className="roster-stat-value">{goalies.length}</span>
-            <div className="t-label muted">Goaltenders</div>
-          </div>
-          <div>
-            <span className="roster-stat-value">{totalGoals}</span>
-            <div className="t-label muted">Goals for</div>
-          </div>
-          <div>
-            <span className="roster-stat-value">{totalAssists}</span>
-            <div className="t-label muted">Assists</div>
-          </div>
+          {squadStats.map((stat) => (
+            <div key={stat.k} className="roster-stat">
+              <span className="roster-stat-value">{stat.v}</span>
+              <span className="t-label muted">{stat.k}</span>
+            </div>
+          ))}
         </div>
       </div>
 
-      <div className="roster-body">
+      <Stripe />
+
+      <section className="roster-body">
         <div className="roster-controls" role="group" aria-label="Roster filters">
+          <span className="t-label roster-controls-label">Show</span>
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -375,17 +352,41 @@ export default function Roster({ loaderData }: Route.ComponentProps) {
               {s}
             </button>
           ))}
-          <span className="t-data roster-controls-count">{filtered.length} players</span>
+          <span className="t-data roster-controls-count">
+            {filtered.length} {filtered.length === 1 ? "player" : "players"}
+          </span>
         </div>
 
-        <RosterSection title="Goaltenders" players={goalies} variant="goalie" goalieStatsMap={goalieStatsMap} />
-        <RosterSection title="Defence" players={defence} variant="skater" goalieStatsMap={goalieStatsMap} />
-        <RosterSection title="Forwards" players={forwards} variant="skater" goalieStatsMap={goalieStatsMap} />
+        {filtered.length === 0 ? (
+          <p className="roster-empty">No players to show.</p>
+        ) : (
+          <>
+            <RosterSection title="Goaltenders" players={goalies} variant="goalie" goalieStatsMap={goalieStatsMap} />
+            <RosterSection title="Defence" players={defence} variant="skater" goalieStatsMap={goalieStatsMap} />
+            <RosterSection title="Forwards" players={forwards} variant="skater" goalieStatsMap={goalieStatsMap} />
+          </>
+        )}
 
         <div className="roster-footer-note">
-          <p>Select a player for their profile and season-by-season scoring. Squad numbers are held for the season.</p>
+          <p className="roster-footer-note-text">
+            Select a player for their profile and season-by-season scoring. Squad numbers are held
+            for the season. Players listed under more than one position appear in each section.
+          </p>
+          <div className="roster-footer-note-actions">
+            <a
+              className="ds-btn ds-btn-primary ds-btn-md"
+              href="https://www.facebook.com/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Join the squad
+            </a>
+            <Link to="/stats" className="ds-btn ds-btn-secondary ds-btn-md">
+              Full season stats
+            </Link>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

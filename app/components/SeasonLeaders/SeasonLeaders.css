@@ -1,4 +1,4 @@
-.sl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(272px, 1fr)); gap: var(--wr-space-6); }
+.sl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 272px), 1fr)); gap: var(--wr-space-6); }
 
 .sl-panel {
   background: var(--e1-bg);
