@@ -1,0 +1,179 @@
+/* Shared design-system primitives — Button, Badge, Card, SectionHead, Stripe, DataTable, StatGrid. */
+
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--wr-space-2);
+  font-family: var(--wr-font-body);
+  font-variation-settings: 'wdth' var(--wr-w-condensed), 'wght' 600;
+  letter-spacing: var(--wr-ls-caps);
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: var(--wr-radius-sm);
+  border-width: var(--wr-bw-hair);
+  border-style: solid;
+  cursor: pointer;
+  transition: all var(--wr-dur-fast) var(--wr-ease);
+}
+.ds-btn-sm { padding: var(--wr-space-1) var(--wr-space-3); font-size: var(--wr-text-micro); }
+.ds-btn-md { padding: var(--wr-space-2) var(--wr-space-4); font-size: var(--wr-text-sm); }
+.ds-btn-lg { padding: var(--wr-space-3) var(--wr-space-6); font-size: var(--wr-text-body-sm); }
+
+.ds-btn-primary { background: var(--action-bg); color: var(--action-fg); border-color: transparent; }
+.ds-btn-primary:hover:not(:disabled) { background: var(--action-hover); }
+.ds-btn-secondary { background: transparent; color: var(--fg-primary); border-color: var(--border-functional); }
+.ds-btn-secondary:hover:not(:disabled) { background: var(--bg-hover); }
+.ds-btn-ghost { background: transparent; color: var(--fg-secondary); border-color: transparent; }
+.ds-btn-ghost:hover:not(:disabled) { background: var(--bg-hover); color: var(--fg-primary); }
+.ds-btn-danger { background: var(--st-danger-icon); color: #FFFFFF; border-color: transparent; }
+.ds-btn-danger:hover:not(:disabled) { filter: brightness(1.1); }
+.ds-btn:disabled { background: var(--bg-disabled); color: var(--fg-disabled); border-color: transparent; cursor: not-allowed; }
+
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--wr-space-1);
+  font-family: var(--wr-font-body);
+  font-variation-settings: 'wdth' var(--wr-w-condensed), 'wght' 600;
+  font-size: var(--wr-text-micro);
+  letter-spacing: var(--wr-ls-label);
+  text-transform: uppercase;
+  padding: var(--wr-space-1) var(--wr-space-2);
+  border-radius: var(--wr-radius-xs);
+  border: var(--wr-bw-hair) solid;
+  white-space: nowrap;
+}
+.ds-badge-success { background: var(--st-success-surface); color: var(--st-success-fg); border-color: var(--st-success-border); }
+.ds-badge-warning { background: var(--st-warning-surface); color: var(--st-warning-fg); border-color: var(--st-warning-border); }
+.ds-badge-danger { background: var(--st-danger-surface); color: var(--st-danger-fg); border-color: var(--st-danger-border); }
+.ds-badge-info { background: var(--st-info-surface); color: var(--st-info-fg); border-color: var(--st-info-border); }
+.ds-badge-neutral { background: var(--bg-sunken); color: var(--fg-secondary); border-color: var(--border-hairline); }
+
+.ds-card {
+  border: var(--wr-bw-hair) solid var(--border-hairline);
+  border-radius: var(--wr-radius-md);
+  padding: var(--wr-space-6);
+}
+.ds-card-e1 { background: var(--e1-bg); box-shadow: var(--e1); }
+.ds-card-e2 { background: var(--e2-bg); box-shadow: var(--e2); }
+.ds-card-e3 { background: var(--e3-bg); box-shadow: var(--e3); }
+.ds-card-flush { padding: 0; overflow: hidden; }
+
+.ds-section-head { margin-bottom: var(--wr-space-8); }
+.ds-section-head-eyebrow { color: var(--fg-secondary); display: block; margin-bottom: var(--wr-space-2); }
+.ds-section-head-title { font-size: var(--wr-text-h1); }
+.ds-section-head-body { max-width: var(--wr-measure); margin: var(--wr-space-3) 0 0; color: var(--fg-secondary); }
+
+.ds-stripe {
+  border-top: var(--wr-bw-heavy) solid var(--stripe);
+  border-bottom: var(--wr-bw-heavy) solid var(--stripe);
+  height: var(--wr-bw-thick);
+  background: var(--stripe-mid);
+  background-clip: content-box;
+  padding-block: var(--wr-bw-thick);
+  margin: 0;
+}
+
+.ds-table { width: 100%; border-collapse: collapse; font-size: var(--wr-text-body-sm); }
+.ds-table th {
+  background: var(--bg-sunken);
+  color: var(--fg-secondary);
+  font-family: var(--wr-font-body);
+  font-variation-settings: 'wdth' var(--wr-w-condensed), 'wght' 600;
+  font-size: var(--wr-text-micro);
+  letter-spacing: var(--wr-ls-label);
+  text-transform: uppercase;
+  padding: var(--wr-space-3);
+  border-bottom: var(--wr-bw-hair) solid var(--border-hairline);
+  text-align: left;
+  cursor: default;
+}
+.ds-table th[data-align="right"] { text-align: right; }
+.ds-table th[data-sortable="true"] { cursor: pointer; user-select: none; }
+.ds-table th[data-sortable="true"]:hover { color: var(--fg-primary); }
+.ds-table td {
+  padding: var(--wr-space-3);
+  border-bottom: var(--wr-bw-hair) solid var(--border-hairline);
+}
+.ds-table td[data-numeric="true"] { font-family: var(--wr-font-mono); font-variant-numeric: tabular-nums; }
+.ds-table td[data-align="right"] { text-align: right; }
+.ds-table td[data-strong="true"] { font-variation-settings: 'wght' 700; }
+.ds-table tbody tr:hover { background: var(--bg-hover); }
+
+.ds-statgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 120px), 1fr)); gap: var(--wr-space-5); }
+.ds-statgrid-item { display: flex; flex-direction: column; gap: var(--wr-space-1); }
+.ds-statgrid-value {
+  font-family: var(--wr-font-display);
+  font-variation-settings: 'wdth' var(--wr-w-expanded), 'wght' 900;
+  font-size: 1.75rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.ds-statgrid-unit { font-size: .9rem; font-variation-settings: 'wght' 700; color: var(--fg-secondary); }
+
+.ds-chip {
+  cursor: pointer;
+  padding: var(--wr-space-2) var(--wr-space-4);
+  border-radius: var(--wr-radius-sm);
+  border: var(--wr-bw-hair) solid var(--border-functional);
+  background: transparent;
+  color: var(--fg-secondary);
+}
+.ds-chip[aria-pressed="true"] {
+  background: var(--fg-primary);
+  color: var(--bg-page);
+  border-color: var(--fg-primary);
+}
+
+/* BarChart — one series stays monochrome in --series-1; charts sit on the
+   sunken surface at 6px radius. Figures stay off the bars (hover title only). */
+.ds-barchart {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--wr-space-3);
+  padding: var(--wr-space-4);
+  background: var(--bg-sunken);
+  border-radius: var(--wr-radius-md);
+}
+.ds-barchart-col {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--wr-space-2);
+}
+/* The bars size against this box rather than the column, so the label below
+   keeps its room however tall the tallest bar is. */
+.ds-barchart-plot {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--wr-space-1);
+}
+.ds-barchart-bar { flex: none; min-height: 2px; border-radius: var(--wr-radius-xs) var(--wr-radius-xs) 0 0; }
+.ds-barchart-value {
+  flex: none;
+  font-family: var(--wr-font-mono);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-size: .75rem;
+  line-height: 1;
+  text-align: center;
+}
+.ds-barchart-label {
+  font-family: var(--wr-font-body);
+  font-variation-settings: 'wdth' var(--wr-w-condensed), 'wght' 600;
+  font-size: .625rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--fg-secondary);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

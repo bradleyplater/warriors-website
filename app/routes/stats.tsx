@@ -1,13 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router";
-import { LinePath } from "@visx/shape";
-import { scaleLinear } from "@visx/scale";
-import { AxisBottom, AxisLeft } from "@visx/axis";
-import { GridRows } from "@visx/grid";
-import { Group } from "@visx/group";
-import { curveMonotoneX } from "@visx/curve";
 import type { Route } from "./+types/stats";
 import { getPlayers, getResults } from "~/data/client";
+import { BarChart } from "~/components/ds/BarChart";
+import { Button } from "~/components/ds/Button";
+import { DataTable, type DataTableColumn } from "~/components/ds/DataTable";
+import { SectionHead } from "~/components/ds/SectionHead";
+import { Stripe } from "~/components/ds/Stripe";
 import "./stats.css";
 
 export function meta() {
@@ -24,9 +23,9 @@ export async function clientLoader() {
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-type GoalEntry = { playerId: string; assists: string[] };
+type GoalEntry = { playerId: string; assists?: string[] };
 type PenaltyEntry = { offender: string; duration: number };
-type PeriodData = { goals: GoalEntry[]; penalties: PenaltyEntry[] };
+type PeriodData = { goals?: GoalEntry[]; penalties?: PenaltyEntry[] };
 
 type RawResult = {
   season: string;
@@ -37,17 +36,15 @@ type RawResult = {
   manOfTheMatchPlayerId: string;
   warriorOfTheGamePlayerId: string;
   score: {
+    warriorsScore: number;
     opponentScore: number;
-    period: { one: PeriodData; two: PeriodData; three: PeriodData };
+    period?: { one?: PeriodData; two?: PeriodData; three?: PeriodData };
   };
 };
 
 type PlayerInfo = { id: string; name: string; number: number; position: string };
 
-type StatEntry = { gp: number; goals: number; assists: number; pims: number; motm: number; wotg: number };
-type GoalieEntry = { gp: number; ga: number };
-
-type PlayerStatRow = {
+type SkaterRow = {
   playerId: string;
   name: string;
   number: number;
@@ -62,903 +59,862 @@ type PlayerStatRow = {
   wotg: number;
 };
 
-type GoalieStatRow = {
+type GoalieRow = {
   playerId: string;
   name: string;
   number: number;
   gp: number;
+  w: number;
+  l: number;
+  d: number;
   ga: number;
   gaa: number;
+  so: number;
 };
 
-type PlayerSortField = "name" | "number" | "gp" | "goals" | "assists" | "points" | "ppg" | "pims" | "motm" | "wotg";
-type GoalieSortField = "name" | "number" | "gp" | "ga" | "gaa";
+type SkaterSort = keyof Pick<
+  SkaterRow,
+  "name" | "number" | "gp" | "goals" | "assists" | "points" | "ppg" | "pims" | "motm" | "wotg"
+>;
+type GoalieSort = keyof Pick<
+  GoalieRow,
+  "name" | "number" | "gp" | "w" | "l" | "d" | "ga" | "gaa" | "so"
+>;
 type SortDir = "asc" | "desc";
-type StatType = "goals" | "assists" | "points" | "pims";
+type Metric = "points" | "goals" | "assists" | "pims";
 
-// ── Derived stats data (computed once per loaded results/players pair) ────────
-// playerStats[playerId][season][competition] = StatEntry (skater, excludes netminder games)
-// goalieStats[playerId][season][competition] = GoalieEntry
+/** Sentinel season value for the "All time" chip. */
+const ALL_TIME = "All";
 
-type StatsData = {
+// ── Preparation ───────────────────────────────────────────────────────────────
+
+type Prepared = {
+  games: RawResult[]; // chronological, oldest first
   playerInfoMap: Map<string, PlayerInfo>;
-  playerStats: Record<string, Record<string, Record<string, StatEntry>>>;
-  goalieStats: Record<string, Record<string, Record<string, GoalieEntry>>>;
-  sortedSeasons: string[];
-  sortedCompetitions: string[];
-  chronologicalResults: (RawResult & { date: string })[];
+  seasons: string[]; // newest first
+  competitions: string[];
 };
 
-function computeStatsData(allResults: RawResult[], players: PlayerInfo[]): StatsData {
-  const playerInfoMap = new Map<string, PlayerInfo>(players.map((p) => [p.id, p]));
+function prepare(results: RawResult[], players: PlayerInfo[]): Prepared {
+  const playerInfoMap = new Map(players.map((p) => [p.id, p]));
 
-  const playerStats: Record<string, Record<string, Record<string, StatEntry>>> = {};
-  const goalieStats: Record<string, Record<string, Record<string, GoalieEntry>>> = {};
-  const allSeasons = new Set<string>();
-  const allCompetitions = new Set<string>();
-
-  for (const result of allResults) {
-  const season = result.season || "Unknown";
-  const competition = result.competition || "Unknown";
-  const netminder = result.netminderPlayerId;
-
-  allSeasons.add(season);
-  allCompetitions.add(competition);
-
-  // Goalie stats
-  if (netminder && netminder !== "MISSING") {
-    if (!goalieStats[netminder]) goalieStats[netminder] = {};
-    if (!goalieStats[netminder][season]) goalieStats[netminder][season] = {};
-    if (!goalieStats[netminder][season][competition]) {
-      goalieStats[netminder][season][competition] = { gp: 0, ga: 0 };
-    }
-    goalieStats[netminder][season][competition].gp++;
-    goalieStats[netminder][season][competition].ga += result.score.opponentScore;
-  }
-
-  // Skater stats — exclude the netminder from this game's skater tally
-  if (!Array.isArray(result.roster)) continue;
-
-  const periods = [result.score.period.one, result.score.period.two, result.score.period.three];
-
-  for (const playerId of result.roster) {
-    if (netminder && netminder !== "MISSING" && playerId === netminder) continue;
-
-    const goals = periods.reduce((s, p) => s + p.goals.filter((g) => g.playerId === playerId).length, 0);
-    const assists = periods.reduce((s, p) => s + p.goals.filter((g) => g.assists.includes(playerId)).length, 0);
-    const pims = periods
-      .flatMap((p) => p.penalties)
-      .filter((pen) => pen.offender === playerId)
-      .reduce((s, pen) => s + pen.duration, 0);
-    const motm = result.manOfTheMatchPlayerId === playerId ? 1 : 0;
-    const wotg = result.warriorOfTheGamePlayerId === playerId ? 1 : 0;
-
-    if (!playerStats[playerId]) playerStats[playerId] = {};
-    if (!playerStats[playerId][season]) playerStats[playerId][season] = {};
-    if (!playerStats[playerId][season][competition]) {
-      playerStats[playerId][season][competition] = { gp: 0, goals: 0, assists: 0, pims: 0, motm: 0, wotg: 0 };
-    }
-    const e = playerStats[playerId][season][competition];
-    e.gp++;
-    e.goals += goals;
-    e.assists += assists;
-    e.pims += pims;
-    e.motm += motm;
-    e.wotg += wotg;
-  }
-}
-
-  const sortedSeasons = Array.from(allSeasons).sort(
-    (a, b) => parseInt(b.split("/")[0], 10) - parseInt(a.split("/")[0], 10)
-  );
-  const sortedCompetitions = Array.from(allCompetitions).sort();
-
-  const chronologicalResults = (allResults as (RawResult & { date: string })[])
-    .filter((r) => Array.isArray(r.roster) && r.roster.length > 0)
+  const games = results
+    .filter((r) => r?.score && Array.isArray(r.roster) && r.roster.length > 0)
+    .slice()
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-  return {
-    playerInfoMap,
-    playerStats,
-    goalieStats,
-    sortedSeasons,
-    sortedCompetitions,
-    chronologicalResults,
-  };
+  const seasons = Array.from(new Set(games.map((g) => g.season || "Unknown"))).sort(
+    (a, b) => parseInt(b.split("/")[0], 10) - parseInt(a.split("/")[0], 10)
+  );
+  const competitions = Array.from(new Set(games.map((g) => g.competition || "Unknown"))).sort();
+
+  return { games, playerInfoMap, seasons, competitions };
 }
 
-// ── Chart constants ───────────────────────────────────────────────────────────
+function periodsOf(game: RawResult): PeriodData[] {
+  const p = game.score.period;
+  return p ? ([p.one, p.two, p.three].filter(Boolean) as PeriodData[]) : [];
+}
 
-const PALETTE = [
-  "#3b82f6", "#f59e0b", "#10b981", "#ef4444", "#8b5cf6",
-  "#f97316", "#06b6d4", "#ec4899", "#84cc16", "#6366f1",
-  "#14b8a6", "#f43f5e", "#a78bfa", "#34d399", "#fb923c",
-];
-const CHART_MARGIN = { top: 20, right: 155, bottom: 48, left: 52 };
-const CHART_TOTAL_H = 480;
+/** "MISSING" is the pipeline's null — treat it as no netminder recorded. */
+function netminderOf(game: RawResult): string | null {
+  const n = game.netminderPlayerId;
+  return n && n !== "MISSING" ? n : null;
+}
 
-const STAT_OPTIONS: { value: StatType; label: string; axisLabel: string }[] = [
-  { value: "goals",   label: "Goals",   axisLabel: "Goals" },
-  { value: "assists", label: "Assists", axisLabel: "Assists" },
-  { value: "points",  label: "Points",  axisLabel: "Points" },
-  { value: "pims",    label: "PIMs",    axisLabel: "Penalty Mins" },
-];
-
-// ── Aggregation helpers ───────────────────────────────────────────────────────
-
-function aggregatePlayer(
-  playerStats: StatsData["playerStats"],
-  playerId: string,
-  season: string,
-  comp: string
-): StatEntry {
-  const out: StatEntry = { gp: 0, goals: 0, assists: 0, pims: 0, motm: 0, wotg: 0 };
-  const bySeasons = playerStats[playerId];
-  if (!bySeasons) return out;
-  for (const [s, byComp] of Object.entries(bySeasons)) {
-    if (season !== "All" && s !== season) continue;
-    for (const [c, e] of Object.entries(byComp)) {
-      if (comp !== "All" && c !== comp) continue;
-      out.gp += e.gp;
-      out.goals += e.goals;
-      out.assists += e.assists;
-      out.pims += e.pims;
-      out.motm += e.motm;
-      out.wotg += e.wotg;
+function tallyInGame(game: RawResult, playerId: string) {
+  let goals = 0;
+  let assists = 0;
+  let pims = 0;
+  for (const period of periodsOf(game)) {
+    for (const goal of period.goals ?? []) {
+      if (goal.playerId === playerId) goals++;
+      if (goal.assists?.includes(playerId)) assists++;
+    }
+    for (const pen of period.penalties ?? []) {
+      if (pen.offender === playerId) pims += pen.duration;
     }
   }
-  return out;
+  return { goals, assists, pims };
 }
 
-function aggregateGoalie(
-  goalieStats: StatsData["goalieStats"],
-  playerId: string,
-  season: string,
-  comp: string
-): GoalieEntry {
-  const out: GoalieEntry = { gp: 0, ga: 0 };
-  const bySeasons = goalieStats[playerId];
-  if (!bySeasons) return out;
-  for (const [s, byComp] of Object.entries(bySeasons)) {
-    if (season !== "All" && s !== season) continue;
-    for (const [c, e] of Object.entries(byComp)) {
-      if (comp !== "All" && c !== comp) continue;
-      out.gp += e.gp;
-      out.ga += e.ga;
+/** Skater and goaltending tables for one filtered set of games, in one pass. */
+function buildRows(games: RawResult[], playerInfoMap: Map<string, PlayerInfo>) {
+  const skaterMap = new Map<string, SkaterRow>();
+  const goalieMap = new Map<string, GoalieRow>();
+
+  for (const game of games) {
+    const net = netminderOf(game);
+    const info = net ? playerInfoMap.get(net) : undefined;
+
+    if (net && info) {
+      const row =
+        goalieMap.get(net) ??
+        { playerId: net, name: info.name, number: info.number, gp: 0, w: 0, l: 0, d: 0, ga: 0, gaa: 0, so: 0 };
+      row.gp++;
+      row.ga += game.score.opponentScore;
+      if (game.score.warriorsScore > game.score.opponentScore) row.w++;
+      else if (game.score.warriorsScore < game.score.opponentScore) row.l++;
+      else row.d++;
+      if (game.score.opponentScore === 0) row.so++;
+      goalieMap.set(net, row);
+    }
+
+    // The netminder is excluded from this game's skater tally.
+    for (const playerId of game.roster) {
+      if (playerId === net) continue;
+      const skater = playerInfoMap.get(playerId);
+      if (!skater) continue;
+
+      const row =
+        skaterMap.get(playerId) ??
+        {
+          playerId,
+          name: skater.name,
+          number: skater.number,
+          position: skater.position,
+          gp: 0, goals: 0, assists: 0, points: 0, ppg: 0, pims: 0, motm: 0, wotg: 0,
+        };
+      const tally = tallyInGame(game, playerId);
+      row.gp++;
+      row.goals += tally.goals;
+      row.assists += tally.assists;
+      row.pims += tally.pims;
+      if (game.manOfTheMatchPlayerId === playerId) row.motm++;
+      if (game.warriorOfTheGamePlayerId === playerId) row.wotg++;
+      skaterMap.set(playerId, row);
     }
   }
-  return out;
+
+  const skaters = Array.from(skaterMap.values()).map((r) => ({
+    ...r,
+    points: r.goals + r.assists,
+    ppg: r.gp ? (r.goals + r.assists) / r.gp : 0,
+  }));
+  const goalies = Array.from(goalieMap.values()).map((r) => ({
+    ...r,
+    gaa: r.gp ? r.ga / r.gp : 0,
+  }));
+
+  return { skaters, goalies };
 }
 
-// ── Chart helpers ─────────────────────────────────────────────────────────────
+// ── Small helpers ─────────────────────────────────────────────────────────────
 
-type CumulativeChartResult = {
-  data: Record<string, number>[];
-  players: string[];
-  xMax: number;
-  xTickLabel: (v: number) => string;
-};
+const POS_SHORT: Record<string, string> = { Forward: "F", Defence: "D", Goaltender: "G" };
 
-/** Cumulative stat per player, one data point per season. X axis is numeric (0 = origin). */
-function buildSeasonCumulative(data: StatsData, minGP: number, stat: StatType = "goals"): CumulativeChartResult {
-  const { playerStats, playerInfoMap, sortedSeasons } = data;
-  const seasons = sortedSeasons.slice().reverse(); // chronological: oldest first
+/** "Forward / Defence" → "F/D". */
+function posAbbrev(position: string) {
+  return position
+    .split("/")
+    .map((part) => POS_SHORT[part.trim()] ?? part.trim().charAt(0).toUpperCase())
+    .join("/");
+}
 
-  const eligible = Object.keys(playerStats)
-    .map((id) => {
-      const info = playerInfoMap.get(id);
-      if (!info) return null;
-      const totalGP = Object.values(playerStats[id])
-        .flatMap(Object.values)
-        .reduce((s, e) => s + e.gp, 0);
-      return totalGP >= minGP ? { id, name: info.name } : null;
-    })
-    .filter((p): p is { id: string; name: string } => p !== null);
+function lastName(name: string) {
+  return name.trim().split(/\s+/).slice(-1)[0];
+}
 
-  // x=0 is the origin; seasons are x=1,2,3,...
-  const zeroRow: Record<string, number> = { season: 0 };
-  for (const p of eligible) zeroRow[p.name] = 0;
-
-  const cum: Record<string, number> = {};
-  const dataRows = seasons.map((season, i) => {
-    const row: Record<string, number> = { season: i + 1 };
-    for (const p of eligible) {
-      const s = aggregatePlayer(playerStats, p.id, season, "All");
-      const value =
-        stat === "goals"   ? s.goals :
-        stat === "assists"  ? s.assists :
-        stat === "points"   ? s.goals + s.assists :
-        /* pims */            s.pims;
-      cum[p.id] = (cum[p.id] ?? 0) + value;
-      row[p.name] = cum[p.id];
-    }
-    return row;
+function sortRows<T extends SkaterRow | GoalieRow>(rows: T[], key: keyof T, dir: SortDir): T[] {
+  return rows.slice().sort((a, b) => {
+    const av = a[key];
+    const bv = b[key];
+    const cmp =
+      typeof av === "string" && typeof bv === "string"
+        ? av.localeCompare(bv)
+        : (av as number) - (bv as number);
+    return dir === "asc" ? cmp : -cmp;
   });
-
-  // Build tick label map: 1 → "22/23", 2 → "23/24", etc.
-  const labelMap: Record<number, string> = {};
-  seasons.forEach((s, i) => { labelMap[i + 1] = s; });
-
-  return {
-    data: [zeroRow, ...dataRows],
-    players: eligible.map((p) => p.name),
-    xMax: seasons.length,
-    xTickLabel: (v) => labelMap[v] ?? "",
-  };
 }
 
-/** Cumulative stat per player, one data point per club game. X axis is numeric (0 = origin). */
-function buildGameCumulative(
-  data: StatsData,
-  minGP: number,
-  season: string = "All",
-  stat: StatType = "goals"
-): CumulativeChartResult {
-  const { chronologicalResults, playerInfoMap } = data;
-  const filteredResults = season === "All"
-    ? chronologicalResults
-    : chronologicalResults.filter((r) => r.season === season);
-
-  // Count skater GP within the filtered games to determine eligibility
-  const gpCount: Record<string, number> = {};
-  for (const result of filteredResults) {
-    const net = result.netminderPlayerId;
-    for (const id of result.roster) {
-      if (net && net !== "MISSING" && id === net) continue;
-      gpCount[id] = (gpCount[id] ?? 0) + 1;
-    }
-  }
-
-  const eligible = Object.keys(gpCount)
-    .filter((id) => gpCount[id] >= minGP && playerInfoMap.has(id))
-    .map((id) => ({ id, name: playerInfoMap.get(id)!.name }));
-
-  // x=0 is the origin; games are x=1,2,...,N
-  const zeroRow: Record<string, number> = { game: 0 };
-  for (const p of eligible) zeroRow[p.name] = 0;
-
-  const cum: Record<string, number> = {};
-  const dataRows = filteredResults.map((result, i) => {
-    const row: Record<string, number> = { game: i + 1 };
-    const net = result.netminderPlayerId;
-    const periods = [result.score.period.one, result.score.period.two, result.score.period.three];
-
-    for (const p of eligible) {
-      const isSkater =
-        result.roster.includes(p.id) &&
-        !(net && net !== "MISSING" && p.id === net);
-      if (isSkater) {
-        let value = 0;
-        if (stat === "goals" || stat === "points") {
-          value += periods.reduce(
-            (s, pd) => s + pd.goals.filter((g) => g.playerId === p.id).length, 0
-          );
-        }
-        if (stat === "assists" || stat === "points") {
-          value += periods.reduce(
-            (s, pd) => s + pd.goals.filter((g) => g.assists.includes(p.id)).length, 0
-          );
-        }
-        if (stat === "pims") {
-          value = periods
-            .flatMap((pd) => pd.penalties)
-            .filter((pen) => pen.offender === p.id)
-            .reduce((s, pen) => s + pen.duration, 0);
-        }
-        cum[p.id] = (cum[p.id] ?? 0) + value;
-      }
-      row[p.name] = cum[p.id] ?? 0;
-    }
-    return row;
-  });
-
-  return {
-    data: [zeroRow, ...dataRows],
-    players: eligible.map((p) => p.name),
-    xMax: filteredResults.length,
-    xTickLabel: (v) => (v === 0 ? "" : String(v)),
-  };
+function csvCell(value: string | number) {
+  const s = String(value);
+  return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 
-// ── Reusable cumulative chart ─────────────────────────────────────────────────
+// ── Filter option tables ──────────────────────────────────────────────────────
 
-type CumulativeChartProps = {
-  lineData: Record<string, number>[];
-  linePlayers: string[];
-  xMax: number;
-  xTickLabel: (v: number) => string;
-  xKey: string;
-  title: string;
-  subtitle: string;
-  axisLabel: string;
-  chartAxisMode: "season" | "game";
-  chartWidth: number;
-  chartTheme: "light" | "dark";
-  hoveredPlayer: string | null;
-  setHoveredPlayer: (p: string | null) => void;
-};
+const POS_FILTERS: { label: string; value: string }[] = [
+  { label: "All", value: "All" },
+  { label: "Forwards", value: "Forward" },
+  { label: "Defence", value: "Defence" },
+  { label: "Goaltenders", value: "Goaltender" },
+];
 
-function CumulativeChart({
-  lineData, linePlayers, xMax, xTickLabel, xKey,
-  title, subtitle, axisLabel, chartAxisMode,
-  chartWidth, chartTheme,
-  hoveredPlayer, setHoveredPlayer,
-}: CumulativeChartProps) {
-  const innerW = Math.max(10, chartWidth - CHART_MARGIN.left - CHART_MARGIN.right);
-  const innerH = CHART_TOTAL_H - CHART_MARGIN.top - CHART_MARGIN.bottom;
+const SORT_CHIPS: { label: string; field: SkaterSort }[] = [
+  { label: "Points", field: "points" },
+  { label: "Goals", field: "goals" },
+  { label: "Assists", field: "assists" },
+  { label: "Per game", field: "ppg" },
+  { label: "PIM", field: "pims" },
+  { label: "Number", field: "number" },
+];
 
-  const xScale = scaleLinear({ domain: [0, xMax], range: [0, innerW] });
-  const yPeak = Math.max(1, ...lineData.flatMap((row) => linePlayers.map((p) => (row[p] as number) ?? 0)));
-  const yScale = scaleLinear({ domain: [0, yPeak], range: [innerH, 0], nice: true });
+const METRIC_CHIPS: { label: string; value: Metric }[] = [
+  { label: "Points", value: "points" },
+  { label: "Goals", value: "goals" },
+  { label: "Assists", value: "assists" },
+  { label: "PIM", value: "pims" },
+];
 
-  const lastDataRow = lineData[lineData.length - 1] ?? {};
-  const endLabels = linePlayers
-    .map((name, i) => ({ name, color: PALETTE[i % PALETTE.length], y: yScale((lastDataRow[name] as number) ?? 0) }))
-    .sort((a, b) => a.y - b.y);
-  const MIN_LABEL_GAP = 13;
-  for (let i = 1; i < endLabels.length; i++) {
-    if (endLabels[i].y - endLabels[i - 1].y < MIN_LABEL_GAP) {
-      endLabels[i].y = endLabels[i - 1].y + MIN_LABEL_GAP;
-    }
-  }
+const SERIES = ["var(--series-1)", "var(--series-2)", "var(--series-3)", "var(--series-4)"];
 
-  const playerColorMap: Record<string, string> = {};
-  linePlayers.forEach((name, i) => { playerColorMap[name] = PALETTE[i % PALETTE.length]; });
+// Chart geometry, in viewBox units. Tick labels are real HTML positioned over
+// the plot as a percentage, so they keep the token type and stay crisp.
+const VW = 760;
+const VH = 300;
+const PAD_L = 46;
+const PAD_R = 14;
+const PAD_T = 14;
+const PAD_B = 34;
 
-  const renderOrder = hoveredPlayer
-    ? [...linePlayers.filter((p) => p !== hoveredPlayer), hoveredPlayer]
-    : linePlayers;
-
-  const isDark = chartTheme === "dark";
-  const axisStroke = isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.2)";
-  const tickFill   = isDark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.5)";
-  const gridStroke = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.06)";
-
+function Chip({
+  label,
+  active,
+  onClick,
+  variant = "label",
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+  variant?: "label" | "data";
+}) {
   return (
-    <div className="stats-chart-card stats-chart-card-full">
-      <div className="stats-chart-header">
-        <p className="stats-chart-title">{title}</p>
-        <p className="stats-chart-subtitle">{subtitle}</p>
-      </div>
-      <div className="stats-chart-scroll">
-        <div style={{ width: "100%", minWidth: "600px" }}>
-          <svg width={chartWidth} height={CHART_TOTAL_H} style={{ display: "block", overflow: "visible" }}>
-            <Group left={CHART_MARGIN.left} top={CHART_MARGIN.top}>
-              <GridRows scale={yScale} width={innerW} stroke={gridStroke} strokeWidth={1} />
-
-              {renderOrder.map((player) => {
-                const color = playerColorMap[player];
-                const isHovered = hoveredPlayer === player;
-                const isDimmed = hoveredPlayer !== null && !isHovered;
-                return (
-                  <g key={player}>
-                    <LinePath<Record<string, number>>
-                      data={lineData as Record<string, number>[]}
-                      x={(d) => xScale(d[xKey] ?? 0)}
-                      y={(d) => yScale(d[player] ?? 0)}
-                      stroke={color}
-                      strokeWidth={isHovered ? 3 : 2}
-                      strokeOpacity={isDimmed ? 0.12 : 1}
-                      curve={curveMonotoneX}
-                      style={{ transition: "stroke-opacity 0.15s, stroke-width 0.15s", pointerEvents: "none" }}
-                    />
-                    <LinePath<Record<string, number>>
-                      data={lineData as Record<string, number>[]}
-                      x={(d) => xScale(d[xKey] ?? 0)}
-                      y={(d) => yScale(d[player] ?? 0)}
-                      stroke="transparent"
-                      strokeWidth={16}
-                      fill="none"
-                      curve={curveMonotoneX}
-                      style={{ cursor: "pointer" }}
-                      onMouseEnter={() => setHoveredPlayer(player)}
-                      onMouseLeave={() => setHoveredPlayer(null)}
-                    />
-                  </g>
-                );
-              })}
-
-              {endLabels.map((lbl) => {
-                const isHovered = hoveredPlayer === lbl.name;
-                const isDimmed = hoveredPlayer !== null && !isHovered;
-                return (
-                  <text
-                    key={lbl.name}
-                    x={innerW + 6}
-                    y={lbl.y}
-                    fill={lbl.color}
-                    fontSize={isHovered ? 12 : 11}
-                    fontWeight={isHovered ? 700 : 600}
-                    dominantBaseline="middle"
-                    opacity={isDimmed ? 0.2 : 1}
-                    style={{ fontFamily: "inherit", transition: "opacity 0.15s" }}
-                  >
-                    {lbl.name}
-                  </text>
-                );
-              })}
-
-              <AxisBottom
-                scale={xScale}
-                top={innerH}
-                stroke={axisStroke}
-                tickStroke={axisStroke}
-                numTicks={chartAxisMode === "season" ? xMax + 1 : undefined}
-                tickFormat={(v) => xTickLabel(Number(v))}
-                label={chartAxisMode === "season" ? "Season" : "Game #"}
-                tickLabelProps={() => ({ fill: tickFill, fontSize: 11, textAnchor: "middle", fontFamily: "inherit" })}
-                labelProps={{ fill: tickFill, fontSize: 12, textAnchor: "middle", fontFamily: "inherit" }}
-              />
-              <AxisLeft
-                scale={yScale}
-                stroke={axisStroke}
-                tickStroke={axisStroke}
-                label={axisLabel}
-                tickLabelProps={() => ({ fill: tickFill, fontSize: 11, textAnchor: "end", dy: "0.33em", fontFamily: "inherit" })}
-                labelProps={{ fill: tickFill, fontSize: 12, textAnchor: "middle", fontFamily: "inherit" }}
-              />
-            </Group>
-          </svg>
-        </div>
-      </div>
-    </div>
+    <button
+      type="button"
+      className={`ds-chip ${variant === "data" ? "t-data stats-chip-data" : "t-label"}`}
+      aria-pressed={active}
+      onClick={onClick}
+    >
+      {label}
+    </button>
   );
 }
 
-// ── Sort icon helper ──────────────────────────────────────────────────────────
-
-function SortIcon({ field, active, dir }: { field: string; active: string; dir: SortDir }) {
-  if (field !== active) return <span className="stats-sort-icon">⇅</span>;
-  return <span className="stats-sort-icon stats-sort-icon-on">{dir === "asc" ? "↑" : "↓"}</span>;
+function SectionBar({ title, note }: { title: string; note: string }) {
+  return (
+    <div className="stats-section-bar">
+      <h2 className="t-heading stats-section-title">{title}</h2>
+      <span className="t-label stats-muted">{note}</span>
+    </div>
+  );
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function Stats({ loaderData }: Route.ComponentProps) {
-  const statsData = useMemo(
-    () => computeStatsData(loaderData.results as RawResult[], loaderData.players as PlayerInfo[]),
+  const { games, playerInfoMap, seasons, competitions } = useMemo(
+    () => prepare(loaderData.results as RawResult[], loaderData.players as PlayerInfo[]),
     [loaderData.results, loaderData.players]
   );
-  const { playerStats, goalieStats, playerInfoMap, sortedSeasons, sortedCompetitions } = statsData;
 
-  const [tab, setTab] = useState<"players" | "goalies" | "charts">("players");
+  // null means "not chosen yet" — the page opens on the most recent season.
+  const [pickedSeason, setSeason] = useState<string | null>(null);
+  const season = pickedSeason ?? seasons[0] ?? "";
+  const allTime = season === ALL_TIME;
+  const [competition, setCompetition] = useState("All");
+  const [pos, setPos] = useState("All");
+  const [skaterSort, setSkaterSort] = useState<SkaterSort>("points");
+  const [skaterDir, setSkaterDir] = useState<SortDir>("desc");
+  const [goalieSort, setGoalieSort] = useState<GoalieSort>("gaa");
+  const [goalieDir, setGoalieDir] = useState<SortDir>("asc");
+  const [metric, setMetric] = useState<Metric>("points");
 
-  const [chartTheme, setChartTheme] = useState<"light" | "dark">("dark");
-  const [chartAxisMode, setChartAxisMode] = useState<"season" | "game">("season");
-  const [chartMinGP, setChartMinGP] = useState(5);
-  const [chartSeason, setChartSeason] = useState("All");
-  const [hoveredPlayer, setHoveredPlayer] = useState<string | null>(null);
-
-  useEffect(() => {
-    const getTheme = (): "light" | "dark" =>
-      document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
-    setChartTheme(getTheme());
-    const observer = new MutationObserver(() => setChartTheme(getTheme()));
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-    return () => observer.disconnect();
-  }, []);
-
-  const allChartData = useMemo(
-    () => STAT_OPTIONS.map(({ value: stat }) =>
-      chartAxisMode === "season"
-        ? buildSeasonCumulative(statsData, chartMinGP, stat)
-        : buildGameCumulative(statsData, chartMinGP, chartSeason, stat)
-    ),
-    [statsData, chartAxisMode, chartMinGP, chartSeason]
+  /** The season and competition chips scope every section on the page. */
+  const scopedGames = useMemo(
+    () =>
+      games.filter(
+        (g) =>
+          (allTime || g.season === season) &&
+          (competition === "All" || g.competition === competition)
+      ),
+    [games, allTime, season, competition]
   );
-  // All stat datasets share the same eligible players (GP-filtered, stat-independent)
-  const linePlayers = allChartData[0]?.players ?? [];
 
-  // ── Responsive chart width ─────────────────────────────────────────────────
-  const chartContainerRef = useRef<HTMLDivElement>(null);
-  const [chartWidth, setChartWidth] = useState(900);
+  const { skaters, goalies } = useMemo(
+    () => buildRows(scopedGames, playerInfoMap),
+    [scopedGames, playerInfoMap]
+  );
 
-  useEffect(() => {
-    if (tab !== "charts") return;
-    const el = chartContainerRef.current;
-    if (!el) return;
-    setChartWidth(Math.floor(el.getBoundingClientRect().width) || 900);
-    const ro = new ResizeObserver(([entry]) =>
-      setChartWidth(Math.floor(entry.contentRect.width))
-    );
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [tab]);
+  const filteredSkaters = useMemo(
+    () => (pos === "All" ? skaters : skaters.filter((r) => r.position.includes(pos))),
+    [skaters, pos]
+  );
+  const skaterRows = useMemo(
+    () => sortRows(filteredSkaters, skaterSort, skaterDir),
+    [filteredSkaters, skaterSort, skaterDir]
+  );
+  const goalieRows = useMemo(
+    () => sortRows(goalies, goalieSort, goalieDir),
+    [goalies, goalieSort, goalieDir]
+  );
 
-  const [pSeason, setPSeason] = useState("All");
-  const [pComp, setPComp] = useState("All");
-  const [pPos, setPPos] = useState("All");
-  const [pSort, setPSort] = useState<PlayerSortField>("points");
-  const [pDir, setPDir] = useState<SortDir>("desc");
+  // ── Season leaders ─────────────────────────────────────────────────────────
 
-  const [gSeason, setGSeason] = useState("All");
-  const [gComp, setGComp] = useState("All");
-  const [gSort, setGSort] = useState<GoalieSortField>("gaa");
-  const [gDir, setGDir] = useState<SortDir>("asc");
+  // A netminder with one appearance can post a flattering average, so the GAA
+  // leader has to have played a share of the games in scope.
+  const gaaMinGP = Math.max(3, Math.round(scopedGames.length * 0.1));
 
-  const playerRows = useMemo<PlayerStatRow[]>(() => {
-    const rows: PlayerStatRow[] = [];
-    for (const playerId of Object.keys(playerStats)) {
-      const info = playerInfoMap.get(playerId);
-      if (!info) continue;
-      if (pPos !== "All" && info.position !== pPos) continue;
+  const leaders = useMemo(() => {
+    const best = (key: "goals" | "assists" | "points") =>
+      skaters.slice().sort((a, b) => b[key] - a[key])[0];
+    const byGaa = (rows: GoalieRow[]) => rows.slice().sort((a, b) => a.gaa - b.gaa || b.gp - a.gp)[0];
+    const qualified = goalies.filter((g) => g.gp >= gaaMinGP);
+    const keeper = byGaa(qualified.length ? qualified : goalies);
 
-      const s = aggregatePlayer(playerStats, playerId, pSeason, pComp);
-      if (s.gp === 0) continue;
+    const skaterLeader = (title: string, key: "goals" | "assists" | "points") => {
+      const p = best(key);
+      return {
+        title,
+        value: p ? String(p[key]) : "—",
+        name: p ? p.name : "No games recorded",
+        meta: p ? `#${p.number} · ${posAbbrev(p.position)} · ${p.gp} GP` : "",
+      };
+    };
 
-      rows.push({
-        playerId,
-        name: info.name,
-        number: info.number,
-        position: info.position,
-        gp: s.gp,
-        goals: s.goals,
-        assists: s.assists,
-        points: s.goals + s.assists,
-        ppg: (s.goals + s.assists) / s.gp,
-        pims: s.pims,
-        motm: s.motm,
-        wotg: s.wotg,
-      });
-    }
+    return [
+      skaterLeader("Goals", "goals"),
+      skaterLeader("Assists", "assists"),
+      skaterLeader("Points", "points"),
+      {
+        title: "Goals against average",
+        value: keeper ? keeper.gaa.toFixed(2) : "—",
+        name: keeper ? keeper.name : "No netminder recorded",
+        meta: keeper ? `#${keeper.number} · G · ${keeper.gp} GP` : "",
+      },
+    ];
+  }, [skaters, goalies, gaaMinGP]);
 
-    rows.sort((a, b) => {
-      if (pSort === "name") return pDir === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
-      const av = a[pSort as Exclude<PlayerSortField, "name">] as number;
-      const bv = b[pSort as Exclude<PlayerSortField, "name">] as number;
-      return pDir === "asc" ? av - bv : bv - av;
+  // ── Progression chart ──────────────────────────────────────────────────────
+
+  const seasonsAsc = useMemo(
+    () => Array.from(new Set(scopedGames.map((g) => g.season))),
+    [scopedGames]
+  );
+
+  const chart = useMemo(() => {
+    const picked = skaters
+      .slice()
+      .sort((a, b) => b[metric] - a[metric])
+      .slice(0, 4)
+      .filter((p) => p[metric] > 0);
+
+    const valueInGame = (game: RawResult, playerId: string) => {
+      if (netminderOf(game) === playerId || !game.roster.includes(playerId)) return 0;
+      const t = tallyInGame(game, playerId);
+      if (metric === "goals") return t.goals;
+      if (metric === "assists") return t.assists;
+      if (metric === "pims") return t.pims;
+      return t.goals + t.assists;
+    };
+
+    // The axis is always one step per game; the range toggle only changes which
+    // games are on it.
+    const series = picked.map((player) => {
+      const cum = [0];
+      let run = 0;
+      for (const game of scopedGames) {
+        run += valueInGame(game, player.playerId);
+        cum.push(run);
+      }
+      return { player, cum };
     });
 
-    return rows;
-  }, [playerStats, playerInfoMap, pSeason, pComp, pPos, pSort, pDir]);
+    const steps = Math.max(1, scopedGames.length);
+    const peak = Math.max(1, ...series.map((s) => s.cum[s.cum.length - 1]));
+    const grain = peak > 40 ? 5 : 2;
+    const step = Math.max(1, Math.ceil(peak / 4 / grain) * grain);
+    const niceMax = step * 4;
 
-  const goalieRows = useMemo<GoalieStatRow[]>(() => {
-    const rows: GoalieStatRow[] = [];
-    for (const playerId of Object.keys(goalieStats)) {
-      const info = playerInfoMap.get(playerId);
-      if (!info) continue;
+    const px = (i: number) => PAD_L + (i * (VW - PAD_L - PAD_R)) / steps;
+    const py = (v: number) => VH - PAD_B - (v / niceMax) * (VH - PAD_B - PAD_T);
 
-      const s = aggregateGoalie(goalieStats, playerId, gSeason, gComp);
-      if (s.gp === 0) continue;
+    const lines = series.map((s, i) => ({
+      key: s.player.playerId,
+      name: s.player.name,
+      meta: `#${s.player.number} · ${posAbbrev(s.player.position)}`,
+      color: SERIES[i],
+      total: s.cum[s.cum.length - 1],
+      d: s.cum.map((v, j) => `${j ? "L" : "M"}${px(j).toFixed(1)} ${py(v).toFixed(1)}`).join(" "),
+      endX: px(s.cum.length - 1).toFixed(1),
+      endY: py(s.cum[s.cum.length - 1]).toFixed(1),
+    }));
 
-      rows.push({
-        playerId,
-        name: info.name,
-        number: info.number,
-        gp: s.gp,
-        ga: s.ga,
-        gaa: s.ga / s.gp,
-      });
+    const yTicks = [0, 1, 2, 3, 4].map((k) => ({
+      v: step * k,
+      y: py(step * k).toFixed(1),
+      top: `${((py(step * k) / VH) * 100).toFixed(2)}%`,
+    }));
+
+    const xStep = Math.max(1, Math.ceil(steps / 12));
+    const xTicks: { key: string; label: string; left: string }[] = [];
+    for (let j = xStep; j <= steps; j += xStep) {
+      xTicks.push({ key: String(j), label: String(j), left: `${((px(j) / VW) * 100).toFixed(2)}%` });
     }
 
-    rows.sort((a, b) => {
-      if (gSort === "name") return gDir === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
-      const av = a[gSort as Exclude<GoalieSortField, "name">] as number;
-      const bv = b[gSort as Exclude<GoalieSortField, "name">] as number;
-      return gDir === "asc" ? av - bv : bv - av;
-    });
+    // Dividers mark where one season hands over to the next — all-time only.
+    let acc = 0;
+    const seasonMarks =
+      seasonsAsc.length > 1
+        ? seasonsAsc
+            .map((label) => {
+              const at = acc;
+              acc += scopedGames.filter((g) => g.season === label).length;
+              return {
+                label,
+                x: px(at).toFixed(1),
+                left: `${((px(at) / VW) * 100).toFixed(2)}%`,
+                show: at > 0,
+              };
+            })
+            .filter((m) => m.show)
+        : [];
 
-    return rows;
-  }, [goalieStats, playerInfoMap, gSeason, gComp, gSort, gDir]);
+    return { lines, yTicks, xTicks, seasonMarks, steps };
+  }, [skaters, scopedGames, seasonsAsc, metric]);
 
-  function handlePlayerSort(field: PlayerSortField) {
-    if (field === pSort) {
-      setPDir((d) => (d === "asc" ? "desc" : "asc"));
-    } else {
-      setPSort(field);
-      setPDir(field === "name" ? "asc" : "desc");
+  // ── Points breakdown and the two rate charts ───────────────────────────────
+
+  const breakdown = useMemo(() => {
+    const top = skaters.slice().sort((a, b) => b.points - a.points).slice(0, 10);
+    const max = Math.max(1, ...top.map((p) => p.points));
+    return top.map((p) => ({
+      ...p,
+      goalWidth: `${((p.goals / max) * 100).toFixed(1)}%`,
+      assistWidth: `${((p.assists / max) * 100).toFixed(1)}%`,
+    }));
+  }, [skaters]);
+
+  const pimData = useMemo(
+    () =>
+      skaters
+        .slice()
+        .sort((a, b) => b.pims - a.pims)
+        .slice(0, 6)
+        .filter((p) => p.pims > 0)
+        .map((p) => ({ label: lastName(p.name), value: p.pims })),
+    [skaters]
+  );
+
+  const ppgMinGP = Math.max(3, Math.round(scopedGames.length * 0.4));
+  const ppgData = useMemo(
+    () =>
+      skaters
+        .filter((p) => p.gp >= ppgMinGP)
+        .sort((a, b) => b.ppg - a.ppg)
+        .slice(0, 6)
+        .map((p) => ({ label: lastName(p.name), value: Number(p.ppg.toFixed(2)) })),
+    [skaters, ppgMinGP]
+  );
+
+  // ── Copy ───────────────────────────────────────────────────────────────────
+
+  const gameCount = `${scopedGames.length} game${scopedGames.length === 1 ? "" : "s"}`;
+  const seasonNote = allTime
+    ? `${gameCount} · ${seasonsAsc.length} season${seasonsAsc.length === 1 ? "" : "s"}`
+    : gameCount;
+  const metricLabel = METRIC_CHIPS.find((m) => m.value === metric)!.label;
+  const chartNote = `Cumulative ${metricLabel.toLowerCase()} · top four · ${gameCount}`;
+  const rangeNote = `${allTime ? "All time" : season} · ${
+    competition === "All" ? "All competitions" : competition
+  }`;
+  const axisFoot = allTime
+    ? `Horizontal axis is game number, running from the first game of ${seasonsAsc[0] ?? "the record"} to the latest. A flat run is a game missed.`
+    : "Horizontal axis is game number. A flat run is a game missed.";
+
+  // ── Sort handling ──────────────────────────────────────────────────────────
+
+  function pickSkaterSort(field: SkaterSort) {
+    if (field === skaterSort) {
+      setSkaterDir((d) => (d === "asc" ? "desc" : "asc"));
+      return;
     }
+    setSkaterSort(field);
+    setSkaterDir(field === "name" || field === "number" ? "asc" : "desc");
   }
 
-  function handleGoalieSort(field: GoalieSortField) {
-    if (field === gSort) {
-      setGDir((d) => (d === "asc" ? "desc" : "asc"));
-    } else {
-      setGSort(field);
-      setGDir(field === "name" || field === "number" ? "asc" : field === "gaa" ? "asc" : "desc");
+  function pickGoalieSort(field: GoalieSort) {
+    if (field === goalieSort) {
+      setGoalieDir((d) => (d === "asc" ? "desc" : "asc"));
+      return;
     }
+    setGoalieSort(field);
+    setGoalieDir(field === "name" || field === "number" || field === "gaa" || field === "ga" ? "asc" : "desc");
   }
 
-  const xKey = chartAxisMode === "season" ? "season" : "game";
+  function downloadCsv() {
+    const head = ["#", "Player", "Position", "GP", "G", "A", "PTS", "PPG", "PIM", "MOTM", "WOTG"];
+    const body = skaterRows.map((r) => [
+      r.number, r.name, r.position, r.gp, r.goals, r.assists, r.points, r.ppg.toFixed(2), r.pims, r.motm, r.wotg,
+    ]);
+    const csv = [head, ...body].map((cols) => cols.map(csvCell).join(",")).join("\r\n");
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+    const slug = allTime ? "all-time" : season.replace("/", "-");
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `warriors-skater-stats-${slug}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  // ── Table definitions ──────────────────────────────────────────────────────
+
+  const skaterColumns: DataTableColumn[] = [
+    { header: "#", numeric: true, align: "right", sortKey: "number" },
+    { header: "Player", sortKey: "name" },
+    { header: "Pos" },
+    { header: "GP", numeric: true, align: "right", sortKey: "gp" },
+    { header: "G", numeric: true, align: "right", sortKey: "goals" },
+    { header: "A", numeric: true, align: "right", sortKey: "assists" },
+    { header: "PTS", numeric: true, align: "right", strong: true, sortKey: "points" },
+    { header: "PPG", numeric: true, align: "right", sortKey: "ppg" },
+    { header: "PIM", numeric: true, align: "right", sortKey: "pims" },
+    { header: "MOTM", numeric: true, align: "right", sortKey: "motm" },
+    { header: "WOTG", numeric: true, align: "right", sortKey: "wotg" },
+  ];
+
+  const goalieColumns: DataTableColumn[] = [
+    { header: "#", numeric: true, align: "right", sortKey: "number" },
+    { header: "Goaltender", sortKey: "name" },
+    { header: "GP", numeric: true, align: "right", sortKey: "gp" },
+    { header: "W", numeric: true, align: "right", sortKey: "w" },
+    { header: "L", numeric: true, align: "right", sortKey: "l" },
+    { header: "D", numeric: true, align: "right", sortKey: "d" },
+    { header: "GA", numeric: true, align: "right", sortKey: "ga" },
+    { header: "GAA", numeric: true, align: "right", strong: true, sortKey: "gaa" },
+    { header: "SO", numeric: true, align: "right", sortKey: "so" },
+  ];
 
   return (
     <div className="stats-page">
-      <section className="stats-hero">
-        <div className="stats-hero-inner">
-          <span className="stats-kicker">Season Statistics</span>
-          <h1 className="stats-title">Player Stats</h1>
-          <p className="stats-subtitle">Warriors Ice Hockey Club — Career &amp; Season Statistics</p>
+      <section className="stats-intro">
+        <SectionHead eyebrow="England Ice Hockey recreational" title="Player statistics">
+          Scoring is taken from the official game sheets. A netminder's appearances count
+          towards their goaltending record, not their skater record.
+        </SectionHead>
+
+        <div className="stats-filter-row" role="group" aria-label="Season">
+          <span className="t-label stats-muted">Season</span>
+          <div className="stats-chip-set">
+            <Chip
+              label="All time"
+              active={allTime}
+              onClick={() => setSeason(ALL_TIME)}
+              variant="data"
+            />
+            {seasons.map((s) => (
+              <Chip key={s} label={s} active={season === s} onClick={() => setSeason(s)} variant="data" />
+            ))}
+          </div>
+          <span className="t-label stats-muted stats-filter-note">{seasonNote}</span>
+        </div>
+
+        <div className="stats-filter-row" role="group" aria-label="Competition">
+          <span className="t-label stats-muted">Competition</span>
+          <div className="stats-chip-set">
+            <Chip label="All" active={competition === "All"} onClick={() => setCompetition("All")} />
+            {competitions.map((c) => (
+              <Chip key={c} label={c} active={competition === c} onClick={() => setCompetition(c)} />
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="stats-body">
-        <div className="stats-frame">
-          <div className="stats-tabs" role="tablist">
-            <button
-              role="tab"
-              aria-selected={tab === "players"}
-              className={tab === "players" ? "stats-tab stats-tab-active" : "stats-tab"}
-              onClick={() => setTab("players")}
-            >
-              Player Stats
-            </button>
-            <button
-              role="tab"
-              aria-selected={tab === "goalies"}
-              className={tab === "goalies" ? "stats-tab stats-tab-active" : "stats-tab"}
-              onClick={() => setTab("goalies")}
-            >
-              Goalie Stats
-            </button>
-            <button
-              role="tab"
-              aria-selected={tab === "charts"}
-              className={tab === "charts" ? "stats-tab stats-tab-active" : "stats-tab"}
-              onClick={() => setTab("charts")}
-            >
-              Charts
-            </button>
+      <section className="stats-leaders" aria-label="Leaders">
+        <div className="stats-leaders-inner">
+          {leaders.map((l) => (
+            <div className="stats-leader" key={l.title}>
+              <span className="t-label stats-muted">{l.title}</span>
+              <span className="stats-leader-value">{l.value}</span>
+              <span className="t-heading stats-leader-name">{l.name}</span>
+              <span className="t-label stats-muted">{l.meta}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Stripe />
+
+      <section className="stats-section stats-section-top">
+        <SectionBar
+          title="Goaltending"
+          note={`${goalieRows.length} goaltender${goalieRows.length === 1 ? "" : "s"} · ${scopedGames.length} games`}
+        />
+        {goalieRows.length === 0 ? (
+          <p className="stats-empty">No goaltending recorded for these filters.</p>
+        ) : (
+          <div className="stats-table-scroll">
+            <DataTable
+              className="stats-table-goalies"
+              columns={goalieColumns}
+              sortKey={goalieSort}
+              sortDirection={goalieDir}
+              onSort={(key) => pickGoalieSort(key as GoalieSort)}
+              rows={goalieRows.map((r) => [
+                r.number,
+                <Link key={r.playerId} to={`/roster/${r.playerId}`} className="stats-player-link">
+                  {r.name}
+                </Link>,
+                r.gp,
+                r.w,
+                r.l,
+                r.d,
+                r.ga,
+                r.gaa.toFixed(2),
+                r.so,
+              ])}
+            />
           </div>
+        )}
+        <p className="t-label stats-muted stats-legend">
+          GP games played · W wins · L losses · D draws · GA goals against · GAA goals against
+          average · SO shutouts
+        </p>
+      </section>
 
-          {tab === "players" && (
-            <div>
-              <div className="stats-filters">
-                <div className="stats-filter-group">
-                  <label className="stats-filter-label" htmlFor="p-season">Season</label>
-                  <select id="p-season" className="stats-select" value={pSeason} onChange={(e) => setPSeason(e.target.value)}>
-                    <option value="All">All Seasons</option>
-                    {sortedSeasons.map((s) => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                </div>
-                <div className="stats-filter-group">
-                  <label className="stats-filter-label" htmlFor="p-comp">Competition</label>
-                  <select id="p-comp" className="stats-select" value={pComp} onChange={(e) => setPComp(e.target.value)}>
-                    <option value="All">All Competitions</option>
-                    {sortedCompetitions.map((c) => <option key={c} value={c}>{c}</option>)}
-                  </select>
-                </div>
-                <div className="stats-filter-group">
-                  <label className="stats-filter-label" htmlFor="p-pos">Position</label>
-                  <select id="p-pos" className="stats-select" value={pPos} onChange={(e) => setPPos(e.target.value)}>
-                    <option value="All">All Positions</option>
-                    <option value="Forward">Forward</option>
-                    <option value="Defence">Defence</option>
-                    <option value="Goaltender">Goaltender</option>
-                  </select>
-                </div>
-              </div>
+      <section className="stats-section">
+        <SectionBar
+          title="Skater scoring"
+          note={`${skaterRows.length} skater${skaterRows.length === 1 ? "" : "s"} · ${scopedGames.length} games`}
+        />
+        <div className="stats-controls" role="group" aria-label="Sort and filter skaters">
+          <span className="t-label stats-muted">Sort by</span>
+          <div className="stats-chip-set">
+            {SORT_CHIPS.map((s) => (
+              <Chip
+                key={s.field}
+                label={s.label}
+                active={skaterSort === s.field}
+                onClick={() => pickSkaterSort(s.field)}
+              />
+            ))}
+          </div>
+          <div className="stats-chip-set stats-chip-set-end">
+            {POS_FILTERS.map((p) => (
+              <Chip key={p.value} label={p.label} active={pos === p.value} onClick={() => setPos(p.value)} />
+            ))}
+          </div>
+        </div>
+        {skaterRows.length === 0 ? (
+          <p className="stats-empty">No skaters match these filters.</p>
+        ) : (
+          <div className="stats-table-scroll">
+            <DataTable
+              className="stats-table-skaters"
+              columns={skaterColumns}
+              sortKey={skaterSort}
+              sortDirection={skaterDir}
+              onSort={(key) => pickSkaterSort(key as SkaterSort)}
+              rows={skaterRows.map((r) => [
+                r.number,
+                <Link key={r.playerId} to={`/roster/${r.playerId}`} className="stats-player-link">
+                  {r.name}
+                </Link>,
+                posAbbrev(r.position),
+                r.gp,
+                r.goals,
+                r.assists,
+                r.points,
+                r.ppg.toFixed(2),
+                r.pims,
+                r.motm > 0 ? r.motm : "—",
+                r.wotg > 0 ? r.wotg : "—",
+              ])}
+            />
+          </div>
+        )}
+        <p className="t-label stats-muted stats-legend">
+          GP games played · G goals · A assists · PTS points · PPG points per game · PIM penalties
+          in minutes · MOTM man of the match · WOTG warrior of the game
+        </p>
+      </section>
 
-              <div className="stats-table-wrap">
-                <table className="stats-table">
-                  <thead>
-                    <tr>
-                      <th className="stats-th stats-th-rank">#</th>
-                      <th className="stats-th stats-th-name">
-                        <button className="stats-sort-btn" onClick={() => handlePlayerSort("name")}>
-                          Player <SortIcon field="name" active={pSort} dir={pDir} />
-                        </button>
-                      </th>
-                      <th className="stats-th">
-                        <button className="stats-sort-btn" onClick={() => handlePlayerSort("gp")} title="Games Played">
-                          GP <SortIcon field="gp" active={pSort} dir={pDir} />
-                        </button>
-                      </th>
-                      <th className="stats-th">
-                        <button className="stats-sort-btn" onClick={() => handlePlayerSort("goals")} title="Goals">
-                          G <SortIcon field="goals" active={pSort} dir={pDir} />
-                        </button>
-                      </th>
-                      <th className="stats-th">
-                        <button className="stats-sort-btn" onClick={() => handlePlayerSort("assists")} title="Assists">
-                          A <SortIcon field="assists" active={pSort} dir={pDir} />
-                        </button>
-                      </th>
-                      <th className="stats-th">
-                        <button className="stats-sort-btn" onClick={() => handlePlayerSort("points")} title="Points">
-                          PTS <SortIcon field="points" active={pSort} dir={pDir} />
-                        </button>
-                      </th>
-                      <th className="stats-th">
-                        <button className="stats-sort-btn" onClick={() => handlePlayerSort("ppg")} title="Points Per Game">
-                          PPG <SortIcon field="ppg" active={pSort} dir={pDir} />
-                        </button>
-                      </th>
-                      <th className="stats-th">
-                        <button className="stats-sort-btn" onClick={() => handlePlayerSort("pims")} title="Penalty Minutes">
-                          PIM <SortIcon field="pims" active={pSort} dir={pDir} />
-                        </button>
-                      </th>
-                      <th className="stats-th">
-                        <button className="stats-sort-btn" onClick={() => handlePlayerSort("motm")} title="Man of the Match">
-                          MOTM <SortIcon field="motm" active={pSort} dir={pDir} />
-                        </button>
-                      </th>
-                      <th className="stats-th">
-                        <button className="stats-sort-btn" onClick={() => handlePlayerSort("wotg")} title="Warrior of the Game">
-                          WOTG <SortIcon field="wotg" active={pSort} dir={pDir} />
-                        </button>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {playerRows.length === 0 ? (
-                      <tr>
-                        <td colSpan={10} className="stats-empty">No data for selected filters.</td>
-                      </tr>
-                    ) : (
-                      playerRows.map((row, i) => (
-                        <tr key={row.playerId} className={i % 2 === 1 ? "stats-row stats-row-alt" : "stats-row"}>
-                          <td className="stats-td stats-td-rank">{i + 1}</td>
-                          <td className="stats-td stats-td-name">
-                            <Link to={`/roster/${row.playerId}`} className="stats-player-link">
-                              <span className="stats-player-num">#{row.number}</span>
-                              <span className="stats-player-name">{row.name}</span>
-                            </Link>
-                          </td>
-                          <td className="stats-td">{row.gp}</td>
-                          <td className="stats-td">{row.goals}</td>
-                          <td className="stats-td">{row.assists}</td>
-                          <td className="stats-td stats-td-hi">{row.points}</td>
-                          <td className="stats-td">{row.ppg.toFixed(2)}</td>
-                          <td className="stats-td">{row.pims}</td>
-                          <td className="stats-td">{row.motm > 0 ? row.motm : "—"}</td>
-                          <td className="stats-td">{row.wotg > 0 ? row.wotg : "—"}</td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
+      <Stripe />
 
-          {tab === "goalies" && (
-            <div>
-              <div className="stats-filters">
-                <div className="stats-filter-group">
-                  <label className="stats-filter-label" htmlFor="g-season">Season</label>
-                  <select id="g-season" className="stats-select" value={gSeason} onChange={(e) => setGSeason(e.target.value)}>
-                    <option value="All">All Seasons</option>
-                    {sortedSeasons.map((s) => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                </div>
-                <div className="stats-filter-group">
-                  <label className="stats-filter-label" htmlFor="g-comp">Competition</label>
-                  <select id="g-comp" className="stats-select" value={gComp} onChange={(e) => setGComp(e.target.value)}>
-                    <option value="All">All Competitions</option>
-                    {sortedCompetitions.map((c) => <option key={c} value={c}>{c}</option>)}
-                  </select>
-                </div>
-              </div>
+      <section className="stats-section stats-section-top" aria-label="Scoring progression">
+        <SectionBar
+          title={allTime ? "All-time progression" : "Season progression"}
+          note={chartNote}
+        />
 
-              <div className="stats-table-wrap">
-                <table className="stats-table">
-                  <thead>
-                    <tr>
-                      <th className="stats-th stats-th-rank">#</th>
-                      <th className="stats-th stats-th-name">
-                        <button className="stats-sort-btn" onClick={() => handleGoalieSort("name")}>
-                          Player <SortIcon field="name" active={gSort} dir={gDir} />
-                        </button>
-                      </th>
-                      <th className="stats-th">
-                        <button className="stats-sort-btn" onClick={() => handleGoalieSort("gp")} title="Games Played">
-                          GP <SortIcon field="gp" active={gSort} dir={gDir} />
-                        </button>
-                      </th>
-                      <th className="stats-th">
-                        <button className="stats-sort-btn" onClick={() => handleGoalieSort("ga")} title="Goals Against">
-                          GA <SortIcon field="ga" active={gSort} dir={gDir} />
-                        </button>
-                      </th>
-                      <th className="stats-th">
-                        <button className="stats-sort-btn" onClick={() => handleGoalieSort("gaa")} title="Goals Against Average">
-                          GAA <SortIcon field="gaa" active={gSort} dir={gDir} />
-                        </button>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {goalieRows.length === 0 ? (
-                      <tr>
-                        <td colSpan={5} className="stats-empty">No goalie data for selected filters.</td>
-                      </tr>
-                    ) : (
-                      goalieRows.map((row, i) => (
-                        <tr key={row.playerId} className={i % 2 === 1 ? "stats-row stats-row-alt" : "stats-row"}>
-                          <td className="stats-td stats-td-rank">{i + 1}</td>
-                          <td className="stats-td stats-td-name">
-                            <Link to={`/roster/${row.playerId}`} className="stats-player-link">
-                              <span className="stats-player-num">#{row.number}</span>
-                              <span className="stats-player-name">{row.name}</span>
-                            </Link>
-                          </td>
-                          <td className="stats-td">{row.gp}</td>
-                          <td className="stats-td">{row.ga}</td>
-                          <td className="stats-td stats-td-hi">{row.gaa.toFixed(2)}</td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-          {tab === "charts" && (
-            <div className="stats-charts">
-              <div className="stats-filters">
-                <div className="stats-filter-group">
-                  <label className="stats-filter-label">X Axis</label>
-                  <div className="stats-toggle">
-                    <button
-                      className={chartAxisMode === "season" ? "stats-toggle-btn stats-toggle-btn-active" : "stats-toggle-btn"}
-                      onClick={() => setChartAxisMode("season")}
-                    >
-                      By Season
-                    </button>
-                    <button
-                      className={chartAxisMode === "game" ? "stats-toggle-btn stats-toggle-btn-active" : "stats-toggle-btn"}
-                      onClick={() => setChartAxisMode("game")}
-                    >
-                      By Game
-                    </button>
-                  </div>
-                </div>
-                {chartAxisMode === "game" && (
-                  <div className="stats-filter-group">
-                    <label className="stats-filter-label" htmlFor="chart-season">Season</label>
-                    <select id="chart-season" className="stats-select" value={chartSeason} onChange={(e) => setChartSeason(e.target.value)}>
-                      <option value="All">All Seasons</option>
-                      {sortedSeasons.map((s) => <option key={s} value={s}>{s}</option>)}
-                    </select>
-                  </div>
-                )}
-                <div className="stats-filter-group">
-                  <label className="stats-filter-label" htmlFor="chart-mingp">Min. Games Played</label>
-                  <select id="chart-mingp" className="stats-select" value={chartMinGP} onChange={(e) => setChartMinGP(Number(e.target.value))}>
-                    <option value={1}>1+</option>
-                    <option value={5}>5+</option>
-                    <option value={10}>10+</option>
-                    <option value={20}>20+</option>
-                    <option value={30}>30+</option>
-                  </select>
-                </div>
-                <span className="stats-chart-count">{linePlayers.length} players</span>
-              </div>
+        <div className="stats-controls">
+          <div className="stats-control-group" role="group" aria-label="Metric">
+            <span className="t-label stats-muted">Metric</span>
+            {METRIC_CHIPS.map((m) => (
+              <Chip key={m.value} label={m.label} active={metric === m.value} onClick={() => setMetric(m.value)} />
+            ))}
+          </div>
+          <span className="t-label stats-muted stats-filter-note">{rangeNote}</span>
+        </div>
 
-              {/* Invisible width gauge — ResizeObserver reads this */}
-              <div ref={chartContainerRef} style={{ width: "100%", height: 0, overflow: "hidden" }} />
-
-              {linePlayers.length === 0 ? (
-                <p className="stats-empty">No players match the selected filters.</p>
-              ) : (
-                <>
-                  {STAT_OPTIONS.map(({ value: stat, label, axisLabel }, i) => (
-                    <CumulativeChart
-                      key={stat}
-                      lineData={allChartData[i].data}
-                      linePlayers={allChartData[i].players}
-                      xMax={allChartData[i].xMax}
-                      xTickLabel={allChartData[i].xTickLabel}
-                      xKey={xKey}
-                      title={`Cumulative ${label}`}
-                      subtitle={
-                        chartAxisMode === "season"
-                          ? "Running total per player at the end of each season"
-                          : "Running total per player after each club game"
-                      }
-                      axisLabel={axisLabel}
-                      chartAxisMode={chartAxisMode}
-                      chartWidth={chartWidth}
-                      chartTheme={chartTheme}
-                      hoveredPlayer={hoveredPlayer}
-                      setHoveredPlayer={setHoveredPlayer}
+        {chart.lines.length === 0 ? (
+          <p className="stats-empty">Nothing to plot for these filters.</p>
+        ) : (
+          <div className="stats-chart-card">
+            <div className="stats-chart-scroll">
+              <div className="stats-chart-plot">
+                <svg viewBox={`0 0 ${VW} ${VH}`} role="img" aria-label={chartNote}>
+                  {chart.yTicks.map((t) => (
+                    <line
+                      key={t.v}
+                      x1={PAD_L}
+                      x2={VW - PAD_R}
+                      y1={t.y}
+                      y2={t.y}
+                      style={{ stroke: "var(--border-hairline)" }}
+                      strokeWidth={1}
                     />
                   ))}
-                </>
-              )}
+                  {chart.seasonMarks.map((m) => (
+                    <line
+                      key={m.label}
+                      x1={m.x}
+                      x2={m.x}
+                      y1={PAD_T}
+                      y2={VH - PAD_B}
+                      style={{ stroke: "var(--border-functional)" }}
+                      strokeWidth={1}
+                      strokeDasharray="3 4"
+                    />
+                  ))}
+                  {chart.lines.map((l) => (
+                    <g key={l.key}>
+                      <path
+                        d={l.d}
+                        fill="none"
+                        style={{ stroke: l.color }}
+                        strokeWidth={2.5}
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                      />
+                      <circle cx={l.endX} cy={l.endY} r={4} style={{ fill: l.color }} />
+                    </g>
+                  ))}
+                </svg>
+                {chart.yTicks.map((t) => (
+                  <span
+                    key={t.v}
+                    className="stats-chart-ytick"
+                    style={{ top: t.top, right: `calc(100% - ${(((PAD_L - 6) / VW) * 100).toFixed(2)}%)` }}
+                  >
+                    {t.v}
+                  </span>
+                ))}
+                {chart.xTicks.map((t) => (
+                  <span key={t.key} className="stats-chart-xtick" style={{ left: t.left }}>
+                    {t.label}
+                  </span>
+                ))}
+                {chart.seasonMarks.map((m) => (
+                  <span key={m.label} className="t-label stats-chart-seasonmark" style={{ left: m.left }}>
+                    {m.label}
+                  </span>
+                ))}
+              </div>
             </div>
+            <div className="stats-chart-legend">
+              {chart.lines.map((l) => (
+                <div className="stats-chart-legend-item" key={l.key}>
+                  <span aria-hidden="true" className="stats-chart-swatch" style={{ background: l.color }} />
+                  <span className="t-label">{l.name}</span>
+                  <span className="t-label stats-muted">{l.meta}</span>
+                  <span className="stats-chart-total">{l.total}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        <p className="t-label stats-muted stats-legend">
+          {axisFoot} Vertical axis is cumulative {metric === "pims" ? "penalty minutes" : metricLabel.toLowerCase()}.
+        </p>
+      </section>
+
+      <section className="stats-section" aria-label="Points breakdown">
+        <div className="stats-section-bar">
+          <h2 className="t-heading stats-section-title">
+            {allTime ? "All-time goals and assists" : "Goals and assists"}
+          </h2>
+          <div className="stats-key">
+            <span className="t-label stats-muted stats-key-item">
+              <span aria-hidden="true" className="stats-key-swatch stats-key-goals" />
+              Goals
+            </span>
+            <span className="t-label stats-muted stats-key-item">
+              <span aria-hidden="true" className="stats-key-swatch stats-key-assists" />
+              Assists
+            </span>
+          </div>
+        </div>
+        {breakdown.length === 0 ? (
+          <p className="stats-empty">No scoring recorded for these filters.</p>
+        ) : (
+          <div className="stats-breakdown">
+            {breakdown.map((b) => (
+              <div className="stats-breakdown-row" key={b.playerId}>
+                <div className="stats-breakdown-who">
+                  <span className="t-heading stats-breakdown-name">{b.name}</span>
+                  <span className="t-label stats-muted">
+                    #{b.number} · {posAbbrev(b.position)}
+                  </span>
+                </div>
+                <div className="stats-breakdown-bar">
+                  <span className="stats-breakdown-goals" style={{ width: b.goalWidth }} />
+                  <span className="stats-breakdown-assists" style={{ width: b.assistWidth }} />
+                </div>
+                <div className="stats-breakdown-figures">
+                  <span className="stats-muted">
+                    {b.goals}·{b.assists}
+                  </span>
+                  <span className="stats-breakdown-points">{b.points}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        <p className="t-label stats-muted stats-legend">
+          Top ten by points. Figures read goals · assists, then total points.
+        </p>
+      </section>
+
+      <section className="stats-section stats-rates" aria-label="Discipline and rate">
+        <div>
+          <SectionBar title="Penalty minutes" note="Top six" />
+          {pimData.length === 0 ? (
+            <p className="stats-empty">No penalties recorded.</p>
+          ) : (
+            <BarChart data={pimData} height={200} />
           )}
+          <p className="t-label stats-muted stats-legend">Minutes served across the selected games.</p>
+        </div>
+        <div>
+          <SectionBar title="Points per game" note={`Top six · minimum ${ppgMinGP} GP`} />
+          {ppgData.length === 0 ? (
+            <p className="stats-empty">No skater has reached {ppgMinGP} games.</p>
+          ) : (
+            <BarChart data={ppgData} height={200} formatValue={(v) => v.toFixed(2)} />
+          )}
+          <p className="t-label stats-muted stats-legend">
+            Scoring rate rather than volume, so part-season players are comparable.
+          </p>
+        </div>
+      </section>
+
+      <section className="stats-section stats-section-foot">
+        <div className="stats-cta">
+          <p className="stats-cta-copy">
+            Corrections to a game sheet are applied within a week of the game. Report a
+            discrepancy through Facebook and the secretary will check it against the sheet.
+          </p>
+          <div className="stats-cta-actions">
+            <Button onClick={downloadCsv} disabled={skaterRows.length === 0}>
+              Download as CSV
+            </Button>
+            <Link to="/records" className="ds-btn ds-btn-secondary ds-btn-md">
+              Club records
+            </Link>
+          </div>
         </div>
       </section>
     </div>

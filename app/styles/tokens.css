@@ -1,0 +1,146 @@
+/* Peterborough Warriors design system — design tokens.
+   Achromatic identity: black home kit, white away kit. One optional navy
+   accent for links/actions. Ported verbatim from the club's design system. */
+
+/* TIER 1 — kit, neutral ramp, optional accent, status hues. */
+:root {
+  --wr-kit-black: #000000;
+  --wr-kit-white: #FFFFFF;
+
+  --wr-ink-50: #F4F7FA;   --wr-ink-100: #E8EEF2;  --wr-ink-200: #D6DDE3;  --wr-ink-300: #C1CAD1;
+  --wr-ink-400: #A9B3BC;  --wr-ink-500: #909BA4;  --wr-ink-600: #77828B;  --wr-ink-700: #606A72;
+  --wr-ink-800: #4B545B;  --wr-ink-900: #373F45;  --wr-ink-950: #262C31;  --wr-ink-975: #181C20;
+  --wr-ink-1000: #0C1013;
+
+  --wr-navy-50: #F0F8FF;   --wr-navy-100: #DDF0FF;  --wr-navy-200: #BCE1FE;  --wr-navy-300: #A0CFF3;
+  --wr-navy-400: #82B9E2;  --wr-navy-500: #65A0CC;  --wr-navy-600: #4C87B2;  --wr-navy-700: #356F97;
+  --wr-navy-800: #22587C;  --wr-navy-900: #114261;  --wr-navy-950: #052E47;  --wr-navy-975: #011E32;
+  --wr-navy-1000: #00111F;
+
+  --wr-success-50: #EEFAF6; --wr-success-200: #B6E8DA; --wr-success-400: #4DCAAD;
+  --wr-success-700: #007B66; --wr-success-800: #006150; --wr-success-900: #00493C;
+  --wr-success-950: #003329; --wr-success-bright: #3CF0CB;
+
+  --wr-warning-50: #FFF4EF; --wr-warning-200: #FCD2BA; --wr-warning-400: #F09A68;
+  --wr-warning-600: #C75E0C; --wr-warning-800: #833B00; --wr-warning-900: #642B00;
+  --wr-warning-950: #471D00; --wr-warning-bright: #FFA571;
+
+  --wr-danger-50: #FFF4F3;  --wr-danger-200: #FFCECC; --wr-danger-400: #FF8A8C;
+  --wr-danger-800: #9D0026; --wr-danger-900: #78001B; --wr-danger-950: #570010;
+  --wr-danger-bright: #E93A4E;
+
+  /* TIER — typography. Archivo is a variable superfamily; width axis carries hierarchy. */
+  --wr-font-display: 'Archivo', system-ui, sans-serif;
+  --wr-font-body: 'Archivo', system-ui, sans-serif;
+  --wr-font-mono: 'Chivo Mono', ui-monospace, monospace;
+
+  --wr-w-condensed: 75;
+  --wr-w-normal: 100;
+  --wr-w-expanded: 125;
+
+  --wr-text-display: 3.75rem; --wr-text-h1: 1.875rem; --wr-text-h2: 1.5rem; --wr-text-h3: 1.125rem;
+  --wr-text-body: 1rem; --wr-text-body-sm: .9375rem; --wr-text-sm: .875rem;
+  --wr-text-xs: .8125rem; --wr-text-label: .75rem; --wr-text-micro: .6875rem;
+
+  --wr-lh-display: 1;
+  --wr-lh-heading: 1.15;
+  --wr-lh-body: 1.65;
+  --wr-lh-tight: 1.3;
+  --wr-ls-display: -.02em; --wr-ls-heading: -.01em; --wr-ls-label: .10em; --wr-ls-caps: .04em;
+
+  --font-display: var(--wr-font-display);
+  --font-body: var(--wr-font-body);
+  --font-data: var(--wr-font-mono);
+
+  /* TIER — spacing. 4px base. */
+  --wr-space-1: .25rem; --wr-space-2: .5rem;  --wr-space-3: .75rem; --wr-space-4: 1rem;
+  --wr-space-5: 1.25rem; --wr-space-6: 1.5rem; --wr-space-8: 2rem;   --wr-space-10: 2.5rem;
+  --wr-space-12: 3rem;  --wr-space-16: 4rem;  --wr-space-20: 5rem;  --wr-space-24: 6rem;
+
+  --wr-measure: 62ch;
+  --wr-container: 1120px;
+
+  /* TIER — shape. */
+  --wr-radius-none: 0; --wr-radius-xs: 2px; --wr-radius-sm: 4px;
+  --wr-radius-md: 6px; --wr-radius-lg: 8px;
+
+  --wr-bw-hair: 1px; --wr-bw-thick: 2px; --wr-bw-heavy: 4px;
+
+  /* TIER — elevation. Shadow Away, surface lightness + top highlight Home. */
+  --wr-shadow-1-away: 0 1px 2px rgb(12 16 19/.06), 0 1px 3px rgb(12 16 19/.10);
+  --wr-shadow-2-away: 0 2px 4px rgb(12 16 19/.06), 0 4px 12px rgb(12 16 19/.10);
+  --wr-shadow-3-away: 0 4px 8px rgb(12 16 19/.08), 0 12px 32px rgb(12 16 19/.14);
+  --wr-shadow-1-home: inset 0 1px 0 rgb(232 238 242/.06);
+  --wr-shadow-2-home: inset 0 1px 0 rgb(232 238 242/.08);
+  --wr-shadow-3-home: inset 0 1px 0 rgb(232 238 242/.10), 0 8px 24px rgb(0 0 0/.5);
+
+  /* TIER — motion. */
+  --wr-dur-fast: 150ms;
+  --wr-dur-normal: 200ms;
+  --wr-ease: cubic-bezier(.2, 0, 0, 1);
+}
+
+/* TIER 2 — semantic aliases, two kits (not two "modes").
+   Home (black) is the default and primary expression. */
+:root,
+[data-theme="home"] {
+  color-scheme: dark;
+  --bg-page: var(--wr-ink-1000);   --bg-surface: var(--wr-ink-975);
+  --bg-raised: var(--wr-ink-950);  --bg-sunken: var(--wr-kit-black);
+  --bg-hover: var(--wr-ink-950);   --bg-disabled: var(--wr-ink-900);
+  --fg-primary: var(--wr-ink-100); --fg-secondary: var(--wr-ink-400);
+  --fg-disabled: var(--wr-ink-600); --fg-inverse: var(--wr-ink-1000);
+  --fg-placeholder: var(--wr-ink-600);
+  --border-hairline: var(--wr-ink-900); --border-functional: var(--wr-ink-800);
+  --border-strong: var(--wr-ink-600);
+  --focus-ring: var(--wr-ink-100); --focus-halo: var(--wr-ink-1000);
+  --identity-mark: var(--wr-kit-white);
+  --identity-logo: url("/images/warriors-logo-white.png");
+  --stripe: var(--wr-ink-100); --stripe-mid: var(--wr-ink-600);
+  --action-bg: var(--wr-navy-400); --action-fg: var(--wr-ink-1000);
+  --action-hover: var(--wr-navy-300);
+  --link: var(--wr-navy-300); --link-hover: var(--wr-navy-200);
+  --st-success-surface: var(--wr-success-950); --st-success-border: var(--wr-success-900);
+  --st-success-icon: var(--wr-success-bright); --st-success-fg: var(--wr-success-bright);
+  --st-warning-surface: var(--wr-warning-950); --st-warning-border: var(--wr-warning-900);
+  --st-warning-icon: var(--wr-warning-bright); --st-warning-fg: var(--wr-warning-bright);
+  --st-danger-surface: var(--wr-danger-950);   --st-danger-border: var(--wr-danger-900);
+  --st-danger-icon: var(--wr-danger-bright);   --st-danger-fg: var(--wr-danger-bright);
+  --st-info-surface: var(--wr-navy-975);       --st-info-border: var(--wr-navy-900);
+  --st-info-icon: var(--wr-navy-400);          --st-info-fg: var(--wr-navy-300);
+  --series-1: #82B9E2; --series-2: #BD7200; --series-3: #D0DD44;
+  --series-4: #9769DC; --series-5: #009C89; --series-6: #FFBEB9;
+  --e1: var(--wr-shadow-1-home); --e2: var(--wr-shadow-2-home); --e3: var(--wr-shadow-3-home);
+  --e1-bg: var(--wr-ink-975); --e2-bg: var(--wr-ink-950); --e3-bg: var(--wr-ink-900);
+}
+
+[data-theme="away"] {
+  color-scheme: light;
+  --bg-page: var(--wr-ink-50);    --bg-surface: var(--wr-kit-white);
+  --bg-raised: var(--wr-ink-50);  --bg-sunken: var(--wr-ink-100);
+  --bg-hover: var(--wr-ink-100);  --bg-disabled: var(--wr-ink-200);
+  --fg-primary: var(--wr-ink-950); --fg-secondary: var(--wr-ink-700);
+  --fg-disabled: var(--wr-ink-500); --fg-inverse: var(--wr-kit-white);
+  --fg-placeholder: var(--wr-ink-400);
+  --border-hairline: var(--wr-ink-200); --border-functional: var(--wr-ink-600);
+  --border-strong: var(--wr-ink-900);
+  --focus-ring: var(--wr-ink-1000); --focus-halo: var(--wr-ink-50);
+  --identity-mark: var(--wr-kit-black);
+  --identity-logo: url("/images/warriors-logo-black.png");
+  --stripe: var(--wr-ink-950); --stripe-mid: var(--wr-ink-500);
+  --action-bg: var(--wr-navy-900); --action-fg: var(--wr-kit-white);
+  --action-hover: var(--wr-navy-800);
+  --link: var(--wr-navy-900); --link-hover: var(--wr-navy-800);
+  --st-success-surface: var(--wr-success-50);  --st-success-border: var(--wr-success-200);
+  --st-success-icon: var(--wr-success-700);    --st-success-fg: var(--wr-success-800);
+  --st-warning-surface: var(--wr-warning-50);  --st-warning-border: var(--wr-warning-200);
+  --st-warning-icon: var(--wr-warning-600);    --st-warning-fg: var(--wr-warning-800);
+  --st-danger-surface: var(--wr-danger-50);    --st-danger-border: var(--wr-danger-200);
+  --st-danger-icon: var(--wr-danger-800);      --st-danger-fg: var(--wr-danger-800);
+  --st-info-surface: var(--wr-navy-50);        --st-info-border: var(--wr-navy-200);
+  --st-info-icon: var(--wr-navy-900);          --st-info-fg: var(--wr-navy-800);
+  --series-1: #114261; --series-2: #808800; --series-3: #736EE1;
+  --series-4: #770500; --series-5: #C54D92; --series-6: #006154;
+  --e1: var(--wr-shadow-1-away); --e2: var(--wr-shadow-2-away); --e3: var(--wr-shadow-3-away);
+  --e1-bg: var(--wr-kit-white); --e2-bg: var(--wr-kit-white); --e3-bg: var(--wr-kit-white);
+}

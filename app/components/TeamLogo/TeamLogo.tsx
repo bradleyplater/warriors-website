@@ -33,8 +33,8 @@ export function TeamLogo({ src, teamName, className, wrapClassName }: Props) {
         >
           <defs>
             <linearGradient id={`tlg-${initials}`} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#1e3a6e" />
-              <stop offset="100%" stopColor="#1a56db" />
+              <stop offset="0%" stopColor="#373F45" />
+              <stop offset="100%" stopColor="#181C20" />
             </linearGradient>
           </defs>
           {/* Outer shield shape */}
