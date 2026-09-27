@@ -125,7 +125,7 @@ function shortName(name: string) {
  * ships it as null for every row, so prefer it when present and derive
  * otherwise. Only some opponents have artwork; the card falls back to initials.
  */
-function opponentCrestSrc(result: Result): string {
+export function opponentCrestSrc(result: { opponentTeam: string; logoImage?: string | null }): string {
   if (result.logoImage) return `/images/team-logos/${result.logoImage}`;
   const slug = result.opponentTeam.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   return `/images/team-logos/${slug}.jpg`;

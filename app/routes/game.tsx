@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useParams } from "react-router";
 import type { Route } from "./+types/game";
 import { getPlayers, getResults } from "~/data/client";
@@ -6,6 +7,7 @@ import { Badge } from "~/components/ds/Badge";
 import { DataTable } from "~/components/ds/DataTable";
 import { Stripe } from "~/components/ds/Stripe";
 import { getInitials } from "~/components/TeamLogo/TeamLogo";
+import { opponentCrestSrc } from "~/components/LatestResultCard/LatestResultCard";
 import upcomingGames from "../../public/data/upcoming-games.json";
 import "./game.css";
 
@@ -87,7 +89,7 @@ function formatDate(dateString: string) {
     day: "numeric",
     month: "short",
     year: "numeric",
-  });
+  }).replace(",", ""); // "Sat 18 Jul 2026", not "Sat, 18 Jul 2026"
 }
 
 /** Feed clocks run across the whole game; the score sheet reads per period. */
@@ -319,15 +321,30 @@ function RosterCard({
     <Link to={`/roster/${playerId}`} className="game-roster-card">
       <span className="t-data game-roster-number">#{player.number}</span>
       <span className="game-roster-name">{player.name}</span>
-      <span className="t-label muted">{player.position}</span>
+      <span className="t-label muted game-roster-pos">{player.position}</span>
       {(isMotm || isWotg || isNetminder) && (
         <div className="game-roster-badges">
           {isNetminder && <span className="game-roster-badge game-roster-badge--nm">GK</span>}
-          {isMotm && <span className="game-roster-badge game-roster-badge--motm">MOTM</span>}
-          {isWotg && <span className="game-roster-badge game-roster-badge--wotg">WOTG</span>}
+          {isMotm && <abbr title="Player of the game" className="game-roster-badge game-roster-badge--potg">POTG</abbr>}
+          {isWotg && <abbr title="Warrior of the game" className="game-roster-badge game-roster-badge--wotg">WOTG</abbr>}
         </div>
       )}
     </Link>
+  );
+}
+
+/** Opponent crest from /images/team-logos, falling back to initials when a
+ *  team has no artwork (same lookup as the homepage's last result). */
+function OpponentMark({ game }: { game: Result }) {
+  const [failed, setFailed] = useState(false);
+  return (
+    <span aria-hidden="true" className="game-team-mark">
+      {failed ? (
+        <span className="game-team-initials">{getInitials(game.opponentTeam)}</span>
+      ) : (
+        <img src={opponentCrestSrc(game)} alt="" className="game-team-crest" onError={() => setFailed(true)} />
+      )}
+    </span>
   );
 }
 
@@ -364,8 +381,10 @@ export default function Game({ loaderData }: Route.ComponentProps) {
   const wotgId = game.warriorOfTheGamePlayerId !== "MISSING" ? game.warriorOfTheGamePlayerId : null;
   const nmId = game.netminderPlayerId !== "MISSING" ? game.netminderPlayerId : null;
   const netminder = nmId ? playerMap.get(nmId) : undefined;
+  const motmPlayer = motmId ? playerMap.get(motmId) : undefined;
+  const wotgPlayer = wotgId ? playerMap.get(wotgId) : undefined;
   const awardNames = new Map<string, string>();
-  if (motmId) awardNames.set(playerMap.get(motmId)?.name ?? "", "Man of the match");
+  if (motmId) awardNames.set(playerMap.get(motmId)?.name ?? "", "Player of the game");
   if (wotgId) awardNames.set(playerMap.get(wotgId)?.name ?? "", "Warrior of the game");
 
   const periodScores = [p.one, p.two, p.three].map((period, i) => ({
@@ -416,12 +435,12 @@ export default function Game({ loaderData }: Route.ComponentProps) {
 
         <div className="game-scoreboard-teams">
           <div className="game-team-row">
-            <span aria-hidden="true" className="game-team-mark game-team-mark--warriors">PW</span>
+            <span aria-hidden="true" className="game-team-mark game-team-mark--warriors" />
             <span className="t-heading game-team-name">Peterborough Warriors</span>
             <span className="game-team-score">{game.score.warriorsScore}</span>
           </div>
           <div className="game-team-row game-team-row--opponent">
-            <span aria-hidden="true" className="game-team-mark">{getInitials(game.opponentTeam)}</span>
+            <OpponentMark game={game} />
             <span className="t-heading game-team-name">{game.opponentTeam}</span>
             <span className="game-team-score">{game.score.opponentScore}</span>
           </div>
@@ -453,6 +472,26 @@ export default function Game({ loaderData }: Route.ComponentProps) {
               <span className="game-fact-text">{venue}</span>
             </div>
           </div>
+
+          {(motmPlayer || wotgPlayer) && (
+            <div className="game-awards">
+              <span className="t-label muted">Awards</span>
+              <div className="game-awards-items">
+                {motmPlayer && (
+                  <span className="game-award">
+                    <abbr title="Player of the game" className="t-label game-award-tag game-award-tag--potg">POTG</abbr>
+                    <Link to={`/roster/${motmPlayer.id}`} className="game-award-name">{motmPlayer.name}</Link>
+                  </span>
+                )}
+                {wotgPlayer && (
+                  <span className="game-award">
+                    <abbr title="Warrior of the game" className="t-label game-award-tag">WOTG</abbr>
+                    <Link to={`/roster/${wotgPlayer.id}`} className="game-award-name">{wotgPlayer.name}</Link>
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -470,18 +509,22 @@ export default function Game({ loaderData }: Route.ComponentProps) {
                   goal.assistNames.length > 0
                     ? `Assisted by ${goal.assistNames.join(", ")}`
                     : "Unassisted";
-                const detail = [assists, STRENGTH_LABELS[goal.type], goal.isGWG ? "game winner" : null]
+                const opponentGoal = goal.team !== "warriors";
+                const detail = [
+                  opponentGoal ? game.opponentTeam : null,
+                  assists,
+                  STRENGTH_LABELS[goal.type],
+                  goal.isGWG ? "game winner" : null,
+                ]
                   .filter(Boolean)
                   .join(" · ");
                 return (
-                  <li key={goal.id} className="game-list-row">
+                  <li key={goal.id} className={`game-list-row${opponentGoal ? " game-list-row--opponent" : ""}`}>
                     <span className="t-data muted game-list-clock">
                       {PERIOD_LABELS[goal.period - 1]} {formatPeriodClock(goal.minute, goal.second, goal.period)}
                     </span>
                     <div className="game-list-body">
-                      <span className="game-list-primary">
-                        {goal.team === "warriors" ? "Warriors" : game.opponentTeam} — {goal.scorerName}
-                      </span>
+                      <span className="game-list-primary">{goal.scorerName}</span>
                       <span className="t-label muted">{detail}</span>
                     </div>
                     <span className="t-data game-list-score">

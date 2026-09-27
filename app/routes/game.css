@@ -57,7 +57,19 @@
   font-weight: 700;
   font-size: .75rem;
 }
-.game-team-mark--warriors { border-color: var(--border-strong); color: var(--fg-primary); }
+/* Warriors wordmark swaps white/black with the kit via --identity-logo; the
+   slot is wide so it lines up with the square opponent crest below. */
+.game-team-mark--warriors {
+  width: 84px;
+  border: 0;
+  background: var(--identity-logo) center / contain no-repeat;
+}
+.game-team-row .game-team-mark:not(.game-team-mark--warriors) { width: 84px; border: 0; }
+.game-team-initials {
+  width: 44px; height: 44px; display: grid; place-items: center;
+  border: var(--wr-bw-hair) solid var(--border-functional); border-radius: var(--wr-radius-xs);
+}
+.game-team-crest { max-width: 44px; max-height: 44px; border-radius: var(--wr-radius-xs); }
 
 .game-team-name {
   flex: 1;
@@ -91,6 +103,26 @@
 .game-fact-period { display: flex; flex-direction: column; gap: 2px; text-align: center; }
 .game-fact-period-line { font-weight: 700; font-size: 1.125rem; }
 .game-fact-period-label { font-size: var(--wr-text-micro); }
+
+/* Awards: POTG solid, WOTG outlined, as on the homepage and results page. */
+.game-awards {
+  border-top: var(--wr-bw-hair) solid var(--border-hairline);
+  margin-top: var(--wr-space-4);
+  padding-top: var(--wr-space-4);
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--wr-space-2) var(--wr-space-6);
+}
+.game-awards-items { display: flex; flex-wrap: wrap; gap: var(--wr-space-2) var(--wr-space-5); }
+.game-award { display: flex; align-items: center; gap: var(--wr-space-2); }
+.game-award-tag {
+  padding: 2px var(--wr-space-2);
+  border: var(--wr-bw-hair) solid var(--fg-primary);
+  border-radius: var(--wr-radius-xs);
+  color: var(--fg-primary);
+  text-decoration: none;
+}
+.game-award-tag--potg { background: var(--fg-primary); color: var(--bg-page); }
+.game-award-name { font-size: var(--wr-text-body-sm); font-weight: 600; color: var(--fg-primary); text-decoration: none; }
+.game-award-name:hover { text-decoration: underline; }
 
 /* ── Panel grid ── */
 /* Two columns rather than auto-fit: at 1120px auto-fit would fit three
@@ -131,6 +163,8 @@
 .game-list-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .game-list-primary { font-size: var(--wr-text-body-sm); font-weight: 600; overflow-wrap: break-word; }
 .game-list-score { flex: none; font-weight: 700; }
+/* Opponent goals read secondary so Warriors goals stand out down the list. */
+.game-list-row--opponent .game-list-primary { color: var(--fg-secondary); font-weight: 400; }
 .game-penalty-mins { flex: none; font-weight: 700; width: 4ch; text-align: right; }
 
 .game-table-scroll { overflow-x: auto; }
@@ -173,8 +207,9 @@
   border: var(--wr-bw-hair) solid;
 }
 .game-roster-badge--nm { background: var(--bg-raised); border-color: var(--border-functional); color: var(--fg-secondary); }
-.game-roster-badge--motm { background: var(--st-info-surface); border-color: var(--st-info-border); color: var(--st-info-fg); }
-.game-roster-badge--wotg { background: var(--st-warning-surface); border-color: var(--st-warning-border); color: var(--st-warning-fg); }
+.game-roster-badge { text-decoration: none; }
+.game-roster-badge--potg { background: var(--fg-primary); border-color: var(--fg-primary); color: var(--bg-page); }
+.game-roster-badge--wotg { background: transparent; border-color: var(--fg-primary); color: var(--fg-primary); }
 
 /* ── Next up ── */
 .game-nextup { padding: 0 var(--wr-space-5) var(--wr-space-16); }
@@ -205,4 +240,17 @@
   gap: var(--wr-space-4);
   padding: var(--wr-space-16) var(--wr-space-4);
   color: var(--fg-secondary);
+}
+
+@media (max-width: 640px) {
+  .game-scoreboard-when { margin-left: 0; flex-basis: 100%; }
+  .game-team-mark--warriors, .game-team-row .game-team-mark:not(.game-team-mark--warriors) { width: 64px; }
+  .game-scoreboard-facts { gap: var(--wr-space-5) var(--wr-space-6); }
+
+  /* Lineup: sixteen cards two to a row ran to eight tall rows. A compact
+     two-column list keeps number, name and badges and drops the position. */
+  .game-roster-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--wr-space-2); }
+  .game-roster-card { display: grid; grid-template-columns: 3.5ch minmax(0, 1fr); align-items: baseline; gap: 2px var(--wr-space-2); padding: var(--wr-space-2) var(--wr-space-3); min-height: 44px; }
+  .game-roster-pos { display: none; }
+  .game-roster-badges { grid-column: 2; margin-top: 0; }
 }
