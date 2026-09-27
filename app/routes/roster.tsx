@@ -359,7 +359,7 @@ export default function Roster({ loaderData }: Route.ComponentProps) {
           </div>
           <label className="roster-sort-select">
             <span className="t-label roster-controls-label">Sort by</span>
-            <select value={sort} onChange={(e) => setSort(e.target.value as SortKey)}>
+            <select className="ds-select" value={sort} onChange={(e) => setSort(e.target.value as SortKey)}>
               {SORT_KEYS.map((s) => (
                 <option key={s} value={s}>{s}</option>
               ))}

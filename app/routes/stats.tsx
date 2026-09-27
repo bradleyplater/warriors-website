@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router";
 import type { Route } from "./+types/stats";
 import { getPlayers, getResults } from "~/data/client";
@@ -291,11 +291,39 @@ function Chip({
   );
 }
 
-function SectionBar({ title, note }: { title: string; note: string }) {
+function SectionBar({ title, note }: { title: string; note: ReactNode }) {
   return (
     <div className="stats-section-bar">
       <h2 className="t-heading stats-section-title">{title}</h2>
       <span className="t-label stats-muted">{note}</span>
+    </div>
+  );
+}
+
+/** One row per player with a proportional bar: the phone stand-in for the
+ *  line and column charts, which can't fit full names at 390px. */
+type RankedItem = { key: string; name: string; meta?: string; value: number; display?: string };
+
+function RankedList({ items, caption }: { items: RankedItem[]; caption?: string }) {
+  const max = Math.max(1, ...items.map((i) => i.value));
+  return (
+    <div className="stats-ranked">
+      {caption && <span className="t-label stats-muted">{caption}</span>}
+      <ol className="stats-ranked-list">
+        {items.map((item, i) => (
+          <li key={item.key} className="stats-ranked-row">
+            <span className="t-data stats-muted stats-ranked-rank">{i + 1}</span>
+            <span className="stats-ranked-who">
+              <span className="stats-ranked-name">{item.name}</span>
+              {item.meta && <span className="t-label stats-muted">{item.meta}</span>}
+            </span>
+            <span className="stats-ranked-value">{item.display ?? item.value}</span>
+            <span className="stats-ranked-bar" aria-hidden="true">
+              <span style={{ width: `${((item.value / max) * 100).toFixed(1)}%` }} />
+            </span>
+          </li>
+        ))}
+      </ol>
     </div>
   );
 }
@@ -503,8 +531,36 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
         .filter((p) => p.gp >= ppgMinGP)
         .sort((a, b) => b.ppg - a.ppg)
         .slice(0, 6)
-        .map((p) => ({ label: lastName(p.name), value: Number(p.ppg.toFixed(2)) })),
+        .map((p) => ({
+          label: lastName(p.name),
+          value: Number(p.ppg.toFixed(2)),
+          name: p.name,
+          key: p.playerId,
+          meta: `#${p.number} · ${posAbbrev(p.position)} · ${p.gp} GP`,
+        })),
     [skaters, ppgMinGP]
+  );
+
+  // Phone versions of the charts: ranked lists with full names.
+  const progressionRanked = useMemo<RankedItem[]>(
+    () =>
+      skaters
+        .slice()
+        .sort((a, b) => b[metric] - a[metric])
+        .filter((p) => p[metric] > 0)
+        .slice(0, 8)
+        .map((p) => ({ key: p.playerId, name: p.name, meta: `#${p.number} · ${posAbbrev(p.position)}`, value: p[metric] })),
+    [skaters, metric]
+  );
+  const pimRanked = useMemo<RankedItem[]>(
+    () =>
+      skaters
+        .slice()
+        .sort((a, b) => b.pims - a.pims)
+        .filter((p) => p.pims > 0)
+        .slice(0, 6)
+        .map((p) => ({ key: p.playerId, name: p.name, meta: `#${p.number} · ${posAbbrev(p.position)}`, value: p.pims })),
+    [skaters]
   );
 
   // ── Copy ───────────────────────────────────────────────────────────────────
@@ -543,7 +599,7 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
   }
 
   function downloadCsv() {
-    const head = ["#", "Player", "Position", "GP", "G", "A", "PTS", "PPG", "PIM", "MOTM", "WOTG"];
+    const head = ["#", "Player", "Position", "GP", "G", "A", "PTS", "PPG", "PIM", "POTG", "WOTG"];
     const body = skaterRows.map((r) => [
       r.number, r.name, r.position, r.gp, r.goals, r.assists, r.points, r.ppg.toFixed(2), r.pims, r.motm, r.wotg,
     ]);
@@ -571,7 +627,7 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
     { header: "PTS", numeric: true, align: "right", strong: true, sortKey: "points" },
     { header: "PPG", numeric: true, align: "right", sortKey: "ppg" },
     { header: "PIM", numeric: true, align: "right", sortKey: "pims" },
-    { header: "MOTM", numeric: true, align: "right", sortKey: "motm" },
+    { header: "POTG", numeric: true, align: "right", sortKey: "motm" },
     { header: "WOTG", numeric: true, align: "right", sortKey: "wotg" },
   ];
 
@@ -645,6 +701,8 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
         {goalieRows.length === 0 ? (
           <p className="stats-empty">No goaltending recorded for these filters.</p>
         ) : (
+          <>
+          <p className="t-label stats-muted stats-swipe-hint" aria-hidden="true">Swipe for more →</p>
           <div className="stats-table-scroll">
             <DataTable
               className="stats-table-goalies"
@@ -654,9 +712,10 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
               onSort={(key) => pickGoalieSort(key as GoalieSort)}
               rows={goalieRows.map((r) => [
                 r.number,
-                <Link key={r.playerId} to={`/roster/${r.playerId}`} className="stats-player-link">
-                  {r.name}
-                </Link>,
+                <span key={r.playerId} className="stats-player-cell">
+                  <Link to={`/roster/${r.playerId}`} className="stats-player-link">{r.name}</Link>
+                  <span className="t-label stats-muted stats-player-sub">#{r.number} · G</span>
+                </span>,
                 r.gp,
                 r.w,
                 r.l,
@@ -667,6 +726,7 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
               ])}
             />
           </div>
+          </>
         )}
         <p className="t-label stats-muted stats-legend">
           GP games played · W wins · L losses · D draws · GA goals against · GAA goals against
@@ -679,7 +739,31 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
           title="Skater scoring"
           note={`${skaterRows.length} skater${skaterRows.length === 1 ? "" : "s"} · ${scopedGames.length} games`}
         />
-        <div className="stats-controls" role="group" aria-label="Sort and filter skaters">
+        {/* Phones get the two chip sets as dropdowns; CSS shows one or the other. */}
+        <div className="stats-controls stats-controls-select">
+          <label className="stats-select">
+            <span className="t-label stats-muted">Sort by</span>
+            <select
+              className="ds-select"
+              value={SORT_CHIPS.some((c) => c.field === skaterSort) ? skaterSort : ""}
+              onChange={(e) => pickSkaterSort(e.target.value as SkaterSort)}
+            >
+              {!SORT_CHIPS.some((c) => c.field === skaterSort) && <option value="" disabled>Column</option>}
+              {SORT_CHIPS.map((c) => (
+                <option key={c.field} value={c.field}>{c.label}</option>
+              ))}
+            </select>
+          </label>
+          <label className="stats-select">
+            <span className="t-label stats-muted">Show</span>
+            <select className="ds-select" value={pos} onChange={(e) => setPos(e.target.value)}>
+              {POS_FILTERS.map((p) => (
+                <option key={p.value} value={p.value}>{p.label}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <div className="stats-controls stats-controls-chips" role="group" aria-label="Sort and filter skaters">
           <span className="t-label stats-muted">Sort by</span>
           <div className="stats-chip-set">
             {SORT_CHIPS.map((s) => (
@@ -700,6 +784,8 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
         {skaterRows.length === 0 ? (
           <p className="stats-empty">No skaters match these filters.</p>
         ) : (
+          <>
+          <p className="t-label stats-muted stats-swipe-hint" aria-hidden="true">Swipe for more →</p>
           <div className="stats-table-scroll">
             <DataTable
               className="stats-table-skaters"
@@ -709,9 +795,10 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
               onSort={(key) => pickSkaterSort(key as SkaterSort)}
               rows={skaterRows.map((r) => [
                 r.number,
-                <Link key={r.playerId} to={`/roster/${r.playerId}`} className="stats-player-link">
-                  {r.name}
-                </Link>,
+                <span key={r.playerId} className="stats-player-cell">
+                  <Link to={`/roster/${r.playerId}`} className="stats-player-link">{r.name}</Link>
+                  <span className="t-label stats-muted stats-player-sub">#{r.number} · {posAbbrev(r.position)}</span>
+                </span>,
                 posAbbrev(r.position),
                 r.gp,
                 r.goals,
@@ -724,10 +811,11 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
               ])}
             />
           </div>
+          </>
         )}
         <p className="t-label stats-muted stats-legend">
           GP games played · G goals · A assists · PTS points · PPG points per game · PIM penalties
-          in minutes · MOTM man of the match · WOTG warrior of the game
+          in minutes · POTG player of the game · WOTG warrior of the game
         </p>
       </section>
 
@@ -736,7 +824,12 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
       <section className="stats-section stats-section-top" aria-label="Scoring progression">
         <SectionBar
           title={allTime ? "All-time progression" : "Season progression"}
-          note={chartNote}
+          note={
+            <>
+              <span className="stats-desktop-only">{chartNote}</span>
+              <span className="stats-phone-only">{gameCount}</span>
+            </>
+          }
         />
 
         <div className="stats-controls">
@@ -749,10 +842,18 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
           <span className="t-label stats-muted stats-filter-note">{rangeNote}</span>
         </div>
 
+        {progressionRanked.length > 0 && (
+          <div className="stats-phone-only">
+            <RankedList
+              items={progressionRanked}
+              caption={`Top ${progressionRanked.length} by ${metric === "pims" ? "penalty minutes" : metricLabel.toLowerCase()}`}
+            />
+          </div>
+        )}
         {chart.lines.length === 0 ? (
           <p className="stats-empty">Nothing to plot for these filters.</p>
         ) : (
-          <div className="stats-chart-card">
+          <div className="stats-chart-card stats-desktop-only">
             <div className="stats-chart-scroll">
               <div className="stats-chart-plot">
                 <svg viewBox={`0 0 ${VW} ${VH}`} role="img" aria-label={chartNote}>
@@ -826,7 +927,7 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
             </div>
           </div>
         )}
-        <p className="t-label stats-muted stats-legend">
+        <p className="t-label stats-muted stats-legend stats-desktop-only">
           {axisFoot} Vertical axis is cumulative {metric === "pims" ? "penalty minutes" : metricLabel.toLowerCase()}.
         </p>
       </section>
@@ -884,7 +985,10 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
           {pimData.length === 0 ? (
             <p className="stats-empty">No penalties recorded.</p>
           ) : (
-            <BarChart data={pimData} height={200} />
+            <>
+              <div className="stats-desktop-only"><BarChart data={pimData} height={200} /></div>
+              <div className="stats-phone-only"><RankedList items={pimRanked} /></div>
+            </>
           )}
           <p className="t-label stats-muted stats-legend">Minutes served across the selected games.</p>
         </div>
@@ -893,7 +997,14 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
           {ppgData.length === 0 ? (
             <p className="stats-empty">No skater has reached {ppgMinGP} games.</p>
           ) : (
-            <BarChart data={ppgData} height={200} formatValue={(v) => v.toFixed(2)} />
+            <>
+              <div className="stats-desktop-only">
+                <BarChart data={ppgData} height={200} formatValue={(v) => v.toFixed(2)} />
+              </div>
+              <div className="stats-phone-only">
+                <RankedList items={ppgData.map((d) => ({ ...d, display: d.value.toFixed(2) }))} />
+              </div>
+            </>
           )}
           <p className="t-label stats-muted stats-legend">
             Scoring rate rather than volume, so part-season players are comparable.
