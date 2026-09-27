@@ -240,7 +240,7 @@ export default function Results({ loaderData }: Route.ComponentProps) {
   return (
     <div className="results-page">
       <div className="results-intro">
-        <SectionHead eyebrow="EIH Recreational League South, Div 2" title="Results">
+        <SectionHead title="Results">
           Scores are confirmed against the official EIH game sheet, so they can differ from the score posted on the night until the sheet is filed.
         </SectionHead>
         <div className="results-season-row">

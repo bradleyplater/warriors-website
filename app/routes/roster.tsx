@@ -310,7 +310,7 @@ export default function Roster({ loaderData }: Route.ComponentProps) {
   return (
     <div className="roster-page">
       <div className="roster-intro">
-        <SectionHead eyebrow="EIH Recreational League South, Div 2" title="Roster">
+        <SectionHead title="Roster">
           Career statistics for every player who has pulled on a Warriors shirt. A player must be
           registered with England Ice Hockey before taking the ice.
         </SectionHead>
