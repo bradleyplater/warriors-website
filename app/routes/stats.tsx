@@ -3,7 +3,6 @@ import { Link } from "react-router";
 import type { Route } from "./+types/stats";
 import { getPlayers, getResults } from "~/data/client";
 import { BarChart } from "~/components/ds/BarChart";
-import { Button } from "~/components/ds/Button";
 import { DataTable, type DataTableColumn } from "~/components/ds/DataTable";
 import { SectionHead } from "~/components/ds/SectionHead";
 import { Stripe } from "~/components/ds/Stripe";
@@ -225,11 +224,6 @@ function sortRows<T extends SkaterRow | GoalieRow>(rows: T[], key: keyof T, dir:
         : (av as number) - (bv as number);
     return dir === "asc" ? cmp : -cmp;
   });
-}
-
-function csvCell(value: string | number) {
-  const s = String(value);
-  return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 }
 
 // ── Filter option tables ──────────────────────────────────────────────────────
@@ -598,23 +592,6 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
     setGoalieDir(field === "name" || field === "number" || field === "gaa" || field === "ga" ? "asc" : "desc");
   }
 
-  function downloadCsv() {
-    const head = ["#", "Player", "Position", "GP", "G", "A", "PTS", "PPG", "PIM", "POTG", "WOTG"];
-    const body = skaterRows.map((r) => [
-      r.number, r.name, r.position, r.gp, r.goals, r.assists, r.points, r.ppg.toFixed(2), r.pims, r.motm, r.wotg,
-    ]);
-    const csv = [head, ...body].map((cols) => cols.map(csvCell).join(",")).join("\r\n");
-    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
-    const slug = allTime ? "all-time" : season.replace("/", "-");
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `warriors-skater-stats-${slug}.csv`;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(url);
-  }
-
   // ── Table definitions ──────────────────────────────────────────────────────
 
   const skaterColumns: DataTableColumn[] = [
@@ -979,7 +956,7 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
         </p>
       </section>
 
-      <section className="stats-section stats-rates" aria-label="Discipline and rate">
+      <section className="stats-section stats-rates stats-section-foot" aria-label="Discipline and rate">
         <div>
           <SectionBar title="Penalty minutes" note="Top six" />
           {pimData.length === 0 ? (
@@ -1012,22 +989,6 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
         </div>
       </section>
 
-      <section className="stats-section stats-section-foot">
-        <div className="stats-cta">
-          <p className="stats-cta-copy">
-            Corrections to a game sheet are applied within a week of the game. Report a
-            discrepancy through Facebook and the secretary will check it against the sheet.
-          </p>
-          <div className="stats-cta-actions">
-            <Button onClick={downloadCsv} disabled={skaterRows.length === 0}>
-              Download as CSV
-            </Button>
-            <Link to="/records" className="ds-btn ds-btn-secondary ds-btn-md">
-              Club records
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
