@@ -295,34 +295,99 @@ function SectionHeading({ title, note }: { title: string; note?: string }) {
   );
 }
 
-function RosterCard({
-  playerId,
-  isMotm,
-  isWotg,
-  isNetminder,
-  playerMap,
-}: {
-  playerId: string;
-  isMotm: boolean;
-  isWotg: boolean;
-  isNetminder: boolean;
-  playerMap: Map<string, Player>;
-}) {
-  const player = playerMap.get(playerId);
-  if (!player) return null;
+type LineupRow = {
+  id: string;
+  number: number;
+  name: string;
+  pos: string;
+  note: string | null;
+  g: number;
+  a: number;
+  pim: number;
+};
+
+const POS_SHORT: Record<string, string> = { Forward: "F", Defence: "D", Goaltender: "G", Goalie: "G" };
+
+/**
+ * Warriors dressed for the game, grouped Goaltenders / Defence / Forwards as
+ * in the design, with each player's goals, assists and penalty minutes taken
+ * from this game's sheet. The recorded netminder is the starter; any other
+ * goaltender listed first as a goalie is the backup. Players with more than
+ * one position are grouped by the first one listed.
+ */
+function buildLineup(game: Result, playerMap: Map<string, Player>, awards: Map<string, string>) {
+  const nmId = game.netminderPlayerId !== "MISSING" ? game.netminderPlayerId : null;
+  const tally = new Map<string, { g: number; a: number; pim: number }>();
+  const bump = (id: string, key: "g" | "a" | "pim", by = 1) => {
+    const t = tally.get(id) ?? { g: 0, a: 0, pim: 0 };
+    t[key] += by;
+    tally.set(id, t);
+  };
+  for (const period of [game.score.period.one, game.score.period.two, game.score.period.three]) {
+    for (const goal of period.goals ?? []) {
+      bump(goal.playerId, "g");
+      for (const id of goal.assists ?? []) bump(id, "a");
+    }
+    for (const pen of period.penalties ?? []) bump(pen.offender, "pim", pen.duration);
+  }
+
+  const groups: Record<"Goaltenders" | "Defence" | "Forwards", LineupRow[]> = {
+    Goaltenders: [],
+    Defence: [],
+    Forwards: [],
+  };
+  for (const id of game.roster ?? []) {
+    const player = playerMap.get(id);
+    if (!player) continue;
+    const first = player.position.split("/")[0].trim();
+    const goalie = id === nmId || POS_SHORT[first] === "G";
+    const group = goalie ? "Goaltenders" : POS_SHORT[first] === "D" ? "Defence" : "Forwards";
+    const notes = [
+      goalie ? (id === nmId ? "Starter" : "Backup") : null,
+      awards.get(id) ?? null,
+    ].filter(Boolean);
+    const t = tally.get(id) ?? { g: 0, a: 0, pim: 0 };
+    groups[group].push({
+      id,
+      number: player.number,
+      name: player.name,
+      pos: goalie ? "G" : POS_SHORT[first] ?? first.charAt(0).toUpperCase(),
+      note: notes.length ? notes.join(" · ") : null,
+      ...t,
+    });
+  }
+  for (const rows of Object.values(groups)) {
+    rows.sort((a, b) => (b.note === "Starter" ? 1 : 0) - (a.note === "Starter" ? 1 : 0) || a.number - b.number);
+  }
+  return (Object.entries(groups) as [string, LineupRow[]][]).filter(([, rows]) => rows.length > 0);
+}
+
+function LineupGroup({ label, rows }: { label: string; rows: LineupRow[] }) {
   return (
-    <Link to={`/roster/${playerId}`} className="game-roster-card">
-      <span className="t-data game-roster-number">#{player.number}</span>
-      <span className="game-roster-name">{player.name}</span>
-      <span className="t-label muted game-roster-pos">{player.position}</span>
-      {(isMotm || isWotg || isNetminder) && (
-        <div className="game-roster-badges">
-          {isNetminder && <span className="game-roster-badge game-roster-badge--nm">GK</span>}
-          {isMotm && <abbr title="Player of the game" className="game-roster-badge game-roster-badge--potg">POTG</abbr>}
-          {isWotg && <abbr title="Warrior of the game" className="game-roster-badge game-roster-badge--wotg">WOTG</abbr>}
-        </div>
-      )}
-    </Link>
+    <div className="game-lineup-group">
+      <div className="game-lineup-row game-lineup-row--head">
+        <span className="t-label game-lineup-label">{label}</span>
+        <span className="t-label muted game-lineup-num">Pos</span>
+        <span className="t-label muted game-lineup-num">G</span>
+        <span className="t-label muted game-lineup-num">A</span>
+        <span className="t-label muted game-lineup-num">PIM</span>
+      </div>
+      <ul className="game-lineup-list">
+        {rows.map((r) => (
+          <li key={r.id} className="game-lineup-row">
+            <span className="t-data muted">{r.number}</span>
+            <span className="game-lineup-who">
+              <Link to={`/roster/${r.id}`} className="game-lineup-name">{r.name}</Link>
+              {r.note && <span className="t-label muted game-lineup-note">{r.note}</span>}
+            </span>
+            <span className="t-label muted game-lineup-num">{r.pos}</span>
+            <span className={`t-data game-lineup-num${r.g ? " game-lineup-strong" : ""}`}>{r.g}</span>
+            <span className={`t-data game-lineup-num${r.a ? " game-lineup-strong" : ""}`}>{r.a}</span>
+            <span className="t-data muted game-lineup-num">{r.pim}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
@@ -385,6 +450,10 @@ export default function Game({ loaderData }: Route.ComponentProps) {
   const wotgId = game.warriorOfTheGamePlayerId !== "MISSING" ? game.warriorOfTheGamePlayerId : null;
   const nmId = game.netminderPlayerId !== "MISSING" ? game.netminderPlayerId : null;
   const netminder = nmId ? playerMap.get(nmId) : undefined;
+  const awardsById = new Map<string, string>();
+  if (motmId) awardsById.set(motmId, "POTG");
+  if (wotgId) awardsById.set(wotgId, motmId === wotgId ? "POTG · WOTG" : "WOTG");
+  const lineup = buildLineup(game, playerMap, awardsById);
   const awardNames = new Map<string, string>();
   if (motmId) awardNames.set(playerMap.get(motmId)?.name ?? "", "Player of the game");
   if (wotgId) awardNames.set(playerMap.get(wotgId)?.name ?? "", "Warrior of the game");
@@ -571,19 +640,15 @@ export default function Game({ loaderData }: Route.ComponentProps) {
       {/* Placeholder until game photos are added: pass them as `photos`. */}
       <GamePhotos />
 
-      {game.roster && game.roster.length > 0 && (
+      {lineup.length > 0 && (
         <section aria-label="Lineup" className="game-lineup">
-          <SectionHeading title="Lineup" note={plural(game.roster.length, "player")} />
-          <div className="game-roster-grid">
-            {game.roster.map((id) => (
-              <RosterCard
-                key={id}
-                playerId={id}
-                isMotm={id === motmId}
-                isWotg={id === wotgId}
-                isNetminder={id === nmId}
-                playerMap={playerMap}
-              />
+          <SectionHeading
+            title="Warriors lineup"
+            note={`${plural(game.roster.length, "player")} dressed · G · A · PIM`}
+          />
+          <div className="game-lineup-groups">
+            {lineup.map(([label, rows]) => (
+              <LineupGroup key={label} label={label} rows={rows} />
             ))}
           </div>
         </section>
