@@ -1,0 +1,61 @@
+.game-photos { max-width: var(--wr-container); margin: 0 auto; width: 100%; padding: 0 var(--wr-space-5) var(--wr-space-10); }
+
+.game-photos-head {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: var(--wr-space-3);
+  margin: 0 0 var(--wr-space-5);
+  padding-bottom: var(--wr-space-2);
+  border-bottom: var(--wr-bw-thick) solid var(--stripe);
+}
+.game-photos-title { font-size: var(--wr-text-h3); text-transform: uppercase; margin: 0; }
+.game-photos-note { color: var(--fg-secondary); }
+
+.game-photos-carousel { display: flex; flex-direction: column; gap: var(--wr-space-4); }
+
+.game-photos-viewport {
+  position: relative;
+  overflow: hidden;
+  border: var(--wr-bw-hair) solid var(--border-hairline);
+  border-radius: var(--wr-radius-md);
+  background: var(--bg-sunken);
+}
+/* width: 100% so translateX(-100%) moves exactly one slide. */
+.game-photos-track { display: flex; width: 100%; transition: transform 300ms var(--wr-ease); }
+@media (prefers-reduced-motion: reduce) { .game-photos-track { transition: none; } }
+
+.game-photos-slide { flex: 0 0 100%; min-width: 0; aspect-ratio: 16 / 9; }
+.game-photos-slide--placeholder {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: var(--wr-space-2);
+  text-align: center;
+  padding: var(--wr-space-6);
+}
+.game-photos-subject { font-size: clamp(1rem, 2.4vw, 1.375rem); max-width: 30ch; }
+/* Shown whole, never cropped or upscaled (same rule as the hero carousel). */
+.game-photos-image { display: block; width: 100%; height: 100%; object-fit: scale-down; }
+
+.game-photos-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--wr-space-4); }
+.game-photos-caption { margin: 0; flex: 1 1 240px; min-width: 0; font-size: var(--wr-text-body-sm); color: var(--fg-primary); text-wrap: pretty; }
+.game-photos-controls { display: flex; align-items: center; gap: var(--wr-space-4); flex: none; }
+
+.game-photos-dots { display: flex; gap: var(--wr-space-2); align-items: center; }
+.game-photos-dot { height: 4px; width: 14px; border: 0; padding: 0; cursor: pointer; border-radius: var(--wr-radius-xs); background: var(--border-strong); }
+.game-photos-dot[aria-pressed="true"] { width: 32px; background: var(--fg-primary); }
+.game-photos-counter { min-width: 5.5ch; }
+
+.game-photos-arrows { display: flex; gap: var(--wr-space-1); }
+.game-photos-arrow {
+  width: 40px; height: 40px; display: grid; place-items: center;
+  background: transparent; color: var(--fg-primary);
+  border: var(--wr-bw-hair) solid var(--border-functional); border-radius: var(--wr-radius-sm);
+  cursor: pointer; font-family: var(--wr-font-mono); font-size: .875rem;
+}
+.game-photos-arrow:hover { background: var(--bg-hover); }
+
+/* Phones: the counter and 44px arrows on one row, dots hidden (too small to
+   tap), matching the homepage hero. */
+@media (max-width: 640px) {
+  .game-photos-controls { flex: 1 1 100%; justify-content: space-between; }
+  .game-photos-dots { display: none; }
+  .game-photos-arrow { width: 44px; height: 44px; }
+}

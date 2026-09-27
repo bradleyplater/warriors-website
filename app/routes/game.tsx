@@ -6,6 +6,7 @@ import type { Penalty, Result } from "~/data/types";
 import { Badge } from "~/components/ds/Badge";
 import { DataTable } from "~/components/ds/DataTable";
 import { Stripe } from "~/components/ds/Stripe";
+import { GamePhotos } from "~/components/GamePhotos/GamePhotos";
 import { getInitials } from "~/components/TeamLogo/TeamLogo";
 import { opponentCrestSrc } from "~/components/LatestResultCard/LatestResultCard";
 import "./game.css";
@@ -566,6 +567,9 @@ export default function Game({ loaderData }: Route.ComponentProps) {
           </div>
         )}
       </section>
+
+      {/* Placeholder until game photos are added: pass them as `photos`. */}
+      <GamePhotos />
 
       {game.roster && game.roster.length > 0 && (
         <section aria-label="Lineup" className="game-lineup">
