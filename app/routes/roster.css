@@ -37,6 +37,41 @@
 .roster-controls-label { color: var(--fg-secondary); margin-right: var(--wr-space-2); }
 .roster-controls-sep { margin-left: var(--wr-space-6); }
 .roster-controls-count { color: var(--fg-secondary); margin-left: auto; }
+.roster-sort-chips { display: contents; }
+.roster-sort-select { display: none; }
+
+@media (max-width: 640px) {
+  /* The six squad figures wrapped 3-2-1; a fixed three-column grid gives two
+     even rows. */
+  .roster-stat-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--wr-space-5) var(--wr-space-4); }
+
+  .roster-controls { gap: var(--wr-space-3) var(--wr-space-2); }
+  .roster-controls .ds-chip { min-height: 44px; }
+  .roster-sort-chips { display: none; }
+  .roster-sort-select { display: flex; align-items: center; gap: var(--wr-space-3); flex: 1 1 auto; }
+  .roster-sort-select select {
+    flex: 1;
+    max-width: 220px;
+    min-height: 44px;
+    padding: 0 var(--wr-space-8) 0 var(--wr-space-3);
+    /* 16px: anything smaller makes iOS Safari zoom the page on focus. */
+    font: 600 1rem var(--wr-font-body);
+    color: var(--fg-primary);
+    background: var(--bg-page);
+    border: var(--wr-bw-hair) solid var(--border-functional);
+    border-radius: var(--wr-radius-sm);
+    appearance: none;
+    /* Chevron drawn with two gradients so it follows the kit's text colour. */
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--fg-secondary) 50%),
+      linear-gradient(135deg, var(--fg-secondary) 50%, transparent 50%);
+    background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+  }
+  .roster-sort-select select:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+  .roster-controls-count { margin-left: auto; }
+}
 
 .roster-section { margin-bottom: var(--wr-space-12); }
 .roster-section-header {

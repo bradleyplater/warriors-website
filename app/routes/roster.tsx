@@ -153,6 +153,7 @@ function filterByTab(players: Player[], tab: Tab, activeIds: Set<string>): Playe
 }
 
 type SortKey = "Number" | "Points" | "Goals" | "Name";
+const SORT_KEYS: SortKey[] = ["Number", "Points", "Goals", "Name"];
 
 function sortSkaters(players: Player[], sort: SortKey, goalieStatsMap: GoalieStatsMap): Player[] {
   const withTotals = players.map((p) => ({ p, career: getSkaterCareerTotals(p, goalieStatsMap) }));
@@ -339,18 +340,31 @@ export default function Roster({ loaderData }: Route.ComponentProps) {
               {tab.label}
             </button>
           ))}
-          <span className="t-label roster-controls-label roster-controls-sep">Sort by</span>
-          {(["Number", "Points", "Goals", "Name"] as SortKey[]).map((s) => (
-            <button
-              key={s}
-              type="button"
-              className="ds-chip t-label"
-              aria-pressed={sort === s}
-              onClick={() => setSort(s)}
-            >
-              {s}
-            </button>
-          ))}
+          {/* Wide screens: sort chips. Phones: the same choice as a dropdown, so
+              Show and Sort don't run together across three lines of chips.
+              CSS shows one or the other. */}
+          <div className="roster-sort-chips" role="group" aria-label="Sort by">
+            <span className="t-label roster-controls-label roster-controls-sep" aria-hidden="true">Sort by</span>
+            {SORT_KEYS.map((s) => (
+              <button
+                key={s}
+                type="button"
+                className="ds-chip t-label"
+                aria-pressed={sort === s}
+                onClick={() => setSort(s)}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+          <label className="roster-sort-select">
+            <span className="t-label roster-controls-label">Sort by</span>
+            <select value={sort} onChange={(e) => setSort(e.target.value as SortKey)}>
+              {SORT_KEYS.map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+          </label>
           <span className="t-data roster-controls-count">
             {filtered.length} {filtered.length === 1 ? "player" : "players"}
           </span>
