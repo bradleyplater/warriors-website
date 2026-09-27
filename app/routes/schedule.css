@@ -32,7 +32,28 @@
   margin: 0;
 }
 .schedule-next-meta { color: var(--fg-secondary); }
-.schedule-next-links { display: flex; gap: var(--wr-space-5); flex-wrap: wrap; }
+.schedule-next-prev {
+  border-top: var(--wr-bw-hair) solid var(--border-hairline);
+  padding-top: var(--wr-space-4);
+  margin-top: var(--wr-space-2);
+  display: flex; flex-direction: column; gap: var(--wr-space-3);
+}
+.schedule-next-prev-list {
+  margin: 0; padding: 0; list-style: none;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: var(--wr-space-3);
+}
+.schedule-next-prev-card {
+  display: flex; align-items: center; gap: var(--wr-space-3); min-width: 0;
+  background: var(--bg-raised);
+  border: var(--wr-bw-hair) solid var(--border-hairline);
+  border-radius: var(--wr-radius-sm);
+  padding: var(--wr-space-3);
+}
+.schedule-next-prev-mark { min-width: 34px; height: 30px; font-size: .75rem; flex: none; }
+.schedule-next-prev-copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.schedule-next-prev-score { font-family: var(--wr-font-mono); font-weight: 700; font-variant-numeric: tabular-nums; font-size: 1.125rem; line-height: 1; }
+.schedule-next-prev-meta { color: var(--fg-secondary); font-size: var(--wr-text-micro); }
+.schedule-next-prev-link { align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; }
 .schedule-next-countdown { flex: none; display: flex; gap: var(--wr-space-2); }
 .schedule-next-countdown-cell {
   min-width: 66px;
@@ -61,3 +82,18 @@
 .schedule-month-list { margin: 0; padding: 0; list-style: none; }
 
 .schedule-empty { color: var(--fg-secondary); }
+
+@media (max-width: 640px) {
+  /* Unwrap the copy column so the countdown can sit straight under the game
+     details, ahead of the previous results, instead of below the fold. */
+  .schedule-next-inner { flex-direction: column; align-items: stretch; gap: var(--wr-space-3); }
+  .schedule-next-copy { display: contents; }
+  .schedule-next-countdown { order: 1; margin-top: var(--wr-space-2); }
+  .schedule-next-prev { order: 2; margin-top: var(--wr-space-4); }
+  .schedule-next-countdown-cell { flex: 1; min-width: 0; }
+  /* Three result cards across, each stacked (letter, score, date), so the
+     head-to-head reads at a glance instead of as three full-width rows. */
+  .schedule-next-prev-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--wr-space-2); }
+  .schedule-next-prev-card { flex-direction: column; align-items: flex-start; gap: var(--wr-space-2); padding: var(--wr-space-3) var(--wr-space-2); }
+  .schedule-filters .ds-chip { min-height: 44px; }
+}

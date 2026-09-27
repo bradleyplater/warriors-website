@@ -1,4 +1,3 @@
-import { Badge } from "../ds/Badge";
 import "./ScheduleGameCard.css";
 
 type UpcomingGame = {
@@ -15,10 +14,18 @@ type Result = {
   logoImage: string;
   date: string;
   competition: string;
+  location?: string;
   score: {
     warriorsScore: number;
     opponentScore: number;
   };
+};
+
+export type PreviousMeeting = {
+  outcome: "W" | "L" | "D";
+  score: string;
+  date: string;
+  where: string | null;
 };
 
 function formatGameDay(dateString: string) {
@@ -27,7 +34,7 @@ function formatGameDay(dateString: string) {
     weekday: "short",
     day: "numeric",
     month: "short",
-  });
+  }).replace(",", "");
 }
 
 function getResultOutcome(warriorsScore: number, opponentScore: number): "W" | "L" | "D" {
@@ -36,15 +43,29 @@ function getResultOutcome(warriorsScore: number, opponentScore: number): "W" | "
   return "D";
 }
 
-export function ScheduleGameCard({ game, results: rawResults }: { game: UpcomingGame; results: unknown[] }) {
-  const results = rawResults as Result[];
-  const gameDate = new Date(game.date).getTime();
-  const isHome = game.location === "Planet Ice Peterborough";
-
-  const previousMeetings = [...results]
-    .filter((r) => r.opponentTeam === game.opponentTeam && new Date(r.date).getTime() < gameDate)
+/** The last three results against an opponent before a given date, newest first. */
+export function getPreviousMeetings(rawResults: unknown[], opponent: string, before: Date): PreviousMeeting[] {
+  return (rawResults as Result[])
+    .filter((r) => r.opponentTeam === opponent && new Date(r.date).getTime() < before.getTime())
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 3);
+    .slice(0, 3)
+    .map((r) => ({
+      outcome: getResultOutcome(r.score.warriorsScore, r.score.opponentScore),
+      score: `${r.score.warriorsScore}–${r.score.opponentScore}`,
+      date: new Date(r.date).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }),
+      where: r.location === "HOME" ? "Home" : r.location === "AWAY" ? "Away" : null,
+    }));
+}
+
+/** Result letter in the W/L/D colours used on the Results page. */
+export function OutcomeMark({ outcome, className }: { outcome: "W" | "L" | "D"; className?: string }) {
+  return <span className={`t-data fx-outcome fx-outcome--${outcome.toLowerCase()} ${className ?? ""}`}>{outcome}</span>;
+}
+
+export function ScheduleGameCard({ game, results }: { game: UpcomingGame; results: unknown[] }) {
+  const isHome = game.location === "Planet Ice Peterborough";
+  const [y, m, d] = game.date.split("-").map(Number);
+  const previousMeetings = getPreviousMeetings(results, game.opponentTeam, new Date(y, m - 1, d));
 
   return (
     <li className="fx-row">
@@ -54,41 +75,26 @@ export function ScheduleGameCard({ game, results: rawResults }: { game: Upcoming
       </div>
       <div className="fx-row-opponent">
         <div className="fx-row-opponent-line">
-          <span className="t-label fx-row-opponent-ha">{isHome ? "H" : "A"}</span>
+          <span className="t-label fx-row-opponent-ha" title={isHome ? "Home" : "Away"}>{isHome ? "H" : "A"}</span>
           <span className="fx-row-opponent-name">{game.opponentTeam}</span>
         </div>
         <span className="t-label fx-row-opponent-meta">{game.gameType} · {game.location}</span>
       </div>
-      <div className="fx-row-action">
-        <span className="t-data fx-row-note">{isHome ? "Home" : "Away"}</span>
-        <a className="t-label" href="#calendar">Add to calendar</a>
-      </div>
 
       {previousMeetings.length > 0 && (
         <div className="fx-row-prev">
-          <span className="t-label fx-row-prev-label">Previous meetings</span>
-          <ul className="fx-row-prev-list">
-            {previousMeetings.map((result, i) => {
-              const outcome = getResultOutcome(result.score.warriorsScore, result.score.opponentScore);
-              const dateStr = new Date(result.date).toLocaleDateString("en-GB", {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              });
-              return (
-                <li key={i} className="fx-row-prev-item">
-                  <span className="t-data">{dateStr}</span>
-                  <span className="t-data">{result.score.warriorsScore}–{result.score.opponentScore}</span>
-                  <Badge tone={outcome === "W" ? "success" : outcome === "L" ? "danger" : "neutral"} glyph={null}>
-                    {outcome}
-                  </Badge>
-                </li>
-              );
-            })}
-          </ul>
+          <span className="t-label fx-row-prev-label">Previous results</span>
+          <ol className="fx-row-prev-list">
+            {previousMeetings.map((p, i) => (
+              <li key={i} className="fx-row-prev-item" title={[p.date, p.where].filter(Boolean).join(" · ")}>
+                <OutcomeMark outcome={p.outcome} />
+                <span className="t-data fx-row-prev-score">{p.score}</span>
+                <span className="t-label fx-row-prev-date">{p.date}</span>
+              </li>
+            ))}
+          </ol>
         </div>
       )}
     </li>
   );
 }
-

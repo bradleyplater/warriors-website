@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import type { Route } from "./+types/schedule";
 import upcomingGames from "../../public/data/upcoming-games.json";
-import { ScheduleGameCard } from "../components/ScheduleGameCard/ScheduleGameCard";
+import { Link } from "react-router";
+import { ScheduleGameCard, OutcomeMark, getPreviousMeetings } from "../components/ScheduleGameCard/ScheduleGameCard";
 import { Badge } from "../components/ds/Badge";
 import { SectionHead } from "../components/ds/SectionHead";
 import { Stripe } from "../components/ds/Stripe";
@@ -103,6 +104,7 @@ export default function Schedule({ loaderData }: Route.ComponentProps) {
   }
 
   const nextIsHome = nextGame ? isHomeGame(nextGame) : false;
+  const nextPrevious = nextGame ? getPreviousMeetings(results, nextGame.opponentTeam, parseGameDate(nextGame.date)) : [];
 
   return (
     <div className="schedule-page">
@@ -125,11 +127,27 @@ export default function Schedule({ loaderData }: Route.ComponentProps) {
                 {nextIsHome ? "vs" : "at"} {nextGame.opponentTeam}
               </h2>
               <span className="t-data schedule-next-meta">
-                {parseGameDate(nextGame.date).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" })} · face-off {nextGame.time} · {nextGame.location}
+                {parseGameDate(nextGame.date).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" }).replace(",", "")} · face-off {nextGame.time} · {nextGame.location}
               </span>
-              <div className="schedule-next-links">
-                <a className="t-label" href="#calendar">Add to calendar</a>
-              </div>
+              {nextPrevious.length > 0 && (
+                <div className="schedule-next-prev">
+                  <span className="t-label muted">Previous results v {nextGame.opponentTeam}</span>
+                  <ol className="schedule-next-prev-list">
+                    {nextPrevious.map((p, i) => (
+                      <li key={i} className="schedule-next-prev-card">
+                        <OutcomeMark outcome={p.outcome} className="schedule-next-prev-mark" />
+                        <div className="schedule-next-prev-copy">
+                          <span className="schedule-next-prev-score">{p.score}</span>
+                          <span className="t-label schedule-next-prev-meta">
+                            {[p.date, p.where].filter(Boolean).join(" · ")}
+                          </span>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                  <Link to="/results" className="t-label schedule-next-prev-link">All results</Link>
+                </div>
+              )}
             </div>
             <div className="schedule-next-countdown">
               {countdown.map((c) => (
