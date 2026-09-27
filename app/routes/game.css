@@ -6,8 +6,7 @@
 .game-breadcrumb,
 .game-scoreboard,
 .game-panels,
-.game-lineup,
-.game-nextup {
+.game-lineup {
   max-width: var(--wr-container);
   margin: 0 auto;
   width: 100%;
@@ -104,25 +103,6 @@
 .game-fact-period-line { font-weight: 700; font-size: 1.125rem; }
 .game-fact-period-label { font-size: var(--wr-text-micro); }
 
-/* Awards: POTG solid, WOTG outlined, as on the homepage and results page. */
-.game-awards {
-  border-top: var(--wr-bw-hair) solid var(--border-hairline);
-  margin-top: var(--wr-space-4);
-  padding-top: var(--wr-space-4);
-  display: flex; flex-wrap: wrap; align-items: center; gap: var(--wr-space-2) var(--wr-space-6);
-}
-.game-awards-items { display: flex; flex-wrap: wrap; gap: var(--wr-space-2) var(--wr-space-5); }
-.game-award { display: flex; align-items: center; gap: var(--wr-space-2); }
-.game-award-tag {
-  padding: 2px var(--wr-space-2);
-  border: var(--wr-bw-hair) solid var(--fg-primary);
-  border-radius: var(--wr-radius-xs);
-  color: var(--fg-primary);
-  text-decoration: none;
-}
-.game-award-tag--potg { background: var(--fg-primary); color: var(--bg-page); }
-.game-award-name { font-size: var(--wr-text-body-sm); font-weight: 600; color: var(--fg-primary); text-decoration: none; }
-.game-award-name:hover { text-decoration: underline; }
 
 /* ── Panel grid ── */
 /* Two columns rather than auto-fit: at 1120px auto-fit would fit three
@@ -163,8 +143,22 @@
 .game-list-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .game-list-primary { font-size: var(--wr-text-body-sm); font-weight: 600; overflow-wrap: break-word; }
 .game-list-score { flex: none; font-weight: 700; }
-/* Opponent goals read secondary so Warriors goals stand out down the list. */
-.game-list-row--opponent .game-list-primary { color: var(--fg-secondary); font-weight: 400; }
+/* Scoring and penalty rows, per the design: a team tag after the clock, and
+   opponent rows shaded with a muted name so Warriors rows stand out. */
+.game-panel .game-list-row { flex-wrap: wrap; gap: var(--wr-space-3) var(--wr-space-4); padding-inline: var(--wr-space-3); }
+.game-list-row--opponent { background: var(--bg-sunken); }
+.game-list-row--opponent .game-list-primary { color: var(--fg-secondary); }
+.game-team-tag {
+  flex: none; width: 5ch; text-align: center; padding: 2px 0;
+  font-size: var(--wr-text-micro); text-decoration: none;
+  border: var(--wr-bw-hair) solid var(--border-functional); border-radius: var(--wr-radius-xs);
+  color: var(--fg-secondary);
+}
+.game-team-tag--warriors { background: var(--fg-primary); border-color: var(--fg-primary); color: var(--bg-page); }
+.game-panel .game-list-body { min-width: 12ch; }
+.game-panel .game-penalty-row { flex-wrap: nowrap; align-items: center; }
+.game-penalty-who { flex: 1 1 auto; min-width: 6ch; font-weight: 400; overflow-wrap: normal; }
+.game-penalty-offence { flex: 0 1 14ch; min-width: 0; text-align: right; overflow-wrap: break-word; }
 .game-penalty-mins { flex: none; font-weight: 700; width: 4ch; text-align: right; }
 
 .game-table-scroll { overflow-x: auto; }
@@ -174,7 +168,7 @@
 .game-star-name { font-size: 1rem; text-transform: uppercase; }
 
 /* ── Lineup ── */
-.game-lineup { padding: 0 var(--wr-space-5) var(--wr-space-10); }
+.game-lineup { padding: 0 var(--wr-space-5) var(--wr-space-16); }
 .game-roster-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr));
@@ -211,26 +205,6 @@
 .game-roster-badge--potg { background: var(--fg-primary); border-color: var(--fg-primary); color: var(--bg-page); }
 .game-roster-badge--wotg { background: transparent; border-color: var(--fg-primary); color: var(--fg-primary); }
 
-/* ── Next up ── */
-.game-nextup { padding: 0 var(--wr-space-5) var(--wr-space-16); }
-.game-nextup-card {
-  border: var(--wr-bw-hair) solid var(--border-hairline);
-  border-radius: var(--wr-radius-md);
-  padding: var(--wr-space-5);
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--wr-space-4);
-  justify-content: space-between;
-  align-items: center;
-}
-.game-nextup-text {
-  margin: 0;
-  color: var(--fg-secondary);
-  font-size: var(--wr-text-body-sm);
-  max-width: var(--wr-measure);
-  text-wrap: pretty;
-}
-.game-nextup-actions { display: flex; gap: var(--wr-space-3); flex-wrap: wrap; }
 
 .game-empty { color: var(--fg-secondary); margin: 0; }
 .game-not-found {
@@ -253,4 +227,12 @@
   .game-roster-card { display: grid; grid-template-columns: 3.5ch minmax(0, 1fr); align-items: baseline; gap: 2px var(--wr-space-2); padding: var(--wr-space-2) var(--wr-space-3); min-height: 44px; }
   .game-roster-pos { display: none; }
   .game-roster-badges { grid-column: 2; margin-top: 0; }
+}
+
+@media (max-width: 640px) {
+  /* Clock, tag and name have to share ~330px with the score; a tighter gap
+     keeps goal details from wrapping word by word. */
+  .game-panel .game-list-row { gap: var(--wr-space-2) var(--wr-space-3); padding-inline: var(--wr-space-2); }
+  .game-list-clock { width: 8.5ch; }
+  .game-penalty-offence { flex-basis: 11ch; }
 }

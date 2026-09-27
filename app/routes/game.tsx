@@ -8,18 +8,9 @@ import { DataTable } from "~/components/ds/DataTable";
 import { Stripe } from "~/components/ds/Stripe";
 import { getInitials } from "~/components/TeamLogo/TeamLogo";
 import { opponentCrestSrc } from "~/components/LatestResultCard/LatestResultCard";
-import upcomingGames from "../../public/data/upcoming-games.json";
 import "./game.css";
 
 type Player = { id: string; name: string; number: number; position: string };
-
-type UpcomingGame = {
-  opponentTeam: string;
-  gameType: string;
-  date: string;
-  time: string;
-  location: string;
-};
 
 /** The club plays out of Planet Ice; away venues aren't recorded in the feed. */
 const HOME_VENUE = "Planet Ice Peterborough";
@@ -234,7 +225,8 @@ function buildPenaltyList(
       minute: penalty.minute,
       second: penalty.second,
       // Warriors offenders are player ids; opponents are free text off the sheet.
-      who: `${name}, ${team === "warriors" ? "Warriors" : opponentTeam}`,
+      // The row's team tag says whose penalty it is, so no team suffix.
+      who: name,
       team,
       offence: offenceLabel(penalty.type),
       mins: penalty.duration,
@@ -333,6 +325,17 @@ function RosterCard({
   );
 }
 
+/** Row tag naming the side: WAR for us, the opponent's nickname cut to three
+ *  letters ("Cambridge Cobras" -> COB), as in the design. */
+function TeamTag({ warriors, opponentTeam }: { warriors: boolean; opponentTeam: string }) {
+  const code = warriors ? "WAR" : (opponentTeam.trim().split(/\s+/).pop() ?? "").slice(0, 3).toUpperCase();
+  return (
+    <abbr title={warriors ? "Peterborough Warriors" : opponentTeam} className={`t-label game-team-tag${warriors ? " game-team-tag--warriors" : ""}`}>
+      {code}
+    </abbr>
+  );
+}
+
 /** Opponent crest from /images/team-logos, falling back to initials when a
  *  team has no artwork (same lookup as the homepage's last result). */
 function OpponentMark({ game }: { game: Result }) {
@@ -381,8 +384,6 @@ export default function Game({ loaderData }: Route.ComponentProps) {
   const wotgId = game.warriorOfTheGamePlayerId !== "MISSING" ? game.warriorOfTheGamePlayerId : null;
   const nmId = game.netminderPlayerId !== "MISSING" ? game.netminderPlayerId : null;
   const netminder = nmId ? playerMap.get(nmId) : undefined;
-  const motmPlayer = motmId ? playerMap.get(motmId) : undefined;
-  const wotgPlayer = wotgId ? playerMap.get(wotgId) : undefined;
   const awardNames = new Map<string, string>();
   if (motmId) awardNames.set(playerMap.get(motmId)?.name ?? "", "Player of the game");
   if (wotgId) awardNames.set(playerMap.get(wotgId)?.name ?? "", "Warrior of the game");
@@ -401,21 +402,6 @@ export default function Game({ loaderData }: Route.ComponentProps) {
   const warriorsPim = penalties.filter((x) => x.team === "warriors").reduce((n, x) => n + x.mins, 0);
   const opponentPim = penalties.filter((x) => x.team === "opponent").reduce((n, x) => n + x.mins, 0);
 
-  // The game that followed this one — a later report if there is one, otherwise
-  // the next scheduled fixture.
-  const nextResult = allResults
-    .filter((r) => new Date(r.date).getTime() > kickoff.getTime())
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0];
-  const nextFixture = (upcomingGames as UpcomingGame[])
-    .filter((g) => new Date(g.date).getTime() > kickoff.getTime())
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0];
-
-  const nextNote = nextResult
-    ? `Next game: ${nextResult.location === "HOME" ? "home to" : "away to"} ${nextResult.opponentTeam}, ${formatDate(nextResult.date)}.`
-    : nextFixture
-      ? `Next game: ${nextFixture.opponentTeam}, ${formatDate(nextFixture.date)}, face-off ${nextFixture.time} at ${nextFixture.location}.`
-      : "This is the most recent game on record. Fixtures for the rest of the season are on the schedule page.";
-
   return (
     <div className="game-page">
       <nav aria-label="Breadcrumb" className="game-breadcrumb">
@@ -424,12 +410,9 @@ export default function Game({ loaderData }: Route.ComponentProps) {
 
       <section aria-label="Final score" className="game-scoreboard">
         <div className="game-scoreboard-meta">
-          <span className="t-label muted">
-            Match report{game.competition ? ` · ${game.competition}` : ""}
-          </span>
           <Badge tone={outcomeTone}>{outcomeLabel}</Badge>
           <span className="t-data game-scoreboard-when">
-            {formatDate(game.date)} · {game.location === "HOME" ? "Home" : "Away"}
+            {formatDate(game.date)} · {venue}
           </span>
         </div>
 
@@ -463,35 +446,7 @@ export default function Game({ loaderData }: Route.ComponentProps) {
                 <span className="t-data game-fact-value">{faceOff}</span>
               </div>
             )}
-            <div className="game-fact">
-              <span className="t-label muted">Dressed</span>
-              <span className="t-data game-fact-value">{game.roster?.length ?? 0}</span>
-            </div>
-            <div className="game-fact">
-              <span className="t-label muted">Venue</span>
-              <span className="game-fact-text">{venue}</span>
-            </div>
           </div>
-
-          {(motmPlayer || wotgPlayer) && (
-            <div className="game-awards">
-              <span className="t-label muted">Awards</span>
-              <div className="game-awards-items">
-                {motmPlayer && (
-                  <span className="game-award">
-                    <abbr title="Player of the game" className="t-label game-award-tag game-award-tag--potg">POTG</abbr>
-                    <Link to={`/roster/${motmPlayer.id}`} className="game-award-name">{motmPlayer.name}</Link>
-                  </span>
-                )}
-                {wotgPlayer && (
-                  <span className="game-award">
-                    <abbr title="Warrior of the game" className="t-label game-award-tag">WOTG</abbr>
-                    <Link to={`/roster/${wotgPlayer.id}`} className="game-award-name">{wotgPlayer.name}</Link>
-                  </span>
-                )}
-              </div>
-            </div>
-          )}
         </div>
       </section>
 
@@ -511,7 +466,6 @@ export default function Game({ loaderData }: Route.ComponentProps) {
                     : "Unassisted";
                 const opponentGoal = goal.team !== "warriors";
                 const detail = [
-                  opponentGoal ? game.opponentTeam : null,
                   assists,
                   STRENGTH_LABELS[goal.type],
                   goal.isGWG ? "game winner" : null,
@@ -523,6 +477,7 @@ export default function Game({ loaderData }: Route.ComponentProps) {
                     <span className="t-data muted game-list-clock">
                       {PERIOD_LABELS[goal.period - 1]} {formatPeriodClock(goal.minute, goal.second, goal.period)}
                     </span>
+                    <TeamTag warriors={!opponentGoal} opponentTeam={game.opponentTeam} />
                     <div className="game-list-body">
                       <span className="game-list-primary">{goal.scorerName}</span>
                       <span className="t-label muted">{detail}</span>
@@ -551,14 +506,16 @@ export default function Game({ loaderData }: Route.ComponentProps) {
           ) : (
             <ul className="game-list">
               {penalties.map((penalty) => (
-                <li key={penalty.id} className="game-list-row">
+                <li
+                  key={penalty.id}
+                  className={`game-list-row game-penalty-row${penalty.team === "opponent" ? " game-list-row--opponent" : ""}`}
+                >
                   <span className="t-data muted game-list-clock">
                     {PERIOD_LABELS[penalty.period - 1]} {formatPeriodClock(penalty.minute, penalty.second, penalty.period)}
                   </span>
-                  <div className="game-list-body">
-                    <span className="game-list-primary">{penalty.who}</span>
-                    <span className="t-label muted">{penalty.offence}</span>
-                  </div>
+                  <TeamTag warriors={penalty.team === "warriors"} opponentTeam={game.opponentTeam} />
+                  <span className="game-list-primary game-penalty-who">{penalty.who}</span>
+                  <span className="t-label muted game-penalty-offence">{penalty.offence}</span>
                   <span className="t-data game-penalty-mins">{penalty.mins}&apos;</span>
                 </li>
               ))}
@@ -592,7 +549,7 @@ export default function Game({ loaderData }: Route.ComponentProps) {
 
         {stars.length > 0 && (
           <div className="game-panel">
-            <SectionHeading title="Three stars" note="By points on the sheet" />
+            <SectionHeading title="Three stars" />
             <ol className="game-list">
               {stars.map((star, i) => (
                 <li key={star.key} className="game-list-row game-star">
@@ -628,28 +585,6 @@ export default function Game({ loaderData }: Route.ComponentProps) {
         </section>
       )}
 
-      <section className="game-nextup">
-        <div className="game-nextup-card">
-          <p className="game-nextup-text">{nextNote}</p>
-          <div className="game-nextup-actions">
-            {nextResult ? (
-              <Link
-                to={`/results/${encodeURIComponent(nextResult.date)}`}
-                className="ds-btn ds-btn-primary ds-btn-md"
-              >
-                Next match report
-              </Link>
-            ) : (
-              <Link to="/schedule" className="ds-btn ds-btn-primary ds-btn-md">
-                Next fixture
-              </Link>
-            )}
-            <Link to="/results" className="ds-btn ds-btn-secondary ds-btn-md">
-              All results
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
