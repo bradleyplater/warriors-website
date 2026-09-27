@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
-import { Link } from "react-router";
 import type { Route } from "./+types/team-stats";
 import { getResults } from "~/data/client";
 import { DataTable, type DataTableColumn } from "~/components/ds/DataTable";
@@ -557,7 +556,7 @@ export default function TeamStats({ loaderData }: Route.ComponentProps) {
         </div>
       </section>
 
-      <section className="ts-grid">
+      <section className="ts-grid ts-grid-last">
         <div>
           <SectionBar title="Current form" note="Oldest to most recent" />
           <div className="ts-form-badges">
@@ -576,22 +575,6 @@ export default function TeamStats({ loaderData }: Route.ComponentProps) {
         </div>
       </section>
 
-      <section className="ts-grid ts-grid-foot">
-        <div className="ts-footer-note">
-          <p className="ts-footer-note-text">
-            Individual scoring, goaltending and penalty minutes are on the player statistics page.
-            Every figure here is taken from the same game sheets.
-          </p>
-          <div className="ts-footer-note-actions">
-            <Link to="/stats" className="ds-btn ds-btn-primary ds-btn-md">
-              Player statistics
-            </Link>
-            <Link to="/results" className="ds-btn ds-btn-secondary ds-btn-md">
-              All results
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
