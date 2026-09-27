@@ -105,64 +105,82 @@ function formatDate(dateString: string) {
     day: "numeric",
     month: "short",
     year: "numeric",
-  });
+  }).replace(",", ""); // "Sat 18 Jul 2026", not "Sat, 18 Jul 2026"
+}
+
+/** "Jamie Marsh" -> "J. Marsh", so three performers fit on one line. */
+function shortName(name: string) {
+  const parts = name.trim().split(/\s+/);
+  return parts.length > 1 ? `${parts[0][0]}. ${parts[parts.length - 1]}` : name;
 }
 
 function ResultRow({ result, playerMap }: { result: Result; playerMap: Map<string, string> }) {
   const outcome = getOutcome(result.score.warriorsScore, result.score.opponentScore);
-  const motm =
-    result.manOfTheMatchPlayerId && result.manOfTheMatchPlayerId !== "MISSING"
-      ? playerMap.get(result.manOfTheMatchPlayerId)
-      : null;
-  const wotg =
-    result.warriorOfTheGamePlayerId && result.warriorOfTheGamePlayerId !== "MISSING"
-      ? playerMap.get(result.warriorOfTheGamePlayerId)
-      : null;
+  const award = (id: string) => (id && id !== "MISSING" && playerMap.has(id) ? { id, name: playerMap.get(id)! } : null);
+  const awards = [
+    { code: "POTG", title: "Player of the game", player: award(result.manOfTheMatchPlayerId) },
+    { code: "WOTG", title: "Warrior of the game", player: award(result.warriorOfTheGamePlayerId) },
+  ].filter((a) => a.player);
   const topPerformers = getTopPerformers(result, playerMap);
   const location =
-    result.location === "HOME" || result.location === "AWAY" ? result.location : null;
+    result.location === "HOME" ? "Home" : result.location === "AWAY" ? "Away" : null;
+  const date = formatDate(result.date);
   const gameHref = `/results/${encodeURIComponent(result.date)}`;
 
   return (
     <li className="rs-row">
-      <Link to={gameHref} className="rs-row-main">
+      <div className="rs-row-head">
         <div className="rs-row-date-col">
           <span className="t-data rs-row-outcome" style={OUTCOME_STYLE[outcome]}>{outcome}</span>
           <div className="rs-row-date-copy">
-            <span className="t-data rs-row-date-day">{formatDate(result.date)}</span>
+            <span className="t-data rs-row-date-day">{date}</span>
             <span className="t-label rs-row-date-meta">
-              {location === "HOME" ? "Home" : location === "AWAY" ? "Away" : ""} · {result.competition}
+              {[location, result.competition].filter(Boolean).join(" · ")}
             </span>
           </div>
         </div>
-        <div className="rs-row-opponent-col">
-          <span className="rs-row-opponent-name">{result.opponentTeam}</span>
-          <span className="rs-row-score">{result.score.warriorsScore} — {result.score.opponentScore}</span>
-        </div>
-        <div className="rs-row-meta-col">
-          {topPerformers.length > 0 && (
-            <span className="t-label rs-row-scorers">
-              {topPerformers.map((p) => `${p.name} ${p.goals ? p.goals + "G" : ""}${p.assists ? " " + p.assists + "A" : ""}`).join(" · ")}
-            </span>
-          )}
-          <span className="t-label" style={{ color: "var(--link)" }}>Match report</span>
-        </div>
-      </Link>
+        <Link
+          to={gameHref}
+          className="ds-btn ds-btn-secondary ds-btn-sm rs-row-report"
+          aria-label={`Match report: ${result.opponentTeam}, ${date}`}
+        >
+          Match report →
+        </Link>
+      </div>
 
-      {(motm || wotg) && (
-        <div className="rs-row-sub">
-          {motm && (
-            <span className="rs-award">
-              <span className="t-label rs-award-label">MOTM</span>
-              <span className="t-data">{motm}</span>
-            </span>
-          )}
-          {wotg && (
-            <span className="rs-award">
-              <span className="t-label rs-award-label">WOTG</span>
-              <span className="t-data">{wotg}</span>
-            </span>
-          )}
+      <div className="rs-row-opponent-col">
+        <span className="rs-row-opponent-name">{result.opponentTeam}</span>
+        <span className="rs-row-score">{result.score.warriorsScore} — {result.score.opponentScore}</span>
+      </div>
+
+      {awards.length > 0 && (
+        <div className="rs-row-line">
+          <span className="t-label rs-row-line-label">Awards</span>
+          <div className="rs-row-line-items">
+            {awards.map((a) => (
+              <span key={a.code} className="rs-award">
+                <abbr title={a.title} className={`t-label rs-award-tag rs-award-tag--${a.code.toLowerCase()}`}>
+                  {a.code}
+                </abbr>
+                <Link to={`/roster/${a.player!.id}`} className="rs-player-link">{a.player!.name}</Link>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {topPerformers.length > 0 && (
+        <div className="rs-row-line">
+          <span className="t-label rs-row-line-label">Top performers</span>
+          <ol className="rs-row-line-items rs-performers">
+            {topPerformers.map((p, i) => (
+              <li key={p.id} className="rs-performer">
+                <span className="t-data rs-performer-rank">{i + 1}</span>
+                <Link to={`/roster/${p.id}`} className="rs-player-link" title={p.name}>{shortName(p.name)}</Link>
+                <span className="t-data rs-performer-line">{p.goals}G · {p.assists}A</span>
+              </li>
+            ))}
+          </ol>
         </div>
       )}
     </li>
@@ -206,13 +224,6 @@ export default function Results({ loaderData }: Route.ComponentProps) {
     return r.competition === activeFilter;
   });
 
-  const seasonStanding =
-    activeSeason === "All"
-      ? `${uniqueSeasons.length} seasons`
-      : activeSeason === uniqueSeasons[0]
-        ? "Season in progress"
-        : "Final";
-
   const wins = bySeason.filter((r) => getOutcome(r.score.warriorsScore, r.score.opponentScore) === "W").length;
   const losses = bySeason.filter((r) => getOutcome(r.score.warriorsScore, r.score.opponentScore) === "L").length;
   const draws = bySeason.filter((r) => getOutcome(r.score.warriorsScore, r.score.opponentScore) === "D").length;
@@ -247,7 +258,6 @@ export default function Results({ loaderData }: Route.ComponentProps) {
               </button>
             ))}
           </div>
-          <span className="t-label results-season-standing">{seasonStanding}</span>
         </div>
       </div>
 

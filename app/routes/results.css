@@ -19,7 +19,6 @@
 }
 .results-season-row-label { color: var(--fg-secondary); }
 .results-season-chips { display: flex; flex-wrap: wrap; gap: var(--wr-space-2); }
-.results-season-standing { color: var(--fg-secondary); margin-left: auto; }
 
 .results-record-section { background: var(--bg-sunken); border-top: var(--wr-bw-hair) solid var(--border-hairline); border-bottom: var(--wr-bw-hair) solid var(--border-hairline); }
 .results-record-inner {
@@ -55,8 +54,10 @@
 .results-month-heading { font-size: var(--wr-text-h3); text-transform: uppercase; margin: 0 0 var(--wr-space-3); padding-bottom: var(--wr-space-2); border-bottom: var(--wr-bw-thick) solid var(--stripe); }
 .results-month-list { margin: 0; padding: 0; list-style: none; }
 
-.rs-row { display: flex; flex-direction: column; border-bottom: var(--wr-bw-hair) solid var(--border-hairline); padding: var(--wr-space-4) 0; }
-.rs-row-main { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: var(--wr-space-3) var(--wr-space-5); align-items: center; text-decoration: none; color: inherit; }
+.rs-row { display: flex; flex-direction: column; gap: var(--wr-space-3); border-bottom: var(--wr-bw-hair) solid var(--border-hairline); padding: var(--wr-space-4) 0; }
+/* Match report sits top right, level with the result badge; on a narrow line
+   it wraps under the date rather than squeezing it. */
+.rs-row-head { display: flex; align-items: center; justify-content: space-between; gap: var(--wr-space-3) var(--wr-space-4); flex-wrap: wrap; }
 .rs-row-date-col { display: flex; align-items: center; gap: var(--wr-space-4); min-width: 0; }
 .rs-row-outcome {
   width: 34px; height: 34px; flex: none; display: grid; place-items: center;
@@ -65,17 +66,45 @@
 .rs-row-date-copy { display: flex; flex-direction: column; gap: var(--wr-space-1); min-width: 0; }
 .rs-row-date-day { font-weight: 700; }
 .rs-row-date-meta { color: var(--fg-secondary); }
+.rs-row-report { text-decoration: none; }
 
-.rs-row-opponent-col { display: flex; align-items: center; gap: var(--wr-space-4); grid-column: span 2; min-width: 0; }
+.rs-row-opponent-col { display: flex; align-items: center; gap: var(--wr-space-4); min-width: 0; }
 .rs-row-opponent-name { font-family: var(--wr-font-display); font-variation-settings: 'wdth' var(--wr-w-expanded), 'wght' 700; font-size: 1.0625rem; text-transform: uppercase; flex: 1; min-width: 0; overflow-wrap: break-word; }
 .rs-row-score { font-family: var(--wr-font-mono); font-weight: 700; font-variant-numeric: tabular-nums; font-size: clamp(1.5rem, 3.6vw, 1.875rem); letter-spacing: -.02em; flex: none; }
 
-.rs-row-meta-col { display: flex; align-items: center; justify-content: flex-end; gap: var(--wr-space-4); flex-wrap: wrap; }
-.rs-row-scorers { color: var(--fg-secondary); }
+/* Awards and Top performers: a label, then the items, wrapping as needed. */
+.rs-row-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--wr-space-2) var(--wr-space-6); }
+.rs-row-line-label { color: var(--fg-secondary); }
+.rs-row-line-items { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--wr-space-2) var(--wr-space-5); }
 
-.rs-row-sub { display: flex; align-items: center; gap: var(--wr-space-4); flex-wrap: wrap; padding-top: var(--wr-space-3); margin-top: var(--wr-space-3); border-top: var(--wr-bw-hair) solid var(--border-hairline); }
-.rs-award { display: flex; align-items: center; gap: var(--wr-space-1); }
-.rs-award-label { color: var(--fg-secondary); }
+.rs-award { display: flex; align-items: center; gap: var(--wr-space-2); }
+/* POTG solid, WOTG outlined, matching the homepage's last-result card. */
+.rs-award-tag {
+  padding: 2px var(--wr-space-2);
+  border: var(--wr-bw-hair) solid var(--fg-primary);
+  border-radius: var(--wr-radius-xs);
+  color: var(--fg-primary);
+  text-decoration: none;
+}
+.rs-award-tag--potg { background: var(--fg-primary); color: var(--bg-page); }
+
+.rs-player-link { font-size: var(--wr-text-body-sm); font-weight: 600; color: var(--fg-primary); text-decoration: none; }
+.rs-player-link:hover { text-decoration: underline; }
+
+.rs-performer { display: flex; align-items: baseline; gap: var(--wr-space-2); }
+.rs-performer-rank, .rs-performer-line { color: var(--fg-secondary); }
+
+@media (max-width: 640px) {
+  /* Six tiles at two per row took three rows; three per row keeps the record
+     to two, and the labels are allowed to wrap. */
+  .results-record-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--wr-space-5) var(--wr-space-4); }
+  /* 44px touch targets for the chips and the report button. */
+  .results-page .ds-chip { min-height: 44px; }
+  .rs-row-report { min-height: 44px; padding-inline: var(--wr-space-4); }
+  /* The label goes on its own line so the items line up under each other
+     instead of starting mid-line after it. */
+  .rs-row-line-label { flex: 1 1 100%; }
+}
 
 .results-note {
   border: var(--wr-bw-hair) solid var(--border-hairline);
