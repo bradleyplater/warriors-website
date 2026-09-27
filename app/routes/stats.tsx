@@ -590,7 +590,7 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
   return (
     <div className="stats-page">
       <section className="stats-intro">
-        <SectionHead eyebrow="England Ice Hockey recreational" title="Player statistics">
+        <SectionHead title="Player statistics">
           Scoring is taken from the official game sheets. A netminder's appearances count
           towards their goaltending record, not their skater record.
         </SectionHead>

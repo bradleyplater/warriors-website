@@ -831,7 +831,7 @@ export default function PlayerPage({ loaderData }: Route.ComponentProps) {
 
         <div className="player-footer-note">
           <p className="player-footer-note-text">
-            Scoring is taken from the official EIH game sheets. Corrections go through the club
+            Scoring is taken from the official game sheets. Corrections go through the club
             secretary on Facebook.
           </p>
           <div className="player-footer-note-actions">

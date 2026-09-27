@@ -431,7 +431,7 @@ export default function TeamStats({ loaderData }: Route.ComponentProps) {
   return (
     <div className="ts-page">
       <section className="ts-intro">
-        <SectionHead eyebrow="England Ice Hockey recreational" title="Team stats">
+        <SectionHead title="Team stats">
           Club totals taken from the official game sheets. Shots and face-offs are not recorded in
           recreational competition, so no shooting or possession figures are held.
         </SectionHead>

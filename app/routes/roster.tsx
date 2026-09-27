@@ -311,8 +311,7 @@ export default function Roster({ loaderData }: Route.ComponentProps) {
     <div className="roster-page">
       <div className="roster-intro">
         <SectionHead title="Roster">
-          Career statistics for every player who has pulled on a Warriors shirt. A player must be
-          registered with England Ice Hockey before taking the ice.
+          Career statistics for every player who has pulled on a Warriors shirt.
         </SectionHead>
         <div className="roster-stat-strip">
           {squadStats.map((stat) => (

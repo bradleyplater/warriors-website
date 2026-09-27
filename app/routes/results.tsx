@@ -241,7 +241,7 @@ export default function Results({ loaderData }: Route.ComponentProps) {
     <div className="results-page">
       <div className="results-intro">
         <SectionHead title="Results">
-          Scores are confirmed against the official EIH game sheet, so they can differ from the score posted on the night until the sheet is filed.
+          Scores are confirmed against the official game sheet, so they can differ from the score posted on the night until the sheet is filed.
         </SectionHead>
         <div className="results-season-row">
           <span className="t-label results-season-row-label">Season</span>
