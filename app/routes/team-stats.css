@@ -118,6 +118,11 @@
 .ts-period-value { font-weight: 700; min-width: 3ch; text-align: right; }
 .ts-period-value.ts-muted { font-weight: 400; }
 
+/* Colour key in the section bar: which bar is scored, which conceded. */
+.ts-key { display: flex; gap: var(--wr-space-4); }
+.ts-key-item { display: flex; align-items: center; gap: var(--wr-space-2); }
+.ts-key-swatch { width: 12px; height: 12px; border-radius: var(--wr-radius-xs); flex: none; }
+
 /* ── Tables ─────────────────────────────────────────────────────────────── */
 
 .ts-table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router";
 import type { Route } from "./+types/team-stats";
 import { getResults } from "~/data/client";
@@ -261,7 +261,7 @@ function Chip({
   );
 }
 
-function SectionBar({ title, note }: { title: string; note?: string }) {
+function SectionBar({ title, note }: { title: string; note?: ReactNode }) {
   return (
     <div className="ts-section-bar">
       <h2 className="t-heading ts-section-title">{title}</h2>
@@ -504,7 +504,21 @@ export default function TeamStats({ loaderData }: Route.ComponentProps) {
 
       <section className="ts-grid ts-grid-top">
         <div>
-          <SectionBar title="Goals by period" note="Scored · conceded" />
+          <SectionBar
+            title="Goals by period"
+            note={
+              <span className="ts-key">
+                <span className="ts-key-item">
+                  <span aria-hidden="true" className="ts-key-swatch ts-period-fill-for" />
+                  Scored
+                </span>
+                <span className="ts-key-item">
+                  <span aria-hidden="true" className="ts-key-swatch ts-period-fill-against" />
+                  Conceded
+                </span>
+              </span>
+            }
+          />
           {stats.gp === 0 ? (
             <p className="ts-empty">No games match these filters.</p>
           ) : (
