@@ -35,12 +35,6 @@ export function Footer() {
               </li>
             </ul>
           </div>
-          <div>
-            <span className="t-label site-footer-heading">Affiliation</span>
-            <p className="site-footer-text">
-              Affiliated to England Ice Hockey. Competing in the EIH Recreational League South, Division 2.
-            </p>
-          </div>
         </div>
         <div className="site-footer-bottom">
           <div className="site-footer-bottom-inner">
