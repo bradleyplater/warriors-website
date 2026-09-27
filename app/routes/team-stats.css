@@ -162,22 +162,17 @@
 }
 .ts-footer-note-actions { display: flex; gap: var(--wr-space-3); flex-wrap: wrap; }
 
-/* ── Goals per game, phone list ─────────────────────────────────────────── */
+/* ── Goals per game, by opponent ────────────────────────────────────────── */
 
-.ts-phone-only { display: none; }
 .ts-pergame { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--wr-space-3); }
 .ts-pergame-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--wr-space-1) var(--wr-space-3); }
 .ts-pergame-who { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 var(--wr-space-2); min-width: 0; }
 .ts-pergame-opp { font-variation-settings: 'wght' 600; font-size: var(--wr-text-body-sm); }
-.ts-pergame-score { display: flex; align-items: center; gap: var(--wr-space-2); font-weight: 700; }
+.ts-pergame-score { font-weight: 700; }
 .ts-pergame-bar { grid-column: 1 / -1; height: 6px; background: var(--bg-sunken); border-radius: var(--wr-radius-xs); overflow: hidden; }
 .ts-pergame-bar > span { display: block; height: 100%; background: var(--series-1); }
-.ts-form-badge-sm { width: 22px; height: 22px; font-size: .6875rem; border-radius: var(--wr-radius-xs); }
 
 @media (max-width: 640px) {
-  .ts-desktop-only { display: none; }
-  .ts-phone-only { display: block; }
-
   .ts-page .ds-chip { min-height: 44px; }
 
   /* The tables were held at 420px, which pushed the Discipline values (a

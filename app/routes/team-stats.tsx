@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
 import type { Route } from "./+types/team-stats";
 import { getResults } from "~/data/client";
-import { BarChart, type BarDatum } from "~/components/ds/BarChart";
 import { DataTable, type DataTableColumn } from "~/components/ds/DataTable";
 import { SectionHead } from "~/components/ds/SectionHead";
 import { StatGrid, type Stat } from "~/components/ds/StatGrid";
@@ -52,7 +51,6 @@ const PERIOD_LABELS: Array<[keyof RawResult["score"]["period"], string]> = [
 ];
 
 /** Beyond this the per-game bars stop being readable, so the chart shows the latest run. */
-const CHART_GAMES = 12;
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -82,16 +80,7 @@ function calcBestStreak(games: RawResult[], type: "win" | "unbeaten"): number {
   return best;
 }
 
-/** Three-letter opponent code for the chart axis; the full name stays in the tooltip. */
-function abbreviate(name: string): string {
-  const words = (name ?? "").replace(/[^A-Za-z ]/g, " ").split(/\s+/).filter(Boolean);
-  if (words.length === 0) return "—";
-  if (words.length === 1) return words[0].slice(0, 3).toUpperCase();
-  return (words[0][0] + words[words.length - 1].slice(0, 2)).toUpperCase();
-}
-
 const monthYear = new Intl.DateTimeFormat("en-GB", { month: "short", year: "numeric" });
-const dayMonth = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric" });
 
 function signed(n: number): string {
   return n > 0 ? `+${n}` : String(n);
@@ -103,7 +92,7 @@ function plural(n: number, word: string): string {
 
 // ── Stats computation ─────────────────────────────────────────────────────────
 
-type PerGameRow = { key: string; opponent: string; date: string; ha: "vs" | "at"; gf: number; ga: number; result: "W" | "D" | "L" };
+type OpponentAverage = { opponent: string; games: number; average: number };
 type Split = { key: string; gp: number; w: number; d: number; l: number; gf: number; ga: number };
 type PeriodSplit = { label: string; for: number; against: number };
 type Streak = { key: string; win: number; unbeaten: number };
@@ -120,10 +109,8 @@ interface TeamStats {
   gpg: number;
   gcpg: number;
   periodSplits: PeriodSplit[];
-  perGame: BarDatum[];
-  /** The same games with full detail, for the phone's horizontal bar list. */
-  perGameRows: PerGameRow[];
-  perGameShown: number;
+  /** Average goals scored per game against each opponent, highest first. */
+  byOpponent: OpponentAverage[];
   splits: Split[];
   streaks: Streak[];
   currentForm: Array<"W" | "D" | "L">;
@@ -174,24 +161,16 @@ function computeStats(results: RawResult[]): TeamStats {
     against: chrono.reduce((s, r) => s + r.score.period[key].opponentGoals.length, 0),
   }));
 
-  const shown = chrono.slice(-CHART_GAMES);
-  const perGame: BarDatum[] = shown.map((r) => ({
-    label: abbreviate(r.opponentTeam),
-    value: r.score.warriorsScore,
-    title: `${dayMonth.format(new Date(r.date))} ${r.location === "HOME" ? "vs" : "at"} ${
-      r.opponentTeam
-    } — ${r.score.warriorsScore}-${r.score.opponentScore}`,
-  }));
-
-  const perGameRows: PerGameRow[] = shown.map((r, i) => ({
-    key: `${r.date}-${i}`,
-    opponent: r.opponentTeam,
-    date: dayMonth.format(new Date(r.date)),
-    ha: r.location === "HOME" ? "vs" : "at",
-    gf: r.score.warriorsScore,
-    ga: r.score.opponentScore,
-    result: getResult(r),
-  }));
+  const opponents = new Map<string, { games: number; goals: number }>();
+  for (const r of chrono) {
+    const o = opponents.get(r.opponentTeam) ?? { games: 0, goals: 0 };
+    opponents.set(r.opponentTeam, { games: o.games + 1, goals: o.goals + r.score.warriorsScore });
+  }
+  const byOpponent = Array.from(opponents, ([opponent, o]) => ({
+    opponent,
+    games: o.games,
+    average: o.goals / o.games,
+  })).sort((a, b) => b.average - a.average || a.opponent.localeCompare(b.opponent));
 
   let ppGoals = 0;
   let ppOpps = 0;
@@ -234,9 +213,7 @@ function computeStats(results: RawResult[]): TeamStats {
     gpg: gp > 0 ? goalsFor / gp : 0,
     gcpg: gp > 0 ? goalsAgainst / gp : 0,
     periodSplits,
-    perGame,
-    perGameRows,
-    perGameShown: shown.length,
+    byOpponent,
     splits: [splitFor("Home", homeGames), splitFor("Away", awayGames)],
     streaks: [
       { key: "Overall", win: calcBestStreak(chrono, "win"), unbeaten: calcBestStreak(chrono, "unbeaten") },
@@ -323,28 +300,25 @@ function PeriodBars({ periodSplits }: { periodSplits: PeriodSplit[] }) {
   );
 }
 
-function FormBadge({ result, small }: { result: "W" | "D" | "L"; small?: boolean }) {
+function FormBadge({ result }: { result: "W" | "D" | "L" }) {
   const tone = result === "W" ? "ts-form-w" : result === "L" ? "ts-form-l" : "ts-form-d";
-  return <span className={`ts-form-badge ${tone}${small ? " ts-form-badge-sm" : ""}`}>{result}</span>;
+  return <span className={`ts-form-badge ${tone}`}>{result}</span>;
 }
 
-/** Phone version of the goals-per-game chart: one horizontal bar per game,
- *  still in game order, with the opponent named in full. */
-function PerGameList({ rows }: { rows: PerGameRow[] }) {
-  const max = Math.max(1, ...rows.map((r) => r.gf));
+/** One horizontal bar per opponent: our average goals per game against them. */
+function OpponentAverages({ rows }: { rows: OpponentAverage[] }) {
+  const max = Math.max(1, ...rows.map((r) => r.average));
   return (
     <ol className="ts-pergame">
       {rows.map((r) => (
-        <li key={r.key} className="ts-pergame-row">
+        <li key={r.opponent} className="ts-pergame-row">
           <span className="ts-pergame-who">
-            <span className="ts-pergame-opp">{r.ha} {r.opponent}</span>
-            <span className="t-label ts-muted">{r.date}</span>
+            <span className="ts-pergame-opp">{r.opponent}</span>
+            <span className="t-label ts-muted">{plural(r.games, "game")}</span>
           </span>
-          <span className="t-data ts-pergame-score">
-            <FormBadge result={r.result} small /> {r.gf}–{r.ga}
-          </span>
+          <span className="t-data ts-pergame-score">{r.average.toFixed(1)}</span>
           <span className="ts-pergame-bar" aria-hidden="true">
-            <span style={{ width: `${(r.gf / max) * 100}%` }} />
+            <span style={{ width: `${(r.average / max) * 100}%` }} />
           </span>
         </li>
       ))}
@@ -454,17 +428,9 @@ export default function TeamStats({ loaderData }: Route.ComponentProps) {
   ];
   const streakRows = stats.streaks.map((s) => [s.key, s.win, s.unbeaten]);
 
-  const scored = stats.perGame.map((g) => g.value);
+  const perGameHead = `${plural(stats.byOpponent.length, "opponent")} · average scored`;
   const perGameNote =
-    scored.length === 0
-      ? ""
-      : `Highest ${Math.max(...scored)} · lowest ${Math.min(...scored)} · average ${(
-          scored.reduce((a, b) => a + b, 0) / scored.length
-        ).toFixed(1)}`;
-  const perGameHead =
-    stats.perGameShown < stats.gp
-      ? `Last ${stats.perGameShown} of ${stats.gp} games`
-      : "Scored, game by game";
+    stats.gp === 0 ? "" : `Overall ${stats.gpg.toFixed(1)} goals per game across ${plural(stats.gp, "game")}.`;
 
   return (
     <div className="ts-page">
@@ -547,16 +513,11 @@ export default function TeamStats({ loaderData }: Route.ComponentProps) {
         </div>
         <div>
           <SectionBar title="Goals per game" note={perGameHead} />
-          {stats.perGame.length === 0 ? (
+          {stats.byOpponent.length === 0 ? (
             <p className="ts-empty">Nothing to plot for these filters.</p>
           ) : (
             <>
-              <div className="ts-desktop-only">
-                <BarChart data={stats.perGame} height={200} showValues />
-              </div>
-              <div className="ts-phone-only">
-                <PerGameList rows={stats.perGameRows} />
-              </div>
+              <OpponentAverages rows={stats.byOpponent} />
               <p className="t-label ts-muted ts-chart-note">{perGameNote}</p>
             </>
           )}
