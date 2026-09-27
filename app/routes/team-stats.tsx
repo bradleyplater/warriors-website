@@ -103,6 +103,7 @@ function plural(n: number, word: string): string {
 
 // ── Stats computation ─────────────────────────────────────────────────────────
 
+type PerGameRow = { key: string; opponent: string; date: string; ha: "vs" | "at"; gf: number; ga: number; result: "W" | "D" | "L" };
 type Split = { key: string; gp: number; w: number; d: number; l: number; gf: number; ga: number };
 type PeriodSplit = { label: string; for: number; against: number };
 type Streak = { key: string; win: number; unbeaten: number };
@@ -120,6 +121,8 @@ interface TeamStats {
   gcpg: number;
   periodSplits: PeriodSplit[];
   perGame: BarDatum[];
+  /** The same games with full detail, for the phone's horizontal bar list. */
+  perGameRows: PerGameRow[];
   perGameShown: number;
   splits: Split[];
   streaks: Streak[];
@@ -180,6 +183,16 @@ function computeStats(results: RawResult[]): TeamStats {
     } — ${r.score.warriorsScore}-${r.score.opponentScore}`,
   }));
 
+  const perGameRows: PerGameRow[] = shown.map((r, i) => ({
+    key: `${r.date}-${i}`,
+    opponent: r.opponentTeam,
+    date: dayMonth.format(new Date(r.date)),
+    ha: r.location === "HOME" ? "vs" : "at",
+    gf: r.score.warriorsScore,
+    ga: r.score.opponentScore,
+    result: getResult(r),
+  }));
+
   let ppGoals = 0;
   let ppOpps = 0;
   let pkOpps = 0;
@@ -222,6 +235,7 @@ function computeStats(results: RawResult[]): TeamStats {
     gcpg: gp > 0 ? goalsAgainst / gp : 0,
     periodSplits,
     perGame,
+    perGameRows,
     perGameShown: shown.length,
     splits: [splitFor("Home", homeGames), splitFor("Away", awayGames)],
     streaks: [
@@ -309,9 +323,33 @@ function PeriodBars({ periodSplits }: { periodSplits: PeriodSplit[] }) {
   );
 }
 
-function FormBadge({ result }: { result: "W" | "D" | "L" }) {
+function FormBadge({ result, small }: { result: "W" | "D" | "L"; small?: boolean }) {
   const tone = result === "W" ? "ts-form-w" : result === "L" ? "ts-form-l" : "ts-form-d";
-  return <span className={`ts-form-badge ${tone}`}>{result}</span>;
+  return <span className={`ts-form-badge ${tone}${small ? " ts-form-badge-sm" : ""}`}>{result}</span>;
+}
+
+/** Phone version of the goals-per-game chart: one horizontal bar per game,
+ *  still in game order, with the opponent named in full. */
+function PerGameList({ rows }: { rows: PerGameRow[] }) {
+  const max = Math.max(1, ...rows.map((r) => r.gf));
+  return (
+    <ol className="ts-pergame">
+      {rows.map((r) => (
+        <li key={r.key} className="ts-pergame-row">
+          <span className="ts-pergame-who">
+            <span className="ts-pergame-opp">{r.ha} {r.opponent}</span>
+            <span className="t-label ts-muted">{r.date}</span>
+          </span>
+          <span className="t-data ts-pergame-score">
+            <FormBadge result={r.result} small /> {r.gf}–{r.ga}
+          </span>
+          <span className="ts-pergame-bar" aria-hidden="true">
+            <span style={{ width: `${(r.gf / max) * 100}%` }} />
+          </span>
+        </li>
+      ))}
+    </ol>
+  );
 }
 
 // ── Page component ────────────────────────────────────────────────────────────
@@ -513,7 +551,12 @@ export default function TeamStats({ loaderData }: Route.ComponentProps) {
             <p className="ts-empty">Nothing to plot for these filters.</p>
           ) : (
             <>
-              <BarChart data={stats.perGame} height={200} showValues />
+              <div className="ts-desktop-only">
+                <BarChart data={stats.perGame} height={200} showValues />
+              </div>
+              <div className="ts-phone-only">
+                <PerGameList rows={stats.perGameRows} />
+              </div>
               <p className="t-label ts-muted ts-chart-note">{perGameNote}</p>
             </>
           )}
