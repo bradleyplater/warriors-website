@@ -31,11 +31,11 @@ function parseGameDate(dateString: string) {
 
 function formatGameDate(dateString: string) {
   return parseGameDate(dateString).toLocaleDateString("en-GB", {
-    weekday: "long",
+    weekday: "short",
     day: "numeric",
-    month: "long",
+    month: "short",
     year: "numeric",
-  });
+  }).replace(",", ""); // "Sat 18 Jul 2026", not "Sat, 18 Jul 2026"
 }
 
 /** Combines the "YYYY-MM-DD" date with a "7:00 PM"-style time into a Date. */

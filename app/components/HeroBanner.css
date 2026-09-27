@@ -4,7 +4,9 @@
   position: relative;
   overflow: hidden;
   background: var(--bg-sunken);
-  height: clamp(300px, 52vw, 560px);
+  /* 66vw is 3:2 at full bleed, the shape of most of the team photos, so on a
+     phone they fill the banner width instead of sitting between black bars. */
+  height: clamp(200px, 66vw, 560px);
 }
 
 .hero-banner-track {
@@ -71,3 +73,12 @@
   font-size: .875rem;
 }
 .hero-banner-arrow:hover { background: var(--bg-hover); }
+
+/* Phones: eight dots, the counter and the arrows cannot share one row, and the
+   dots are too small to tap anyway. Keep the counter and swipe/arrow controls
+   on a single row, with arrows at the 44px minimum touch size. */
+@media (max-width: 640px) {
+  .hero-banner-controls { flex: 1 1 100%; justify-content: space-between; flex-wrap: nowrap; }
+  .hero-banner-dots { display: none; }
+  .hero-banner-arrow { width: 44px; height: 44px; }
+}

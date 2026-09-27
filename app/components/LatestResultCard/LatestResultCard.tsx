@@ -14,6 +14,8 @@ type Period = {
 
 type Result = {
   opponentTeam: string;
+  manOfTheMatchPlayerId?: string;
+  warriorOfTheGamePlayerId?: string;
   logoImage: string;
   date: string;
   competition: string;
@@ -32,6 +34,7 @@ type Result = {
 type PlayerStat = {
   id: string;
   name: string;
+  number?: number;
   goals: number;
   assists: number;
   points: number;
@@ -40,15 +43,22 @@ type PlayerStat = {
 type PlayerName = {
   id: string;
   name: string;
+  number?: number;
+};
+
+type Award = {
+  code: string;
+  title: string;
+  player: PlayerName;
 };
 
 function formatResultDate(dateString: string) {
   return new Date(dateString).toLocaleDateString("en-GB", {
-    weekday: "long",
+    weekday: "short",
     day: "numeric",
-    month: "long",
+    month: "short",
     year: "numeric",
-  });
+  }).replace(",", ""); // "Sat 18 Jul 2026", not "Sat, 18 Jul 2026"
 }
 
 function getOutcome(warriorsScore: number, opponentScore: number) {
@@ -77,18 +87,36 @@ function getTopPerformers(result: Result, players: PlayerName[]): PlayerStat[] {
     }
   }
 
-  const playerMap = new Map(players.map((p) => [p.id, p.name]));
+  const playerMap = new Map(players.map((p) => [p.id, p]));
 
   return Array.from(statMap.entries())
     .map(([id, { goals, assists }]) => ({
       id,
-      name: playerMap.get(id) ?? id,
+      name: playerMap.get(id)?.name ?? id,
+      number: playerMap.get(id)?.number,
       goals,
       assists,
       points: goals + assists,
     }))
     .sort((a, b) => b.points - a.points || b.goals - a.goals)
     .slice(0, 3);
+}
+
+/** The game sheet marks an unrecorded award as "MISSING" (see getGameAwards). */
+function getAwards(result: Result, players: PlayerName[]): Award[] {
+  const find = (id?: string) => (id && id !== "MISSING" ? players.find((p) => p.id === id) : undefined);
+  const potg = find(result.manOfTheMatchPlayerId);
+  const wotg = find(result.warriorOfTheGamePlayerId);
+  return [
+    ...(potg ? [{ code: "POTG", title: "Player of the game", player: potg }] : []),
+    ...(wotg ? [{ code: "WOTG", title: "Warrior of the game", player: wotg }] : []),
+  ];
+}
+
+/** "Jamie Marsh" -> "J. Marsh", so three performers fit side by side on a phone. */
+function shortName(name: string) {
+  const parts = name.trim().split(/\s+/);
+  return parts.length > 1 ? `${parts[0][0]}. ${parts[parts.length - 1]}` : name;
 }
 
 /**
@@ -121,6 +149,7 @@ export function LatestResultCard({
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
 
   const topPerformers = latestResult ? getTopPerformers(latestResult, players) : [];
+  const awards = latestResult ? getAwards(latestResult, players) : [];
 
   if (!latestResult) {
     return (
@@ -172,6 +201,43 @@ export function LatestResultCard({
         </div>
       </div>
 
+      {awards.length > 0 && (
+        <div className="lr-awards">
+          {awards.map((award) => (
+            <div key={award.code} className="lr-award">
+              <span className={`t-label lr-award-tag lr-award-tag--${award.code.toLowerCase()}`}>
+                <abbr title={award.title}>{award.code}</abbr>
+                <span className="lr-award-title"> · {award.title}</span>
+              </span>
+              <Link to={`/roster/${award.player.id}`} className="lr-award-name">{award.player.name}</Link>
+              {award.player.number != null && <span className="t-label muted">#{award.player.number}</span>}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {topPerformers.length > 0 && (
+        <div className="lr-performers">
+          <span className="t-label lr-performers-heading">Top performers</span>
+          <ol className="lr-performers-list">
+            {topPerformers.map((p, i) => (
+              <li key={p.id} className="lr-performer">
+                <span className="t-label muted">
+                  {i + 1}{p.number != null && <> · #{p.number}</>}
+                </span>
+                <Link to={`/roster/${p.id}`} className="lr-performer-name" title={p.name}>
+                  {shortName(p.name)}
+                </Link>
+                <span className="t-data lr-performer-stats">
+                  <span className="lr-performer-stat-value">{p.goals}</span> G ·{" "}
+                  <span className="lr-performer-stat-value">{p.assists}</span> A
+                </span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
+
       <dl className="lr-meta">
         <div>
           <dt className="t-label">Competition</dt>
@@ -186,25 +252,6 @@ export function LatestResultCard({
           <dd>{latestResult.location === "HOME" ? "Home" : "Away"}</dd>
         </div>
       </dl>
-
-      {topPerformers.length > 0 && (
-        <div className="lr-performers">
-          <span className="t-label lr-performers-heading">Top performers</span>
-          <div className="lr-performers-list">
-            {topPerformers.map((p) => (
-              <div key={p.id} className="lr-performer">
-                <span className="lr-performer-name">{p.name}</span>
-                <span className="t-data">
-                  <span className="lr-performer-stat-value">{p.goals}</span>{" "}
-                  <span className="lr-performer-stat-label">G</span>{" · "}
-                  <span className="lr-performer-stat-value">{p.assists}</span>{" "}
-                  <span className="lr-performer-stat-label">A</span>
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
       <div className="lr-links">
         <Link to={reportHref} className="t-label">Match report</Link>

@@ -43,20 +43,78 @@
 }
 .lr-team-score--opponent { color: var(--fg-secondary); }
 
-.lr-meta { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); gap: var(--wr-space-4); border-top: var(--wr-bw-hair) solid var(--border-hairline); padding-top: var(--wr-space-4); }
+.lr-meta { margin: 0; display: flex; flex-wrap: wrap; gap: var(--wr-space-4) var(--wr-space-8); border-top: var(--wr-bw-hair) solid var(--border-hairline); padding-top: var(--wr-space-4); }
 .lr-meta dt { color: var(--fg-secondary); margin-bottom: var(--wr-space-1); }
 .lr-meta dd { margin: 0; font-size: var(--wr-text-body-sm); }
 
-.lr-links { display: flex; gap: var(--wr-space-5); flex-wrap: wrap; }
+.lr-links { display: flex; gap: 0 var(--wr-space-5); flex-wrap: wrap; }
+/* 44px tall hit area without changing how the text link looks. */
+.lr-links a { display: inline-flex; align-items: center; min-height: 44px; }
 
 .lr-copy { display: flex; flex-direction: column; gap: var(--wr-space-2); }
 .lr-title { font-size: var(--wr-text-h3); text-transform: uppercase; margin: 0; }
 .lr-summary { color: var(--fg-secondary); margin: 0; max-width: var(--wr-measure); }
 
-.lr-performers { border-top: var(--wr-bw-hair) solid var(--border-hairline); padding-top: var(--wr-space-4); display: flex; flex-direction: column; gap: var(--wr-space-2); }
+.lr-awards {
+  border-top: var(--wr-bw-hair) solid var(--border-hairline);
+  padding-top: var(--wr-space-4);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
+  gap: var(--wr-space-4);
+}
+.lr-award { display: flex; flex-direction: column; align-items: flex-start; gap: var(--wr-space-2); min-width: 0; }
+/* POTG is the solid tag, WOTG the outlined one, so the pair reads as two different awards. */
+.lr-award-tag {
+  padding: 2px var(--wr-space-2);
+  border: var(--wr-bw-hair) solid var(--fg-primary);
+  border-radius: var(--wr-radius-xs);
+  color: var(--fg-primary);
+}
+.lr-award-tag--potg { background: var(--fg-primary); color: var(--bg-page); }
+.lr-award-tag abbr { text-decoration: none; }
+.lr-award-name,
+.lr-performer-name {
+  font-family: var(--wr-font-display);
+  font-variation-settings: 'wdth' var(--wr-w-expanded), 'wght' 700;
+  text-transform: uppercase;
+  color: var(--fg-primary);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.lr-award-name { font-size: 1.125rem; line-height: 1.15; }
+.lr-award-name:hover, .lr-performer-name:hover { text-decoration: underline; }
+
+.lr-performers { border-top: var(--wr-bw-hair) solid var(--border-hairline); padding-top: var(--wr-space-4); display: flex; flex-direction: column; gap: var(--wr-space-3); }
 .lr-performers-heading { color: var(--fg-secondary); display: block; }
-.lr-performers-list { display: flex; flex-wrap: wrap; gap: var(--wr-space-4); }
-.lr-performer { display: flex; align-items: baseline; gap: var(--wr-space-2); }
-.lr-performer-name { font-weight: 600; }
-.lr-performer-stat-value { font-weight: 700; }
-.lr-performer-stat-label { color: var(--fg-secondary); }
+.lr-performers-list {
+  margin: 0; padding: 0; list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 96px), 1fr));
+  gap: var(--wr-space-4);
+}
+.lr-performer { display: flex; flex-direction: column; gap: var(--wr-space-1); min-width: 0; }
+.lr-performer-name { font-size: 1rem; line-height: 1.15; }
+.lr-performer-stats { color: var(--fg-secondary); }
+.lr-performer-stat-value { color: var(--fg-primary); font-weight: 700; }
+
+/* Phones: two award cards side by side leave ~165px each, too narrow for the
+   full "Player of the game" title, so the tag shows the code alone. The title
+   is visually hidden rather than removed so screen readers still announce it. */
+@media (max-width: 640px) {
+  /* Three columns leave ~105px each, which wraps most surnames; one row per
+     player reads like a standings list instead. */
+  .lr-performers-list { grid-template-columns: 1fr; gap: 0; }
+  .lr-performer {
+    flex-direction: row; align-items: baseline; gap: var(--wr-space-3);
+    padding: var(--wr-space-2) 0;
+    border-bottom: var(--wr-bw-hair) solid var(--border-hairline);
+  }
+  .lr-performer:last-child { border-bottom: 0; }
+  .lr-performer > .t-label { flex: none; min-width: 6ch; }
+  .lr-performer-name { flex: 1; }
+  .lr-performer-stats { flex: none; }
+  .lr-award-title {
+    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+}

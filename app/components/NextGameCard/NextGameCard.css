@@ -52,7 +52,8 @@
 .next-game-countdown-key { color: var(--fg-secondary); font-size: var(--wr-text-micro); margin-top: var(--wr-space-1); }
 .next-game-countdown-text { color: var(--fg-secondary); margin: var(--wr-space-3) 0 0; }
 
-.next-game-links { display: flex; gap: var(--wr-space-5); flex-wrap: wrap; align-items: center; }
+.next-game-links { display: flex; gap: 0 var(--wr-space-5); flex-wrap: wrap; align-items: center; }
+.next-game-links a { display: inline-flex; align-items: center; min-height: 44px; }
 
 .next-game-copy { display: flex; flex-direction: column; gap: var(--wr-space-2); }
 .next-game-title { font-size: var(--wr-text-h3); text-transform: uppercase; margin: 0; }
