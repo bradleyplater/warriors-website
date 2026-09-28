@@ -64,7 +64,10 @@ export default function Schedule({ loaderData }: Route.ComponentProps) {
   );
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const nextGame = sorted.find((g) => parseGameDate(g.date).getTime() >= today.getTime());
+  // Played games drop off on the day after, the same rule the next-game panel
+  // uses; results live on the results page.
+  const upcoming = sorted.filter((g) => parseGameDate(g.date).getTime() >= today.getTime());
+  const nextGame = upcoming[0];
 
   useEffect(() => {
     if (!nextGame) return;
@@ -72,7 +75,7 @@ export default function Schedule({ loaderData }: Route.ComponentProps) {
     return () => window.clearInterval(id);
   }, [nextGame?.date, nextGame?.time]);
 
-  const filtered = sorted.filter((g) => {
+  const filtered = upcoming.filter((g) => {
     switch (filter) {
       case "Home":
         return isHomeGame(g);
