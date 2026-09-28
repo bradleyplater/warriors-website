@@ -1,0 +1,41 @@
+# Warriors website — crawler policy.
+#
+# robots.txt is a polite request: well-behaved crawlers obey it, scrapers
+# ignore it. Actual blocking happens at Cloudflare (Bot Fight Mode / WAF
+# rules). Search engines stay allowed so people can still find the club.
+
+# AI training / answer-engine crawlers
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: OAI-SearchBot
+User-agent: ClaudeBot
+User-agent: Claude-Web
+User-agent: anthropic-ai
+User-agent: CCBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: PerplexityBot
+User-agent: Bytespider
+User-agent: Amazonbot
+User-agent: meta-externalagent
+User-agent: FacebookBot
+User-agent: Diffbot
+User-agent: ImagesiftBot
+User-agent: Omgilibot
+User-agent: cohere-ai
+Disallow: /
+
+# SEO / marketing scrapers
+User-agent: AhrefsBot
+User-agent: SemrushBot
+User-agent: MJ12bot
+User-agent: DotBot
+User-agent: BLEXBot
+User-agent: DataForSeoBot
+User-agent: PetalBot
+User-agent: serpstatbot
+Disallow: /
+
+# Everyone else (Google, Bing, etc.)
+User-agent: *
+Allow: /
