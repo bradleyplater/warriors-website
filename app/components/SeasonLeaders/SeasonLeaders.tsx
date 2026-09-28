@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import "./SeasonLeaders.css";
 
 const CURRENT_SEASON = "25/26";
@@ -37,58 +38,56 @@ function getLeaders(
     })
     .filter((entry) => entry.value > 0)
     .sort((a, b) => b.value - a.value)
-    .slice(0, 5);
+    .slice(0, 4);
 }
 
 type PanelProps = {
   title: string;
-  label: string;
+  unit: string;
   entries: LeaderEntry[];
 };
 
-function LeaderPanel({ title, label, entries }: PanelProps) {
+function LeaderPanel({ title, unit, entries }: PanelProps) {
   const [top, ...rest] = entries;
 
   return (
     <div className="sl-panel">
-      <span className="sl-kicker">{title}</span>
+      <div className="sl-panel-top">
+        <span className="t-label sl-kicker">{title}</span>
 
-      {top ? (
-        <>
-          <div className="sl-hero">
-            <div className="sl-hero-avatar-wrap">
-              <img
-                src={`/images/players/${top.id}.jpg`}
-                alt={top.name}
-                className="sl-hero-avatar"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).style.display = "none";
-                }}
-              />
+        {top ? (
+          <>
+            <div className="sl-hero">
+              <span className="sl-hero-value">{top.value}</span>
+              <span className="t-label sl-hero-unit">{unit}</span>
             </div>
-            <div className="sl-hero-stat">{top.value}</div>
-            <div className="sl-hero-stat-label">{label}</div>
-            <div className="sl-hero-name">{top.name}</div>
-            <div className="sl-hero-number">#{top.number}</div>
-          </div>
+            <div>
+              <div className="sl-hero-name">{top.name}</div>
+              <div className="t-label sl-hero-meta">#{top.number}</div>
+            </div>
+          </>
+        ) : (
+          <p className="sl-empty">No stats recorded yet</p>
+        )}
+      </div>
 
-          {rest.length > 0 && (
-            <ol className="sl-list" start={2}>
-              {rest.map((entry, index) => (
-                <li key={entry.id} className="sl-row">
-                  <div className="sl-player-info">
-                    <span className="sl-player-number">#{entry.number}</span>
-                    <span className="sl-player-name">{entry.name}</span>
-                  </div>
-                  <span className="sl-stat-value">{entry.value}</span>
-                  <span className="sl-stat-label">{label}</span>
-                </li>
-              ))}
-            </ol>
-          )}
-        </>
-      ) : (
-        <p className="sl-empty">No stats recorded yet</p>
+      {rest.length > 0 && (
+        <ol className="sl-list">
+          {rest.map((entry, index) => (
+            <li key={entry.id} className="sl-row">
+              <span className="t-data sl-rank">{index + 2}</span>
+              <span className="sl-player-name">{entry.name}</span>
+              <span className="t-label sl-player-pos">#{entry.number}</span>
+              <span className="t-data sl-stat-value">{entry.value}</span>
+            </li>
+          ))}
+        </ol>
+      )}
+
+      {top && (
+        <div className="sl-link">
+          <Link to="/stats" className="t-label">Full scoring stats</Link>
+        </div>
       )}
     </div>
   );
@@ -101,12 +100,10 @@ export function SeasonLeaders({ players: rawPlayers }: { players: unknown[] }) {
   const pimsLeaders = getLeaders(players, "pims");
 
   return (
-    <div className="sl-shell">
-      <div className="sl-grid">
-        <LeaderPanel title="Top Goal Scorers" label="Goals" entries={goalLeaders} />
-        <LeaderPanel title="Top Assists" label="Assists" entries={assistLeaders} />
-        <LeaderPanel title="Most PIMs" label="PIMs" entries={pimsLeaders} />
-      </div>
+    <div className="sl-grid">
+      <LeaderPanel title="Goals" unit="goals" entries={goalLeaders} />
+      <LeaderPanel title="Assists" unit="assists" entries={assistLeaders} />
+      <LeaderPanel title="PIMs" unit="pims" entries={pimsLeaders} />
     </div>
   );
 }

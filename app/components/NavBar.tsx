@@ -1,108 +1,99 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink, Link } from "react-router";
-import { Drawer, OverlayContainer, Text } from "@wonderflow/react-components";
+import { Button } from "./ds/Button";
+import "./NavBar.css";
 
-type ThemeMode = "light" | "dark";
+type Kit = "home" | "away";
+
+const navLinks = [
+  { name: "Home", to: "/", end: true },
+  { name: "Schedule", to: "/schedule", end: true },
+  { name: "Results", to: "/results", end: true },
+  { name: "Roster", to: "/roster", end: true },
+  { name: "Stats", to: "/stats", end: true },
+  { name: "Team Stats", to: "/team-stats", end: true },
+  { name: "Records", to: "/records", end: true },
+  { name: "Awards", to: "/awards", end: true },
+  { name: "Live", to: "/live", end: true },
+];
 
 export function NavBar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [theme, setTheme] = useState<ThemeMode>("dark");
-
-  const navLinks = [
-    { name: "Home", to: "/", end: true },
-    { name: "Schedule", to: "/schedule", end: true },
-    { name: "Results", to: "/results", end: true },
-    { name: "Roster", to: "/roster", end: true },
-    { name: "Stats", to: "/stats", end: true },
-    { name: "Team Stats", to: "/team-stats", end: true },
-    { name: "Records", to: "/records", end: true },
-    { name: "Awards", to: "/awards", end: true },
-    { name: "Live", to: "/live", end: true },
-  ];
+  const [kit, setKit] = useState<Kit>("home");
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const savedTheme = window.localStorage.getItem("theme-mode");
-    const nextTheme: ThemeMode =
-      savedTheme === "dark" || savedTheme === "light" ? savedTheme : "dark";
-
-    setTheme(nextTheme);
-    document.documentElement.setAttribute("data-theme", nextTheme);
+    const saved = window.localStorage.getItem("theme-mode");
+    const next: Kit = saved === "away" || saved === "home" ? saved : "home";
+    setKit(next);
+    document.documentElement.setAttribute("data-theme", next);
   }, []);
 
-  function toggleTheme() {
-    const nextTheme: ThemeMode = theme === "light" ? "dark" : "light";
-    setTheme(nextTheme);
-    document.documentElement.setAttribute("data-theme", nextTheme);
-    window.localStorage.setItem("theme-mode", nextTheme);
+  useEffect(() => {
+    if (!isMobileOpen) return;
+    closeButtonRef.current?.focus();
+
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setIsMobileOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isMobileOpen]);
+
+  function selectKit(next: Kit) {
+    setKit(next);
+    document.documentElement.setAttribute("data-theme", next);
+    window.localStorage.setItem("theme-mode", next);
   }
+
+  const logoSrc = kit === "home" ? "/images/warriors-logo-white.png" : "/images/warriors-logo-black.png";
 
   return (
     <>
       <header className="navbar-shell">
         <div className="navbar-frame">
-          <Link to="/" className="navbar-brand" aria-label="Warriors home">
-            <span className="navbar-logo-badge">
-              <img
-                src={
-                  theme === "dark"
-                    ? "/images/warriors-logo-white.png"
-                    : "/images/warriors-logo-black.png"
-                }
-                alt="Warriors logo"
-                className={theme === "dark" ? "navbar-logo navbar-logo-dark" : "navbar-logo"}
-              />
-            </span>
-            <span className="navbar-brand-copy">
-              <Text variant="heading-5" className="navbar-brand-title">
-                Warriors
-              </Text>
-              <Text variant="body-1" className="navbar-brand-subtitle">
-                Ice Hockey Club
-              </Text>
-            </span>
+          <Link to="/" className="navbar-brand" aria-label="Peterborough Warriors — home">
+            <img src={logoSrc} alt="Peterborough Warriors" className="navbar-logo" />
           </Link>
 
           <nav className="navbar-links" aria-label="Primary">
             {navLinks.map((link) => (
-              <NavLink key={link.name} to={link.to} end className="navbar-link-reset">
+              <NavLink key={link.name} to={link.to} end={link.end} className="navbar-link-reset">
                 {({ isActive }) => (
-                  <span className={isActive ? "navbar-link navbar-link-active" : "navbar-link"}>
-                    <Text variant="body-1" className="navbar-link-label">
-                      {link.name}
-                    </Text>
+                  <span className={isActive ? "navbar-link t-label navbar-link-active" : "navbar-link t-label"}>
+                    {link.name}
                   </span>
                 )}
               </NavLink>
             ))}
           </nav>
 
-          <button
-            type="button"
-            className="navbar-desktop-theme-button"
-            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-            onClick={toggleTheme}
-          >
-            {theme === "dark" ? (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="5" />
-                <line x1="12" y1="1" x2="12" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="3" y2="12" />
-                <line x1="21" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-              </svg>
-            ) : (
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              </svg>
-            )}
-          </button>
+          <div className="navbar-kit-toggle" role="group" aria-label="Kit">
+            <Button
+              size="sm"
+              variant={kit === "home" ? "primary" : "secondary"}
+              aria-pressed={kit === "home"}
+              onClick={() => selectKit("home")}
+            >
+              Home
+            </Button>
+            <Button
+              size="sm"
+              variant={kit === "away" ? "primary" : "secondary"}
+              aria-pressed={kit === "away"}
+              onClick={() => selectKit("away")}
+            >
+              Away
+            </Button>
+          </div>
 
           <button
             type="button"
+            ref={menuButtonRef}
             className="navbar-menu-button"
             aria-label={isMobileOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={isMobileOpen}
@@ -118,31 +109,25 @@ export function NavBar() {
         </div>
       </header>
 
-      <OverlayContainer index={80} obfuscate onClose={() => setIsMobileOpen(false)}>
-        {isMobileOpen && (
-          <Drawer
-            className="navbar-drawer"
-            theme={theme}
-            title={
-              <img
-                src={
-                  theme === "dark"
-                    ? "/images/warriors-logo-white.png"
-                    : "/images/warriors-logo-black.png"
-                }
-                alt="Warriors"
-                className={
-                  theme === "dark"
-                    ? "navbar-drawer-logo navbar-drawer-logo-dark"
-                    : "navbar-drawer-logo"
-                }
-              />
-            }
-            side="right"
-            maxWidth="24rem"
-            closeOnClickOutside
-            showHeader
-          >
+      {isMobileOpen && (
+        <>
+          <div className="navbar-drawer-backdrop" onClick={() => setIsMobileOpen(false)} />
+          <div className="navbar-drawer" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+            <div className="navbar-drawer-header">
+              <img src={logoSrc} alt="Peterborough Warriors" className="navbar-drawer-logo" />
+              <button
+                type="button"
+                ref={closeButtonRef}
+                className="navbar-drawer-close"
+                aria-label="Close navigation menu"
+                onClick={() => {
+                  setIsMobileOpen(false);
+                  menuButtonRef.current?.focus();
+                }}
+              >
+                ✕
+              </button>
+            </div>
             <nav id="mobile-navigation" className="navbar-drawer-nav" aria-label="Mobile primary">
               {navLinks.map((link) => (
                 <NavLink
@@ -153,51 +138,32 @@ export function NavBar() {
                   onClick={() => setIsMobileOpen(false)}
                 >
                   {({ isActive }) => (
-                    <span
-                      className={
-                        isActive
-                          ? "navbar-drawer-link navbar-drawer-link-active"
-                          : "navbar-drawer-link"
-                      }
-                    >
-                      <Text variant="body-1" className="navbar-drawer-link-label">
-                        {link.name}
-                      </Text>
+                    <span className={isActive ? "navbar-drawer-link t-label navbar-drawer-link-active" : "navbar-drawer-link t-label"}>
+                      {link.name}
                     </span>
                   )}
                 </NavLink>
               ))}
             </nav>
-            <div className="navbar-theme-toggle-wrap">
-              <button
-                type="button"
-                className="navbar-theme-toggle"
-                onClick={toggleTheme}
-                aria-pressed={theme === "dark"}
+            <div className="navbar-drawer-kit">
+              <Button
+                variant={kit === "home" ? "primary" : "secondary"}
+                aria-pressed={kit === "home"}
+                onClick={() => selectKit("home")}
               >
-                <span className="navbar-theme-toggle-copy">
-                  <Text variant="body-1" className="navbar-theme-toggle-title">
-                    Dark mode
-                  </Text>
-                  <Text variant="body-2" className="navbar-theme-toggle-subtitle">
-                    Switch the site appearance
-                  </Text>
-                </span>
-                <span
-                  className={
-                    theme === "dark"
-                      ? "navbar-theme-toggle-track navbar-theme-toggle-track-active"
-                      : "navbar-theme-toggle-track"
-                  }
-                  aria-hidden="true"
-                >
-                  <span className="navbar-theme-toggle-thumb" />
-                </span>
-              </button>
+                Home · black
+              </Button>
+              <Button
+                variant={kit === "away" ? "primary" : "secondary"}
+                aria-pressed={kit === "away"}
+                onClick={() => selectKit("away")}
+              >
+                Away · white
+              </Button>
             </div>
-          </Drawer>
-        )}
-      </OverlayContainer>
+          </div>
+        </>
+      )}
     </>
   );
 }

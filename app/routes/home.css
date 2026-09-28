@@ -1,0 +1,29 @@
+.home-matchday { background: var(--bg-sunken); border-bottom: var(--wr-bw-hair) solid var(--border-hairline); }
+.home-matchday-inner {
+  max-width: var(--wr-container);
+  margin: 0 auto;
+  padding: var(--wr-space-10) var(--wr-space-5) var(--wr-space-12);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr));
+  gap: var(--wr-space-10) var(--wr-space-12);
+}
+
+.home-leaders { max-width: var(--wr-container); margin: 0 auto; padding: var(--wr-space-16) var(--wr-space-5); }
+
+.home-partners { max-width: var(--wr-container); margin: 0 auto; padding: var(--wr-space-10) var(--wr-space-5); }
+.home-partners-label { color: var(--fg-secondary); display: block; margin-bottom: var(--wr-space-5); }
+.home-partners-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: var(--wr-space-4); }
+/* Constant dark tile in both kits: three of the four logos carry a baked dark
+   background and one (ask-to-build) is white artwork on transparency, so a
+   theme-dependent tile would make one or the other disappear. */
+.home-partner-slot {
+  display: grid;
+  padding: var(--wr-space-3);
+  background: var(--wr-kit-black);
+  border: var(--wr-bw-hair) solid var(--border-hairline); border-radius: var(--wr-radius-sm);
+}
+/* The logo box is sized directly and the slot takes its height from it. A
+   percentage height would resolve to auto here, letting each logo keep its own
+   aspect ratio (the square J70 mark rendered 232px tall). scale-down then fits
+   any shape into the box without cropping or upscaling. */
+.home-partner-logo { width: 100%; height: 64px; object-fit: scale-down; }

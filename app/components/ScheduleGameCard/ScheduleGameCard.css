@@ -1,0 +1,50 @@
+.fx-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  gap: var(--wr-space-2) var(--wr-space-5);
+  align-items: baseline;
+  padding: var(--wr-space-4) 0;
+  border-bottom: var(--wr-bw-hair) solid var(--border-hairline);
+}
+
+.fx-row-date { display: flex; flex-direction: column; gap: var(--wr-space-1); max-width: 14ch; }
+.fx-row-date-day { font-weight: 700; }
+.fx-row-date-time { color: var(--fg-secondary); }
+
+.fx-row-opponent { display: flex; flex-direction: column; gap: var(--wr-space-1); grid-column: span 2; min-width: 0; }
+.fx-row-opponent-line { display: flex; align-items: center; gap: var(--wr-space-3); flex-wrap: wrap; }
+.fx-row-opponent-ha { color: var(--fg-secondary); min-width: 2.5ch; }
+.fx-row-opponent-name {
+  font-family: var(--wr-font-display);
+  font-variation-settings: 'wdth' var(--wr-w-expanded), 'wght' 700;
+  font-size: 1.0625rem;
+  text-transform: uppercase;
+}
+.fx-row-opponent-meta { color: var(--fg-secondary); }
+
+/* Previous results sit inline under the fixture, as in the design: label, then
+   up to three results (letter, score, date). */
+.fx-row-prev { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: var(--wr-space-2) var(--wr-space-5); margin-top: var(--wr-space-2); }
+.fx-row-prev-label { color: var(--fg-secondary); }
+.fx-row-prev-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--wr-space-2) var(--wr-space-4); }
+.fx-row-prev-item { display: flex; align-items: center; gap: var(--wr-space-2); }
+.fx-row-prev-score { font-weight: 700; }
+.fx-row-prev-date { color: var(--fg-secondary); font-size: var(--wr-text-micro); }
+
+.fx-outcome {
+  min-width: 30px; height: 22px; padding: 0 var(--wr-space-1);
+  display: inline-grid; place-items: center;
+  font-weight: 700; font-size: .6875rem;
+  border-radius: var(--wr-radius-xs); border: var(--wr-bw-hair) solid;
+}
+.fx-outcome--w { background: var(--st-success-surface); color: var(--st-success-fg); border-color: var(--st-success-border); }
+.fx-outcome--l { background: var(--st-danger-surface); color: var(--st-danger-fg); border-color: var(--st-danger-border); }
+.fx-outcome--d { background: var(--bg-raised); color: var(--fg-secondary); border-color: var(--border-functional); }
+
+@media (max-width: 640px) {
+  /* Date and time on one line above the opponent, rather than a column
+     that leaves the opponent name floating below a gap. */
+  .fx-row-date { flex-direction: row; gap: var(--wr-space-3); max-width: none; }
+  /* Label on its own line so the three results line up beneath it. */
+  .fx-row-prev-label { flex: 1 1 100%; }
+}

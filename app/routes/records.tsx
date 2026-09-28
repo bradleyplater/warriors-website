@@ -1,22 +1,11 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
+import { Link } from "react-router";
 import type { Route } from "./+types/records";
 import { getPlayers, getResults } from "~/data/client";
 import type { Result, Player } from "~/data/types";
-import {
-  getMostGoals, getMostAssists, getMostPoints, getQuickestGoal,
-  getQuickestHattrick, getMostPenaltyMinutesInAGame,
-  getMostGoalsInASeason, getMostAssistsInASeason, getMostPointsInASeason,
-  getMostHattricksInASeason, getMostPowerPlayGoalsInASeason,
-  getMostShortHandedGoalsInASeason, getMostGameWinningGoalsInASeason,
-  getMostShutoutsInASeason, getMostPIMsInASeason, getMostMOTMInASeason,
-  getMostWOTGInASeason,
-  getCareerGamesPlayedLeader, getCareerGoalsLeader, getCareerAssistsLeader,
-  getCareerPointsLeader, getMostPowerPlayGoalsAllTime,
-  getMostShortHandedGoalsAllTime, getMostGameWinningGoalsAllTime,
-  getMostShutoutsAllTime, getMostCareerPenaltyMinutes,
-  getMostCareerMOTM, getMostCareerWOTG,
-} from "~/helpers/team-records-helper";
-import type { TeamRecord, SeasonRecord, AllTimeRecord } from "~/helpers/team-records-helper";
+import { SectionHead } from "~/components/ds/SectionHead";
+import { Stripe } from "~/components/ds/Stripe";
+import { buildRecordSets, type RecordCard as Card } from "~/helpers/records";
 import "./records.css";
 
 export function meta() {
@@ -31,246 +20,97 @@ export async function clientLoader() {
   return { players, results };
 }
 
-// ── Category badge ────────────────────────────────────────────────────────────
+const POS_SHORT: Record<string, string> = { Forward: "F", Defence: "D", Goaltender: "G" };
 
-const CATEGORY_LABELS: Record<string, string> = {
-  goals: "Goals",
-  assists: "Assists",
-  points: "Points",
-  performance: "Performance",
-};
-
-function CategoryBadge({ category }: { category: string }) {
-  return (
-    <span className={`rec-category rec-category-${category}`}>
-      {CATEGORY_LABELS[category] ?? category}
-    </span>
-  );
-}
-
-// ── Record cards ──────────────────────────────────────────────────────────────
-
-const MAX_VISIBLE_HOLDERS = 3;
-
-function GameRecordCard({ record }: { record: TeamRecord }) {
-  const visible = record.holders.slice(0, MAX_VISIBLE_HOLDERS);
-  const overflow = record.holders.length - MAX_VISIBLE_HOLDERS;
+function RecordCard({ record, players }: { record: Card; players: Map<string, Player> }) {
+  const [first, ...rest] = record.top;
+  const holder = first ? players.get(first.playerId) : undefined;
+  const pos = holder?.position
+    .split("/")
+    .map((p) => POS_SHORT[p.trim()] ?? p.trim().charAt(0))
+    .join("/");
 
   return (
-    <div className={`rec-card rec-card-${record.category}`}>
-      <div className="rec-card-top">
-        <CategoryBadge category={record.category} />
-        <p className="rec-record-value">{record.value}</p>
-        <p className="rec-record-title">{record.title}</p>
-        <p className="rec-record-desc">{record.description}</p>
+    <article className="rec-card">
+      <div className="rec-card-head">
+        <h3 className="t-label rec-card-title">
+          {record.title}
+          {record.note ? ` · ${record.note}` : ""}
+        </h3>
+        <span className="rec-card-value">{first ? first.value : "—"}</span>
       </div>
-      <div className="rec-card-divider" />
-      <div className="rec-card-holders">
-        {visible.length === 0 ? (
-          <p className="rec-no-data">No data recorded yet.</p>
-        ) : (
-          visible.map((h, i) => (
-            <div key={i} className="rec-holder">
-              <span className="rec-holder-name">{h.playerName}</span>
-              <span className="rec-holder-meta">
-                vs {h.gameInfo.opponent} · {h.gameInfo.date} · {h.gameInfo.result}
+
+      {first ? (
+        <div className="rec-card-holder">
+          <Link to={`/roster/${first.playerId}`} className="t-heading rec-card-name">{first.name}</Link>
+          {holder && <span className="t-label rec-muted">#{holder.number} · {pos}</span>}
+          <span className="rec-card-context">{first.context}</span>
+        </div>
+      ) : (
+        <p className="rec-card-context">Not set yet.</p>
+      )}
+
+      {rest.length > 0 && (
+        <ol className="rec-card-rest">
+          {rest.map((entry, i) => (
+            <li key={`${entry.playerId}-${entry.context}`} className="rec-card-rest-row">
+              <span className="t-data rec-muted">{i + 2}</span>
+              <span className="rec-card-rest-who">
+                <Link to={`/roster/${entry.playerId}`} className="rec-card-rest-name">{entry.name}</Link>
+                <span className="t-label rec-muted rec-card-rest-context">{entry.context}</span>
               </span>
-            </div>
-          ))
-        )}
-        {overflow > 0 && (
-          <span className="rec-overflow">+{overflow} more</span>
-        )}
-      </div>
-    </div>
+              <span className="t-data rec-card-rest-value">{entry.value}</span>
+            </li>
+          ))}
+        </ol>
+      )}
+    </article>
   );
 }
-
-function SeasonRecordCard({ record }: { record: SeasonRecord }) {
-  const visible = record.holders.slice(0, MAX_VISIBLE_HOLDERS);
-  const overflow = record.holders.length - MAX_VISIBLE_HOLDERS;
-
-  return (
-    <div className={`rec-card rec-card-${record.category}`}>
-      <div className="rec-card-top">
-        <CategoryBadge category={record.category} />
-        <p className="rec-record-value">{record.value}</p>
-        <p className="rec-record-title">{record.title}</p>
-        <p className="rec-record-desc">{record.description}</p>
-      </div>
-      <div className="rec-card-divider" />
-      <div className="rec-card-holders">
-        {visible.length === 0 ? (
-          <p className="rec-no-data">No data recorded yet.</p>
-        ) : (
-          visible.map((h, i) => (
-            <div key={i} className="rec-holder">
-              <span className="rec-holder-name">{h.playerName}</span>
-              <span className="rec-holder-meta">Season {h.season}</span>
-            </div>
-          ))
-        )}
-        {overflow > 0 && (
-          <span className="rec-overflow">+{overflow} more</span>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function AllTimeRecordCard({ record }: { record: AllTimeRecord }) {
-  const visible = record.holders.slice(0, MAX_VISIBLE_HOLDERS);
-  const overflow = record.holders.length - MAX_VISIBLE_HOLDERS;
-
-  return (
-    <div className={`rec-card rec-card-${record.category}`}>
-      <div className="rec-card-top">
-        <CategoryBadge category={record.category} />
-        <p className="rec-record-value">{record.value}</p>
-        <p className="rec-record-title">{record.title}</p>
-        <p className="rec-record-desc">{record.description}</p>
-      </div>
-      <div className="rec-card-divider" />
-      <div className="rec-card-holders">
-        {visible.length === 0 ? (
-          <p className="rec-no-data">No data recorded yet.</p>
-        ) : (
-          visible.map((h, i) => (
-            <div key={i} className="rec-holder">
-              <span className="rec-holder-name">{h.playerName}</span>
-            </div>
-          ))
-        )}
-        {overflow > 0 && (
-          <span className="rec-overflow">+{overflow} more</span>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// ── Page ──────────────────────────────────────────────────────────────────────
-
-type Tab = "game" | "season" | "alltime";
 
 export default function Records({ loaderData }: Route.ComponentProps) {
-  const [tab, setTab] = useState<Tab>("game");
-
-  const allResults = loaderData.results as Result[];
-  const allPlayers = loaderData.players as Player[];
-
-  const gameRecords: TeamRecord[] = useMemo(
-    () => [
-      getMostGoals(allResults, allPlayers),
-      getMostAssists(allResults, allPlayers),
-      getMostPoints(allResults, allPlayers),
-      getQuickestGoal(allResults, allPlayers),
-      getQuickestHattrick(allResults, allPlayers),
-      getMostPenaltyMinutesInAGame(allResults, allPlayers),
-    ],
-    [allResults, allPlayers]
-  );
-
-  const seasonalRecords: SeasonRecord[] = useMemo(
-    () => [
-      getMostGoalsInASeason(allPlayers),
-      getMostAssistsInASeason(allPlayers),
-      getMostPointsInASeason(allPlayers),
-      getMostHattricksInASeason(allResults, allPlayers),
-      getMostPowerPlayGoalsInASeason(allResults, allPlayers),
-      getMostShortHandedGoalsInASeason(allResults, allPlayers),
-      getMostGameWinningGoalsInASeason(allResults, allPlayers),
-      getMostShutoutsInASeason(allResults, allPlayers),
-      getMostPIMsInASeason(allPlayers),
-      getMostMOTMInASeason(allPlayers),
-      getMostWOTGInASeason(allPlayers),
-    ],
-    [allResults, allPlayers]
-  );
-
-  const allTimeRecords: AllTimeRecord[] = useMemo(
-    () => [
-      getCareerGamesPlayedLeader(allPlayers),
-      getCareerGoalsLeader(allPlayers),
-      getCareerAssistsLeader(allPlayers),
-      getCareerPointsLeader(allPlayers),
-      getMostPowerPlayGoalsAllTime(allResults, allPlayers),
-      getMostShortHandedGoalsAllTime(allResults, allPlayers),
-      getMostGameWinningGoalsAllTime(allResults, allPlayers),
-      getMostShutoutsAllTime(allResults, allPlayers),
-      getMostCareerPenaltyMinutes(allPlayers),
-      getMostCareerMOTM(allPlayers),
-      getMostCareerWOTG(allPlayers),
-    ],
-    [allResults, allPlayers]
-  );
+  const results = loaderData.results as Result[];
+  const players = loaderData.players as Player[];
+  const sets = useMemo(() => buildRecordSets(results, players), [results, players]);
+  const playerMap = useMemo(() => new Map(players.map((p) => [p.id, p])), [players]);
 
   return (
     <div className="rec-page">
-      <section className="rec-hero">
-        <div className="rec-hero-inner">
-          <span className="rec-kicker">Club History</span>
-          <h1 className="rec-title">Records</h1>
-          <p className="rec-subtitle">
-            Peterborough Warriors Ice Hockey Club — Individual Records &amp; Achievements
-          </p>
-        </div>
-      </section>
-
-      <section className="rec-body">
-        <div className="rec-frame">
-          <div className="rec-tabs" role="tablist">
-            <button
-              role="tab"
-              aria-selected={tab === "game"}
-              className={tab === "game" ? "rec-tab rec-tab-active" : "rec-tab"}
-              onClick={() => setTab("game")}
-            >
-              Single Game
-            </button>
-            <button
-              role="tab"
-              aria-selected={tab === "season"}
-              className={tab === "season" ? "rec-tab rec-tab-active" : "rec-tab"}
-              onClick={() => setTab("season")}
-            >
-              Season
-            </button>
-            <button
-              role="tab"
-              aria-selected={tab === "alltime"}
-              className={tab === "alltime" ? "rec-tab rec-tab-active" : "rec-tab"}
-              onClick={() => setTab("alltime")}
-            >
-              All Time
-            </button>
+      <section className="rec-intro">
+        <SectionHead title="Records">
+          Individual club records taken from the official game sheets. League and cup games.
+        </SectionHead>
+        <nav aria-label="Record sets" className="rec-jump">
+          <span className="t-label rec-muted">Jump to</span>
+          <div className="rec-jump-links">
+            {sets.map((s) => (
+              <a key={s.id} href={`#${s.id}`} className="t-label rec-jump-link">{s.title}</a>
+            ))}
           </div>
-
-          {tab === "game" && (
-            <div className="rec-grid">
-              {gameRecords.map((r, i) => (
-                <GameRecordCard key={i} record={r} />
-              ))}
-            </div>
-          )}
-
-          {tab === "season" && (
-            <div className="rec-grid">
-              {seasonalRecords.map((r, i) => (
-                <SeasonRecordCard key={i} record={r} />
-              ))}
-            </div>
-          )}
-
-          {tab === "alltime" && (
-            <div className="rec-grid">
-              {allTimeRecords.map((r, i) => (
-                <AllTimeRecordCard key={i} record={r} />
-              ))}
-            </div>
-          )}
-        </div>
+        </nav>
       </section>
+
+      {sets.map((set) => (
+        <div key={set.id}>
+          <Stripe />
+          <section id={set.id} aria-label={`${set.title} records`} className="rec-set">
+            <div className="rec-set-head">
+              <h2 className="t-heading rec-set-title">{set.title}</h2>
+              <span className="t-label rec-muted">{set.note}</span>
+            </div>
+            {set.groups.map((group) => (
+              <div key={group.label} className="rec-group">
+                <span className="t-label rec-muted rec-group-label">{group.label}</span>
+                <div className="rec-grid">
+                  {group.records.map((record) => (
+                    <RecordCard key={record.title} record={record} players={playerMap} />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </section>
+        </div>
+      ))}
     </div>
   );
 }

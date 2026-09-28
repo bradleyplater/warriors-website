@@ -1,60 +1,94 @@
-import { useEffect, useState } from "react";
-import { Text } from "@wonderflow/react-components";
+import { useEffect, useRef, useState } from "react";
+import { heroSlides as slides } from "./heroSlides";
+import "./HeroBanner.css";
 
-const bannerImages = [
-  "/images/team/charity-game.jpg",
-  "/images/team/LLIHC-Team-26.jpg",
-  "/images/team/tournament-win.jpg",
-  "/images/team/tournament.jpg",
-];
 
 export function HeroBanner() {
-  const [activeImage, setActiveImage] = useState(0);
+  const [slide, setSlide] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
-    const intervalId = window.setInterval(() => {
-      setActiveImage((currentImage) => (currentImage + 1) % bannerImages.length);
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced || paused) return;
+    const id = window.setInterval(() => {
+      setSlide((s) => (s + 1) % slides.length);
     }, 5000);
+    return () => window.clearInterval(id);
+  }, [paused]);
 
-    return () => window.clearInterval(intervalId);
-  }, []);
+  function go(i: number) {
+    setSlide(((i % slides.length) + slides.length) % slides.length);
+  }
 
   return (
-    <div className="home-hero-shell">
-      <div className="home-hero">
-        <div className="home-hero-media" aria-hidden="true">
-          {bannerImages.map((image, index) => (
-            <div
-              key={image}
-              className={index === activeImage ? "home-hero-image home-hero-image-active" : "home-hero-image"}
-              style={{ backgroundImage: `url(${image})` }}
-            />
-          ))}
-          <div className="home-hero-overlay" />
-        </div>
-
-        <div className="home-hero-content">
-          <span className="home-hero-kicker">Welcome To The Warriors</span>
-          <Text as="h1" variant="heading-1" className="home-hero-title">
-            Peterborough Warriors
-          </Text>
-          <Text variant="heading-6" className="home-hero-subtitle">
-            Recreational ice hockey team bringing together players of all skill levels
-          </Text>
-          <div className="home-hero-indicators" aria-label="Banner images">
-            {bannerImages.map((image, index) => (
-              <button
-                key={image}
-                type="button"
-                className={index === activeImage ? "home-hero-indicator home-hero-indicator-active" : "home-hero-indicator"}
-                onClick={() => setActiveImage(index)}
-                aria-label={`Show banner image ${index + 1}`}
-                aria-pressed={index === activeImage}
-              />
+    <div className="hero-banner">
+      <section
+        aria-label="Club photography"
+        tabIndex={0}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onFocus={() => setPaused(true)}
+        onBlur={() => setPaused(false)}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowLeft") { e.preventDefault(); go(slide - 1); }
+          if (e.key === "ArrowRight") { e.preventDefault(); go(slide + 1); }
+        }}
+        onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+        onTouchEnd={(e) => {
+          if (touchStartX.current == null) return;
+          const dx = e.changedTouches[0].clientX - touchStartX.current;
+          if (Math.abs(dx) > 40) go(slide + (dx < 0 ? 1 : -1));
+          touchStartX.current = null;
+        }}
+      >
+        <div className="hero-banner-viewport">
+          <div className="hero-banner-track" style={{ transform: `translateX(-${slide * 100}%)` }}>
+            {slides.map((s, i) => (
+              <div key={s.image} className="hero-banner-slide">
+                <img
+                  src={s.image}
+                  alt={s.caption}
+                  className="hero-banner-image"
+                  loading={i === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                />
+              </div>
             ))}
           </div>
         </div>
-      </div>
+
+        <div className="hero-banner-caption-bar">
+          <div className="hero-banner-caption-inner">
+            <div className="hero-banner-caption-copy">
+              <span className="t-label muted">Peterborough Warriors · Est. 2013 · Planet Ice Peterborough</span>
+              <p>{slides[slide].caption}</p>
+            </div>
+            <div className="hero-banner-controls">
+              <div className="hero-banner-dots" role="tablist" aria-label="Slides">
+                {slides.map((s, i) => (
+                  <button
+                    key={s.image}
+                    type="button"
+                    role="tab"
+                    aria-selected={i === slide}
+                    aria-label={`Slide ${i + 1}: ${s.caption}`}
+                    onClick={() => go(i)}
+                    className="hero-banner-dot"
+                  />
+                ))}
+              </div>
+              <span className="t-data hero-banner-counter">
+                {String(slide + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
+              </span>
+              <div className="hero-banner-arrows">
+                <button type="button" aria-label="Previous slide" className="hero-banner-arrow" onClick={() => go(slide - 1)}>←</button>
+                <button type="button" aria-label="Next slide" className="hero-banner-arrow" onClick={() => go(slide + 1)}>→</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Text } from "@wonderflow/react-components";
-import { getInitials } from "../TeamLogo/TeamLogo";
+import { Link } from "react-router";
+import { Badge } from "../ds/Badge";
 import "./LatestResultCard.css";
 
 type Goal = {
@@ -14,6 +14,8 @@ type Period = {
 
 type Result = {
   opponentTeam: string;
+  manOfTheMatchPlayerId?: string;
+  warriorOfTheGamePlayerId?: string;
   logoImage: string;
   date: string;
   competition: string;
@@ -32,6 +34,7 @@ type Result = {
 type PlayerStat = {
   id: string;
   name: string;
+  number?: number;
   goals: number;
   assists: number;
   points: number;
@@ -40,70 +43,22 @@ type PlayerStat = {
 type PlayerName = {
   id: string;
   name: string;
+  number?: number;
+};
+
+type Award = {
+  code: string;
+  title: string;
+  player: PlayerName;
 };
 
 function formatResultDate(dateString: string) {
   return new Date(dateString).toLocaleDateString("en-GB", {
-    weekday: "long",
+    weekday: "short",
     day: "numeric",
-    month: "long",
+    month: "short",
     year: "numeric",
-  });
-}
-
-function LatestResultLogo({ src, teamName }: { src: string; teamName: string }) {
-  const [failed, setFailed] = useState(false);
-  const initials = getInitials(teamName);
-
-  return (
-    <div className="lr-logo-wrap">
-      {failed ? (
-        <svg
-          className="lr-logo-fallback"
-          viewBox="0 0 72 72"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-label={teamName}
-          role="img"
-        >
-          <defs>
-            <linearGradient id={`lrlg-${initials}`} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#1e3a6e" />
-              <stop offset="100%" stopColor="#1a56db" />
-            </linearGradient>
-          </defs>
-          <path
-            d="M36 4 L62 14 L62 38 C62 54 50 64 36 68 C22 64 10 54 10 38 L10 14 Z"
-            fill={`url(#lrlg-${initials})`}
-          />
-          <path
-            d="M36 10 L56 18 L56 38 C56 51 46 59 36 63 C26 59 16 51 16 38 L16 18 Z"
-            fill="none"
-            stroke="rgba(255,255,255,0.12)"
-            strokeWidth="1"
-          />
-          <text
-            x="36"
-            y={initials.length >= 3 ? "42" : "44"}
-            textAnchor="middle"
-            fill="white"
-            fontFamily="system-ui, -apple-system, sans-serif"
-            fontWeight="800"
-            fontSize={initials.length >= 3 ? "16" : "20"}
-            letterSpacing="1"
-          >
-            {initials}
-          </text>
-        </svg>
-      ) : (
-        <img
-          src={src}
-          alt={`${teamName} logo`}
-          className="lr-logo"
-          onError={() => setFailed(true)}
-        />
-      )}
-    </div>
-  );
+  }).replace(",", ""); // "Sat 18 Jul 2026", not "Sat, 18 Jul 2026"
 }
 
 function getOutcome(warriorsScore: number, opponentScore: number) {
@@ -132,18 +87,48 @@ function getTopPerformers(result: Result, players: PlayerName[]): PlayerStat[] {
     }
   }
 
-  const playerMap = new Map(players.map((p) => [p.id, p.name]));
+  const playerMap = new Map(players.map((p) => [p.id, p]));
 
   return Array.from(statMap.entries())
     .map(([id, { goals, assists }]) => ({
       id,
-      name: playerMap.get(id) ?? id,
+      name: playerMap.get(id)?.name ?? id,
+      number: playerMap.get(id)?.number,
       goals,
       assists,
       points: goals + assists,
     }))
     .sort((a, b) => b.points - a.points || b.goals - a.goals)
     .slice(0, 3);
+}
+
+/** The game sheet marks an unrecorded award as "MISSING" (see getGameAwards). */
+function getAwards(result: Result, players: PlayerName[]): Award[] {
+  const find = (id?: string) => (id && id !== "MISSING" ? players.find((p) => p.id === id) : undefined);
+  const potg = find(result.manOfTheMatchPlayerId);
+  const wotg = find(result.warriorOfTheGamePlayerId);
+  return [
+    ...(potg ? [{ code: "POTG", title: "Player of the game", player: potg }] : []),
+    ...(wotg ? [{ code: "WOTG", title: "Warrior of the game", player: wotg }] : []),
+  ];
+}
+
+/** "Jamie Marsh" -> "J. Marsh", so three performers fit side by side on a phone. */
+function shortName(name: string) {
+  const parts = name.trim().split(/\s+/);
+  return parts.length > 1 ? `${parts[0][0]}. ${parts[parts.length - 1]}` : name;
+}
+
+/**
+ * Crest filenames follow the team name as a slug ("Nottingham Outlaws" ->
+ * nottingham-outlaws.jpg). The results feed declares logoImage but currently
+ * ships it as null for every row, so prefer it when present and derive
+ * otherwise. Only some opponents have artwork; the card falls back to initials.
+ */
+export function opponentCrestSrc(result: { opponentTeam: string; logoImage?: string | null }): string {
+  if (result.logoImage) return `/images/team-logos/${result.logoImage}`;
+  const slug = result.opponentTeam.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return `/images/team-logos/${slug}.jpg`;
 }
 
 export function LatestResultCard({
@@ -156,120 +141,122 @@ export function LatestResultCard({
   const results = rawResults as Result[];
   const players = rawPlayers as PlayerName[];
   const today = new Date();
+  // Not every opponent has a crest on disk; fall back to initials if it 404s.
+  const [logoFailed, setLogoFailed] = useState(false);
 
   const latestResult = [...results]
     .filter((r) => new Date(r.date).getTime() < today.getTime())
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
 
   const topPerformers = latestResult ? getTopPerformers(latestResult, players) : [];
+  const awards = latestResult ? getAwards(latestResult, players) : [];
+
+  if (!latestResult) {
+    return (
+      <div className="lr-shell">
+        <div className="lr-copy">
+          <span className="t-label muted">Last result</span>
+          <h2 className="t-heading lr-title">No results yet</h2>
+          <p className="lr-summary">Match results will appear here once games have been played.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const outcome = getOutcome(latestResult.score.warriorsScore, latestResult.score.opponentScore);
+  const reportHref = `/results/${encodeURIComponent(latestResult.date)}`;
 
   return (
     <div className="lr-shell">
-      <section className="lr-card" aria-labelledby="lr-heading">
-        {latestResult ? (
-          <>
-            <div className="lr-left-col">
-              <span className="lr-kicker">Latest Result</span>
+      <div className="lr-heading-row">
+        <span className="t-label">Last result</span>
+        <Badge tone={outcome === "W" ? "success" : outcome === "L" ? "danger" : "neutral"}>
+          {outcome === "W" ? "Won" : outcome === "L" ? "Lost" : "Drew"}
+        </Badge>
+      </div>
 
-              <div className="lr-header-centered">
-                <LatestResultLogo
-                  src={`/images/team-logos/${latestResult.logoImage}`}
-                  teamName={latestResult.opponentTeam}
-                />
-
-                <Text
-                  as="h2"
-                  variant="heading-2"
-                  className="lr-opponent-name"
-                  id="lr-heading"
-                >
-                  {latestResult.opponentTeam}
-                </Text>
-              </div>
-
-              <div className="lr-score-block">
-                <span
-                  className={`lr-outcome lr-outcome--${getOutcome(latestResult.score.warriorsScore, latestResult.score.opponentScore).toLowerCase()}`}
-                >
-                  {getOutcome(latestResult.score.warriorsScore, latestResult.score.opponentScore)}
-                </span>
-                <span className="lr-score">
-                  {latestResult.score.warriorsScore} – {latestResult.score.opponentScore}
-                </span>
-              </div>
-            </div>
-
-            <dl className="lr-meta">
-              <div className="lr-meta-row">
-                <dt>Date</dt>
-                <dd>{formatResultDate(latestResult.date)}</dd>
-              </div>
-
-              <div className="lr-meta-row">
-                <dt>Venue</dt>
-                <dd>{latestResult.location}</dd>
-              </div>
-
-              <div className="lr-meta-row">
-                <dt>Competition</dt>
-                <dd>{latestResult.competition}</dd>
-              </div>
-            </dl>
-
-            {topPerformers.length > 0 && (
-              <div className="lr-performers">
-                <span className="lr-performers-heading">Top Performers</span>
-                <div className="lr-performers-grid">
-                  {topPerformers.map((p, i) => (
-                    <div key={p.id} className="lr-performer-card">
-                      <div className="lr-performer-avatar-wrap">
-                        <img
-                          src={`/images/players/${p.id}.jpg`}
-                          alt={p.name}
-                          className="lr-performer-avatar"
-                          onError={(e) => {
-                            (e.currentTarget as HTMLImageElement).style.display = "none";
-                          }}
-                        />
-                      </div>
-                      <span className="lr-performer-name">{p.name}</span>
-                      <div className="lr-performer-stats">
-                        <div className="lr-performer-stat">
-                          <span className="lr-performer-stat-value">{p.goals}</span>
-                          <span className="lr-performer-stat-label">Goals</span>
-                        </div>
-                        <div className="lr-performer-stat">
-                          <span className="lr-performer-stat-value">{p.assists}</span>
-                          <span className="lr-performer-stat-label">Assists</span>
-                        </div>
-                        <div className="lr-performer-stat">
-                          <span className="lr-performer-stat-value">{p.points}</span>
-                          <span className="lr-performer-stat-label">Points</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+      <div className="lr-scoreline">
+        <div className="lr-team-row">
+          <span className="lr-team-mark lr-team-mark--warriors" aria-hidden="true" />
+          <span className="lr-team-name">Peterborough Warriors</span>
+          <span className="lr-team-score">{latestResult.score.warriorsScore}</span>
+        </div>
+        <div className="lr-team-row">
+          <span className="lr-team-mark" aria-hidden="true">
+            {!logoFailed ? (
+              <img
+                src={opponentCrestSrc(latestResult)}
+                alt=""
+                className="lr-team-logo"
+                onError={() => setLogoFailed(true)}
+              />
+            ) : (
+              <span className="lr-team-initials">
+                {latestResult.opponentTeam.slice(0, 2).toUpperCase()}
+              </span>
             )}
-          </>
-        ) : (
-          <div className="lr-copy">
-            <span className="lr-kicker">Latest Result</span>
-            <Text
-              as="h2"
-              variant="heading-3"
-              className="lr-title"
-              id="lr-heading"
-            >
-              No results yet
-            </Text>
-            <Text variant="body-1" className="lr-summary">
-              Match results will appear here once games have been played.
-            </Text>
-          </div>
-        )}
-      </section>
+          </span>
+          <span className="lr-team-name lr-team-name--opponent">{latestResult.opponentTeam}</span>
+          <span className="lr-team-score lr-team-score--opponent">{latestResult.score.opponentScore}</span>
+        </div>
+      </div>
+
+      {awards.length > 0 && (
+        <div className="lr-awards">
+          {awards.map((award) => (
+            <div key={award.code} className="lr-award">
+              <span className={`t-label lr-award-tag lr-award-tag--${award.code.toLowerCase()}`}>
+                <abbr title={award.title}>{award.code}</abbr>
+                <span className="lr-award-title"> · {award.title}</span>
+              </span>
+              <Link to={`/roster/${award.player.id}`} className="lr-award-name">{award.player.name}</Link>
+              {award.player.number != null && <span className="t-label muted">#{award.player.number}</span>}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {topPerformers.length > 0 && (
+        <div className="lr-performers">
+          <span className="t-label lr-performers-heading">Top performers</span>
+          <ol className="lr-performers-list">
+            {topPerformers.map((p, i) => (
+              <li key={p.id} className="lr-performer">
+                <span className="t-label muted">
+                  {i + 1}{p.number != null && <> · #{p.number}</>}
+                </span>
+                <Link to={`/roster/${p.id}`} className="lr-performer-name" title={p.name}>
+                  {shortName(p.name)}
+                </Link>
+                <span className="t-data lr-performer-stats">
+                  <span className="lr-performer-stat-value">{p.goals}</span> G ·{" "}
+                  <span className="lr-performer-stat-value">{p.assists}</span> A
+                </span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
+
+      <dl className="lr-meta">
+        <div>
+          <dt className="t-label">Competition</dt>
+          <dd>{latestResult.competition}</dd>
+        </div>
+        <div>
+          <dt className="t-label">Date</dt>
+          <dd className="t-data">{formatResultDate(latestResult.date)}</dd>
+        </div>
+        <div>
+          <dt className="t-label">Venue</dt>
+          <dd>{latestResult.location === "HOME" ? "Home" : "Away"}</dd>
+        </div>
+      </dl>
+
+      <div className="lr-links">
+        <Link to={reportHref} className="t-label">Match report</Link>
+        <Link to="/results" className="t-label">All results</Link>
+      </div>
     </div>
   );
 }

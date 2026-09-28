@@ -1,6 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Route } from "./+types/team-stats";
 import { getResults } from "~/data/client";
+import { DataTable, type DataTableColumn } from "~/components/ds/DataTable";
+import { SectionHead } from "~/components/ds/SectionHead";
+import { StatGrid, type Stat } from "~/components/ds/StatGrid";
+import { Stripe } from "~/components/ds/Stripe";
 import "./team-stats.css";
 
 export function meta() {
@@ -15,17 +19,19 @@ export async function clientLoader() {
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 type GoalEntry = { type: string };
+type PenaltyEntry = { duration: number; type: string };
 type PeriodScore = {
   goals: GoalEntry[];
   opponentGoals: GoalEntry[];
-  penalties: unknown[];
-  opponentPenalties: unknown[];
+  penalties: PenaltyEntry[];
+  opponentPenalties: PenaltyEntry[];
 };
 type RawResult = {
   seasonId: string;
   date: string;
-  location: string;
+  location: "HOME" | "AWAY";
   competition: string;
+  opponentTeam: string;
   score: {
     warriorsScore: number;
     opponentScore: number;
@@ -33,10 +39,22 @@ type RawResult = {
   };
 };
 
+const ALL_TIME = "All time";
+const ALL_COMPETITIONS = "All";
+
+/** Game sheets carry three periods; recreational fixtures are not played to overtime. */
+const PERIOD_LABELS: Array<[keyof RawResult["score"]["period"], string]> = [
+  ["one", "1st"],
+  ["two", "2nd"],
+  ["three", "3rd"],
+];
+
+/** Beyond this the per-game bars stop being readable, so the chart shows the latest run. */
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 function periods(r: RawResult): PeriodScore[] {
-  return [r.score.period.one, r.score.period.two, r.score.period.three];
+  return PERIOD_LABELS.map(([key]) => r.score.period[key]);
 }
 
 function getResult(r: RawResult): "W" | "D" | "L" {
@@ -61,7 +79,22 @@ function calcBestStreak(games: RawResult[], type: "win" | "unbeaten"): number {
   return best;
 }
 
+const monthYear = new Intl.DateTimeFormat("en-GB", { month: "short", year: "numeric" });
+
+function signed(n: number): string {
+  return n > 0 ? `+${n}` : String(n);
+}
+
+function plural(n: number, word: string): string {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
+}
+
 // ── Stats computation ─────────────────────────────────────────────────────────
+
+type OpponentAverage = { opponent: string; games: number; average: number };
+type Split = { key: string; gp: number; w: number; d: number; l: number; gf: number; ga: number };
+type PeriodSplit = { label: string; for: number; against: number };
+type Streak = { key: string; win: number; unbeaten: number };
 
 interface TeamStats {
   gp: number;
@@ -74,19 +107,36 @@ interface TeamStats {
   winPct: number;
   gpg: number;
   gcpg: number;
+  periodSplits: PeriodSplit[];
+  /** Average goals scored per game against each opponent, highest first. */
+  byOpponent: OpponentAverage[];
+  splits: Split[];
+  streaks: Streak[];
   currentForm: Array<"W" | "D" | "L">;
-  bestOverallWinStreak: number;
-  bestHomeWinStreak: number;
-  bestAwayWinStreak: number;
-  bestOverallUnbeatenStreak: number;
-  bestHomeUnbeatenStreak: number;
-  bestAwayUnbeatenStreak: number;
+  pimTotal: number;
+  pimPerGame: number;
+  minors: number;
+  majors: number;
+  misconducts: number;
   ppGoals: number;
   ppOpps: number;
   ppPct: number;
   pkOpps: number;
-  ppGoalsAgainst: number;
+  pkKills: number;
   pkPct: number;
+  range: string;
+}
+
+function splitFor(key: string, games: RawResult[]): Split {
+  return {
+    key,
+    gp: games.length,
+    w: games.filter((g) => getResult(g) === "W").length,
+    d: games.filter((g) => getResult(g) === "D").length,
+    l: games.filter((g) => getResult(g) === "L").length,
+    gf: games.reduce((s, g) => s + g.score.warriorsScore, 0),
+    ga: games.reduce((s, g) => s + g.score.opponentScore, 0),
+  };
 }
 
 function computeStats(results: RawResult[]): TeamStats {
@@ -94,25 +144,61 @@ function computeStats(results: RawResult[]): TeamStats {
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   );
 
-  const gp = results.length;
-  const goalsFor = results.reduce((s, r) => s + r.score.warriorsScore, 0);
-  const goalsAgainst = results.reduce((s, r) => s + r.score.opponentScore, 0);
-  const wins = results.filter((r) => r.score.warriorsScore > r.score.opponentScore).length;
-  const losses = results.filter((r) => r.score.warriorsScore < r.score.opponentScore).length;
-  const draws = results.filter((r) => r.score.warriorsScore === r.score.opponentScore).length;
+  const gp = chrono.length;
+  const goalsFor = chrono.reduce((s, r) => s + r.score.warriorsScore, 0);
+  const goalsAgainst = chrono.reduce((s, r) => s + r.score.opponentScore, 0);
+  const wins = chrono.filter((r) => getResult(r) === "W").length;
+  const losses = chrono.filter((r) => getResult(r) === "L").length;
+  const draws = chrono.filter((r) => getResult(r) === "D").length;
 
   const homeGames = chrono.filter((r) => r.location === "HOME");
   const awayGames = chrono.filter((r) => r.location === "AWAY");
 
-  let ppGoals = 0, ppOpps = 0, pkOpps = 0, ppGoalsAgainst = 0;
-  for (const r of results) {
+  const periodSplits = PERIOD_LABELS.map(([key, label]) => ({
+    label,
+    for: chrono.reduce((s, r) => s + r.score.period[key].goals.length, 0),
+    against: chrono.reduce((s, r) => s + r.score.period[key].opponentGoals.length, 0),
+  }));
+
+  const opponents = new Map<string, { games: number; goals: number }>();
+  for (const r of chrono) {
+    const o = opponents.get(r.opponentTeam) ?? { games: 0, goals: 0 };
+    opponents.set(r.opponentTeam, { games: o.games + 1, goals: o.goals + r.score.warriorsScore });
+  }
+  const byOpponent = Array.from(opponents, ([opponent, o]) => ({
+    opponent,
+    games: o.games,
+    average: o.goals / o.games,
+  })).sort((a, b) => b.average - a.average || a.opponent.localeCompare(b.opponent));
+
+  let ppGoals = 0;
+  let ppOpps = 0;
+  let pkOpps = 0;
+  let ppGoalsAgainst = 0;
+  let pimTotal = 0;
+  let minors = 0;
+  let majors = 0;
+  let misconducts = 0;
+  for (const r of chrono) {
     for (const p of periods(r)) {
       ppGoals += p.goals.filter((g) => g.type === "PP").length;
       ppOpps += p.opponentPenalties.length;
       pkOpps += p.penalties.length;
       ppGoalsAgainst += p.opponentGoals.filter((g) => g.type === "PP").length;
+      for (const pen of p.penalties) {
+        pimTotal += pen.duration;
+        // A double minor is still a minor; anything from ten up is a misconduct.
+        if (pen.duration <= 4) minors++;
+        else if (pen.duration < 10) majors++;
+        else misconducts++;
+      }
     }
   }
+
+  const first = chrono[0];
+  const last = chrono[chrono.length - 1];
+  const firstLabel = first ? monthYear.format(new Date(first.date)) : "";
+  const lastLabel = last ? monthYear.format(new Date(last.date)) : "";
 
   return {
     gp,
@@ -125,93 +211,117 @@ function computeStats(results: RawResult[]): TeamStats {
     winPct: gp > 0 ? (wins / gp) * 100 : 0,
     gpg: gp > 0 ? goalsFor / gp : 0,
     gcpg: gp > 0 ? goalsAgainst / gp : 0,
+    periodSplits,
+    byOpponent,
+    splits: [splitFor("Home", homeGames), splitFor("Away", awayGames)],
+    streaks: [
+      { key: "Overall", win: calcBestStreak(chrono, "win"), unbeaten: calcBestStreak(chrono, "unbeaten") },
+      { key: "Home", win: calcBestStreak(homeGames, "win"), unbeaten: calcBestStreak(homeGames, "unbeaten") },
+      { key: "Away", win: calcBestStreak(awayGames, "win"), unbeaten: calcBestStreak(awayGames, "unbeaten") },
+    ],
     currentForm: chrono.slice(-5).map(getResult),
-    bestOverallWinStreak: calcBestStreak(chrono, "win"),
-    bestHomeWinStreak: calcBestStreak(homeGames, "win"),
-    bestAwayWinStreak: calcBestStreak(awayGames, "win"),
-    bestOverallUnbeatenStreak: calcBestStreak(chrono, "unbeaten"),
-    bestHomeUnbeatenStreak: calcBestStreak(homeGames, "unbeaten"),
-    bestAwayUnbeatenStreak: calcBestStreak(awayGames, "unbeaten"),
+    pimTotal,
+    pimPerGame: gp > 0 ? pimTotal / gp : 0,
+    minors,
+    majors,
+    misconducts,
     ppGoals,
     ppOpps,
     ppPct: ppOpps > 0 ? (ppGoals / ppOpps) * 100 : 0,
     pkOpps,
-    ppGoalsAgainst,
+    pkKills: pkOpps - ppGoalsAgainst,
     pkPct: pkOpps > 0 ? Math.max(0, (pkOpps - ppGoalsAgainst) / pkOpps) * 100 : 0,
+    range: firstLabel === lastLabel ? firstLabel : `${firstLabel} – ${lastLabel}`,
   };
 }
 
 // ── Sub-components ────────────────────────────────────────────────────────────
 
-function SectionHeader({ title }: { title: string }) {
-  return <h2 className="ts-section-title">{title}</h2>;
-}
-
-function StatCard({
+function Chip({
   label,
-  value,
-  sub,
-  highlight,
-  positive,
-  negative,
+  active,
+  onClick,
+  variant = "label",
 }: {
   label: string;
-  value: string | number;
-  sub?: string;
-  highlight?: boolean;
-  positive?: boolean;
-  negative?: boolean;
+  active: boolean;
+  onClick: () => void;
+  variant?: "label" | "data";
 }) {
-  const cls = [
-    "ts-stat-value",
-    highlight ? "ts-stat-value-hi" : "",
-    positive ? "ts-stat-value-pos" : "",
-    negative ? "ts-stat-value-neg" : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
-
   return (
-    <div className="ts-stat-card">
-      <span className="ts-stat-label">{label}</span>
-      <span className={cls}>{value}</span>
-      {sub && <span className="ts-stat-sub">{sub}</span>}
+    <button
+      type="button"
+      className={`ds-chip ${variant === "data" ? "t-data ts-chip-data" : "t-label"}`}
+      aria-pressed={active}
+      onClick={onClick}
+    >
+      {label}
+    </button>
+  );
+}
+
+function SectionBar({ title, note }: { title: string; note?: ReactNode }) {
+  return (
+    <div className="ts-section-bar">
+      <h2 className="t-heading ts-section-title">{title}</h2>
+      {note ? <span className="t-label ts-muted">{note}</span> : null}
     </div>
   );
 }
 
-function FormBadge({ result }: { result: "W" | "D" | "L" }) {
-  const cls =
-    result === "W"
-      ? "ts-form-badge ts-form-w"
-      : result === "L"
-      ? "ts-form-badge ts-form-l"
-      : "ts-form-badge ts-form-d";
-  return <span className={cls}>{result}</span>;
+function PeriodBars({ periodSplits }: { periodSplits: PeriodSplit[] }) {
+  const max = Math.max(1, ...periodSplits.map((p) => Math.max(p.for, p.against)));
+  return (
+    <ul className="ts-periods">
+      {periodSplits.map((p) => (
+        <li className="ts-period" key={p.label}>
+          <span className="t-label ts-muted ts-period-label">{p.label}</span>
+          <div className="ts-period-bars">
+            <div className="ts-period-line">
+              <div className="ts-period-track">
+                <div className="ts-period-fill ts-period-fill-for" style={{ width: `${(p.for / max) * 100}%` }} />
+              </div>
+              <span className="t-data ts-period-value">{p.for}</span>
+            </div>
+            <div className="ts-period-line">
+              <div className="ts-period-track">
+                <div
+                  className="ts-period-fill ts-period-fill-against"
+                  style={{ width: `${(p.against / max) * 100}%` }}
+                />
+              </div>
+              <span className="t-data ts-period-value ts-muted">{p.against}</span>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
 }
 
-function StreakCard({
-  label,
-  win,
-  unbeaten,
-}: {
-  label: string;
-  win: number;
-  unbeaten: number;
-}) {
+function FormBadge({ result }: { result: "W" | "D" | "L" }) {
+  const tone = result === "W" ? "ts-form-w" : result === "L" ? "ts-form-l" : "ts-form-d";
+  return <span className={`ts-form-badge ${tone}`}>{result}</span>;
+}
+
+/** One horizontal bar per opponent: our average goals per game against them. */
+function OpponentAverages({ rows }: { rows: OpponentAverage[] }) {
+  const max = Math.max(1, ...rows.map((r) => r.average));
   return (
-    <div className="ts-streak-card">
-      <span className="ts-streak-location">{label}</span>
-      <div className="ts-streak-row">
-        <span className="ts-streak-label">Best Win Streak</span>
-        <span className="ts-streak-value ts-streak-value-win">{win}</span>
-      </div>
-      <div className="ts-streak-divider" />
-      <div className="ts-streak-row">
-        <span className="ts-streak-label">Best Unbeaten Streak</span>
-        <span className="ts-streak-value ts-streak-value-unbeaten">{unbeaten}</span>
-      </div>
-    </div>
+    <ol className="ts-pergame">
+      {rows.map((r) => (
+        <li key={r.opponent} className="ts-pergame-row">
+          <span className="ts-pergame-who">
+            <span className="ts-pergame-opp">{r.opponent}</span>
+            <span className="t-label ts-muted">{plural(r.games, "game")}</span>
+          </span>
+          <span className="t-data ts-pergame-score">{r.average.toFixed(1)}</span>
+          <span className="ts-pergame-bar" aria-hidden="true">
+            <span style={{ width: `${(r.average / max) * 100}%` }} />
+          </span>
+        </li>
+      ))}
+    </ol>
   );
 }
 
@@ -222,7 +332,7 @@ export default function TeamStats({ loaderData }: Route.ComponentProps) {
     () => (loaderData.results as RawResult[]).filter((r) => r.score !== undefined),
     [loaderData.results]
   );
-  const allSeasons = useMemo(
+  const seasons = useMemo(
     () =>
       Array.from(new Set(allResults.map((r) => r.seasonId))).sort(
         (a, b) => parseInt(b.split("/")[0], 10) - parseInt(a.split("/")[0], 10)
@@ -230,209 +340,241 @@ export default function TeamStats({ loaderData }: Route.ComponentProps) {
     [allResults]
   );
 
-  const [season, setSeason] = useState<string>("All");
-  const [competition, setCompetition] = useState<string>("All");
+  // null means "not chosen yet" — the page opens on the most recent season.
+  const [pickedSeason, setSeason] = useState<string | null>(null);
+  const season = pickedSeason ?? seasons[0] ?? ALL_TIME;
+  const allTime = season === ALL_TIME;
+  const [competition, setCompetition] = useState(ALL_COMPETITIONS);
 
-  const seasonFilteredResults = useMemo(
-    () =>
-      season === "All"
-        ? allResults
-        : allResults.filter((r) => r.seasonId === season),
-    [allResults, season]
+  const seasonResults = useMemo(
+    () => (allTime ? allResults : allResults.filter((r) => r.seasonId === season)),
+    [allResults, allTime, season]
   );
 
-  const availableCompetitions = useMemo(
-    () =>
-      Array.from(new Set(seasonFilteredResults.map((r) => r.competition))).sort(),
-    [seasonFilteredResults]
+  const competitions = useMemo(
+    () => Array.from(new Set(seasonResults.map((r) => r.competition))).sort(),
+    [seasonResults]
   );
 
   useEffect(() => {
-    if (competition !== "All" && !availableCompetitions.includes(competition)) {
-      setCompetition("All");
+    if (competition !== ALL_COMPETITIONS && !competitions.includes(competition)) {
+      setCompetition(ALL_COMPETITIONS);
     }
-  }, [availableCompetitions, competition]);
+  }, [competitions, competition]);
 
-  const filteredResults = useMemo(() => {
-    if (competition === "All" || !availableCompetitions.includes(competition)) {
-      return seasonFilteredResults;
+  const scopedGames = useMemo(() => {
+    if (competition === ALL_COMPETITIONS || !competitions.includes(competition)) {
+      return seasonResults;
     }
-    return seasonFilteredResults.filter((r) => r.competition === competition);
-  }, [seasonFilteredResults, competition, availableCompetitions]);
+    return seasonResults.filter((r) => r.competition === competition);
+  }, [seasonResults, competition, competitions]);
 
-  const stats = useMemo(() => computeStats(filteredResults), [filteredResults]);
+  const stats = useMemo(() => computeStats(scopedGames), [scopedGames]);
 
-  const goalDiffDisplay =
-    stats.goalDiff > 0 ? `+${stats.goalDiff}` : String(stats.goalDiff);
+  const seasonNote =
+    stats.gp === 0 ? "No games recorded" : `${plural(stats.gp, "game")} · ${stats.range}`;
+
+  const topline: Stat[] = [
+    { label: "Games played", value: stats.gp },
+    { label: "Goals for", value: stats.goalsFor },
+    { label: "Goals against", value: stats.goalsAgainst },
+    { label: "Goals for / game", value: stats.gpg.toFixed(2) },
+    { label: "Goals against / game", value: stats.gcpg.toFixed(2) },
+    { label: "Win rate", value: Math.round(stats.winPct), unit: "%" },
+    { label: "Power play", value: stats.ppPct.toFixed(1), unit: "%" },
+    { label: "Penalty kill", value: stats.pkPct.toFixed(1), unit: "%" },
+  ];
+
+  const splitColumns: DataTableColumn[] = [
+    { header: "" },
+    { header: "GP", numeric: true, align: "right" },
+    { header: "W", numeric: true, align: "right" },
+    { header: "D", numeric: true, align: "right" },
+    { header: "L", numeric: true, align: "right" },
+    { header: "GF", numeric: true, align: "right" },
+    { header: "GA", numeric: true, align: "right" },
+    { header: "GD", numeric: true, align: "right", strong: true },
+  ];
+  const splitRows = stats.splits.map((s) => [
+    s.key,
+    s.gp,
+    s.w,
+    s.d,
+    s.l,
+    s.gf,
+    s.ga,
+    signed(s.gf - s.ga),
+  ]);
+
+  const pimColumns: DataTableColumn[] = [
+    { header: "" },
+    { header: "Total", numeric: true, align: "right", strong: true },
+  ];
+  const pimRows: (string | number)[][] = [
+    ["Total penalty minutes", stats.pimTotal],
+    ["Penalty minutes / game", stats.pimPerGame.toFixed(1)],
+    ["Minors", stats.minors],
+    ["Majors", stats.majors],
+    ["Misconducts", stats.misconducts],
+    ["Power play goals", stats.ppOpps > 0 ? `${stats.ppGoals} / ${stats.ppOpps}` : "—"],
+    ["Penalties killed", stats.pkOpps > 0 ? `${stats.pkKills} / ${stats.pkOpps}` : "—"],
+  ];
+
+  const streakColumns: DataTableColumn[] = [
+    { header: "" },
+    { header: "Wins", numeric: true, align: "right", strong: true },
+    { header: "Unbeaten", numeric: true, align: "right" },
+  ];
+  const streakRows = stats.streaks.map((s) => [s.key, s.win, s.unbeaten]);
+
+  const perGameHead = `${plural(stats.byOpponent.length, "opponent")} · average scored`;
+  const perGameNote =
+    stats.gp === 0 ? "" : `Overall ${stats.gpg.toFixed(1)} goals per game across ${plural(stats.gp, "game")}.`;
 
   return (
     <div className="ts-page">
-      <section className="ts-hero">
-        <div className="ts-hero-inner">
-          <span className="ts-kicker">Statistics</span>
-          <h1 className="ts-title">Team Stats</h1>
-          <p className="ts-subtitle">
-            Peterborough Warriors Ice Hockey Club — Team Performance &amp; Records
+      <section className="ts-intro">
+        <SectionHead title="Team stats">
+          Club totals taken from the official game sheets. Shots and face-offs are not recorded in
+          recreational competition, so no shooting or possession figures are held.
+        </SectionHead>
+
+        <div className="ts-filter-row" role="group" aria-label="Season">
+          <span className="t-label ts-muted">Season</span>
+          <div className="ts-chip-set">
+            <Chip
+              label={ALL_TIME}
+              active={allTime}
+              onClick={() => setSeason(ALL_TIME)}
+              variant="data"
+            />
+            {seasons.map((s) => (
+              <Chip
+                key={s}
+                label={s}
+                active={season === s}
+                onClick={() => setSeason(s)}
+                variant="data"
+              />
+            ))}
+          </div>
+          <span className="t-label ts-muted ts-filter-note">{seasonNote}</span>
+        </div>
+
+        <div className="ts-filter-row" role="group" aria-label="Competition">
+          <span className="t-label ts-muted">Competition</span>
+          <div className="ts-chip-set">
+            <Chip
+              label={ALL_COMPETITIONS}
+              active={competition === ALL_COMPETITIONS}
+              onClick={() => setCompetition(ALL_COMPETITIONS)}
+            />
+            {competitions.map((c) => (
+              <Chip
+                key={c}
+                label={c}
+                active={competition === c}
+                onClick={() => setCompetition(c)}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="ts-record" aria-label="Season record">
+        <div className="ts-record-inner">
+          <div className="ts-record-heads">
+            <div className="ts-record-item">
+              <span className="t-label ts-muted">Record — W · D · L</span>
+              <span className="ts-record-value">
+                {stats.wins}-{stats.draws}-{stats.losses}
+              </span>
+            </div>
+            <div className="ts-record-item">
+              <span className="t-label ts-muted">Goal difference</span>
+              <span className="ts-record-value">{signed(stats.goalDiff)}</span>
+            </div>
+          </div>
+          <StatGrid stats={topline} min={130} />
+        </div>
+      </section>
+
+      <Stripe />
+
+      <section className="ts-grid ts-grid-top">
+        <div>
+          <SectionBar
+            title="Goals by period"
+            note={
+              <span className="ts-key">
+                <span className="ts-key-item">
+                  <span aria-hidden="true" className="ts-key-swatch ts-period-fill-for" />
+                  Scored
+                </span>
+                <span className="ts-key-item">
+                  <span aria-hidden="true" className="ts-key-swatch ts-period-fill-against" />
+                  Conceded
+                </span>
+              </span>
+            }
+          />
+          {stats.gp === 0 ? (
+            <p className="ts-empty">No games match these filters.</p>
+          ) : (
+            <PeriodBars periodSplits={stats.periodSplits} />
+          )}
+        </div>
+        <div>
+          <SectionBar title="Goals per game" note={perGameHead} />
+          {stats.byOpponent.length === 0 ? (
+            <p className="ts-empty">Nothing to plot for these filters.</p>
+          ) : (
+            <>
+              <OpponentAverages rows={stats.byOpponent} />
+              <p className="t-label ts-muted ts-chart-note">{perGameNote}</p>
+            </>
+          )}
+        </div>
+      </section>
+
+      <section className="ts-grid">
+        <div>
+          <SectionBar title="Home and away" />
+          <div className="ts-table-scroll">
+            <DataTable className="ts-table-wide" columns={splitColumns} rows={splitRows} />
+          </div>
+          <p className="t-label ts-muted ts-chart-note">
+            GP games played · W wins · D draws · L losses · GF goals for · GA goals against · GD
+            goal difference
           </p>
         </div>
-      </section>
-
-      <section className="ts-body">
-        <div className="ts-frame">
-
-          {/* Season + Competition selectors */}
-          <div className="ts-season-bar">
-            <div className="ts-filter-group">
-              <label className="ts-filter-label" htmlFor="ts-season">
-                Season
-              </label>
-              <select
-                id="ts-season"
-                className="ts-select"
-                value={season}
-                onChange={(e) => setSeason(e.target.value)}
-              >
-                <option value="All">All Time</option>
-                {allSeasons.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="ts-filter-group">
-              <label className="ts-filter-label" htmlFor="ts-competition">
-                Competition
-              </label>
-              <select
-                id="ts-competition"
-                className="ts-select"
-                value={competition}
-                onChange={(e) => setCompetition(e.target.value)}
-              >
-                <option value="All">All Competitions</option>
-                {availableCompetitions.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-            </div>
+        <div>
+          <SectionBar title="Discipline" />
+          <div className="ts-table-scroll">
+            <DataTable className="ts-table-wide" columns={pimColumns} rows={pimRows} />
           </div>
-
-          {/* Overview */}
-          <div>
-            <SectionHeader title="Overview" />
-            <div className="ts-stats-grid ts-stats-grid-4">
-              <StatCard label="Games Played" value={stats.gp} />
-              <StatCard label="Goals For" value={stats.goalsFor} highlight />
-              <StatCard label="Goals Against" value={stats.goalsAgainst} />
-              <StatCard
-                label="Goal Difference"
-                value={goalDiffDisplay}
-                positive={stats.goalDiff > 0}
-                negative={stats.goalDiff < 0}
-              />
-              <StatCard label="Wins" value={stats.wins} positive />
-              <StatCard label="Draws" value={stats.draws} />
-              <StatCard label="Losses" value={stats.losses} negative />
-              <StatCard
-                label="Win %"
-                value={`${stats.winPct.toFixed(1)}%`}
-                highlight
-              />
-            </div>
-          </div>
-
-          {/* Current Form */}
-          <div>
-            <SectionHeader title="Current Form" />
-            <div className="ts-form-card">
-              <p className="ts-form-meta">
-                Last {stats.currentForm.length} game
-                {stats.currentForm.length !== 1 ? "s" : ""} — oldest to most recent
-              </p>
-              <div className="ts-form-badges">
-                {stats.currentForm.length === 0 ? (
-                  <span className="ts-empty">No results available.</span>
-                ) : (
-                  stats.currentForm.map((r, i) => (
-                    <FormBadge key={i} result={r} />
-                  ))
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Scoring */}
-          <div>
-            <SectionHeader title="Scoring" />
-            <div className="ts-stats-grid ts-stats-grid-2">
-              <StatCard
-                label="Goals Per Game"
-                value={stats.gpg.toFixed(2)}
-                sub={`${stats.goalsFor} goals across ${stats.gp} game${stats.gp !== 1 ? "s" : ""}`}
-                highlight
-              />
-              <StatCard
-                label="Goals Conceded Per Game"
-                value={stats.gcpg.toFixed(2)}
-                sub={`${stats.goalsAgainst} goals conceded across ${stats.gp} game${stats.gp !== 1 ? "s" : ""}`}
-              />
-            </div>
-          </div>
-
-          {/* Special Teams */}
-          <div>
-            <SectionHeader title="Special Teams" />
-            <div className="ts-stats-grid ts-stats-grid-2">
-              <StatCard
-                label="Power Play %"
-                value={`${stats.ppPct.toFixed(1)}%`}
-                sub={
-                  stats.ppOpps > 0
-                    ? `${stats.ppGoals} goals on ${stats.ppOpps} opportunit${stats.ppOpps !== 1 ? "ies" : "y"}`
-                    : "No power play data"
-                }
-                highlight
-              />
-              <StatCard
-                label="Penalty Kill %"
-                value={`${stats.pkPct.toFixed(1)}%`}
-                sub={
-                  stats.pkOpps > 0
-                    ? `${stats.pkOpps - stats.ppGoalsAgainst} kills from ${stats.pkOpps} opportunit${stats.pkOpps !== 1 ? "ies" : "y"}`
-                    : "No penalty kill data"
-                }
-                highlight
-              />
-            </div>
-          </div>
-
-          {/* Streaks */}
-          <div>
-            <SectionHeader title="Best Streaks" />
-            <div className="ts-streak-grid">
-              <StreakCard
-                label="Overall"
-                win={stats.bestOverallWinStreak}
-                unbeaten={stats.bestOverallUnbeatenStreak}
-              />
-              <StreakCard
-                label="Home"
-                win={stats.bestHomeWinStreak}
-                unbeaten={stats.bestHomeUnbeatenStreak}
-              />
-              <StreakCard
-                label="Away"
-                win={stats.bestAwayWinStreak}
-                unbeaten={stats.bestAwayUnbeatenStreak}
-              />
-            </div>
-          </div>
-
         </div>
       </section>
+
+      <section className="ts-grid ts-grid-last">
+        <div>
+          <SectionBar title="Current form" note="Oldest to most recent" />
+          <div className="ts-form-badges">
+            {stats.currentForm.length === 0 ? (
+              <span className="ts-muted">No results available.</span>
+            ) : (
+              stats.currentForm.map((r, i) => <FormBadge key={i} result={r} />)
+            )}
+          </div>
+        </div>
+        <div>
+          <SectionBar title="Best streaks" />
+          <div className="ts-table-scroll">
+            <DataTable className="ts-table-wide" columns={streakColumns} rows={streakRows} />
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }
