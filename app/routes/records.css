@@ -1,77 +1,85 @@
 .rec-page { display: flex; flex-direction: column; }
+.rec-muted { color: var(--fg-secondary); }
 
-.rec-hero { padding: var(--wr-space-12) var(--wr-space-5) var(--wr-space-4); }
-.rec-hero-inner { max-width: var(--wr-container); margin: 0 auto; }
-.rec-kicker { color: var(--fg-secondary); display: block; margin-bottom: var(--wr-space-2); }
-.rec-title {
-  font-family: var(--wr-font-display);
-  font-variation-settings: 'wdth' var(--wr-w-expanded), 'wght' 900;
-  text-transform: uppercase;
-  font-size: var(--wr-text-h1);
-  margin: 0 0 var(--wr-space-2);
+/* width: 100% — .rec-page is a column flex container, where `margin: 0 auto`
+   suppresses cross-axis stretching and leaves the box shrink-to-fit. */
+.rec-intro,
+.rec-set { max-width: var(--wr-container); margin: 0 auto; width: 100%; }
+
+.rec-intro { padding: var(--wr-space-12) var(--wr-space-5) var(--wr-space-8); }
+.rec-jump {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--wr-space-3);
+  border-top: var(--wr-bw-hair) solid var(--border-hairline);
+  padding-top: var(--wr-space-4);
 }
-.rec-subtitle { color: var(--fg-secondary); margin: 0; }
-
-.rec-body { padding: var(--wr-space-6) var(--wr-space-5) var(--wr-space-16); }
-.rec-frame { max-width: var(--wr-container); margin: 0 auto; display: flex; flex-direction: column; gap: var(--wr-space-6); }
-
-.rec-tabs { display: flex; gap: var(--wr-space-1); border-bottom: var(--wr-bw-hair) solid var(--border-hairline); width: fit-content; }
-.rec-tab {
-  padding: var(--wr-space-3) var(--wr-space-4);
-  border: none;
-  background: transparent;
-  border-bottom: var(--wr-bw-thick) solid transparent;
-  font-family: var(--wr-font-body);
-  font-variation-settings: 'wdth' var(--wr-w-condensed), 'wght' 600;
-  font-size: var(--wr-text-label);
-  letter-spacing: var(--wr-ls-label);
-  text-transform: uppercase;
-  color: var(--fg-secondary);
-  cursor: pointer;
+.rec-jump-links { display: flex; flex-wrap: wrap; gap: var(--wr-space-2); }
+.rec-jump-link {
+  display: flex; align-items: center; min-height: 44px;
+  padding: 0 var(--wr-space-4);
+  border: var(--wr-bw-hair) solid var(--border-functional); border-radius: var(--wr-radius-sm);
+  color: var(--fg-primary); text-decoration: none;
 }
-.rec-tab:hover { color: var(--fg-primary); background: var(--bg-hover); }
-.rec-tab-active { color: var(--fg-primary); border-bottom-color: var(--fg-primary); }
+.rec-jump-link:hover { background: var(--bg-hover); color: var(--fg-primary); }
 
-.rec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--wr-space-4); }
-@media (max-width: 900px) { .rec-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .rec-grid { grid-template-columns: 1fr; } }
-
-.rec-card { background: var(--e1-bg); border: var(--wr-bw-hair) solid var(--border-hairline); border-radius: var(--wr-radius-md); display: flex; flex-direction: column; overflow: hidden; }
-
-.rec-card-goals { border-left: var(--wr-bw-heavy) solid var(--st-info-icon); }
-.rec-card-assists { border-left: var(--wr-bw-heavy) solid var(--st-success-icon); }
-.rec-card-points { border-left: var(--wr-bw-heavy) solid var(--identity-mark); }
-.rec-card-performance { border-left: var(--wr-bw-heavy) solid var(--st-warning-icon); }
-
-.rec-card-top { padding: var(--wr-space-5) var(--wr-space-5) var(--wr-space-4); display: flex; flex-direction: column; gap: var(--wr-space-1); }
-
-.rec-category {
-  display: inline-block;
-  font-size: var(--wr-text-micro);
-  font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  padding: 2px var(--wr-space-2);
-  border-radius: var(--wr-radius-xs);
-  margin-bottom: var(--wr-space-1);
-  width: fit-content;
-  border: var(--wr-bw-hair) solid;
+/* scroll-margin keeps the heading clear of the sticky header after a jump. */
+.rec-set { padding: var(--wr-space-10) var(--wr-space-5) var(--wr-space-12); scroll-margin-top: 72px; }
+.rec-set-head {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: var(--wr-space-3);
+  margin: 0 0 var(--wr-space-6);
+  padding-bottom: var(--wr-space-2);
+  border-bottom: var(--wr-bw-thick) solid var(--stripe);
 }
-.rec-category-goals { color: var(--st-info-fg); background: var(--st-info-surface); border-color: var(--st-info-border); }
-.rec-category-assists { color: var(--st-success-fg); background: var(--st-success-surface); border-color: var(--st-success-border); }
-.rec-category-points { color: var(--fg-primary); background: var(--bg-sunken); border-color: var(--border-strong); }
-.rec-category-performance { color: var(--st-warning-fg); background: var(--st-warning-surface); border-color: var(--st-warning-border); }
+.rec-set-title { font-size: var(--wr-text-h2); text-transform: uppercase; margin: 0; }
 
-.rec-record-value { font-family: var(--wr-font-mono); font-weight: 700; font-variant-numeric: tabular-nums; font-size: 1.75rem; line-height: 1.1; margin: 0; }
-.rec-record-title { font-weight: 700; margin: 2px 0 0; line-height: 1.3; }
-.rec-record-desc { color: var(--fg-secondary); font-size: var(--wr-text-xs); margin: 0; line-height: 1.4; }
+.rec-group { margin-bottom: var(--wr-space-8); }
+.rec-group:last-child { margin-bottom: 0; }
+.rec-group-label { display: block; margin-bottom: var(--wr-space-3); }
+.rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: var(--wr-space-4); }
 
-.rec-card-divider { height: var(--wr-bw-hair); background: var(--border-hairline); margin: 0; }
+.rec-card {
+  background: var(--bg-surface);
+  border: var(--wr-bw-hair) solid var(--border-hairline);
+  border-radius: var(--wr-radius-md);
+  box-shadow: var(--e1);
+  padding: var(--wr-space-5);
+  display: flex; flex-direction: column; gap: var(--wr-space-4);
+  min-width: 0;
+}
+.rec-card-head { display: flex; flex-direction: column; gap: var(--wr-space-2); }
+.rec-card-title { margin: 0; color: var(--fg-secondary); }
+.rec-card-value {
+  font-family: var(--wr-font-mono); font-weight: 700; font-variant-numeric: tabular-nums;
+  font-size: 3rem; line-height: .9; letter-spacing: -.03em;
+}
+.rec-card-holder { display: flex; flex-direction: column; gap: var(--wr-space-1); min-width: 0; }
+.rec-card-name { font-size: 1.125rem; text-transform: uppercase; color: var(--fg-primary); text-decoration: none; overflow-wrap: break-word; }
+.rec-card-name:hover { color: var(--fg-primary); text-decoration: underline; }
+.rec-card-context { margin: 0; font-size: var(--wr-text-body-sm); color: var(--fg-secondary); }
 
-.rec-card-holders { padding: var(--wr-space-4) var(--wr-space-5); display: flex; flex-direction: column; gap: var(--wr-space-2); flex: 1; }
-.rec-holder { display: flex; flex-direction: column; gap: 2px; background: var(--bg-sunken); border-radius: var(--wr-radius-sm); padding: var(--wr-space-2) var(--wr-space-3); }
-.rec-holder-name { font-weight: 700; font-size: var(--wr-text-sm); }
-.rec-holder-meta { color: var(--fg-secondary); font-size: var(--wr-text-xs); line-height: 1.4; }
+/* Runners-up sit at the foot of the card so the lists line up across a row. */
+.rec-card-rest {
+  margin: auto 0 0; padding: var(--wr-space-3) 0 0; list-style: none;
+  border-top: var(--wr-bw-hair) solid var(--border-hairline);
+  display: flex; flex-direction: column; gap: var(--wr-space-2);
+}
+.rec-card-rest-row { display: grid; grid-template-columns: 2ch minmax(0, 1fr) auto; gap: var(--wr-space-2); align-items: baseline; }
+.rec-card-rest-who { display: flex; flex-direction: column; min-width: 0; }
+.rec-card-rest-name {
+  font-size: var(--wr-text-body-sm); font-weight: 600; color: var(--fg-primary); text-decoration: none;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.rec-card-rest-name:hover { color: var(--fg-primary); text-decoration: underline; }
+.rec-card-rest-context { font-size: var(--wr-text-micro); }
+.rec-card-rest-value { font-weight: 700; }
 
-.rec-overflow { color: var(--fg-secondary); font-size: var(--wr-text-xs); padding: 2px 0; }
-.rec-no-data { color: var(--fg-secondary); font-size: var(--wr-text-sm); font-style: italic; margin: 0; }
+/* Phones: 29 cards one per row make a long page, so each card is tighter:
+   the figure sits level with its title instead of on a line of its own. */
+@media (max-width: 640px) {
+  .rec-set { padding: var(--wr-space-8) var(--wr-space-5) var(--wr-space-10); }
+  .rec-grid { gap: var(--wr-space-3); }
+  .rec-card { padding: var(--wr-space-4); gap: var(--wr-space-3); }
+  .rec-card-head { flex-direction: row; align-items: baseline; justify-content: space-between; gap: var(--wr-space-3); }
+  .rec-card-value { font-size: 2.25rem; flex: none; }
+  .rec-card-name { font-size: 1rem; }
+}
