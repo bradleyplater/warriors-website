@@ -1,7 +1,8 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router";
 import type { Route } from "./+types/stats";
-import { getPlayers, getResults, getSeasons } from "~/data/client";
+import { getPlayers, getResults, getRosterConfig, getSeasons } from "~/data/client";
+import { playsGoal, playsSkater, withActivePlayers } from "~/helpers/active-roster";
 import { currentSeason, seasonOptions } from "~/helpers/seasons";
 import { BarChart } from "~/components/ds/BarChart";
 import { DataTable, type DataTableColumn } from "~/components/ds/DataTable";
@@ -14,12 +15,13 @@ export function meta() {
 }
 
 export async function clientLoader() {
-  const [players, results, seasons] = await Promise.all([
+  const [players, results, seasons, rosterConfig] = await Promise.all([
     getPlayers<unknown[]>(),
     getResults<unknown[]>(),
     getSeasons(),
+    getRosterConfig<{ activePlayers: string[] }>(),
   ]);
-  return { players, results, seasons };
+  return { players, results, seasons, rosterConfig };
 }
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -218,6 +220,9 @@ function lastName(name: string) {
 
 function sortRows<T extends SkaterRow | GoalieRow>(rows: T[], key: keyof T, dir: SortDir): T[] {
   return rows.slice().sort((a, b) => {
+    // A netminder yet to play shows a 0.00 average; keep them below anyone
+    // with a real one rather than letting them top an ascending GAA sort.
+    if (key === "gaa" && (a.gp === 0) !== (b.gp === 0)) return a.gp === 0 ? 1 : -1;
     const av = a[key];
     const bv = b[key];
     const cmp =
@@ -338,7 +343,8 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
 
   // null means "not chosen yet" — the page opens on the portal's active season.
   const [pickedSeason, setSeason] = useState<string | null>(null);
-  const season = pickedSeason ?? currentSeason(loaderData.seasons, playedSeasons) ?? "";
+  const thisSeason = currentSeason(loaderData.seasons, playedSeasons);
+  const season = pickedSeason ?? thisSeason ?? "";
   const allTime = season === ALL_TIME;
   const [competition, setCompetition] = useState("All");
   const [pos, setPos] = useState("All");
@@ -364,17 +370,62 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
     [scopedGames, playerInfoMap]
   );
 
+  // The current season's tables list the whole active squad, zeroed until
+  // they play. Past seasons and all-time show only who actually played, and
+  // the leaders and charts below always use real rows only.
+  const activeRoster = useMemo(
+    () =>
+      loaderData.rosterConfig.activePlayers
+        .map((id) => playerInfoMap.get(id))
+        .filter((p): p is PlayerInfo => p !== undefined),
+    [loaderData.rosterConfig, playerInfoMap]
+  );
+  const padTables = !allTime && season === thisSeason;
+  const tableSkaters = useMemo(
+    () =>
+      padTables
+        ? withActivePlayers(
+            skaters,
+            activeRoster.filter((p) => playsSkater(p.position)),
+            (p): SkaterRow => ({
+              playerId: p.id,
+              name: p.name,
+              number: p.number,
+              position: p.position,
+              gp: 0, goals: 0, assists: 0, points: 0, ppg: 0, pims: 0, motm: 0, wotg: 0,
+            })
+          )
+        : skaters,
+    [padTables, skaters, activeRoster]
+  );
+  const tableGoalies = useMemo(
+    () =>
+      padTables
+        ? withActivePlayers(
+            goalies,
+            activeRoster.filter((p) => playsGoal(p.position)),
+            (p): GoalieRow => ({
+              playerId: p.id,
+              name: p.name,
+              number: p.number,
+              gp: 0, w: 0, l: 0, d: 0, ga: 0, gaa: 0, so: 0,
+            })
+          )
+        : goalies,
+    [padTables, goalies, activeRoster]
+  );
+
   const filteredSkaters = useMemo(
-    () => (pos === "All" ? skaters : skaters.filter((r) => r.position.includes(pos))),
-    [skaters, pos]
+    () => (pos === "All" ? tableSkaters : tableSkaters.filter((r) => r.position.includes(pos))),
+    [tableSkaters, pos]
   );
   const skaterRows = useMemo(
     () => sortRows(filteredSkaters, skaterSort, skaterDir),
     [filteredSkaters, skaterSort, skaterDir]
   );
   const goalieRows = useMemo(
-    () => sortRows(goalies, goalieSort, goalieDir),
-    [goalies, goalieSort, goalieDir]
+    () => sortRows(tableGoalies, goalieSort, goalieDir),
+    [tableGoalies, goalieSort, goalieDir]
   );
 
   // ── Season leaders ─────────────────────────────────────────────────────────
