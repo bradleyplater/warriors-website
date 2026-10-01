@@ -1,8 +1,6 @@
 import { Link } from "react-router";
 import "./SeasonLeaders.css";
 
-const CURRENT_SEASON = "25/26";
-
 type SeasonStat = {
   season: string;
   games: number;
@@ -28,13 +26,14 @@ type LeaderEntry = {
 
 function getLeaders(
   players: Player[],
+  season: string | undefined,
   statKey: keyof Pick<SeasonStat, "goals" | "assists" | "pims">
 ): LeaderEntry[] {
   return players
     .flatMap((player) => {
-      const season = player.stats.find((s) => s.season === CURRENT_SEASON);
-      if (!season) return [];
-      return [{ id: player.id, name: player.name, number: player.number, value: season[statKey] }];
+      const line = player.stats.find((s) => s.season === season);
+      if (!line) return [];
+      return [{ id: player.id, name: player.name, number: player.number, value: line[statKey] }];
     })
     .filter((entry) => entry.value > 0)
     .sort((a, b) => b.value - a.value)
@@ -93,11 +92,18 @@ function LeaderPanel({ title, unit, entries }: PanelProps) {
   );
 }
 
-export function SeasonLeaders({ players: rawPlayers }: { players: unknown[] }) {
+export function SeasonLeaders({
+  players: rawPlayers,
+  season,
+}: {
+  players: unknown[];
+  /** The season to rank, e.g. "26/27". Panels show their empty state until it has stats. */
+  season: string | undefined;
+}) {
   const players = rawPlayers as Player[];
-  const goalLeaders = getLeaders(players, "goals");
-  const assistLeaders = getLeaders(players, "assists");
-  const pimsLeaders = getLeaders(players, "pims");
+  const goalLeaders = getLeaders(players, season, "goals");
+  const assistLeaders = getLeaders(players, season, "assists");
+  const pimsLeaders = getLeaders(players, season, "pims");
 
   return (
     <div className="sl-grid">

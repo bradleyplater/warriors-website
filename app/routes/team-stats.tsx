@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Route } from "./+types/team-stats";
-import { getResults } from "~/data/client";
+import { getResults, getSeasons } from "~/data/client";
+import { currentSeason, seasonOptions } from "~/helpers/seasons";
 import { DataTable, type DataTableColumn } from "~/components/ds/DataTable";
 import { SectionHead } from "~/components/ds/SectionHead";
 import { StatGrid, type Stat } from "~/components/ds/StatGrid";
@@ -12,8 +13,8 @@ export function meta() {
 }
 
 export async function clientLoader() {
-  const results = await getResults<unknown[]>();
-  return { results };
+  const [results, seasons] = await Promise.all([getResults<unknown[]>(), getSeasons()]);
+  return { results, seasons };
 }
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -332,17 +333,15 @@ export default function TeamStats({ loaderData }: Route.ComponentProps) {
     () => (loaderData.results as RawResult[]).filter((r) => r.score !== undefined),
     [loaderData.results]
   );
+  const playedSeasons = useMemo(() => allResults.map((r) => r.seasonId), [allResults]);
   const seasons = useMemo(
-    () =>
-      Array.from(new Set(allResults.map((r) => r.seasonId))).sort(
-        (a, b) => parseInt(b.split("/")[0], 10) - parseInt(a.split("/")[0], 10)
-      ),
-    [allResults]
+    () => seasonOptions(loaderData.seasons, playedSeasons),
+    [loaderData.seasons, playedSeasons]
   );
 
-  // null means "not chosen yet" — the page opens on the most recent season.
+  // null means "not chosen yet" — the page opens on the portal's active season.
   const [pickedSeason, setSeason] = useState<string | null>(null);
-  const season = pickedSeason ?? seasons[0] ?? ALL_TIME;
+  const season = pickedSeason ?? currentSeason(loaderData.seasons, playedSeasons) ?? ALL_TIME;
   const allTime = season === ALL_TIME;
   const [competition, setCompetition] = useState(ALL_COMPETITIONS);
 

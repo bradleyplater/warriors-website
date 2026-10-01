@@ -1,7 +1,8 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router";
 import type { Route } from "./+types/stats";
-import { getPlayers, getResults } from "~/data/client";
+import { getPlayers, getResults, getSeasons } from "~/data/client";
+import { currentSeason, seasonOptions } from "~/helpers/seasons";
 import { BarChart } from "~/components/ds/BarChart";
 import { DataTable, type DataTableColumn } from "~/components/ds/DataTable";
 import { SectionHead } from "~/components/ds/SectionHead";
@@ -13,11 +14,12 @@ export function meta() {
 }
 
 export async function clientLoader() {
-  const [players, results] = await Promise.all([
+  const [players, results, seasons] = await Promise.all([
     getPlayers<unknown[]>(),
     getResults<unknown[]>(),
+    getSeasons(),
   ]);
-  return { players, results };
+  return { players, results, seasons };
 }
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -325,14 +327,18 @@ function RankedList({ items, caption }: { items: RankedItem[]; caption?: string 
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function Stats({ loaderData }: Route.ComponentProps) {
-  const { games, playerInfoMap, seasons, competitions } = useMemo(
+  const { games, playerInfoMap, seasons: playedSeasons, competitions } = useMemo(
     () => prepare(loaderData.results as RawResult[], loaderData.players as PlayerInfo[]),
     [loaderData.results, loaderData.players]
   );
+  const seasons = useMemo(
+    () => seasonOptions(loaderData.seasons, playedSeasons),
+    [loaderData.seasons, playedSeasons]
+  );
 
-  // null means "not chosen yet" — the page opens on the most recent season.
+  // null means "not chosen yet" — the page opens on the portal's active season.
   const [pickedSeason, setSeason] = useState<string | null>(null);
-  const season = pickedSeason ?? seasons[0] ?? "";
+  const season = pickedSeason ?? currentSeason(loaderData.seasons, playedSeasons) ?? "";
   const allTime = season === ALL_TIME;
   const [competition, setCompetition] = useState("All");
   const [pos, setPos] = useState("All");
