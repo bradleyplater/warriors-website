@@ -60,9 +60,21 @@ export interface Period {
   three: PeriodScore;
 }
 
+/** A fixture from upcoming-games.json. */
+export interface UpcomingGame {
+  opponentTeam: string;
+  /** The opponent logo's S3 key, or "" when it has no logo. */
+  logoImage: string;
+  gameType: string;
+  date: string;
+  time: string;
+  location: string;
+}
+
 export interface Result {
   opponentTeam: string;
-  logoImage: string;
+  /** The opponent logo's S3 key; omitted when it has no logo. */
+  logoImage?: string;
   date: string;
   location: "HOME" | "AWAY";
   roster: string[];
@@ -76,4 +88,12 @@ export interface Result {
     opponentScore: number;
     period: Period;
   };
+}
+
+/** seasons.json, published by the portal. */
+export interface SeasonsFile {
+  /** The season the site opens on, e.g. "26/27". */
+  activeSeason: string | null;
+  /** Every season name, oldest first, including seasons with no games. */
+  seasons: string[];
 }

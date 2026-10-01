@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import type { Route } from "./+types/schedule";
-import upcomingGames from "../../public/data/upcoming-games.json";
 import { Link } from "react-router";
 import { ScheduleGameCard, OutcomeMark, getPreviousMeetings } from "../components/ScheduleGameCard/ScheduleGameCard";
 import { Badge } from "../components/ds/Badge";
 import { SectionHead } from "../components/ds/SectionHead";
 import { Stripe } from "../components/ds/Stripe";
-import { getResults } from "~/data/client";
+import { getResults, getUpcomingGames } from "~/data/client";
+import type { UpcomingGame } from "~/data/types";
 import "./schedule.css";
 
 export function meta({}: Route.MetaArgs) {
@@ -14,18 +14,12 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function clientLoader() {
-  const results = await getResults<unknown[]>();
-  return { results };
+  const [results, upcomingGames] = await Promise.all([
+    getResults<unknown[]>(),
+    getUpcomingGames<UpcomingGame[]>(),
+  ]);
+  return { results, upcomingGames };
 }
-
-type UpcomingGame = {
-  opponentTeam: string;
-  logoImage: string;
-  gameType: string;
-  date: string;
-  time: string;
-  location: string;
-};
 
 function parseGameDate(dateString: string) {
   const [year, month, day] = dateString.split("-").map(Number);
@@ -55,11 +49,11 @@ type Filter = "All" | "Home" | "Away" | "Cup";
 const FILTERS: Filter[] = ["All", "Home", "Away", "Cup"];
 
 export default function Schedule({ loaderData }: Route.ComponentProps) {
-  const { results } = loaderData;
+  const { results, upcomingGames } = loaderData;
   const [filter, setFilter] = useState<Filter>("All");
   const [now, setNow] = useState(() => Date.now());
 
-  const sorted = [...(upcomingGames as UpcomingGame[])].sort(
+  const sorted = [...upcomingGames].sort(
     (a, b) => parseGameDate(a.date).getTime() - parseGameDate(b.date).getTime()
   );
   const today = new Date();

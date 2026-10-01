@@ -402,16 +402,17 @@ function TeamTag({ warriors, opponentTeam }: { warriors: boolean; opponentTeam: 
   );
 }
 
-/** Opponent crest from /images/team-logos, falling back to initials when a
- *  team has no artwork (same lookup as the homepage's last result). */
+/** Opponent crest from the CDN, falling back to initials when a team has no
+ *  artwork (same lookup as the homepage's last result). */
 function OpponentMark({ game }: { game: Result }) {
   const [failed, setFailed] = useState(false);
+  const crestSrc = opponentCrestSrc(game);
   return (
     <span aria-hidden="true" className="game-team-mark">
-      {failed ? (
+      {!crestSrc || failed ? (
         <span className="game-team-initials">{getInitials(game.opponentTeam)}</span>
       ) : (
-        <img src={opponentCrestSrc(game)} alt="" className="game-team-crest" onError={() => setFailed(true)} />
+        <img src={crestSrc} alt="" className="game-team-crest" onError={() => setFailed(true)} />
       )}
     </span>
   );

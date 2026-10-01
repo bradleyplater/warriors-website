@@ -33,6 +33,21 @@ describe("data client", () => {
     expect(fetchMock).toHaveBeenCalledWith(`${DATA_BASE_URL}/roster-config.json`);
   });
 
+  it("fetches upcoming-games.json from its own path", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => [] });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const { getUpcomingGames, DATA_BASE_URL } = await import("./client");
+    await getUpcomingGames();
+
+    expect(fetchMock).toHaveBeenCalledWith(`${DATA_BASE_URL}/upcoming-games.json`);
+  });
+
+  it("builds asset URLs from a published S3 key", async () => {
+    const { assetUrl, DATA_BASE_URL } = await import("./client");
+    expect(assetUrl("opponents/OPN878600/logo-1.jpg")).toBe(`${DATA_BASE_URL}/opponents/OPN878600/logo-1.jpg`);
+  });
+
   it("memoizes repeat calls for the same resource within a session", async () => {
     const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => [] });
     vi.stubGlobal("fetch", fetchMock);
@@ -50,5 +65,24 @@ describe("data client", () => {
 
     const { getRosterConfig } = await import("./client");
     await expect(getRosterConfig()).rejects.toThrow(/roster-config\.json.*404/);
+  });
+
+  it("fetches seasons.json from its own path", async () => {
+    const seasons = { activeSeason: "26/27", seasons: ["25/26", "26/27"] };
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => seasons });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const { getSeasons, DATA_BASE_URL } = await import("./client");
+
+    expect(await getSeasons()).toEqual(seasons);
+    expect(fetchMock).toHaveBeenCalledWith(`${DATA_BASE_URL}/seasons.json`);
+  });
+
+  it("resolves seasons to null when seasons.json is not published yet", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 403, statusText: "Forbidden" }));
+
+    const { getSeasons } = await import("./client");
+
+    expect(await getSeasons()).toBeNull();
   });
 });

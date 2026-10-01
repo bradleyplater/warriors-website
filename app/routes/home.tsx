@@ -5,7 +5,9 @@ import { LatestResultCard } from "~/components/LatestResultCard/LatestResultCard
 import { SeasonLeaders } from "~/components/SeasonLeaders/SeasonLeaders";
 import { SectionHead } from "~/components/ds/SectionHead";
 import { Stripe } from "~/components/ds/Stripe";
-import { getPlayers, getResults } from "~/data/client";
+import { getPlayers, getResults, getSeasons, getUpcomingGames } from "~/data/client";
+import type { Player, UpcomingGame } from "~/data/types";
+import { currentSeason, seasonHeading } from "~/helpers/seasons";
 import "./home.css";
 
 /**
@@ -25,15 +27,21 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function clientLoader() {
-  const [players, results] = await Promise.all([
+  const [players, results, upcomingGames, seasons] = await Promise.all([
     getPlayers<unknown[]>(),
     getResults<unknown[]>(),
+    getUpcomingGames<UpcomingGame[]>(),
+    getSeasons(),
   ]);
-  return { players, results };
+  return { players, results, upcomingGames, seasons };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  const { players, results } = loaderData;
+  const { players, results, upcomingGames, seasons } = loaderData;
+  const season = currentSeason(
+    seasons,
+    (players as Player[]).flatMap((player) => player.stats.map((line) => line.season))
+  );
 
   return (
     <>
@@ -42,17 +50,17 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       <section id="results" aria-label="Matchday" className="home-matchday">
         <div className="home-matchday-inner">
           <LatestResultCard results={results} players={players} />
-          <NextGameCard results={results} />
+          <NextGameCard results={results} upcomingGames={upcomingGames} />
         </div>
       </section>
 
       <Stripe />
 
       <section id="team" className="home-leaders">
-        <SectionHead eyebrow="2025/26 season" title="Season leaders">
+        <SectionHead eyebrow={season ? seasonHeading(season) : undefined} title="Season leaders">
           Skater scoring this season. Goaltending statistics are listed separately on the stats page.
         </SectionHead>
-        <SeasonLeaders players={players} />
+        <SeasonLeaders players={players} season={season} />
       </section>
 
       <section aria-label="Club partners" className="home-partners">
