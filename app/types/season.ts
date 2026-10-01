@@ -1,1 +1,2 @@
-export type Season = "22/23" | "23/24" | "24/25" | "25/26";
+/** A season name, e.g. "26/27". Not a closed union: the portal adds seasons (see seasons.json). */
+export type Season = string;

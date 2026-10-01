@@ -1,3 +1,5 @@
+import type { SeasonsFile } from "./types";
+
 /**
  * Base URL for the published stats JSON (S3 bucket behind CloudFront).
  * Hardcoded rather than an env var — this SPA has no server at runtime,
@@ -44,4 +46,13 @@ export function getRosterConfig<T = unknown>(): Promise<T> {
 
 export function getUpcomingGames<T = unknown>(): Promise<T> {
   return cached<T>("upcoming-games.json");
+}
+
+/**
+ * seasons.json: the portal's active season and every season name. Resolves
+ * null if it can't be fetched (e.g. the site deploys before the portal first
+ * publishes it), so pages fall back to the newest season with games.
+ */
+export function getSeasons(): Promise<SeasonsFile | null> {
+  return cached<SeasonsFile>("seasons.json").catch(() => null);
 }

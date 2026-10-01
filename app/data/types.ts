@@ -89,3 +89,11 @@ export interface Result {
     period: Period;
   };
 }
+
+/** seasons.json, published by the portal. */
+export interface SeasonsFile {
+  /** The season the site opens on, e.g. "26/27". */
+  activeSeason: string | null;
+  /** Every season name, oldest first, including seasons with no games. */
+  seasons: string[];
+}
