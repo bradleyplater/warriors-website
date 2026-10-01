@@ -5,6 +5,14 @@
  */
 export const DATA_BASE_URL = "https://d20z7zill67968.cloudfront.net";
 
+/**
+ * URL for an S3 object key the portal publishes (e.g. an opponent's
+ * `logoImage`). The same distribution serves the JSON and the images.
+ */
+export function assetUrl(key: string): string {
+  return `${DATA_BASE_URL}/${key}`;
+}
+
 async function fetchJson<T>(path: string): Promise<T> {
   const response = await fetch(`${DATA_BASE_URL}/${path}`);
   if (!response.ok) {
@@ -32,4 +40,8 @@ export function getResults<T = unknown>(): Promise<T> {
 
 export function getRosterConfig<T = unknown>(): Promise<T> {
   return cached<T>("roster-config.json");
+}
+
+export function getUpcomingGames<T = unknown>(): Promise<T> {
+  return cached<T>("upcoming-games.json");
 }

@@ -5,7 +5,8 @@ import { LatestResultCard } from "~/components/LatestResultCard/LatestResultCard
 import { SeasonLeaders } from "~/components/SeasonLeaders/SeasonLeaders";
 import { SectionHead } from "~/components/ds/SectionHead";
 import { Stripe } from "~/components/ds/Stripe";
-import { getPlayers, getResults } from "~/data/client";
+import { getPlayers, getResults, getUpcomingGames } from "~/data/client";
+import type { UpcomingGame } from "~/data/types";
 import "./home.css";
 
 /**
@@ -25,15 +26,16 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function clientLoader() {
-  const [players, results] = await Promise.all([
+  const [players, results, upcomingGames] = await Promise.all([
     getPlayers<unknown[]>(),
     getResults<unknown[]>(),
+    getUpcomingGames<UpcomingGame[]>(),
   ]);
-  return { players, results };
+  return { players, results, upcomingGames };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  const { players, results } = loaderData;
+  const { players, results, upcomingGames } = loaderData;
 
   return (
     <>
@@ -42,7 +44,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       <section id="results" aria-label="Matchday" className="home-matchday">
         <div className="home-matchday-inner">
           <LatestResultCard results={results} players={players} />
-          <NextGameCard results={results} />
+          <NextGameCard results={results} upcomingGames={upcomingGames} />
         </div>
       </section>
 

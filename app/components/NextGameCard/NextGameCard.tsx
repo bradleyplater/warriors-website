@@ -1,21 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import upcomingGames from "../../../public/data/upcoming-games.json";
+import type { UpcomingGame } from "~/data/types";
 import { Badge } from "../ds/Badge";
 import "./NextGameCard.css";
 
-type UpcomingGame = {
-  opponentTeam: string;
-  logoImage: string;
-  gameType: string;
-  date: string;
-  time: string;
-  location: string;
-};
-
 type Result = {
   opponentTeam: string;
-  logoImage: string;
   date: string;
   competition: string;
   score: {
@@ -59,12 +49,18 @@ function pad(n: number) {
   return String(Math.max(0, n)).padStart(2, "0");
 }
 
-export function NextGameCard({ results: rawResults }: { results: unknown[] }) {
+export function NextGameCard({
+  results: rawResults,
+  upcomingGames,
+}: {
+  results: unknown[];
+  upcomingGames: UpcomingGame[];
+}) {
   const results = rawResults as Result[];
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const nextGame = [...(upcomingGames as UpcomingGame[])]
+  const nextGame = [...upcomingGames]
     .sort((a, b) => parseGameDate(a.date).getTime() - parseGameDate(b.date).getTime())
     .find((game) => parseGameDate(game.date).getTime() >= today.getTime());
 

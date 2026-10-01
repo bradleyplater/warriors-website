@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { Badge } from "../ds/Badge";
+import { assetUrl } from "~/data/client";
 import "./LatestResultCard.css";
 
 type Goal = {
@@ -16,7 +17,7 @@ type Result = {
   opponentTeam: string;
   manOfTheMatchPlayerId?: string;
   warriorOfTheGamePlayerId?: string;
-  logoImage: string;
+  logoImage?: string;
   date: string;
   competition: string;
   location: string;
@@ -120,15 +121,12 @@ function shortName(name: string) {
 }
 
 /**
- * Crest filenames follow the team name as a slug ("Nottingham Outlaws" ->
- * nottingham-outlaws.jpg). The results feed declares logoImage but currently
- * ships it as null for every row, so prefer it when present and derive
- * otherwise. Only some opponents have artwork; the card falls back to initials.
+ * The opponent's crest on the CDN. logoImage is the S3 key the portal
+ * publishes, and it is missing for opponents without artwork, so callers show
+ * initials when this returns null.
  */
-export function opponentCrestSrc(result: { opponentTeam: string; logoImage?: string | null }): string {
-  if (result.logoImage) return `/images/team-logos/${result.logoImage}`;
-  const slug = result.opponentTeam.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-  return `/images/team-logos/${slug}.jpg`;
+export function opponentCrestSrc(result: { logoImage?: string | null }): string | null {
+  return result.logoImage ? assetUrl(result.logoImage) : null;
 }
 
 export function LatestResultCard({
@@ -141,7 +139,7 @@ export function LatestResultCard({
   const results = rawResults as Result[];
   const players = rawPlayers as PlayerName[];
   const today = new Date();
-  // Not every opponent has a crest on disk; fall back to initials if it 404s.
+  // Fall back to initials if the crest fails to load.
   const [logoFailed, setLogoFailed] = useState(false);
 
   const latestResult = [...results]
@@ -165,6 +163,7 @@ export function LatestResultCard({
 
   const outcome = getOutcome(latestResult.score.warriorsScore, latestResult.score.opponentScore);
   const reportHref = `/results/${encodeURIComponent(latestResult.date)}`;
+  const crestSrc = opponentCrestSrc(latestResult);
 
   return (
     <div className="lr-shell">
@@ -183,9 +182,9 @@ export function LatestResultCard({
         </div>
         <div className="lr-team-row">
           <span className="lr-team-mark" aria-hidden="true">
-            {!logoFailed ? (
+            {crestSrc && !logoFailed ? (
               <img
-                src={opponentCrestSrc(latestResult)}
+                src={crestSrc}
                 alt=""
                 className="lr-team-logo"
                 onError={() => setLogoFailed(true)}

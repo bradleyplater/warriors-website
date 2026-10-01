@@ -33,6 +33,21 @@ describe("data client", () => {
     expect(fetchMock).toHaveBeenCalledWith(`${DATA_BASE_URL}/roster-config.json`);
   });
 
+  it("fetches upcoming-games.json from its own path", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => [] });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const { getUpcomingGames, DATA_BASE_URL } = await import("./client");
+    await getUpcomingGames();
+
+    expect(fetchMock).toHaveBeenCalledWith(`${DATA_BASE_URL}/upcoming-games.json`);
+  });
+
+  it("builds asset URLs from a published S3 key", async () => {
+    const { assetUrl, DATA_BASE_URL } = await import("./client");
+    expect(assetUrl("opponents/OPN878600/logo-1.jpg")).toBe(`${DATA_BASE_URL}/opponents/OPN878600/logo-1.jpg`);
+  });
+
   it("memoizes repeat calls for the same resource within a session", async () => {
     const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => [] });
     vi.stubGlobal("fetch", fetchMock);
