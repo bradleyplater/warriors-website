@@ -1,7 +1,8 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router";
 import type { Route } from "./+types/results";
-import { getPlayers, getResults } from "~/data/client";
+import { getPlayers, getResults, getSeasons } from "~/data/client";
+import { currentSeason, seasonOptions } from "~/helpers/seasons";
 import { SectionHead } from "~/components/ds/SectionHead";
 import { Stripe } from "~/components/ds/Stripe";
 import "./results.css";
@@ -11,11 +12,12 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function clientLoader() {
-  const [players, results] = await Promise.all([
+  const [players, results, seasons] = await Promise.all([
     getPlayers<unknown[]>(),
     getResults<unknown[]>(),
+    getSeasons(),
   ]);
-  return { players, results };
+  return { players, results, seasons };
 }
 
 type Goal = {
@@ -197,10 +199,16 @@ export default function Results({ loaderData }: Route.ComponentProps) {
     [loaderData.results]
   );
   const playerMap = useMemo(() => new Map(players.map((p) => [p.id, p.name])), [players]);
-  const uniqueSeasons = useMemo(() => Array.from(new Set(allResults.map((r) => r.season))), [allResults]);
-  const seasons = useMemo(() => ["All", ...uniqueSeasons], [uniqueSeasons]);
+  const playedSeasons = useMemo(() => allResults.map((r) => r.season), [allResults]);
+  const seasons = useMemo(
+    () => ["All", ...seasonOptions(loaderData.seasons, playedSeasons)],
+    [loaderData.seasons, playedSeasons]
+  );
 
-  const [activeSeason, setActiveSeason] = useState(uniqueSeasons[0] ?? "All");
+  // Opens on the portal's active season, even before its first result.
+  const [activeSeason, setActiveSeason] = useState(
+    () => currentSeason(loaderData.seasons, playedSeasons) ?? "All"
+  );
   const [filter, setFilter] = useState<string>("All");
 
   const bySeason = activeSeason === "All" ? allResults : allResults.filter((r) => r.season === activeSeason);

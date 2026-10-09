@@ -1,17 +1,8 @@
+import type { UpcomingGame } from "~/data/types";
 import "./ScheduleGameCard.css";
-
-type UpcomingGame = {
-  opponentTeam: string;
-  logoImage: string;
-  gameType: string;
-  date: string;
-  time: string;
-  location: string;
-};
 
 type Result = {
   opponentTeam: string;
-  logoImage: string;
   date: string;
   competition: string;
   location?: string;
