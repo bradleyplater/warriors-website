@@ -7,9 +7,14 @@ import { SectionHead } from "~/components/ds/SectionHead";
 import { Stripe } from "~/components/ds/Stripe";
 import { buildRecordSets, type RecordCard as Card } from "~/helpers/records";
 import "./records.css";
+import { seoMeta } from "~/helpers/seo";
 
 export function meta() {
-  return [{ title: "Records — Peterborough Warriors" }];
+  return seoMeta({
+    path: "/records/",
+    title: "Records — Peterborough Warriors",
+    description: "Peterborough Warriors club records: the best single-game, season and career performances.",
+  });
 }
 
 export async function clientLoader() {

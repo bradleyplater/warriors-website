@@ -1,6 +1,7 @@
 import { useState } from "react";
 import awardsData from "../../public/data/awards.json";
 import "./awards.css";
+import { seoMeta } from "~/helpers/seo";
 
 type Award = {
   tier: 1 | 2 | 3 | 4 | 5;
@@ -33,7 +34,11 @@ const TIERS = [
 ];
 
 export function meta() {
-  return [{ title: "Awards — Peterborough Warriors" }];
+  return seoMeta({
+    path: "/awards/",
+    title: "Awards — Peterborough Warriors",
+    description: "Peterborough Warriors end-of-season awards and award winners.",
+  });
 }
 
 function TrophyIcon({ featured }: { featured?: boolean }) {

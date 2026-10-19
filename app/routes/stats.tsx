@@ -9,9 +9,14 @@ import { DataTable, type DataTableColumn } from "~/components/ds/DataTable";
 import { SectionHead } from "~/components/ds/SectionHead";
 import { Stripe } from "~/components/ds/Stripe";
 import "./stats.css";
+import { seoMeta } from "~/helpers/seo";
 
 export function meta() {
-  return [{ title: "Stats — Peterborough Warriors" }];
+  return seoMeta({
+    path: "/stats/",
+    title: "Stats — Peterborough Warriors",
+    description: "Peterborough Warriors player statistics: goals, assists, points, penalty minutes and goaltending, by season and competition.",
+  });
 }
 
 export async function clientLoader() {

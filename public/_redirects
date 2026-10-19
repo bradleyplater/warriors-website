@@ -1,0 +1,5 @@
+# Cloudflare Pages. Player and game pages can't be pre-rendered (their ids come
+# from the CDN data at runtime), so serve the SPA shell for them. Without these
+# rules Pages would answer with 404.html.
+/roster/:playerId /__spa-fallback 200
+/results/:gameId /__spa-fallback 200

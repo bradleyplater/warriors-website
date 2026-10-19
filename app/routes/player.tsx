@@ -20,6 +20,7 @@ import {
 import type { Result } from "~/data/types";
 import type { Season } from "~/types/season";
 import "./player.css";
+import { seoMeta } from "~/helpers/seo";
 
 type PlayerStat = {
   season: string;
@@ -53,13 +54,13 @@ const PLAYER_IMAGE_IDS = new Set(
 export function meta({ params, data }: Route.MetaArgs) {
   const players = data?.players as Player[] | undefined;
   const player = players?.find((p) => p.id === params.playerId);
-  return [
-    {
-      title: player
-        ? `${player.name} — Peterborough Warriors`
-        : "Player — Peterborough Warriors",
-    },
-  ];
+  return seoMeta({
+    path: `/roster/${params.playerId}`,
+    title: player ? `${player.name} — Peterborough Warriors` : "Player — Peterborough Warriors",
+    description: player
+      ? `${player.name}, #${player.number} for the Peterborough Warriors: career and season stats, recent games and milestones.`
+      : "A Peterborough Warriors player's career and season stats.",
+  });
 }
 
 export async function clientLoader() {

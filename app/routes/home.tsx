@@ -8,6 +8,8 @@ import { Stripe } from "~/components/ds/Stripe";
 import { getPlayers, getResults, getSeasons, getUpcomingGames } from "~/data/client";
 import type { Player, UpcomingGame } from "~/data/types";
 import { currentSeason, seasonHeading } from "~/helpers/seasons";
+import { clubStructuredData, seoMeta } from "~/helpers/seo";
+import { RouteLoadingFallback } from "~/components/RouteLoadingFallback/RouteLoadingFallback";
 import "./home.css";
 
 /**
@@ -23,7 +25,36 @@ const partners = [
 ];
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "Peterborough Warriors" }];
+  return [
+    ...seoMeta({
+      path: "/",
+      title: "Peterborough Warriors Ice Hockey Club",
+      description:
+        "Peterborough Warriors are a recreational ice hockey club playing at Planet Ice Peterborough. Fixtures, results, player stats and club records.",
+    }),
+    { "script:ld+json": clubStructuredData },
+  ];
+}
+
+/** The page's heading, for search engines and screen readers; the hero photo
+ *  carries the club name visually. */
+function HomeHeading() {
+  return <h1 className="visually-hidden">Peterborough Warriors Ice Hockey Club</h1>;
+}
+
+/**
+ * Shown while the stats load, and pre-rendered into the static HTML, so the
+ * page a search engine first fetches has the heading and hero rather than a
+ * bare spinner.
+ */
+export function HydrateFallback() {
+  return (
+    <>
+      <HomeHeading />
+      <HeroBanner />
+      <RouteLoadingFallback />
+    </>
+  );
 }
 
 export async function clientLoader() {
@@ -45,6 +76,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
   return (
     <>
+      <HomeHeading />
       <HeroBanner />
 
       <section id="results" aria-label="Matchday" className="home-matchday">

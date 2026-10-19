@@ -8,9 +8,14 @@ import { Stripe } from "../components/ds/Stripe";
 import { getResults, getUpcomingGames } from "~/data/client";
 import type { UpcomingGame } from "~/data/types";
 import "./schedule.css";
+import { seoMeta } from "~/helpers/seo";
 
-export function meta({}: Route.MetaArgs) {
-  return [{ title: "Fixtures — Peterborough Warriors" }];
+export function meta() {
+  return seoMeta({
+    path: "/schedule/",
+    title: "Fixtures — Peterborough Warriors",
+    description: "Upcoming Peterborough Warriors ice hockey fixtures at Planet Ice Peterborough and away.",
+  });
 }
 
 export async function clientLoader() {

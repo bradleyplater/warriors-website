@@ -5,9 +5,14 @@ import { getPlayers, getResults, getRosterConfig } from "~/data/client";
 import { SectionHead } from "~/components/ds/SectionHead";
 import { Stripe } from "~/components/ds/Stripe";
 import "./roster.css";
+import { seoMeta } from "~/helpers/seo";
 
-export function meta({}: Route.MetaArgs) {
-  return [{ title: "Roster — Peterborough Warriors" }];
+export function meta() {
+  return seoMeta({
+    path: "/roster/",
+    title: "Roster — Peterborough Warriors",
+    description: "Meet the Peterborough Warriors squad: players, numbers, positions and career stats.",
+  });
 }
 
 export async function clientLoader() {
