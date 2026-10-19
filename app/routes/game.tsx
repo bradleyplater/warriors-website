@@ -11,6 +11,7 @@ import { getInitials } from "~/components/TeamLogo/TeamLogo";
 import { opponentCrestSrc } from "~/components/LatestResultCard/LatestResultCard";
 import { getShootoutGoals } from "~/helpers/game-helpers";
 import "./game.css";
+import { seoMeta } from "~/helpers/seo";
 
 type Player = { id: string; name: string; number: number; position: string };
 
@@ -74,7 +75,13 @@ export function meta({ params, data }: Route.MetaArgs) {
   const title = game
     ? `vs ${game.opponentTeam} — Peterborough Warriors`
     : "Game — Peterborough Warriors";
-  return [{ title }];
+  return seoMeta({
+    path: `/results/${encodeURIComponent(params.gameId ?? "")}`,
+    title,
+    description: game
+      ? `Peterborough Warriors ${game.score.warriorsScore}–${game.score.opponentScore} ${game.opponentTeam}: scoring, penalties, three stars and lineup.`
+      : "A Peterborough Warriors game report: scoring, penalties, three stars and lineup.",
+  });
 }
 
 function formatDate(dateString: string) {

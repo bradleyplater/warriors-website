@@ -7,9 +7,14 @@ import { SectionHead } from "~/components/ds/SectionHead";
 import { StatGrid, type Stat } from "~/components/ds/StatGrid";
 import { Stripe } from "~/components/ds/Stripe";
 import "./team-stats.css";
+import { seoMeta } from "~/helpers/seo";
 
 export function meta() {
-  return [{ title: "Team Stats — Peterborough Warriors" }];
+  return seoMeta({
+    path: "/team-stats/",
+    title: "Team Stats — Peterborough Warriors",
+    description: "Peterborough Warriors team statistics: record, goals for and against, special teams, streaks and form.",
+  });
 }
 
 export async function clientLoader() {

@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "react-router build",
+    "postbuild": "node -e \"require('fs').copyFileSync('build/client/__spa-fallback.html', 'build/client/404.html')\"",
     "dev": "react-router dev",
     "start": "npx serve build/client -s",
     "typecheck": "react-router typegen && tsc",

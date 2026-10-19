@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Pages with a fixed URL. Player and game pages are found through the links
+     on /roster and /results. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.peterborough-warriors.com/</loc></url>
+  <url><loc>https://www.peterborough-warriors.com/schedule/</loc></url>
+  <url><loc>https://www.peterborough-warriors.com/results/</loc></url>
+  <url><loc>https://www.peterborough-warriors.com/roster/</loc></url>
+  <url><loc>https://www.peterborough-warriors.com/stats/</loc></url>
+  <url><loc>https://www.peterborough-warriors.com/team-stats/</loc></url>
+  <url><loc>https://www.peterborough-warriors.com/records/</loc></url>
+  <url><loc>https://www.peterborough-warriors.com/awards/</loc></url>
+  <url><loc>https://www.peterborough-warriors.com/live/</loc></url>
+</urlset>

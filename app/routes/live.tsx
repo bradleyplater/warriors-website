@@ -1,7 +1,12 @@
 import "./live.css";
+import { seoMeta } from "~/helpers/seo";
 
 export function meta() {
-  return [{ title: "Live — Peterborough Warriors" }];
+  return seoMeta({
+    path: "/live/",
+    title: "Live — Peterborough Warriors",
+    description: "Watch Peterborough Warriors ice hockey games live.",
+  });
 }
 
 export default function Live() {

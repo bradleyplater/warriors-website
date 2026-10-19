@@ -6,9 +6,14 @@ import { currentSeason, seasonOptions } from "~/helpers/seasons";
 import { SectionHead } from "~/components/ds/SectionHead";
 import { Stripe } from "~/components/ds/Stripe";
 import "./results.css";
+import { seoMeta } from "~/helpers/seo";
 
-export function meta({}: Route.MetaArgs) {
-  return [{ title: "Results — Peterborough Warriors" }];
+export function meta() {
+  return seoMeta({
+    path: "/results/",
+    title: "Results — Peterborough Warriors",
+    description: "Peterborough Warriors ice hockey results: every game's score, scorers and game report.",
+  });
 }
 
 export async function clientLoader() {

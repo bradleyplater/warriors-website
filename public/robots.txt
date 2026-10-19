@@ -39,3 +39,5 @@ Disallow: /
 # Everyone else (Google, Bing, etc.)
 User-agent: *
 Allow: /
+
+Sitemap: https://www.peterborough-warriors.com/sitemap.xml

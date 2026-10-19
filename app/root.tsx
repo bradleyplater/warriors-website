@@ -1,4 +1,6 @@
 import {
+  isRouteErrorResponse,
+  Link,
   Links,
   Meta,
   Outlet,
@@ -54,14 +56,15 @@ export function HydrateFallback() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  // Layout already wraps this, so render the page body only.
+  const notFound = isRouteErrorResponse(error) && error.status === 404;
   return (
-    <Layout>
-      <div className="wrap" style={{ paddingTop: "var(--wr-space-16)", paddingBottom: "var(--wr-space-16)" }}>
-        <h1 className="t-display" style={{ fontSize: "var(--wr-text-h1)" }}>Error</h1>
-        <p style={{ marginTop: "var(--wr-space-2)", marginBottom: "var(--wr-space-4)", color: "var(--fg-secondary)" }}>
-          Something went wrong.
-        </p>
-      </div>
-    </Layout>
+    <div className="wrap" style={{ paddingTop: "var(--wr-space-16)", paddingBottom: "var(--wr-space-16)" }}>
+      <h1 className="t-display" style={{ fontSize: "var(--wr-text-h1)" }}>{notFound ? "Page not found" : "Error"}</h1>
+      <p style={{ marginTop: "var(--wr-space-2)", marginBottom: "var(--wr-space-4)", color: "var(--fg-secondary)" }}>
+        {notFound ? "There's nothing at this address." : "Something went wrong."}
+      </p>
+      {notFound && <Link to="/" className="t-label">← Home</Link>}
+    </div>
   );
 }
