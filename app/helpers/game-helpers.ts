@@ -1,19 +1,27 @@
-import type { Result, Player } from "~/data/types";
+import type { Goal, Result, Player } from "~/data/types";
+
+/** Warriors shootout goals. They sit outside the periods but count towards a
+ *  player's goals and assists, as in the portal's players.json. */
+export function getShootoutGoals(game: Result): Goal[] {
+  return game.score.shootout?.goals ?? [];
+}
 
 export function getGoalsForOneGame(game: Result, playerId: string) {
   const periodOneGoals = game.score.period.one.goals.filter(goal => goal.playerId === playerId).length;
   const periodTwoGoals = game.score.period.two.goals.filter(goal => goal.playerId === playerId).length;
   const periodThreeGoals = game.score.period.three.goals.filter(goal => goal.playerId === playerId).length;
-  
-  return periodOneGoals + periodTwoGoals + periodThreeGoals;
+  const shootoutGoals = getShootoutGoals(game).filter(goal => goal.playerId === playerId).length;
+
+  return periodOneGoals + periodTwoGoals + periodThreeGoals + shootoutGoals;
 }
 
 export function getAssistsForOneGame(game: Result, playerId: string) {
   const periodOneAssists = game.score.period.one.goals.filter(goal => goal.assists.includes(playerId)).length;
   const periodTwoAssists = game.score.period.two.goals.filter(goal => goal.assists.includes(playerId)).length;
   const periodThreeAssists = game.score.period.three.goals.filter(goal => goal.assists.includes(playerId)).length;
+  const shootoutAssists = getShootoutGoals(game).filter(goal => goal.assists.includes(playerId)).length;
 
-  return periodOneAssists + periodTwoAssists + periodThreeAssists;
+  return periodOneAssists + periodTwoAssists + periodThreeAssists + shootoutAssists;
 }
 
 export function getPimsForOneGame(game: Result, playerId: string) {
@@ -99,6 +107,8 @@ export function getGameAwards(game: Result, players: Player[]): GameAwards {
   };
 }
 
+/** A shootout win has no game-winning goal: only regulation goals are counted,
+ *  so the winner's +1 leaves the required goal number out of reach. */
 export function getGameWinningGoalScorerId(game: Result): string | null {
   if (game.score.warriorsScore <= game.score.opponentScore) return null;
 

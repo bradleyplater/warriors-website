@@ -9,6 +9,7 @@ import { Stripe } from "~/components/ds/Stripe";
 import { GamePhotos } from "~/components/GamePhotos/GamePhotos";
 import { getInitials } from "~/components/TeamLogo/TeamLogo";
 import { opponentCrestSrc } from "~/components/LatestResultCard/LatestResultCard";
+import { getShootoutGoals } from "~/helpers/game-helpers";
 import "./game.css";
 
 type Player = { id: string; name: string; number: number; position: string };
@@ -196,6 +197,7 @@ type ShootoutEntry = {
   id: string;
   team: "warriors" | "opponent";
   scorerName: string;
+  assistNames: string[];
 };
 
 /** Shootout goals in the order the portal recorded them. They carry no game
@@ -208,11 +210,13 @@ function buildShootoutList(game: Result, playerMap: Map<string, Player>): Shooto
       id: `w-so-${i}-${goal.playerId}`,
       team: "warriors" as const,
       scorerName: playerMap.get(goal.playerId)?.name ?? goal.playerId,
+      assistNames: goal.assists.map((a) => playerMap.get(a)?.name ?? a),
     })),
     ...shootout.opponentGoals.map((goal, i) => ({
       id: `o-so-${i}-${goal.playerId}`,
       team: "opponent" as const,
       scorerName: goal.playerId,
+      assistNames: goal.assists.filter((a): a is string => !!a),
     })),
   ];
 }
@@ -284,7 +288,7 @@ type Star = {
 };
 
 /** Derived from the game sheet — the club doesn't publish an official selection. */
-function buildStars(goals: GoalEntry[]): Star[] {
+function buildStars(goals: Pick<GoalEntry, "team" | "scorerName" | "assistNames">[]): Star[] {
   const tally = new Map<string, Star>();
   const bump = (team: Star["team"], name: string, field: "goals" | "assists") => {
     if (!name || name === "Unknown" || name === "MISSING") return;
@@ -357,7 +361,10 @@ function buildLineup(game: Result, playerMap: Map<string, Player>, awards: Map<s
     for (const pen of period.penalties ?? []) bump(pen.offender, "pim", pen.duration);
   }
   // players.json counts shootout goals in a player's goals, so the lineup does too.
-  for (const goal of game.score.shootout?.goals ?? []) bump(goal.playerId, "g");
+  for (const goal of getShootoutGoals(game)) {
+    bump(goal.playerId, "g");
+    for (const id of goal.assists) bump(id, "a");
+  }
 
   const groups: Record<"Goaltenders" | "Defence" | "Forwards", LineupRow[]> = {
     Goaltenders: [],
@@ -474,7 +481,7 @@ export default function Game({ loaderData }: Route.ComponentProps) {
   const goals = buildGoalTimeline(game, playerMap);
   const shootoutGoals = buildShootoutList(game, playerMap);
   const penalties = buildPenaltyList(game, playerMap, game.opponentTeam);
-  const stars = buildStars(goals);
+  const stars = buildStars([...goals, ...shootoutGoals]);
   const p = game.score.period;
 
   const motmId = game.manOfTheMatchPlayerId !== "MISSING" ? game.manOfTheMatchPlayerId : null;

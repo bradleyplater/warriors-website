@@ -84,3 +84,25 @@ describe("buildRecordSets", () => {
     expect(card(allTime, "Career goals").top.map((e) => e.playerId)).toEqual(["A", "B"]);
   });
 });
+
+describe("buildRecordSets with a shootout", () => {
+  // 2-2 after regulation, B wins the shootout (assisted by A): 3-2 final.
+  const shootoutGame = {
+    ...game("2025-12-01T19:00:00Z", { p1: period([goal("A", 2, 0), goal("A", 4, 0)]), against: 2 }),
+  };
+  shootoutGame.score = {
+    ...shootoutGame.score,
+    warriorsScore: 3,
+    shootout: { warriorsScore: 1, opponentScore: 0, goals: [goal("B", 65, 0, ["A"])].map((g) => ({ ...g, type: "SO" as const })), opponentGoals: [] },
+  };
+  const [single] = buildRecordSets([shootoutGame], players);
+
+  it("counts shootout goals and assists in the single-game tallies", () => {
+    expect(card(single, "Goals").top.map((e) => [e.playerId, e.value])).toEqual([["A", "2"], ["B", "1"]]);
+    expect(card(single, "Assists").top.map((e) => [e.playerId, e.value])).toEqual([["A", "1"]]);
+  });
+
+  it("never ranks a shootout goal as the fastest goal", () => {
+    expect(card(single, "Fastest goal").top.map((e) => e.playerId)).toEqual(["A"]);
+  });
+});

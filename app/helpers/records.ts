@@ -1,5 +1,5 @@
 import type { Player, Result } from "~/data/types";
-import { getGameWinningGoalScorerId } from "./game-helpers";
+import { getGameWinningGoalScorerId, getShootoutGoals } from "./game-helpers";
 
 /**
  * Club records for the Records page: the top three for every record, so each
@@ -105,6 +105,11 @@ function tallyGame(game: Result): Map<string, GameLine> {
       for (const id of goal.assists ?? []) line(id).assists++;
     }
     for (const pen of period.penalties ?? []) line(pen.offender).pims += pen.duration;
+  }
+  // Shootout goals count, but have no game time to rank as fastest.
+  for (const goal of getShootoutGoals(game)) {
+    line(goal.playerId).goals++;
+    for (const id of goal.assists ?? []) line(id).assists++;
   }
   return lines;
 }

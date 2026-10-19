@@ -29,6 +29,7 @@ type Result = {
       two?: Period;
       three?: Period;
     };
+    shootout?: { goals?: Goal[] };
   };
 };
 
@@ -76,6 +77,7 @@ function getTopPerformers(result: Result, players: PlayerName[]): PlayerStat[] {
     ...(periods.one?.goals ?? []),
     ...(periods.two?.goals ?? []),
     ...(periods.three?.goals ?? []),
+    ...(result.score.shootout?.goals ?? []),
   ];
 
   for (const goal of allGoals) {
