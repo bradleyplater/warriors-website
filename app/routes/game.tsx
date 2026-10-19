@@ -2,13 +2,14 @@ import { useState } from "react";
 import { Link, useParams } from "react-router";
 import type { Route } from "./+types/game";
 import { getPlayers, getResults } from "~/data/client";
-import type { Penalty, Result } from "~/data/types";
+import type { Goal, Penalty, Result } from "~/data/types";
 import { Badge } from "~/components/ds/Badge";
 import { DataTable } from "~/components/ds/DataTable";
 import { Stripe } from "~/components/ds/Stripe";
 import { GamePhotos } from "~/components/GamePhotos/GamePhotos";
 import { getInitials } from "~/components/TeamLogo/TeamLogo";
 import { opponentCrestSrc } from "~/components/LatestResultCard/LatestResultCard";
+import { getShootoutGoals } from "~/helpers/game-helpers";
 import "./game.css";
 
 type Player = { id: string; name: string; number: number; position: string };
@@ -51,10 +52,11 @@ const OFFENCE_LABELS: Record<string, string> = {
   UNSP: "Unsportsmanlike conduct",
 };
 
-const STRENGTH_LABELS: Record<"EVEN" | "PP" | "SH", string> = {
+const STRENGTH_LABELS: Record<Goal["type"], string> = {
   EVEN: "even strength",
   PP: "power play",
   SH: "short-handed",
+  SO: "shootout",
 };
 
 export async function clientLoader() {
@@ -111,7 +113,7 @@ type GoalEntry = {
   assistNames: string[];
   minute: number;
   second: number;
-  type: "EVEN" | "PP" | "SH";
+  type: Goal["type"];
   period: number;
   warriorsRunning: number;
   opponentRunning: number;
@@ -191,6 +193,34 @@ function buildGoalTimeline(game: Result, playerMap: Map<string, Player>): GoalEn
   return entries;
 }
 
+type ShootoutEntry = {
+  id: string;
+  team: "warriors" | "opponent";
+  scorerName: string;
+  assistNames: string[];
+};
+
+/** Shootout goals in the order the portal recorded them. They carry no game
+ *  clock time worth showing. */
+function buildShootoutList(game: Result, playerMap: Map<string, Player>): ShootoutEntry[] {
+  const shootout = game.score.shootout;
+  if (!shootout) return [];
+  return [
+    ...shootout.goals.map((goal, i) => ({
+      id: `w-so-${i}-${goal.playerId}`,
+      team: "warriors" as const,
+      scorerName: playerMap.get(goal.playerId)?.name ?? goal.playerId,
+      assistNames: goal.assists.map((a) => playerMap.get(a)?.name ?? a),
+    })),
+    ...shootout.opponentGoals.map((goal, i) => ({
+      id: `o-so-${i}-${goal.playerId}`,
+      team: "opponent" as const,
+      scorerName: goal.playerId,
+      assistNames: goal.assists.filter((a): a is string => !!a),
+    })),
+  ];
+}
+
 type PenaltyEntry = {
   id: string;
   period: number;
@@ -258,7 +288,7 @@ type Star = {
 };
 
 /** Derived from the game sheet — the club doesn't publish an official selection. */
-function buildStars(goals: GoalEntry[]): Star[] {
+function buildStars(goals: Pick<GoalEntry, "team" | "scorerName" | "assistNames">[]): Star[] {
   const tally = new Map<string, Star>();
   const bump = (team: Star["team"], name: string, field: "goals" | "assists") => {
     if (!name || name === "Unknown" || name === "MISSING") return;
@@ -329,6 +359,11 @@ function buildLineup(game: Result, playerMap: Map<string, Player>, awards: Map<s
       for (const id of goal.assists ?? []) bump(id, "a");
     }
     for (const pen of period.penalties ?? []) bump(pen.offender, "pim", pen.duration);
+  }
+  // players.json counts shootout goals in a player's goals, so the lineup does too.
+  for (const goal of getShootoutGoals(game)) {
+    bump(goal.playerId, "g");
+    for (const id of goal.assists) bump(id, "a");
   }
 
   const groups: Record<"Goaltenders" | "Defence" | "Forwards", LineupRow[]> = {
@@ -440,11 +475,13 @@ export default function Game({ loaderData }: Route.ComponentProps) {
 
   const outcome = getOutcome(game.score.warriorsScore, game.score.opponentScore);
   const outcomeLabel = outcome === "W" ? "Won" : outcome === "L" ? "Lost" : "Drawn";
+  const shootout = game.score.shootout;
   const outcomeTone = outcome === "W" ? "success" : outcome === "L" ? "danger" : "neutral";
 
   const goals = buildGoalTimeline(game, playerMap);
+  const shootoutGoals = buildShootoutList(game, playerMap);
   const penalties = buildPenaltyList(game, playerMap, game.opponentTeam);
-  const stars = buildStars(goals);
+  const stars = buildStars([...goals, ...shootoutGoals]);
   const p = game.score.period;
 
   const motmId = game.manOfTheMatchPlayerId !== "MISSING" ? game.manOfTheMatchPlayerId : null;
@@ -460,9 +497,12 @@ export default function Game({ loaderData }: Route.ComponentProps) {
   if (wotgId) awardNames.set(playerMap.get(wotgId)?.name ?? "", "Warrior of the game");
 
   const periodScores = [p.one, p.two, p.three].map((period, i) => ({
-    label: PERIOD_LABELS[i],
+    label: PERIOD_LABELS[i] as string,
     line: `${period.warriorsScore}–${period.opponentScore}`,
   }));
+  if (shootout) {
+    periodScores.push({ label: "SO", line: `${shootout.warriorsScore}–${shootout.opponentScore}` });
+  }
 
   const kickoff = new Date(game.date);
   // 00:00Z means the face-off time was never recorded, not a midnight game.
@@ -481,7 +521,7 @@ export default function Game({ loaderData }: Route.ComponentProps) {
 
       <section aria-label="Final score" className="game-scoreboard">
         <div className="game-scoreboard-meta">
-          <Badge tone={outcomeTone}>{outcomeLabel}</Badge>
+          <Badge tone={outcomeTone}>{shootout ? `${outcomeLabel} (SO)` : outcomeLabel}</Badge>
           <span className="t-data game-scoreboard-when">
             {formatDate(game.date)} · {venue}
           </span>
@@ -562,6 +602,34 @@ export default function Game({ loaderData }: Route.ComponentProps) {
             </ol>
           )}
         </div>
+
+        {shootout && (
+          <div className="game-panel">
+            <SectionHeading
+              title="Shootout"
+              note={`Warriors ${shootout.warriorsScore} · ${game.opponentTeam} ${shootout.opponentScore}`}
+            />
+            {shootoutGoals.length === 0 ? (
+              <p className="game-empty">No shootout goals recorded.</p>
+            ) : (
+              <ul className="game-list">
+                {shootoutGoals.map((goal) => {
+                  const opponentGoal = goal.team !== "warriors";
+                  return (
+                    <li key={goal.id} className={`game-list-row${opponentGoal ? " game-list-row--opponent" : ""}`}>
+                      <span className="t-data muted game-list-clock">SO</span>
+                      <TeamTag warriors={!opponentGoal} opponentTeam={game.opponentTeam} />
+                      <div className="game-list-body">
+                        <span className="game-list-primary">{goal.scorerName}</span>
+                        <span className="t-label muted">Shootout goal</span>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+        )}
 
         <div className="game-panel">
           <SectionHeading

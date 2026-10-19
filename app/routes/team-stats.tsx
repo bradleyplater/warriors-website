@@ -37,6 +37,7 @@ type RawResult = {
     warriorsScore: number;
     opponentScore: number;
     period: { one: PeriodScore; two: PeriodScore; three: PeriodScore };
+    shootout?: { goals: GoalEntry[]; opponentGoals: GoalEntry[] };
   };
 };
 
@@ -160,6 +161,15 @@ function computeStats(results: RawResult[]): TeamStats {
     for: chrono.reduce((s, r) => s + r.score.period[key].goals.length, 0),
     against: chrono.reduce((s, r) => s + r.score.period[key].opponentGoals.length, 0),
   }));
+  // Shootout goals sit outside the periods; only show the row when there were some.
+  const shootouts = chrono.filter((r) => r.score.shootout);
+  if (shootouts.length > 0) {
+    periodSplits.push({
+      label: "SO",
+      for: shootouts.reduce((s, r) => s + (r.score.shootout?.goals.length ?? 0), 0),
+      against: shootouts.reduce((s, r) => s + (r.score.shootout?.opponentGoals.length ?? 0), 0),
+    });
+  }
 
   const opponents = new Map<string, { games: number; goals: number }>();
   for (const r of chrono) {

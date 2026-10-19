@@ -24,7 +24,7 @@ export interface Goal {
   playerId: string;
   minute: number;
   second: number;
-  type: "EVEN" | "PP" | "SH";
+  type: "EVEN" | "PP" | "SH" | "SO";
   assists: string[];
 }
 
@@ -33,7 +33,7 @@ export interface OpponentGoal {
   playerId: string;
   minute: number;
   second: number;
-  type: "EVEN" | "PP" | "SH";
+  type: "EVEN" | "PP" | "SH" | "SO";
   assists: (string | null)[];
 }
 
@@ -58,6 +58,15 @@ export interface Period {
   one: PeriodScore;
   two: PeriodScore;
   three: PeriodScore;
+}
+
+/** Shootout goals sit outside the periods. The scores are each side's SO goal
+ *  count; the winner gets just +1 in the game's final score. */
+export interface ShootoutScore {
+  warriorsScore: number;
+  opponentScore: number;
+  goals: Goal[];
+  opponentGoals: OpponentGoal[];
 }
 
 /** A fixture from upcoming-games.json. */
@@ -87,6 +96,8 @@ export interface Result {
     warriorsScore: number;
     opponentScore: number;
     period: Period;
+    /** Present only when the game went to a shootout. */
+    shootout?: ShootoutScore;
   };
 }
 

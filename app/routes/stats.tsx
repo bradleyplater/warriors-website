@@ -42,6 +42,7 @@ type RawResult = {
     warriorsScore: number;
     opponentScore: number;
     period?: { one?: PeriodData; two?: PeriodData; three?: PeriodData };
+    shootout?: { goals?: GoalEntry[] };
   };
 };
 
@@ -137,6 +138,11 @@ function tallyInGame(game: RawResult, playerId: string) {
     for (const pen of period.penalties ?? []) {
       if (pen.offender === playerId) pims += pen.duration;
     }
+  }
+  // Shootout goals count towards goals and assists, as in players.json.
+  for (const goal of game.score.shootout?.goals ?? []) {
+    if (goal.playerId === playerId) goals++;
+    if (goal.assists?.includes(playerId)) assists++;
   }
   return { goals, assists, pims };
 }
