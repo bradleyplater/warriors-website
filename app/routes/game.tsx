@@ -9,7 +9,7 @@ import { Stripe } from "~/components/ds/Stripe";
 import { GamePhotos } from "~/components/GamePhotos/GamePhotos";
 import { getInitials } from "~/components/TeamLogo/TeamLogo";
 import { opponentCrestSrc } from "~/components/LatestResultCard/LatestResultCard";
-import { getShootoutGoals } from "~/helpers/game-helpers";
+import { getGamePhotos, getShootoutGoals } from "~/helpers/game-helpers";
 import "./game.css";
 import { seoMeta } from "~/helpers/seo";
 
@@ -713,8 +713,7 @@ export default function Game({ loaderData }: Route.ComponentProps) {
         )}
       </section>
 
-      {/* Placeholder until game photos are added: pass them as `photos`. */}
-      <GamePhotos />
+      <GamePhotos photos={getGamePhotos(game)} />
 
       {lineup.length > 0 && (
         <section aria-label="Lineup" className="game-lineup">
