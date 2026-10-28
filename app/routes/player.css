@@ -211,6 +211,60 @@
 .player-record-label { color: var(--fg-secondary); }
 .player-record-sub { font-size: var(--wr-text-xs); color: var(--fg-secondary); margin-top: 2px; line-height: var(--wr-lh-tight); }
 
+/* ── Breakdown ────────────────────────────────────────────────────────────── */
+
+.breakdown-filter { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--wr-space-4); }
+.breakdown-select { display: flex; flex-direction: column; gap: var(--wr-space-1); min-width: 200px; }
+
+/* Two columns once each can hold 440px, stacked below that. */
+.breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+  gap: var(--wr-space-10) var(--wr-space-8);
+}
+
+.breakdown-chart { height: 200px; }
+.breakdown-stack { flex: none; display: flex; flex-direction: column; min-height: 2px; border-radius: var(--wr-radius-xs) var(--wr-radius-xs) 0 0; overflow: hidden; }
+
+.breakdown-legend { display: flex; flex-wrap: wrap; gap: var(--wr-space-4); color: var(--fg-secondary); }
+.breakdown-legend span { display: inline-flex; align-items: center; gap: var(--wr-space-2); }
+.breakdown-legend i { width: 10px; height: 10px; border-radius: 2px; }
+
+.breakdown-table { min-width: 0; }
+
+.breakdown-card { display: flex; flex-direction: column; gap: var(--wr-space-5); }
+.breakdown-split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--wr-space-4); }
+.breakdown-split-side { display: flex; flex-direction: column; gap: var(--wr-space-1); }
+.breakdown-split-side[data-align="end"] { align-items: flex-end; text-align: right; }
+.breakdown-split-value,
+.breakdown-primary-value {
+  font-family: var(--wr-font-mono);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: -.03em;
+}
+.breakdown-split-value { font-size: clamp(2.25rem, 6vw, 3rem); }
+.breakdown-primary-value { font-size: 1.75rem; }
+.breakdown-split-bar { display: flex; height: 16px; gap: 2px; border-radius: 2px; overflow: hidden; background: var(--bg-sunken); }
+.breakdown-primary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--wr-space-4);
+  border-top: var(--wr-bw-hair) solid var(--border-hairline);
+  padding-top: var(--wr-space-5);
+}
+
+/* The sort chips sit in the section header, so let them wrap under the title. */
+.player-section-header .player-tabs { gap: var(--wr-space-1); }
+
+.breakdown-opponents { min-width: 640px; }
+.breakdown-opponents th.col-bar,
+.breakdown-opponents td.col-bar { width: 26%; text-align: left; }
+.breakdown-meter { position: relative; height: 8px; background: var(--bg-sunken); border-radius: 2px; }
+.breakdown-meter div { height: 100%; border-radius: 2px; background: var(--series-1); }
+.breakdown-meter i { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--fg-primary); }
+
 /* ── Footer note ──────────────────────────────────────────────────────────── */
 
 .player-footer-note {

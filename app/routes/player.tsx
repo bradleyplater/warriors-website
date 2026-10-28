@@ -17,6 +17,18 @@ import {
   getPlayerMilestones,
   type PlayerMilestones,
 } from "~/helpers/game-helpers";
+import {
+  ALL_TIME,
+  getBreakdownSeasons,
+  getPlayerBreakdown,
+  OTHER_THRESHOLD,
+  percent,
+  perGame,
+  sortOpponents,
+  type OpponentLine,
+  type OpponentSort,
+  type PeriodLine,
+} from "~/helpers/player-breakdown";
 import type { Result } from "~/data/types";
 import type { Season } from "~/types/season";
 import "./player.css";
@@ -579,14 +591,285 @@ function RecentGamesList({ games }: { games: GameRow[] }) {
   );
 }
 
+// ── Breakdown ─────────────────────────────────────────────────────────────────
+
+/** Stacked goals-and-assists columns, one per period, scaled to the best one. */
+function PeriodChart({ periods }: { periods: PeriodLine[] }) {
+  const max = Math.max(...periods.map((p) => p.points), 1);
+  const label = periods
+    .map((p) => `${p.label} ${p.goals} goals and ${p.assists} assists`)
+    .join(", ");
+  return (
+    <div className="ds-barchart breakdown-chart" role="img" aria-label={`Points by period: ${label}`}>
+      {periods.map((p) => (
+        <div key={p.label} className="ds-barchart-col">
+          <div className="ds-barchart-plot">
+            <span className="ds-barchart-value">{p.points}</span>
+            <div className="breakdown-stack" style={{ height: `${(p.points / max) * 86}%` }}>
+              <div style={{ flex: p.assists, background: "var(--series-2)" }} />
+              <div style={{ flex: p.goals, background: "var(--series-1)" }} />
+            </div>
+          </div>
+          <span className="ds-barchart-label">{p.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Legend({ items }: { items: { label: string; color: string }[] }) {
+  return (
+    <div className="breakdown-legend t-label">
+      {items.map((item) => (
+        <span key={item.label}>
+          <i style={{ background: item.color }} aria-hidden="true" />
+          {item.label}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+/** The opponent bars run on a fixed 0–2.00 P/GP scale so they compare across
+    seasons; anything beyond fills the bar. */
+const METER_MAX = 2;
+const meterPercent = (ppg: number) => Math.min(100, (ppg / METER_MAX) * 100);
+
+const OPPONENT_SORTS: { id: OpponentSort; label: string }[] = [
+  { id: "ppg", label: "P/GP" },
+  { id: "points", label: "Points" },
+  { id: "name", label: "A–Z" },
+];
+
+function BreakdownTab({ playerId, results }: { playerId: string; results: Result[] }) {
+  const [season, setSeason] = useState(ALL_TIME);
+  const [sort, setSort] = useState<OpponentSort>("ppg");
+
+  const seasons = getBreakdownSeasons(results, playerId);
+  const { total, periods, shootout, opponents, other } = getPlayerBreakdown(results, playerId, season);
+
+  if (total.games === 0) return <p className="player-empty">No games played yet.</p>;
+
+  const periodRows = shootout ? [...periods, shootout] : periods;
+  const primaryPoints = total.goals + total.primaryAssists;
+  const average = total.points / total.games;
+  const opponentRows: OpponentLine[] = [...sortOpponents(opponents, sort), ...(other ? [other] : [])];
+  const scope = season === ALL_TIME ? "career" : "season";
+
+  return (
+    <>
+      <div className="breakdown-filter">
+        <label className="breakdown-select">
+          <span className="t-label player-tabs-label">Season</span>
+          <select className="ds-select" value={season} onChange={(e) => setSeason(e.target.value)}>
+            <option value={ALL_TIME}>All time</option>
+            {seasons.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+        </label>
+        <span className="t-label player-section-aside">All competitions</span>
+      </div>
+
+      <div className="breakdown-grid">
+        <section className="player-section">
+          <SectionHeader title="By period" aside="G · A · PTS" />
+          <PeriodChart periods={periods} />
+          <Legend
+            items={[
+              { label: "Goals", color: "var(--series-1)" },
+              { label: "Assists", color: "var(--series-2)" },
+            ]}
+          />
+          <div className="season-table-wrap">
+            <table className="season-table breakdown-table">
+              <thead>
+                <tr>
+                  <th className="col-season">Period</th>
+                  <th title="Goals">G</th>
+                  <th title="Primary assists">A1</th>
+                  <th title="Secondary assists">A2</th>
+                  <th title="Assists">A</th>
+                  <th title="Points">PTS</th>
+                  <th title="Points per game">P/GP</th>
+                </tr>
+              </thead>
+              <tbody>
+                {periodRows.map((p) => (
+                  <tr key={p.label}>
+                    <td className="col-season">{p.label}</td>
+                    <td>{p.goals}</td>
+                    <td>{p.primaryAssists}</td>
+                    <td>{p.secondaryAssists}</td>
+                    <td>{p.assists}</td>
+                    <td className="col-pts">{p.points}</td>
+                    <td className="col-muted">{perGame(p.points, p.games)}</td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td className="col-season">Total</td>
+                  <td>{total.goals}</td>
+                  <td>{total.primaryAssists}</td>
+                  <td>{total.secondaryAssists}</td>
+                  <td>{total.assists}</td>
+                  <td className="col-pts">{total.points}</td>
+                  <td className="col-muted">{perGame(total.points, total.games)}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          {shootout && (
+            <p className="t-label player-legend">SO shootout goals sit outside the periods.</p>
+          )}
+        </section>
+
+        <section className="player-section">
+          <SectionHeader
+            title="Assist split"
+            aside={`${total.assists} ${total.assists === 1 ? "assist" : "assists"}`}
+          />
+          <div className="ds-card ds-card-e1 breakdown-card">
+            <div className="breakdown-split">
+              <div className="breakdown-split-side">
+                <span className="t-label player-stat-label">Primary · A1</span>
+                <span className="breakdown-split-value">{total.primaryAssists}</span>
+                <span className="t-label player-stat-label">
+                  {percent(total.primaryAssists, total.assists)}% of assists
+                </span>
+              </div>
+              <div className="breakdown-split-side" data-align="end">
+                <span className="t-label player-stat-label">Secondary · A2</span>
+                <span className="breakdown-split-value">{total.secondaryAssists}</span>
+                <span className="t-label player-stat-label">
+                  {percent(total.secondaryAssists, total.assists)}% of assists
+                </span>
+              </div>
+            </div>
+            <div
+              className="breakdown-split-bar"
+              role="img"
+              aria-label={`${total.assists} assists: ${total.primaryAssists} primary, ${total.secondaryAssists} secondary`}
+            >
+              <div style={{ flex: total.primaryAssists, background: "var(--fg-primary)" }} />
+              <div style={{ flex: total.secondaryAssists, background: "var(--border-strong)" }} />
+            </div>
+            <Legend
+              items={[
+                { label: "Primary", color: "var(--fg-primary)" },
+                { label: "Secondary", color: "var(--border-strong)" },
+              ]}
+            />
+            <div className="breakdown-primary">
+              <div className="player-stat">
+                <span className="breakdown-primary-value">{primaryPoints}</span>
+                <span className="t-label">Primary points</span>
+                <span className="t-label player-legend">G + A1</span>
+              </div>
+              <div className="player-stat">
+                <span className="breakdown-primary-value">{perGame(primaryPoints, total.games)}</span>
+                <span className="t-label">Primary P/GP</span>
+                <span className="t-label player-legend">
+                  {primaryPoints} in {total.games} GP
+                </span>
+              </div>
+              <div className="player-stat">
+                <span className="breakdown-primary-value">{percent(primaryPoints, total.points)}%</span>
+                <span className="t-label">Of all points</span>
+                <span className="t-label player-legend">
+                  {primaryPoints} of {total.points}
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section className="player-section">
+        <div className="player-section-header">
+          <h2 className="t-heading player-section-title">Vs opponents</h2>
+          <div className="player-tabs" role="group" aria-label="Sort opponents by">
+            <span className="t-label player-tabs-label">Sort</span>
+            {OPPONENT_SORTS.map((s) => (
+              <button
+                key={s.id}
+                type="button"
+                className="ds-chip t-label"
+                aria-pressed={sort === s.id}
+                onClick={() => setSort(s.id)}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="season-table-wrap">
+          <table className="season-table breakdown-opponents">
+            <thead>
+              <tr>
+                <th className="col-opponent">Opponent</th>
+                <th title="Games played">GP</th>
+                <th title="Goals">G</th>
+                <th title="Assists">A</th>
+                <th title="Points">PTS</th>
+                <th title="Points per game">P/GP</th>
+                <th className="col-bar">
+                  vs {scope} {perGame(total.points, total.games)}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {opponentRows.map((o) => (
+                <tr key={o.name}>
+                  <td className="col-opponent">{o.name}</td>
+                  <td>{o.games}</td>
+                  <td>{o.goals}</td>
+                  <td>{o.assists}</td>
+                  <td>{o.points}</td>
+                  <td className="col-pts">{o.pointsPerGame.toFixed(2)}</td>
+                  <td className="col-bar">
+                    <div className="breakdown-meter" aria-hidden="true">
+                      <div style={{ width: `${meterPercent(o.pointsPerGame)}%` }} />
+                      <i style={{ left: `${meterPercent(average)}%` }} />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td className="col-opponent">Total</td>
+                <td>{total.games}</td>
+                <td>{total.goals}</td>
+                <td>{total.assists}</td>
+                <td>{total.points}</td>
+                <td className="col-pts">{perGame(total.points, total.games)}</td>
+                <td />
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <p className="t-label player-legend">
+          P/GP points per game · bar scaled 0–{METER_MAX.toFixed(2)}, marker shows {scope} average ·
+          opponents with fewer than {OTHER_THRESHOLD} GP grouped as Other
+        </p>
+      </section>
+    </>
+  );
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
-type Tab = "career" | "gamelog" | "records";
+type Tab = "career" | "gamelog" | "records" | "breakdown";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "career", label: "Career" },
   { id: "gamelog", label: "Game log" },
   { id: "records", label: "Records" },
+  { id: "breakdown", label: "Breakdown" },
 ];
 
 export default function PlayerPage({ loaderData }: Route.ComponentProps) {
@@ -829,6 +1112,9 @@ export default function PlayerPage({ loaderData }: Route.ComponentProps) {
 
         {/* ── Records tab ── */}
         {activeTab === "records" && <RecordsTab games={allGames} />}
+
+        {/* ── Breakdown tab ── */}
+        {activeTab === "breakdown" && <BreakdownTab playerId={player.id} results={allResults} />}
 
         <div className="player-footer-note">
           <p className="player-footer-note-text">
