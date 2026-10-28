@@ -45,6 +45,8 @@ const results: Result[] = [
   game("Slough Jets", "25/26", { p2: [goal("A"), goal("C", ["B", "A"])] }),
   game("Slough Jets", "25/26", { p2: [goal("A", ["C"])] }),
   game("Invicta Dynamos", "25/26", { p1: [goal("C", ["A"])], so: [goal("A", [], "SO")] }),
+  game("Bracknell Hornets", "24/25", { roster: ["A", "B"] }),
+  game("Bracknell Hornets", "25/26", { roster: ["A", "B"] }),
   game("Bracknell Hornets", "25/26", { roster: ["B", "C"], p1: [goal("B")] }),
 ];
 
@@ -57,30 +59,31 @@ describe("getPlayerBreakdown", () => {
       ["3rd", 0, 1, 0, 1],
     ]);
     // Totals include the shootout goal, matching the career line.
-    expect(total).toMatchObject({ games: 4, goals: 4, primaryAssists: 2, secondaryAssists: 1, assists: 3, points: 7 });
+    expect(total).toMatchObject({ games: 6, goals: 4, primaryAssists: 2, secondaryAssists: 1, assists: 3, points: 7 });
   });
 
   it("keeps shootout scoring outside the periods", () => {
-    expect(getPlayerBreakdown(results, "A").shootout).toMatchObject({ goals: 1, points: 1, games: 4 });
+    expect(getPlayerBreakdown(results, "A").shootout).toMatchObject({ goals: 1, points: 1, games: 6 });
     expect(getPlayerBreakdown(results, "B").shootout).toBeNull();
   });
 
   it("only counts games the player was rostered for", () => {
-    expect(getPlayerBreakdown(results, "A").total.games).toBe(4);
-    expect(getPlayerBreakdown(results, "B").total.games).toBe(5);
+    expect(getPlayerBreakdown(results, "A").total.games).toBe(6);
+    expect(getPlayerBreakdown(results, "C").total.games).toBe(5);
   });
 
   it("narrows to one season", () => {
     const { total, opponents, other } = getPlayerBreakdown(results, "A", "24/25");
-    expect(total).toMatchObject({ games: 1, goals: 1, assists: 1, points: 2 });
+    expect(total).toMatchObject({ games: 2, goals: 1, assists: 1, points: 2 });
     expect(opponents).toEqual([]);
-    expect(other).toMatchObject({ name: "Other", games: 1, points: 2 });
+    expect(other).toMatchObject({ name: "Other", games: 2, points: 2 });
   });
 
-  it("groups opponents met fewer than three times as Other", () => {
+  it("groups opponents met only once as Other", () => {
     const { opponents, other } = getPlayerBreakdown(results, "A");
     expect(opponents).toEqual([
       expect.objectContaining({ name: "Slough Jets", games: 3, goals: 3, assists: 2, points: 5 }),
+      expect.objectContaining({ name: "Bracknell Hornets", games: 2, points: 0, pointsPerGame: 0 }),
     ]);
     expect(other).toMatchObject({ name: "Other", games: 1, goals: 1, assists: 1, points: 2, pointsPerGame: 2 });
   });

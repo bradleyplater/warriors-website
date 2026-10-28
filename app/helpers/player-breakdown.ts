@@ -30,7 +30,7 @@ export type PlayerBreakdown = {
 export const ALL_TIME = "all";
 
 /** Opponents with fewer games than this are grouped as "Other". */
-export const OTHER_THRESHOLD = 3;
+export const OTHER_THRESHOLD = 2;
 
 function emptyLine(): ScoringLine {
   return { games: 0, goals: 0, primaryAssists: 0, secondaryAssists: 0, assists: 0, points: 0 };
