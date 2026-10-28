@@ -1,6 +1,12 @@
 import { describe, it, expect } from "vitest";
 import type { Goal, Result } from "~/data/types";
-import { getAssistsForOneGame, getGameWinningGoalScorerId, getGoalsForOneGame } from "./game-helpers";
+import { DATA_BASE_URL } from "../data/client";
+import {
+  getAssistsForOneGame,
+  getGamePhotos,
+  getGameWinningGoalScorerId,
+  getGoalsForOneGame,
+} from "./game-helpers";
 
 const goal = (playerId: string, minute: number, assists: string[] = [], type: Goal["type"] = "EVEN"): Goal =>
   ({ playerId, minute, second: 0, type, assists });
@@ -38,5 +44,32 @@ describe("game helpers with a shootout", () => {
 
   it("awards no game-winning goal for a shootout win", () => {
     expect(getGameWinningGoalScorerId(shootoutWin)).toBeNull();
+  });
+});
+
+describe("getGamePhotos", () => {
+  it("resolves each photo's key to its CDN URL, in order, keeping its text", () => {
+    const photos = getGamePhotos({
+      photos: [
+        { key: "games/GME1/photos/a.webp", alt: "Players celebrating", caption: "Goal celebration" },
+        { key: "games/GME1/photos/b.webp", alt: "Photo 2 of 2 from Warriors v Rivals HC, 12 Oct 2026" },
+      ],
+    });
+    expect(photos).toEqual([
+      {
+        src: `${DATA_BASE_URL}/games/GME1/photos/a.webp`,
+        alt: "Players celebrating",
+        caption: "Goal celebration",
+      },
+      {
+        src: `${DATA_BASE_URL}/games/GME1/photos/b.webp`,
+        alt: "Photo 2 of 2 from Warriors v Rivals HC, 12 Oct 2026",
+        caption: undefined,
+      },
+    ]);
+  });
+
+  it("is empty for a game without photos, so the carousel keeps its placeholders", () => {
+    expect(getGamePhotos({})).toEqual([]);
   });
 });

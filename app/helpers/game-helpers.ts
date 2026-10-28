@@ -1,4 +1,17 @@
 import type { Goal, Result, Player } from "~/data/types";
+import { assetUrl } from "~/data/client";
+import type { GamePhoto } from "~/components/GamePhotos/GamePhotos";
+
+/** The game's published photos as carousel slides, each key resolved to its
+ *  CDN URL like opponent crests. Empty when there are none, which leaves the
+ *  carousel on its placeholders. */
+export function getGamePhotos(game: Pick<Result, "photos">): GamePhoto[] {
+  return (game.photos ?? []).map((photo) => ({
+    src: assetUrl(photo.key),
+    alt: photo.alt,
+    caption: photo.caption,
+  }));
+}
 
 /** Warriors shootout goals. They sit outside the periods but count towards a
  *  player's goals and assists, as in the portal's players.json. */

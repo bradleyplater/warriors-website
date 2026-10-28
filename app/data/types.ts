@@ -98,7 +98,16 @@ export interface Result {
     period: Period;
     /** Present only when the game went to a shootout. */
     shootout?: ShootoutScore;
-  };
+  };  /** Up to six game photos in display order; omitted when there are none. */
+  photos?: ResultPhoto[];
+}
+
+/** A game photo the portal published: an S3 key plus its text. `alt` is
+ *  always set (the portal generates one when the admin left it blank). */
+export interface ResultPhoto {
+  key: string;
+  alt: string;
+  caption?: string;
 }
 
 /** seasons.json, published by the portal. */
