@@ -136,6 +136,17 @@
 .aw-roll .aw-roll-group { background: var(--bg-sunken); }
 .aw-roll .aw-roll-name { font-variation-settings: 'wght' 600; }
 .aw-roll-sub { display: block; font-size: .6875rem; }
+/* Award names stay put while the seasons scroll sideways. Collapsed
+   borders don't travel with a sticky cell, so its edge is a shadow, and it
+   needs a solid background to hide what scrolls beneath it. */
+.aw-roll .aw-roll-award, .aw-roll .aw-roll-name {
+  position: sticky; left: 0; z-index: 1;
+  box-shadow: inset calc(-1 * var(--wr-bw-hair)) 0 0 var(--border-hairline);
+}
+.aw-roll .aw-roll-name { background: var(--e1-bg); }
+.aw-roll .aw-roll-award { z-index: 2; }
+/* The group row spans every column, so its label sticks instead. */
+.aw-roll-group-label { position: sticky; left: var(--wr-space-3); display: inline-block; }
 .aw-roll-foot { margin: 0; font-size: .875rem; }
 
 /* Winner picture: photo, shirt or empty slot, always 4:5. */
