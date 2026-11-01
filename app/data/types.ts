@@ -117,3 +117,39 @@ export interface SeasonsFile {
   /** Every season name, oldest first, including seasons with no games. */
   seasons: string[];
 }
+
+/** awards.json, published by the portal: every awards evening that's been
+ *  listed or announced, oldest first. */
+export interface AwardsFile {
+  /** Competition labels in display order, e.g. ["BOTB", "LLIHC"]. */
+  competitions: string[];
+  /** The recurring awards in display order, for the roll of honour. */
+  categories: { key: string; name: string; group: string }[];
+  evenings: AwardsEvening[];
+}
+
+export interface AwardsEvening {
+  /** "25/26". */
+  season: string;
+  /** 1 for the first awards evening. */
+  number: number;
+  /** "categories": awards listed, winners still to be announced. */
+  status: "categories" | "announced";
+  awards: Award[];
+}
+
+export interface Award {
+  /** Absent for a one-off club award. */
+  category?: string;
+  name: string;
+  group: string;
+  /** A competition label; absent for a club-wide award. */
+  competition?: string;
+  stat?: "goals" | "assists" | "points";
+  /** Empty until announced; more than one for a shared award. `total` is
+   *  set on stat awards unless the portal hides it. */
+  winners: { playerId: string; total?: number }[];
+  /** A photo from the night: an S3 key, resolved through the CDN. */
+  photo?: { key: string; alt: string };
+  note?: string;
+}

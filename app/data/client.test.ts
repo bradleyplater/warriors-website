@@ -43,6 +43,17 @@ describe("data client", () => {
     expect(fetchMock).toHaveBeenCalledWith(`${DATA_BASE_URL}/upcoming-games.json`);
   });
 
+  it("fetches awards.json from its own path", async () => {
+    const awards = { competitions: [], categories: [], evenings: [] };
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => awards });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const { getAwards, DATA_BASE_URL } = await import("./client");
+
+    expect(await getAwards()).toEqual(awards);
+    expect(fetchMock).toHaveBeenCalledWith(`${DATA_BASE_URL}/awards.json`);
+  });
+
   it("builds asset URLs from a published S3 key", async () => {
     const { assetUrl, DATA_BASE_URL } = await import("./client");
     expect(assetUrl("opponents/OPN878600/logo-1.jpg")).toBe(`${DATA_BASE_URL}/opponents/OPN878600/logo-1.jpg`);

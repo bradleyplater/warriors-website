@@ -1,4 +1,4 @@
-import type { SeasonsFile } from "./types";
+import type { AwardsFile, SeasonsFile } from "./types";
 
 /**
  * Base URL for the published stats JSON (S3 bucket behind CloudFront).
@@ -55,4 +55,8 @@ export function getUpcomingGames<T = unknown>(): Promise<T> {
  */
 export function getSeasons(): Promise<SeasonsFile | null> {
   return cached<SeasonsFile>("seasons.json").catch(() => null);
+}
+
+export function getAwards(): Promise<AwardsFile> {
+  return cached<AwardsFile>("awards.json");
 }
