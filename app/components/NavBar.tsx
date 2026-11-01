@@ -13,7 +13,8 @@ const navLinks = [
   { name: "Stats", to: "/stats", end: true },
   { name: "Team Stats", to: "/team-stats", end: true },
   { name: "Records", to: "/records", end: true },
-  { name: "Awards", to: "/awards", end: true },
+  // Not exact: past seasons live under /awards/:season.
+  { name: "Awards", to: "/awards", end: false },
   { name: "Live", to: "/live", end: true },
 ];
 
