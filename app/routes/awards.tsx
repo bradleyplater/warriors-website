@@ -182,7 +182,7 @@ function RollOfHonour({ awards, players }: { awards: AwardsFile; players: Player
           <tbody key={group.name}>
             <tr>
               <th scope="colgroup" colSpan={width} className="aw-roll-group">
-                <span className="t-label">{group.name}</span>
+                <span className="t-label aw-roll-group-label">{group.name}</span>
               </th>
             </tr>
             {group.rows.map((row) => (
