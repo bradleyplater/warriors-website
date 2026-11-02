@@ -6,6 +6,7 @@ import {
   getGamePhotos,
   getGameWinningGoalScorerId,
   getGoalsForOneGame,
+  getSeasonTallyBefore,
 } from "./game-helpers";
 
 const goal = (playerId: string, minute: number, assists: string[] = [], type: Goal["type"] = "EVEN"): Goal =>
@@ -71,5 +72,25 @@ describe("getGamePhotos", () => {
 
   it("is empty for a game without photos, so the carousel keeps its placeholders", () => {
     expect(getGamePhotos({})).toEqual([]);
+  });
+});
+
+describe("getSeasonTallyBefore", () => {
+  const game = (date: string, seasonId: string, goals: Goal[]) =>
+    ({ ...shootoutWin, date, seasonId, score: { ...shootoutWin.score, shootout: undefined, period: { one: period(goals), two: period(), three: period() } } }) as Result;
+
+  const earlier = game("2026-10-01T19:00:00.000Z", "26/27", [goal("A", 3, ["B"]), goal("A", 9, ["B", "C"])]);
+  const lastSeason = game("2026-03-01T19:00:00.000Z", "25/26", [goal("A", 4)]);
+  const current = game("2026-10-25T19:00:00.000Z", "26/27", [goal("B", 2, ["A"])]);
+  const later = game("2026-11-01T19:00:00.000Z", "26/27", [goal("A", 2)]);
+
+  it("counts only earlier games in the same season, shootouts included", () => {
+    const tally = getSeasonTallyBefore([later, current, lastSeason, earlier, shootoutWin], current);
+    // earlier: A 2 goals; shootoutWin (18 Oct): A 1 goal + 1 SO assist, B 1 SO goal.
+    expect(tally.goals.get("A")).toBe(3);
+    expect(tally.goals.get("B")).toBe(1);
+    expect(tally.assists.get("B")).toBe(2);
+    expect(tally.assists.get("C")).toBe(1);
+    expect(tally.assists.get("A")).toBe(1);
   });
 });
