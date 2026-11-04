@@ -141,3 +141,33 @@ export function getGameWinningGoalScorerId(game: Result): string | null {
   const gwgGoal = goalsWithPeriod[requiredGoalNumber - 1];
   return gwgGoal?.playerId ?? null;
 }
+
+export interface SeasonTally {
+  goals: Map<string, number>;
+  assists: Map<string, number>;
+}
+
+/** Each Warriors player's goals and assists in `game`'s season from the games
+ *  played before it (shootout goals included, as in players.json). The game
+ *  page counts on from here, goal by goal, to show season totals as they
+ *  stood when each goal went in. */
+export function getSeasonTallyBefore(allGames: Result[], game: Result): SeasonTally {
+  const tally: SeasonTally = { goals: new Map(), assists: new Map() };
+  const kickoff = new Date(game.date).getTime();
+  for (const other of allGames) {
+    if (other.seasonId !== game.seasonId || new Date(other.date).getTime() >= kickoff) continue;
+    const { one, two, three } = other.score.period;
+    for (const goal of [...one.goals, ...two.goals, ...three.goals, ...getShootoutGoals(other)]) {
+      bumpTally(tally.goals, goal.playerId);
+      for (const id of goal.assists) bumpTally(tally.assists, id);
+    }
+  }
+  return tally;
+}
+
+/** Adds one to a player's count and returns the new total. */
+export function bumpTally(counts: Map<string, number>, playerId: string): number {
+  const next = (counts.get(playerId) ?? 0) + 1;
+  counts.set(playerId, next);
+  return next;
+}

@@ -9,7 +9,13 @@ import { Stripe } from "~/components/ds/Stripe";
 import { GamePhotos } from "~/components/GamePhotos/GamePhotos";
 import { getInitials } from "~/components/TeamLogo/TeamLogo";
 import { opponentCrestSrc } from "~/components/LatestResultCard/LatestResultCard";
-import { getGamePhotos, getShootoutGoals } from "~/helpers/game-helpers";
+import {
+  bumpTally,
+  getGamePhotos,
+  getSeasonTallyBefore,
+  getShootoutGoals,
+  type SeasonTally,
+} from "~/helpers/game-helpers";
 import "./game.css";
 import { seoMeta } from "~/helpers/seo";
 
@@ -113,9 +119,18 @@ function offenceLabel(type: string) {
   return OFFENCE_LABELS[type] ?? type;
 }
 
-type GoalEntry = {
+/** Warriors players' season totals as each goal went in; opponents aren't
+ *  tracked across games, so theirs are null. */
+type SeasonCounts = {
+  scorerSeasonCount: number | null;
+  assistSeasonCounts: (number | null)[];
+};
+
+type GoalEntry = SeasonCounts & {
   id: string;
   team: "warriors" | "opponent";
+  scorerId: string;
+  assistIds: string[];
   scorerName: string;
   assistNames: string[];
   minute: number;
@@ -127,7 +142,27 @@ type GoalEntry = {
   isGWG: boolean;
 };
 
-function buildGoalTimeline(game: Result, playerMap: Map<string, Player>): GoalEntry[] {
+/** Counts a Warriors goal into the season tally, returning the totals it
+ *  brings the scorer and each assister to. */
+function countGoal(tally: SeasonTally, scorerId: string, assistIds: string[]): SeasonCounts {
+  return {
+    scorerSeasonCount: bumpTally(tally.goals, scorerId),
+    assistSeasonCounts: assistIds.map((id) => bumpTally(tally.assists, id)),
+  };
+}
+
+const NO_COUNTS: SeasonCounts = { scorerSeasonCount: null, assistSeasonCounts: [] };
+
+/** "Name (n)" when a season count is known, else just the name. */
+function withCount(name: string, count: number | null | undefined) {
+  return count == null ? name : `${name} (${count})`;
+}
+
+function buildGoalTimeline(
+  game: Result,
+  playerMap: Map<string, Player>,
+  tally: SeasonTally
+): GoalEntry[] {
   const periods = [
     { data: game.score.period.one, num: 1 },
     { data: game.score.period.two, num: 2 },
@@ -141,6 +176,9 @@ function buildGoalTimeline(game: Result, playerMap: Map<string, Player>): GoalEn
       entries.push({
         id: `w-${num}-${goal.minute}-${goal.second}-${goal.playerId}`,
         team: "warriors",
+        scorerId: goal.playerId,
+        assistIds: goal.assists,
+        ...NO_COUNTS,
         scorerName: playerMap.get(goal.playerId)?.name ?? goal.playerId,
         assistNames: goal.assists.map((a) => playerMap.get(a)?.name ?? a),
         minute: goal.minute,
@@ -156,6 +194,9 @@ function buildGoalTimeline(game: Result, playerMap: Map<string, Player>): GoalEn
       entries.push({
         id: `o-${num}-${goal.minute}-${goal.second}-${goal.playerId}`,
         team: "opponent",
+        scorerId: goal.playerId,
+        assistIds: [],
+        ...NO_COUNTS,
         scorerName: goal.playerId,
         assistNames: (goal.assists as (string | null)[]).filter((a): a is string => !!a),
         minute: goal.minute,
@@ -181,6 +222,7 @@ function buildGoalTimeline(game: Result, playerMap: Map<string, Player>): GoalEn
     else oScore++;
     e.warriorsRunning = wScore;
     e.opponentRunning = oScore;
+    if (e.team === "warriors") Object.assign(e, countGoal(tally, e.scorerId, e.assistIds));
   }
 
   // Mark the game-winning goal: the first goal that gives the winner a lead
@@ -200,7 +242,7 @@ function buildGoalTimeline(game: Result, playerMap: Map<string, Player>): GoalEn
   return entries;
 }
 
-type ShootoutEntry = {
+type ShootoutEntry = SeasonCounts & {
   id: string;
   team: "warriors" | "opponent";
   scorerName: string;
@@ -209,7 +251,11 @@ type ShootoutEntry = {
 
 /** Shootout goals in the order the portal recorded them. They carry no game
  *  clock time worth showing. */
-function buildShootoutList(game: Result, playerMap: Map<string, Player>): ShootoutEntry[] {
+function buildShootoutList(
+  game: Result,
+  playerMap: Map<string, Player>,
+  tally: SeasonTally
+): ShootoutEntry[] {
   const shootout = game.score.shootout;
   if (!shootout) return [];
   return [
@@ -218,12 +264,14 @@ function buildShootoutList(game: Result, playerMap: Map<string, Player>): Shooto
       team: "warriors" as const,
       scorerName: playerMap.get(goal.playerId)?.name ?? goal.playerId,
       assistNames: goal.assists.map((a) => playerMap.get(a)?.name ?? a),
+      ...countGoal(tally, goal.playerId, goal.assists),
     })),
     ...shootout.opponentGoals.map((goal, i) => ({
       id: `o-so-${i}-${goal.playerId}`,
       team: "opponent" as const,
       scorerName: goal.playerId,
       assistNames: goal.assists.filter((a): a is string => !!a),
+      ...NO_COUNTS,
     })),
   ];
 }
@@ -485,8 +533,10 @@ export default function Game({ loaderData }: Route.ComponentProps) {
   const shootout = game.score.shootout;
   const outcomeTone = outcome === "W" ? "success" : outcome === "L" ? "danger" : "neutral";
 
-  const goals = buildGoalTimeline(game, playerMap);
-  const shootoutGoals = buildShootoutList(game, playerMap);
+  // Shootout goals come after regulation, so they share and continue the tally.
+  const seasonTally = getSeasonTallyBefore(allResults, game);
+  const goals = buildGoalTimeline(game, playerMap, seasonTally);
+  const shootoutGoals = buildShootoutList(game, playerMap, seasonTally);
   const penalties = buildPenaltyList(game, playerMap, game.opponentTeam);
   const stars = buildStars([...goals, ...shootoutGoals]);
   const p = game.score.period;
@@ -580,7 +630,9 @@ export default function Game({ loaderData }: Route.ComponentProps) {
               {goals.map((goal) => {
                 const assists =
                   goal.assistNames.length > 0
-                    ? `Assisted by ${goal.assistNames.join(", ")}`
+                    ? `Assisted by ${goal.assistNames
+                        .map((name, i) => withCount(name, goal.assistSeasonCounts[i]))
+                        .join(", ")}`
                     : "Unassisted";
                 const opponentGoal = goal.team !== "warriors";
                 const detail = [
@@ -597,7 +649,9 @@ export default function Game({ loaderData }: Route.ComponentProps) {
                     </span>
                     <TeamTag warriors={!opponentGoal} opponentTeam={game.opponentTeam} />
                     <div className="game-list-body">
-                      <span className="game-list-primary">{goal.scorerName}</span>
+                      <span className="game-list-primary">
+                        {withCount(goal.scorerName, goal.scorerSeasonCount)}
+                      </span>
                       <span className="t-label muted">{detail}</span>
                     </div>
                     <span className="t-data game-list-score">
@@ -627,7 +681,9 @@ export default function Game({ loaderData }: Route.ComponentProps) {
                       <span className="t-data muted game-list-clock">SO</span>
                       <TeamTag warriors={!opponentGoal} opponentTeam={game.opponentTeam} />
                       <div className="game-list-body">
-                        <span className="game-list-primary">{goal.scorerName}</span>
+                        <span className="game-list-primary">
+                        {withCount(goal.scorerName, goal.scorerSeasonCount)}
+                      </span>
                         <span className="t-label muted">Shootout goal</span>
                       </div>
                     </li>
