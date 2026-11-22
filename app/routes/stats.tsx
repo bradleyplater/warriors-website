@@ -1,5 +1,5 @@
 import { useMemo, useState, type ReactNode } from "react";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import type { Route } from "./+types/stats";
 import { getPlayers, getResults, getRosterConfig, getSeasons } from "~/data/client";
 import { playsGoal, playsSkater, withActivePlayers } from "~/helpers/active-roster";
@@ -357,7 +357,12 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
   const thisSeason = currentSeason(loaderData.seasons, playedSeasons);
   const season = pickedSeason ?? thisSeason ?? "";
   const allTime = season === ALL_TIME;
-  const [competition, setCompetition] = useState("All");
+  // "?competition=BOTBC" (from the home page's season leaders) opens on that competition.
+  const [searchParams] = useSearchParams();
+  const linkedCompetition = searchParams.get("competition");
+  const [competition, setCompetition] = useState(
+    linkedCompetition && competitions.includes(linkedCompetition) ? linkedCompetition : "All"
+  );
   const [pos, setPos] = useState("All");
   const [skaterSort, setSkaterSort] = useState<SkaterSort>("points");
   const [skaterDir, setSkaterDir] = useState<SortDir>("desc");

@@ -90,9 +90,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
       <section id="team" className="home-leaders">
         <SectionHead eyebrow={season ? seasonHeading(season) : undefined} title="Season leaders">
-          Skater scoring this season. Goaltending statistics are listed separately on the stats page.
+          Skater scoring, split by competition. Goaltending statistics are listed separately on the stats page.
         </SectionHead>
-        <SeasonLeaders players={players} season={season} />
+        <SeasonLeaders players={players} results={results} upcomingGames={upcomingGames} season={season} />
       </section>
 
       <section aria-label="Club partners" className="home-partners">
