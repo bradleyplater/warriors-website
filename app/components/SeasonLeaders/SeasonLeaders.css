@@ -1,28 +1,124 @@
-.sl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 272px), 1fr)); gap: var(--wr-space-6); }
-
-.sl-panel {
+/* Season leaders: one row per competition, stacked in a single card. */
+.sl-board {
   background: var(--e1-bg);
+  box-shadow: var(--e1);
   border: var(--wr-bw-hair) solid var(--border-hairline);
   border-radius: var(--wr-radius-md);
-  box-shadow: var(--e1);
-  display: flex;
-  flex-direction: column;
+  overflow: hidden;
 }
 
-.sl-panel-top { padding: var(--wr-space-5) var(--wr-space-5) var(--wr-space-4); display: flex; flex-direction: column; gap: var(--wr-space-3); }
-.sl-kicker { color: var(--fg-secondary); }
-.sl-hero { display: flex; align-items: flex-end; gap: var(--wr-space-4); }
-.sl-hero-value { font-family: var(--wr-font-mono); font-weight: 700; font-variant-numeric: tabular-nums; font-size: clamp(3.5rem, 9vw, 4.75rem); line-height: .85; letter-spacing: -.04em; }
-.sl-hero-unit { color: var(--fg-secondary); padding-bottom: var(--wr-space-2); }
-.sl-hero-name { font-family: var(--wr-font-display); font-variation-settings: 'wdth' var(--wr-w-expanded), 'wght' 700; font-size: var(--wr-text-h3); text-transform: uppercase; }
-.sl-hero-meta { color: var(--fg-secondary); margin-top: var(--wr-space-1); }
+.sl-comp { display: flex; flex-wrap: wrap; }
+.sl-comp + .sl-comp { border-top: var(--wr-bw-hair) solid var(--border-hairline); }
 
-.sl-list { margin: 0; padding: 0; list-style: none; border-top: var(--wr-bw-hair) solid var(--border-hairline); }
-.sl-row { display: flex; align-items: center; gap: var(--wr-space-3); padding: var(--wr-space-3) var(--wr-space-5); border-bottom: var(--wr-bw-hair) solid var(--border-hairline); }
-.sl-rank { color: var(--fg-secondary); min-width: 2ch; }
-.sl-player-name { flex: 1; font-size: var(--wr-text-body-sm); min-width: 0; }
-.sl-player-pos { color: var(--fg-secondary); }
-.sl-stat-value { font-weight: 700; min-width: 3ch; text-align: right; }
+.sl-comp-side {
+  flex: 0 0 240px;
+  box-sizing: border-box;
+  padding: 28px var(--wr-space-6);
+  background: var(--bg-sunken);
+  display: flex;
+  flex-direction: column;
+  gap: var(--wr-space-2);
+}
+.sl-comp-name {
+  margin: 0;
+  font-family: var(--wr-font-display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  font-variation-settings: 'wdth' var(--wr-w-expanded), 'wght' 700;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+.sl-comp-played { font-family: var(--wr-font-mono); font-size: var(--wr-text-xs); color: var(--fg-secondary); }
+.sl-comp-link {
+  margin-top: auto;
+  padding-top: var(--wr-space-4);
+  font-family: var(--wr-font-body);
+  font-size: var(--wr-text-xs);
+  font-variation-settings: 'wdth' var(--wr-w-condensed), 'wght' 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
 
-.sl-link { padding: var(--wr-space-3) var(--wr-space-5); }
-.sl-empty { color: var(--fg-secondary); margin: 0; padding: var(--wr-space-5); text-align: center; }
+.sl-cats {
+  flex: 999 1 560px;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.sl-cat {
+  padding: 28px var(--wr-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--wr-space-4);
+  border-left: var(--wr-bw-hair) solid var(--border-hairline);
+}
+.sl-cat-label { margin: 0; color: var(--fg-secondary); letter-spacing: .1em; }
+
+.sl-leader { display: flex; align-items: center; gap: var(--wr-space-4); }
+.sl-leader-value {
+  font-family: var(--wr-font-display);
+  font-size: 3rem;
+  font-variation-settings: 'wdth' var(--wr-w-expanded), 'wght' 900;
+  line-height: .85;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+  min-width: 40px;
+}
+.sl-leader-who { display: flex; flex-direction: column; gap: var(--wr-space-1); min-width: 0; }
+.sl-leader-name {
+  font-family: var(--wr-font-display);
+  font-size: var(--wr-text-body);
+  font-variation-settings: 'wdth' var(--wr-w-expanded), 'wght' 700;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+.sl-leader-number { font-family: var(--wr-font-mono); font-size: var(--wr-text-label); color: var(--fg-secondary); }
+
+.sl-rest {
+  list-style: none;
+  margin: 0;
+  padding: var(--wr-space-3) 0 0;
+  border-top: var(--wr-bw-hair) solid var(--border-hairline);
+  display: flex;
+  flex-direction: column;
+  gap: var(--wr-space-2);
+}
+.sl-rest-row { display: grid; grid-template-columns: 16px minmax(0, 1fr) 24px; gap: 10px; align-items: baseline; }
+.sl-rest-rank { font-family: var(--wr-font-mono); font-size: var(--wr-text-label); color: var(--fg-secondary); }
+.sl-rest-name { font-size: var(--wr-text-sm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sl-rest-value { font-family: var(--wr-font-mono); font-size: var(--wr-text-sm); font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+
+.sl-comp-empty {
+  flex: 999 1 560px;
+  min-width: 0;
+  padding: 28px var(--wr-space-6);
+  border-left: var(--wr-bw-hair) solid var(--border-hairline);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+.sl-comp-empty-title {
+  font-family: var(--wr-font-display);
+  font-size: 1.125rem;
+  font-variation-settings: 'wdth' var(--wr-w-expanded), 'wght' 700;
+}
+.sl-comp-empty-body { font-size: var(--wr-text-body-sm); line-height: 1.65; color: var(--fg-secondary); }
+
+.sl-none { color: var(--fg-secondary); margin: 0; }
+
+/* Narrower screens: the side panel sits on top, then on phones the three
+   columns stack and their dividers run horizontally instead. */
+@media (max-width: 860px) {
+  .sl-comp-side, .sl-cats, .sl-comp-empty { flex-basis: 100%; }
+  .sl-comp-side { padding-top: var(--wr-space-5); padding-bottom: var(--wr-space-5); }
+  .sl-comp-link { margin-top: var(--wr-space-2); padding-top: 0; }
+  .sl-comp-empty { border-left: 0; }
+  .sl-cat:first-child { border-left: 0; }
+}
+@media (max-width: 560px) {
+  .sl-cats { grid-template-columns: 1fr; }
+  .sl-cat { border-left: 0; padding: var(--wr-space-5); }
+  .sl-cat + .sl-cat { border-top: var(--wr-bw-hair) solid var(--border-hairline); }
+  .sl-comp-side, .sl-comp-empty { padding-left: var(--wr-space-5); padding-right: var(--wr-space-5); }
+}

@@ -1,115 +1,105 @@
 import { Link } from "react-router";
+import type { Player, Result, UpcomingGame } from "~/data/types";
+import {
+  buildCompetitionLeaders,
+  type CompetitionLeaders,
+  type LeaderCategory,
+} from "~/helpers/season-leaders";
 import "./SeasonLeaders.css";
 
-type SeasonStat = {
-  season: string;
-  games: number;
-  goals: number;
-  assists: number;
-  pims: number;
-  points: number;
-};
-
-type Player = {
-  id: string;
-  name: string;
-  number: number;
-  stats: SeasonStat[];
-};
-
-type LeaderEntry = {
-  id: string;
-  name: string;
-  number: number;
-  value: number;
-};
-
-function getLeaders(
-  players: Player[],
-  season: string | undefined,
-  statKey: keyof Pick<SeasonStat, "goals" | "assists" | "pims">
-): LeaderEntry[] {
-  return players
-    .flatMap((player) => {
-      const line = player.stats.find((s) => s.season === season);
-      if (!line) return [];
-      return [{ id: player.id, name: player.name, number: player.number, value: line[statKey] }];
-    })
-    .filter((entry) => entry.value > 0)
-    .sort((a, b) => b.value - a.value)
-    .slice(0, 4);
-}
-
-type PanelProps = {
-  title: string;
-  unit: string;
-  entries: LeaderEntry[];
-};
-
-function LeaderPanel({ title, unit, entries }: PanelProps) {
-  const [top, ...rest] = entries;
+function CategoryColumn({ category }: { category: LeaderCategory }) {
+  const [leader, ...rest] = category.entries;
+  if (!leader) return null;
 
   return (
-    <div className="sl-panel">
-      <div className="sl-panel-top">
-        <span className="t-label sl-kicker">{title}</span>
-
-        {top ? (
-          <>
-            <div className="sl-hero">
-              <span className="sl-hero-value">{top.value}</span>
-              <span className="t-label sl-hero-unit">{unit}</span>
-            </div>
-            <div>
-              <div className="sl-hero-name">{top.name}</div>
-              <div className="t-label sl-hero-meta">#{top.number}</div>
-            </div>
-          </>
-        ) : (
-          <p className="sl-empty">No stats recorded yet</p>
-        )}
+    <div className="sl-cat">
+      <h4 className="t-label sl-cat-label">{category.label}</h4>
+      <div className="sl-leader">
+        <span className="sl-leader-value">{leader.value}</span>
+        <div className="sl-leader-who">
+          <span className="sl-leader-name">{leader.name}</span>
+          <span className="sl-leader-number">#{leader.number}</span>
+        </div>
       </div>
-
       {rest.length > 0 && (
-        <ol className="sl-list">
+        <ol className="sl-rest" start={2}>
           {rest.map((entry, index) => (
-            <li key={entry.id} className="sl-row">
-              <span className="t-data sl-rank">{index + 2}</span>
-              <span className="sl-player-name">{entry.name}</span>
-              <span className="t-label sl-player-pos">#{entry.number}</span>
-              <span className="t-data sl-stat-value">{entry.value}</span>
+            <li key={entry.id} className="sl-rest-row">
+              <span className="sl-rest-rank">{index + 2}</span>
+              <span className="sl-rest-name">{entry.name}</span>
+              <span className="sl-rest-value">{entry.value}</span>
             </li>
           ))}
         </ol>
-      )}
-
-      {top && (
-        <div className="sl-link">
-          <Link to="/stats" className="t-label">Full scoring stats</Link>
-        </div>
       )}
     </div>
   );
 }
 
+function CompetitionRow({ competition }: { competition: CompetitionLeaders }) {
+  const { code, name, gamesPlayed, categories } = competition;
+
+  return (
+    <article className="sl-comp">
+      <div className="sl-comp-side">
+        <h3 className="sl-comp-name">{name}</h3>
+        <span className="sl-comp-played">
+          {gamesPlayed} {gamesPlayed === 1 ? "game" : "games"} played
+        </span>
+        <Link to={`/stats?competition=${encodeURIComponent(code)}`} className="sl-comp-link">
+          Full stats
+        </Link>
+      </div>
+
+      {categories.length > 0 ? (
+        <div className="sl-cats">
+          {categories.map((category) => (
+            <CategoryColumn key={category.stat} category={category} />
+          ))}
+        </div>
+      ) : (
+        <div className="sl-comp-empty">
+          <span className="sl-comp-empty-title">
+            {gamesPlayed === 0 ? "No games played yet" : "No points or penalties yet"}
+          </span>
+          <span className="sl-comp-empty-body">
+            Leaders for this competition appear here after the first{" "}
+            {gamesPlayed === 0 ? "game" : "goal or penalty"}.
+          </span>
+        </div>
+      )}
+    </article>
+  );
+}
+
 export function SeasonLeaders({
-  players: rawPlayers,
+  players,
+  results,
+  upcomingGames,
   season,
 }: {
   players: unknown[];
-  /** The season to rank, e.g. "26/27". Panels show their empty state until it has stats. */
+  results: unknown[];
+  upcomingGames: UpcomingGame[];
+  /** The season to rank, e.g. "26/27". */
   season: string | undefined;
 }) {
-  const players = rawPlayers as Player[];
-  const goalLeaders = getLeaders(players, season, "goals");
-  const assistLeaders = getLeaders(players, season, "assists");
-  const pimsLeaders = getLeaders(players, season, "pims");
+  const competitions = buildCompetitionLeaders(
+    results as Result[],
+    players as Player[],
+    season,
+    upcomingGames
+  );
+
+  if (competitions.length === 0) {
+    return <p className="sl-none">No games this season yet.</p>;
+  }
 
   return (
-    <div className="sl-grid">
-      <LeaderPanel title="Goals" unit="goals" entries={goalLeaders} />
-      <LeaderPanel title="Assists" unit="assists" entries={assistLeaders} />
-      <LeaderPanel title="PIMs" unit="pims" entries={pimsLeaders} />
+    <div className="sl-board">
+      {competitions.map((competition) => (
+        <CompetitionRow key={competition.code} competition={competition} />
+      ))}
     </div>
   );
 }
