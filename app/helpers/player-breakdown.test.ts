@@ -2,6 +2,8 @@ import { describe, it, expect } from "vitest";
 import type { Result } from "../data/types";
 import {
   getBreakdownSeasons,
+  getDuos,
+  getLinemates,
   getPlayerBreakdown,
   percent,
   perGame,
@@ -126,5 +128,70 @@ describe("formatting", () => {
     expect(perGame(3, 2)).toBe("1.50");
     expect(percent(1, 0)).toBe(0);
     expect(percent(34, 57)).toBe(60);
+  });
+});
+
+describe("getLinemates", () => {
+  const results = [
+    game("X", "25/26", {
+      roster: ["A", "B", "C", "D"],
+      // A scores from B and C; B scores from A; C scores from A and B; D scores alone.
+      p1: [goal("A", ["B", "C"]), goal("B", ["A"])],
+      p2: [goal("C", ["A", "B"]), goal("D")],
+      so: [goal("A")],
+    }),
+    game("Y", "24/25", { roster: ["A", "B"], p1: [goal("B", ["A"])] }),
+    game("Z", "25/26", { roster: ["B", "C"], p1: [goal("B", ["C"])] }),
+  ];
+
+  it("counts who set up whom and goals together", () => {
+    const lines = getLinemates(results, "A");
+    expect(lines.map((l) => l.playerId)).toEqual(["B", "C"]);
+    expect(lines[0]).toEqual({ playerId: "B", games: 2, setUpBy: 1, setUp: 2, together: 4 });
+    // Both assisting C's goal counts as together, but not as a set-up.
+    expect(lines[1]).toEqual({ playerId: "C", games: 1, setUpBy: 1, setUp: 1, together: 2 });
+  });
+
+  it("leaves out teammates with no goals together", () => {
+    expect(getLinemates(results, "A").some((l) => l.playerId === "D")).toBe(false);
+    expect(getLinemates(results, "C").find((l) => l.playerId === "B")).toMatchObject({ games: 2, together: 3 });
+  });
+
+  it("narrows to one season", () => {
+    expect(getLinemates(results, "A", "24/25")).toEqual([
+      { playerId: "B", games: 1, setUpBy: 0, setUp: 1, together: 1 },
+    ]);
+  });
+});
+
+describe("getDuos", () => {
+  const results = [
+    game("X", "25/26", {
+      roster: ["A", "B", "C", "D"],
+      p1: [goal("A", ["B", "C"]), goal("B", ["A"])],
+      p2: [goal("C", ["A", "B"]), goal("D")],
+      so: [goal("A")],
+    }),
+    game("Y", "24/25", { roster: ["A", "B"], p1: [goal("B", ["A"])] }),
+  ];
+
+  it("counts each pair once, both ways, most goals together first", () => {
+    expect(getDuos(results)).toEqual([
+      { a: "A", b: "B", games: 2, aFromB: 1, bFromA: 2, together: 4 },
+      { a: "A", b: "C", games: 1, aFromB: 1, bFromA: 1, together: 2 },
+      { a: "B", b: "C", games: 1, aFromB: 0, bFromA: 1, together: 2 },
+    ]);
+  });
+
+  it("agrees with the player's linemates", () => {
+    const ab = getDuos(results).find((d) => d.a === "A" && d.b === "B")!;
+    const b = getLinemates(results, "A").find((l) => l.playerId === "B")!;
+    expect([ab.aFromB, ab.bFromA, ab.together, ab.games]).toEqual([b.setUpBy, b.setUp, b.together, b.games]);
+  });
+
+  it("narrows to one season", () => {
+    expect(getDuos(results, "24/25")).toEqual([
+      { a: "A", b: "B", games: 1, aFromB: 0, bFromA: 1, together: 1 },
+    ]);
   });
 });

@@ -20,6 +20,7 @@ import {
 import {
   ALL_TIME,
   getBreakdownSeasons,
+  getLinemates,
   getPlayerBreakdown,
   OTHER_THRESHOLD,
   percent,
@@ -641,7 +642,103 @@ const OPPONENT_SORTS: { id: OpponentSort; label: string }[] = [
   { id: "name", label: "A–Z" },
 ];
 
-function BreakdownTab({ playerId, results }: { playerId: string; results: Result[] }) {
+/** Linemates shown before "Show all". */
+const LINEMATES_SHOWN = 8;
+
+function LinematesSection({
+  playerId,
+  results,
+  players,
+  season,
+  points,
+}: {
+  playerId: string;
+  results: Result[];
+  players: Player[];
+  season: string;
+  points: number;
+}) {
+  const [showAll, setShowAll] = useState(false);
+  const linemates = getLinemates(results, playerId, season);
+  const rows = showAll ? linemates : linemates.slice(0, LINEMATES_SHOWN);
+  const nameOf = (id: string) => players.find((p) => p.id === id)?.name ?? "Former player";
+
+  return (
+    <section className="player-section">
+      <SectionHeader
+        title="Linemates"
+        aside={`${linemates.length} ${linemates.length === 1 ? "teammate" : "teammates"}`}
+      />
+      {linemates.length === 0 ? (
+        <p className="player-empty">No goals combined with a teammate yet.</p>
+      ) : (
+        <>
+          <div className="season-table-wrap">
+            <table className="season-table breakdown-linemates">
+              <thead>
+                <tr>
+                  <th className="col-opponent">Teammate</th>
+                  <th title="Games played together">GP</th>
+                  <th title="Your goals they assisted">Set you up</th>
+                  <th title="Their goals you assisted">You set up</th>
+                  <th title="Goals you both got a point on">Together</th>
+                  <th className="col-bar">Share of your points</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((l) => {
+                  const share = percent(l.together, points);
+                  return (
+                    <tr key={l.playerId}>
+                      <td className="col-opponent">
+                        <Link to={`/roster/${l.playerId}`}>{nameOf(l.playerId)}</Link>
+                      </td>
+                      <td>{l.games}</td>
+                      <td>{l.setUpBy}</td>
+                      <td>{l.setUp}</td>
+                      <td className="col-pts">{l.together}</td>
+                      <td className="col-bar">
+                        <div className="breakdown-share">
+                          <div className="breakdown-meter" aria-hidden="true">
+                            <div style={{ width: `${share}%` }} />
+                          </div>
+                          <span className="col-muted">{share}%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          {linemates.length > LINEMATES_SHOWN && (
+            <button
+              type="button"
+              className="ds-chip t-label breakdown-more"
+              onClick={() => setShowAll(!showAll)}
+            >
+              {showAll ? "Show fewer" : `Show all ${linemates.length}`}
+            </button>
+          )}
+          <p className="t-label player-legend">
+            Together counts every goal you both got a point on, including both assisting a third
+            player · shootout goals not included
+          </p>
+        </>
+      )}
+    </section>
+  );
+}
+
+function BreakdownTab({
+  playerId,
+  results,
+  players,
+}: {
+  playerId: string;
+  results: Result[];
+  players: Player[];
+}) {
   const [season, setSeason] = useState(ALL_TIME);
   const [sort, setSort] = useState<OpponentSort>("ppg");
 
@@ -787,6 +884,14 @@ function BreakdownTab({ playerId, results }: { playerId: string; results: Result
           </div>
         </section>
       </div>
+
+      <LinematesSection
+        playerId={playerId}
+        results={results}
+        players={players}
+        season={season}
+        points={total.points}
+      />
 
       <section className="player-section">
         <div className="player-section-header">
@@ -1114,7 +1219,7 @@ export default function PlayerPage({ loaderData }: Route.ComponentProps) {
         {activeTab === "records" && <RecordsTab games={allGames} />}
 
         {/* ── Breakdown tab ── */}
-        {activeTab === "breakdown" && <BreakdownTab playerId={player.id} results={allResults} />}
+        {activeTab === "breakdown" && <BreakdownTab playerId={player.id} results={allResults} players={allPlayers} />}
 
         <div className="player-footer-note">
           <p className="player-footer-note-text">

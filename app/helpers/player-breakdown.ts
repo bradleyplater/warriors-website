@@ -124,6 +124,121 @@ export function getPlayerBreakdown(
   };
 }
 
+/** One teammate's scoring connection with the player. */
+export type LinemateLine = {
+  playerId: string;
+  /** Games both were on the roster for. */
+  games: number;
+  /** The player's goals this teammate assisted on. */
+  setUpBy: number;
+  /** This teammate's goals the player assisted on. */
+  setUp: number;
+  /** Goals both got a point on: either one scored, or both assisted. */
+  together: number;
+};
+
+/** Teammates the player has combined with on at least one goal, most goals
+ *  together first. Shootout goals are left out: they're unassisted. */
+export function getLinemates(results: Result[], playerId: string, season = ALL_TIME): LinemateLine[] {
+  const lines = new Map<string, LinemateLine>();
+  const line = (id: string) => {
+    let l = lines.get(id);
+    if (!l) {
+      l = { playerId: id, games: 0, setUpBy: 0, setUp: 0, together: 0 };
+      lines.set(id, l);
+    }
+    return l;
+  };
+
+  const games = getPlayerGames(results, playerId, season);
+  for (const game of games) {
+    const { one, two, three } = game.score.period;
+    for (const goal of [...one.goals, ...two.goals, ...three.goals]) {
+      const involved = [goal.playerId, ...goal.assists].filter(Boolean);
+      if (!involved.includes(playerId)) continue;
+      for (const id of new Set(involved)) {
+        if (id === playerId) continue;
+        const l = line(id);
+        l.together++;
+        if (goal.playerId === playerId) l.setUpBy++;
+        if (goal.playerId === id && goal.assists.includes(playerId)) l.setUp++;
+      }
+    }
+  }
+
+  for (const game of games) {
+    for (const id of new Set(game.roster)) {
+      const l = lines.get(id);
+      if (l) l.games++;
+    }
+  }
+
+  return [...lines.values()].sort(
+    (a, b) =>
+      b.together - a.together ||
+      b.setUpBy + b.setUp - (a.setUpBy + a.setUp) ||
+      a.games - b.games,
+  );
+}
+
+/** A pair of teammates' scoring connection, club-wide. `a` and `b` are in
+ *  id order; which is which carries no meaning. */
+export type DuoLine = {
+  a: string;
+  b: string;
+  /** Games both were on the roster for. */
+  games: number;
+  /** a's goals that b assisted on. */
+  aFromB: number;
+  /** b's goals that a assisted on. */
+  bFromA: number;
+  /** Goals both got a point on. */
+  together: number;
+};
+
+/** Every pair that has combined on at least one goal, most goals together
+ *  first, then fewest games. Shootout goals are left out, as for linemates. */
+export function getDuos(results: Result[], season = ALL_TIME): DuoLine[] {
+  const games = results.filter(
+    (r) => r?.score?.period && (season === ALL_TIME || r.seasonId === season),
+  );
+  const duos = new Map<string, DuoLine>();
+  const key = (x: string, y: string) => (x < y ? `${x}|${y}` : `${y}|${x}`);
+
+  for (const game of games) {
+    const { one, two, three } = game.score.period;
+    for (const goal of [...one.goals, ...two.goals, ...three.goals]) {
+      const assists = goal.assists ?? [];
+      const involved = [...new Set([goal.playerId, ...assists].filter(Boolean))].sort();
+      for (let i = 0; i < involved.length; i++) {
+        for (let j = i + 1; j < involved.length; j++) {
+          const [a, b] = [involved[i], involved[j]];
+          let duo = duos.get(key(a, b));
+          if (!duo) {
+            duo = { a, b, games: 0, aFromB: 0, bFromA: 0, together: 0 };
+            duos.set(key(a, b), duo);
+          }
+          duo.together++;
+          if (goal.playerId === a && assists.includes(b)) duo.aFromB++;
+          if (goal.playerId === b && assists.includes(a)) duo.bFromA++;
+        }
+      }
+    }
+  }
+
+  for (const game of games) {
+    const roster = [...new Set(game.roster ?? [])];
+    for (let i = 0; i < roster.length; i++) {
+      for (let j = i + 1; j < roster.length; j++) {
+        const duo = duos.get(key(roster[i], roster[j]));
+        if (duo) duo.games++;
+      }
+    }
+  }
+
+  return [...duos.values()].sort((x, y) => y.together - x.together || x.games - y.games);
+}
+
 export type OpponentSort = "ppg" | "points" | "name";
 
 export function sortOpponents(lines: OpponentLine[], sort: OpponentSort): OpponentLine[] {
