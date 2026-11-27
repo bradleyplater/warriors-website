@@ -8,6 +8,8 @@ import { BarChart } from "~/components/ds/BarChart";
 import { DataTable, type DataTableColumn } from "~/components/ds/DataTable";
 import { SectionHead } from "~/components/ds/SectionHead";
 import { Stripe } from "~/components/ds/Stripe";
+import { DeadliestDuos } from "~/components/DeadliestDuos/DeadliestDuos";
+import type { Result } from "~/data/types";
 import "./stats.css";
 import { seoMeta } from "~/helpers/seo";
 
@@ -867,6 +869,13 @@ export default function Stats({ loaderData }: Route.ComponentProps) {
           GP games played · G goals · A assists · PTS points · PPG points per game · PIM penalties
           in minutes · POTG player of the game · WOTG warrior of the game
         </p>
+      </section>
+
+      <Stripe />
+
+      <section id="duos" className="stats-section stats-section-top" aria-label="Deadliest duos">
+        <SectionBar title="Deadliest duos" note="Goals both players got a point on" />
+        <DeadliestDuos games={scopedGames as unknown as Result[]} players={playerInfoMap} />
       </section>
 
       <Stripe />

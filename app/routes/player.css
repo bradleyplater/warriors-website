@@ -261,6 +261,13 @@
 .breakdown-opponents { min-width: 640px; }
 .breakdown-opponents th.col-bar,
 .breakdown-opponents td.col-bar { width: 26%; text-align: left; }
+.breakdown-linemates { min-width: 600px; }
+.breakdown-linemates th.col-bar,
+.breakdown-linemates td.col-bar { width: 24%; text-align: left; }
+.breakdown-linemates td.col-opponent a { color: inherit; }
+.breakdown-share { display: flex; align-items: center; gap: var(--wr-space-2); }
+.breakdown-share .breakdown-meter { flex: 1; }
+.breakdown-more { margin-top: var(--wr-space-3); }
 .breakdown-meter { position: relative; height: 8px; background: var(--bg-sunken); border-radius: 2px; }
 .breakdown-meter div { height: 100%; border-radius: 2px; background: var(--series-1); }
 .breakdown-meter i { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--fg-primary); }
